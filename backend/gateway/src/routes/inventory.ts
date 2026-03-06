@@ -1,57 +1,79 @@
 import { Router, Response, AuthRequest } from "express";
 import { authenticate } from "../middleware/auth";
+import fetch from "node-fetch";
+import { createLogger } from "../utils/logger";
 
 const router = Router();
 router.use(authenticate);
 
-const mockInventory = [
-  { id: "inv_001", productId: "prod_001", productName: "Dangote Cement 42.5R", location: "Lagos Depot", quantity: 5000, unit: "bags", lastUpdated: "2025-03-05T10:00:00Z" },
-  { id: "inv_002", productId: "prod_002", productName: "Dangote Cement 32.5R", location: "Lagos Depot", quantity: 8000, unit: "bags", lastUpdated: "2025-03-05T10:00:00Z" },
-  { id: "inv_003", productId: "prod_001", productName: "Dangote Cement 42.5R", location: "Abuja Depot", quantity: 3000, unit: "bags", lastUpdated: "2025-03-05T10:00:00Z" },
-  { id: "inv_004", productId: "prod_003", productName: "Dangote Cement 52.5R", location: "Port Harcourt Depot", quantity: 1500, unit: "bags", lastUpdated: "2025-03-05T10:00:00Z" },
-  { id: "inv_005", productId: "prod_004", productName: "Dangote Pozzolana Cement 32.5N", location: "Kano Depot", quantity: 3500, unit: "bags", lastUpdated: "2025-03-05T10:00:00Z" },
-];
+const logger = createLogger("inventory-router");
+const INVENTORY_SERVICE_URL = process.env.INVENTORY_SERVICE_URL || "http://localhost:3003";
 
-router.get("/", (req: AuthRequest, res: Response) => {
-  const { productId, location } = req.query;
-  
-  let inventory = [...mockInventory];
-  
-  if (productId) {
-    inventory = inventory.filter(i => i.productId === productId);
-  }
-  
-  if (location) {
-    inventory = inventory.filter(i => i.location.toLowerCase().includes((location as string).toLowerCase()));
-  }
+router.get("/", async (req: AuthRequest, res: Response) => {
+  try {
+    const { productId, depotId, location, lowStock, limit, offset } = req.query;
+    
+    const params = new URLSearchParams();
+    if (productId) params.append("productId", productId as string);
+    if (depotId) params.append("depotId", depotId as string);
+    if (location) params.append("location", location as string);
+    if (lowStock) params.append("lowStock", lowStock as string);
+    if (limit) params.append("limit", limit as string);
+    if (offset) params.append("offset", offset as string);
 
-  res.json({ data: inventory });
+    const response = await fetch(`${INVENTORY_SERVICE_URL}/inventory?${params.toString()}`);
+    
+    if (!response.ok) {
+      throw new Error(`Inventory service error: ${response.status}`);
+    }
+
+    const data = await response.json();
+    res.json(data);
+  } catch (error: any) {
+    logger.error("Error fetching inventory", { error: error.message });
+    res.status(500).json({ error: "Failed to fetch inventory", details: error.message });
+  }
 });
 
-router.get("/:id", (req: AuthRequest, res: Response) => {
-  const item = mockInventory.find(i => i.id === req.params.id);
-  
-  if (!item) {
-    return res.status(404).json({ code: "NOT_FOUND", message: "Inventory item not found" });
-  }
+router.get("/:id", async (req: AuthRequest, res: Response) => {
+  try {
+    const response = await fetch(`${INVENTORY_SERVICE_URL}/inventory/${req.params.id}`);
+    
+    if (!response.ok) {
+      if (response.status === 404) {
+        return res.status(404).json({ code: "NOT_FOUND", message: "Inventory item not found" });
+      }
+      throw new Error(`Inventory service error: ${response.status}`);
+    }
 
-  res.json(item);
+    const data = await response.json();
+    res.json(data);
+  } catch (error: any) {
+    logger.error("Error fetching inventory item", { error: error.message, id: req.params.id });
+    res.status(500).json({ error: "Failed to fetch inventory item", details: error.message });
+  }
 });
 
-router.post("/adjust", (req: AuthRequest, res: Response) => {
-  const { productId, location, adjustment, reason } = req.body;
-  
-  const newAdjustment = {
-    id: "adj_" + Date.now(),
-    productId,
-    location,
-    adjustment,
-    reason,
-    performedBy: req.user?.sub,
-    createdAt: new Date().toISOString(),
-  };
+router.post("/adjust", async (req: AuthRequest, res: Response) => {
+  try {
+    const { inventoryId, adjustment, reason, reference } = req.body;
 
-  res.status(201).json(newAdjustment);
+    const response = await fetch(`${INVENTORY_SERVICE_URL}/inventory/adjust`, {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({ inventoryId, adjustment, reason, reference })
+    });
+
+    if (!response.ok) {
+      throw new Error(`Inventory service error: ${response.status}`);
+    }
+
+    const data = await response.json();
+    res.status(201).json(data);
+  } catch (error: any) {
+    logger.error("Error adjusting inventory", { error: error.message });
+    res.status(500).json({ error: "Failed to adjust inventory", details: error.message });
+  }
 });
 
 export { router as inventoryRouter };
