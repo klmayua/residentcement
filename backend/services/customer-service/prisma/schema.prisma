@@ -1,0 +1,91 @@
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+enum CustomerTier {
+  BRONZE
+  SILVER
+  GOLD
+  PLATINUM
+}
+
+model Customer {
+  id                 String        @id @default(uuid())
+  userId             String        @unique @map("user_id")
+  companyName        String        @map("company_name")
+  address            String?
+  city               String?
+  state              String?
+  country            String        @default("Nigeria")
+  phone              String?
+  tier               CustomerTier  @default(BRONZE)
+  creditLimit        Decimal       @default(0) @map("credit_limit") @db.Decimal(15, 2)
+  outstandingBalance Decimal       @default(0) @map("outstanding_balance") @db.Decimal(15, 2)
+  createdAt          DateTime      @default(now()) @map("created_at")
+  updatedAt          DateTime      @updatedAt @map("updated_at")
+
+  orders      Order[]
+  quotes      Quote[]
+  payments    Payment[]
+
+  @@map("customers")
+}
+
+model Order {
+  id                String   @id @default(uuid())
+  orderNumber       String   @unique @map("order_number")
+  customerId        String   @map("customer_id")
+  status            String
+  totalAmount       Decimal  @db.Decimal(15, 2)
+  deliveryAddress   String   @map("delivery_address")
+  deliveryDate      DateTime? @map("delivery_date")
+  estimatedDelivery DateTime? @map("estimated_delivery")
+  notes             String?
+  createdAt         DateTime @default(now()) @map("created_at")
+  updatedAt         DateTime @updatedAt @map("updated_at")
+
+  customer Customer @relation(fields: [customerId], references: [id], onDelete: Cascade)
+
+  @@map("orders")
+}
+
+model Quote {
+  id             String   @id @default(uuid())
+  quoteNumber    String   @unique @map("quote_number")
+  customerId     String   @map("customer_id")
+  subtotal       Decimal  @db.Decimal(15, 2)
+  discount       Decimal  @default(0) @db.Decimal(15, 2)
+  total          Decimal  @db.Decimal(15, 2)
+  status         String   @default("valid")
+  validUntil     DateTime @map("valid_until")
+  convertedToOrder Boolean @default(false) @map("converted_to_order")
+  createdAt      DateTime @default(now()) @map("created_at")
+  updatedAt      DateTime @updatedAt @map("updated_at")
+
+  customer Customer @relation(fields: [customerId], references: [id], onDelete: Cascade)
+
+  @@map("quotes")
+}
+
+model Payment {
+  id            String   @id @default(uuid())
+  paymentNumber String   @unique @map("payment_number")
+  orderId       String   @map("order_id")
+  customerId    String   @map("customer_id")
+  amount        Decimal  @db.Decimal(15, 2)
+  method        String
+  status        String   @default("PENDING")
+  reference     String?  @unique
+  gatewayResponse String? @map("gateway_response")
+  createdAt     DateTime @default(now()) @map("created_at")
+  updatedAt     DateTime @updatedAt @map("updated_at")
+
+  customer Customer @relation(fields: [customerId], references: [id], onDelete: Cascade)
+
+  @@map("payments")
+}

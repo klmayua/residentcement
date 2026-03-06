@@ -1,0 +1,290 @@
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+enum UserRole {
+  ADMIN
+  DISTRIBUTOR
+  SALES_REP
+  CONTRACTOR
+}
+
+enum CustomerTier {
+  BRONZE
+  SILVER
+  GOLD
+  PLATINUM
+}
+
+enum OrderStatus {
+  PENDING
+  CONFIRMED
+  PROCESSING
+  IN_TRANSIT
+  DELIVERED
+  CANCELLED
+}
+
+enum PaymentStatus {
+  PENDING
+  PROCESSING
+  COMPLETED
+  FAILED
+  REFUNDED
+}
+
+enum PaymentMethod {
+  BANK_TRANSFER
+  CARD
+  USSD
+}
+
+enum ProductCategory {
+  CEMENT
+  AGGREGATE
+  POZZOLANA
+}
+
+model User {
+  id            String    @id @default(uuid())
+  email         String    @unique
+  passwordHash  String    @map("password_hash")
+  firstName     String    @map("first_name")
+  lastName      String    @map("last_name")
+  phone         String?
+  role          UserRole  @default(DISTRIBUTOR)
+  isActive      Boolean   @default(true) @map("is_active")
+  emailVerified DateTime? @map("email_verified")
+  createdAt     DateTime  @default(now()) @map("created_at")
+  updatedAt     DateTime  @updatedAt @map("updated_at")
+
+  customer      Customer?
+  orders        Order[]
+  sessions      Session[]
+
+  @@map("users")
+}
+
+model Session {
+  id        String   @id @default(uuid())
+  userId    String   @map("user_id")
+  token     String   @unique
+  expiresAt DateTime @map("expires_at")
+  createdAt DateTime @default(now()) @map("created_at")
+
+  user User @relation(fields: [userId], references: [id], onDelete: Cascade)
+
+  @@map("sessions")
+}
+
+model Customer {
+  id              String       @id @default(uuid())
+  userId          String       @unique @map("user_id")
+  companyName     String       @map("company_name")
+  address         String?
+  city            String?
+  state           String?
+  country         String       @default("Nigeria")
+  phone           String?
+  tier            CustomerTier @default(BRONZE)
+  creditLimit     Decimal      @default(0) @map("credit_limit") @db.Decimal(15, 2)
+  outstandingBalance Decimal   @default(0) @map("outstanding_balance") @db.Decimal(15, 2)
+  createdAt       DateTime     @default(now()) @map("created_at")
+  updatedAt       DateTime     @updatedAt @map("updated_at")
+
+  user        User          @relation(fields: [userId], references: [id], onDelete: Cascade)
+  orders      Order[]
+  quotes      Quote[]
+  payments    Payment[]
+
+  @@map("customers")
+}
+
+model Product {
+  id          String         @id @default(uuid())
+  name        String
+  sku         String         @unique
+  description String?
+  category    ProductCategory @default(CEMENT)
+  grade       String
+  unit        String         @default("bag")
+  unitSize    Int            @default(50) @map("unit_size")
+  basePrice   Decimal        @db.Decimal(15, 2)
+  currency    String         @default("NGN")
+  status      String         @default("active")
+  imageUrl    String?        @map("image_url")
+  createdAt   DateTime       @default(now()) @map("created_at")
+  updatedAt   DateTime       @updatedAt @map("updated_at")
+
+  inventoryItems InventoryItem[]
+  orderItems      OrderItem[]
+  quoteItems      QuoteItem[]
+
+  @@map("products")
+}
+
+model Depot {
+  id        String   @id @default(uuid())
+  name      String
+  code      String   @unique
+  address   String?
+  city      String?
+  state     String?
+  isActive  Boolean  @default(true) @map("is_active")
+  createdAt DateTime @default(now()) @map("created_at")
+  updatedAt DateTime @updatedAt @map("updated_at")
+
+  inventoryItems InventoryItem[]
+
+  @@map("depots")
+}
+
+model InventoryItem {
+  id            String   @id @default(uuid())
+  productId     String   @map("product_id")
+  depotId       String   @map("depot_id")
+  quantity      Int      @default(0)
+  reorderPoint  Int      @default(0) @map("reorder_point")
+  reorderQty    Int      @default(0) @map("reorder_qty")
+  lastUpdated   DateTime @map("last_updated") @updatedAt
+  createdAt     DateTime @default(now()) @map("created_at")
+
+  product Product @relation(fields: [productId], references: [id], onDelete: Cascade)
+  depot   Depot   @relation(fields: [depotId], references: [id], onDelete: Cascade)
+
+  @@unique([productId, depotId])
+  @@map("inventory_items")
+}
+
+model Order {
+  id               String       @id @default(uuid())
+  orderNumber      String       @unique @map("order_number")
+  customerId       String       @map("customer_id")
+  status           OrderStatus  @default(PENDING)
+  totalAmount      Decimal      @db.Decimal(15, 2)
+  deliveryAddress  String       @map("delivery_address")
+  deliveryDate     DateTime?    @map("delivery_date")
+  estimatedDelivery DateTime?   @map("estimated_delivery")
+  notes            String?
+  createdAt        DateTime     @default(now()) @map("created_at")
+  updatedAt        DateTime     @updatedAt @map("updated_at")
+
+  customer   Customer   @relation(fields: [customerId], references: [id], onDelete: Restrict)
+  user       User       @relation(fields: [userId], references: [id])
+  userId     String     @map("user_id")
+  items      OrderItem[]
+  payments   Payment[]
+  shipments  Shipment[]
+
+  @@map("orders")
+}
+
+model OrderItem {
+  id         String   @id @default(uuid())
+  orderId    String   @map("order_id")
+  productId  String   @map("product_id")
+  quantity   Int
+  unitPrice  Decimal  @db.Decimal(15, 2)
+  total      Decimal  @db.Decimal(15, 2)
+  createdAt  DateTime @default(now()) @map("created_at")
+
+  order   Order   @relation(fields: [orderId], references: [id], onDelete: Cascade)
+  product Product @relation(fields: [productId], references: [id], onDelete: Restrict)
+
+  @@map("order_items")
+}
+
+model Quote {
+  id              String    @id @default(uuid())
+  quoteNumber     String    @unique @map("quote_number")
+  customerId      String    @map("customer_id")
+  subtotal        Decimal   @db.Decimal(15, 2)
+  discount        Decimal   @default(0) @db.Decimal(15, 2)
+  total           Decimal   @db.Decimal(15, 2)
+  status          String    @default("valid")
+  validUntil      DateTime  @map("valid_until")
+  convertedToOrder Boolean   @default(false) @map("converted_to_order")
+  createdAt       DateTime  @default(now()) @map("created_at")
+  updatedAt       DateTime  @updatedAt @map("updated_at")
+
+  customer Customer    @relation(fields: [customerId], references: [id], onDelete: Cascade)
+  items    QuoteItem[]
+
+  @@map("quotes")
+}
+
+model QuoteItem {
+  id         String   @id @default(uuid())
+  quoteId    String   @map("quote_id")
+  productId  String   @map("product_id")
+  quantity   Int
+  unitPrice  Decimal  @db.Decimal(15, 2)
+  subtotal   Decimal  @db.Decimal(15, 2)
+  discount   Decimal  @default(0) @db.Decimal(15, 2)
+  total      Decimal  @db.Decimal(15, 2)
+  createdAt  DateTime @default(now()) @map("created_at")
+
+  quote   Quote   @relation(fields: [quoteId], references: [id], onDelete: Cascade)
+  product Product @relation(fields: [productId], references: [id], onDelete: Restrict)
+
+  @@map("quote_items")
+}
+
+model Payment {
+  id            String        @id @default(uuid())
+  paymentNumber String        @unique @map("payment_number")
+  orderId       String        @map("order_id")
+  customerId    String        @map("customer_id")
+  amount        Decimal       @db.Decimal(15, 2)
+  method        PaymentMethod
+  status        PaymentStatus @default(PENDING)
+  reference     String?       @unique
+  gatewayResponse String?     @map("gateway_response")
+  createdAt     DateTime      @default(now()) @map("created_at")
+  updatedAt     DateTime      @updatedAt @map("updated_at")
+
+  order    Order    @relation(fields: [orderId], references: [id], onDelete: Cascade)
+  customer Customer @relation(fields: [customerId], references: [id], onDelete: Cascade)
+
+  @@map("payments")
+}
+
+model Shipment {
+  id              String    @id @default(uuid())
+  shipmentNumber  String    @unique @map("shipment_number")
+  orderId         String    @map("order_id")
+  driverName      String?   @map("driver_name")
+  vehicleNumber   String?   @map("vehicle_number")
+  status          String    @default("pending")
+  dispatchedAt    DateTime? @map("dispatched_at")
+  deliveredAt     DateTime? @map("delivered_at")
+  proofOfDelivery Json?     @map("proof_of_delivery")
+  createdAt       DateTime  @default(now()) @map("created_at")
+  updatedAt       DateTime  @updatedAt @map("updated_at")
+
+  order Order @relation(fields: [orderId], references: [id], onDelete: Cascade)
+
+  @@map("shipments")
+}
+
+model AuditLog {
+  id         String   @id @default(uuid())
+  userId     String?  @map("user_id")
+  action     String
+  entityType String   @map("entity_type")
+  entityId   String?  @map("entity_id")
+  changes    Json?
+  ipAddress  String?  @map("ip_address")
+  userAgent  String?  @map("user_agent")
+  createdAt  DateTime @default(now()) @map("created_at")
+
+  @@map("audit_logs")
+  @@index([userId])
+  @@index([entityType, entityId])
+  @@index([createdAt])
+}

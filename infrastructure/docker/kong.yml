@@ -1,0 +1,109 @@
+_format_version: "3.0"
+
+services:
+  # Customer Service
+  - name: customer-service
+    url: http://customer-service:3001
+    routes:
+      - name: customer-routes
+        paths:
+          - /api/v1/customers
+        methods:
+          - GET
+          - POST
+          - PATCH
+          - DELETE
+    plugins:
+      - name: jwt
+      - name: rate-limiting
+        config:
+          minute: 100
+          policy: local
+
+  # Order Service
+  - name: order-service
+    url: http://order-service:3002
+    routes:
+      - name: order-routes
+        paths:
+          - /api/v1/orders
+        methods:
+          - GET
+          - POST
+          - PATCH
+    plugins:
+      - name: jwt
+
+  # Product Service
+  - name: product-service
+    url: http://product-service:3003
+    routes:
+      - name: product-routes
+        paths:
+          - /api/v1/products
+        methods:
+          - GET
+          - POST
+    plugins:
+      - name: jwt
+
+  # Inventory Service
+  - name: inventory-service
+    url: http://inventory-service:3004
+    routes:
+      - name: inventory-routes
+        paths:
+          - /api/v1/inventory
+        methods:
+          - GET
+          - POST
+          - PATCH
+    plugins:
+      - name: jwt
+
+  # Pricing Service
+  - name: pricing-service
+    url: http://pricing-service:3005
+    routes:
+      - name: pricing-routes
+        paths:
+          - /api/v1/pricing
+          - /api/v1/quotes
+        methods:
+          - GET
+          - POST
+    plugins:
+      - name: jwt
+
+  # Payment Service
+  - name: payment-service
+    url: http://payment-service:3006
+    routes:
+      - name: payment-routes
+        paths:
+          - /api/v1/payments
+        methods:
+          - GET
+          - POST
+    plugins:
+      - name: jwt
+
+  # Frontend Web Application
+  - name: distributor-portal
+    url: http://frontend:3000
+    routes:
+      - name: frontend-routes
+        paths:
+          - /
+        strip_path: true
+
+consumers:
+  - username: distributor-app
+    jwt_claims:
+      role: distributor
+  - username: sales-rep-app
+    jwt_claims:
+      role: sales_rep
+  - username: internal-admin
+    jwt_claims:
+      role: admin
