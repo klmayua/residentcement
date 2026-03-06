@@ -1,0 +1,9 @@
+---
+# ResidentCement Kubernetes Namespace
+apiVersion: v1
+kind: Namespace
+metadata:
+  name: resident-cement
+  labels:
+    name: resident-cement
+    environment: production
