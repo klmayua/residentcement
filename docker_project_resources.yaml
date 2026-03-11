@@ -1,0 +1,290 @@
+# Docker Project Resources - ResidentCement
+# Generated: March 8, 2026
+# Project: ResidentCement
+
+project_name: ResidentCement
+project_path: "C:\\Users\\UCHE\\my-qwen-project\\PROJECTS\\ResidentCement"
+
+# ============================================================================
+# RESIDENT CEMENT OWNED RESOURCES
+# ============================================================================
+
+owned_containers:
+  list:
+    - id: 8b41b5566d83
+      name: resident-cement-postgres
+      image: postgres:16-alpine
+      status: running
+      healthy: true
+      ports:
+        - host: 5432
+          container: 5432
+      volumes:
+        - docker_postgres_data
+      networks:
+        - docker_resident-cement-network
+        
+    - id: 27ff5c46dc91
+      name: resident-cement-mongo
+      image: mongo:7.0
+      status: running
+      healthy: true
+      ports:
+        - host: 27017
+          container: 27017
+      volumes:
+        - docker_mongodb_data
+      networks:
+        - docker_resident-cement-network
+        
+    - id: 06d67a7b0fc2
+      name: resident-cement-redis
+      image: redis:7-alpine
+      status: running
+      healthy: true
+      ports:
+        - host: 6379
+          container: 6379
+      volumes:
+        - docker_redis_data
+      networks:
+        - docker_resident-cement-network
+        
+    - id: f4ccf4e4e33b
+      name: resident-cement-kafka
+      image: confluentinc/cp-kafka:7.5.0
+      status: running
+      healthy: true
+      ports:
+        - host: 9092
+          container: 9092
+        - host: 29092
+          container: 29092
+      volumes:
+        - docker_kafka_data
+      networks:
+        - docker_resident-cement-network
+        
+    - id: dc42271cbd2c
+      name: resident-cement-kafka-ui
+      image: provectuslabs/kafka-ui:latest
+      status: running
+      healthy: true
+      ports:
+        - host: 8085
+          container: 8080
+      networks:
+        - docker_resident-cement-network
+        
+    - id: 0318ed7d29c4
+      name: resident-cement-keycloak
+      image: quay.io/keycloak/keycloak:23.0
+      status: running
+      healthy: true
+      ports:
+        - host: 8180
+          container: 8080
+      networks:
+        - docker_resident-cement-network
+        
+    - id: 6f9675f05ab9
+      name: resident-cement-minio
+      image: minio/minio:latest
+      status: running
+      healthy: true
+      ports:
+        - host: 9000
+          container: 9000
+        - host: 9002
+          container: 9001
+      volumes:
+        - docker_minio_data
+      networks:
+        - docker_resident-cement-network
+        
+    - id: b198f8d7c199
+      name: resident-cement-zookeeper
+      image: confluentinc/cp-zookeeper:7.5.0
+      status: running
+      healthy: true
+      ports:
+        - host: null
+          container: 2181
+        - host: null
+          container: 2888
+        - host: null
+          container: 3888
+      networks:
+        - docker_resident-cement-network
+
+owned_volumes:
+  - name: docker_postgres_data
+    driver: local
+    owner: resident-cement
+    
+  - name: docker_mongodb_data
+    driver: local
+    owner: resident-cement
+    
+  - name: docker_redis_data
+    driver: local
+    owner: resident-cement
+    
+  - name: docker_kafka_data
+    driver: local
+    owner: resident-cement
+    
+  - name: docker_minio_data
+    driver: local
+    owner: resident-cement
+
+owned_networks:
+  - name: docker_resident-cement-network
+    driver: bridge
+    owner: resident-cement
+    containers:
+      - resident-cement-postgres
+      - resident-cement-mongo
+      - resident-cement-redis
+      - resident-cement-kafka
+      - resident-cement-kafka-ui
+      - resident-cement-keycloak
+      - resident-cement-minio
+      - resident-cement-zookeeper
+
+# ============================================================================
+# EXTERNAL RESOURCES (Non-Owned - DO NOT INTERFERE)
+# ============================================================================
+
+external_containers:
+  - name: founderos-postgres
+    project: FounderOS
+    port: 5435
+    ownership_evidence: Different port, separate project
+    
+  - name: uradi-px-gateway
+    project: Uradi-PX
+    port: 3000
+    ownership_evidence: Different project name prefix
+    
+  - name: uradi-px-staff
+    project: Uradi-PX
+    port: 3003
+    ownership_evidence: Different project name prefix
+    
+  - name: uradi-px-auth
+    project: Uradi-PX
+    port: null
+    status: restarting
+    ownership_evidence: Different project name prefix
+    
+  - name: uradi-px-requests
+    project: Uradi-PX
+    port: 3002
+    ownership_evidence: Different project name prefix
+    
+  - name: uradi-px-reports
+    project: Uradi-PX
+    port: 3004
+    ownership_evidence: Different project name prefix
+    
+  - name: uradi-px-frontend
+    project: Uradi-PX
+    port: 4321
+    ownership_evidence: Different project name prefix
+    
+  - name: uradi-px-db
+    project: Uradi-PX
+    port: 5436
+    ownership_evidence: Different project name prefix
+    
+  - name: uradi-px-redis
+    project: Uradi-PX
+    port: 6380
+    ownership_evidence: Different project name prefix
+    
+  - name: lamora-backend-dev
+    project: Lamora
+    port: 8001
+    ownership_evidence: Different project name prefix
+    
+  - name: lamora-postgres-dev
+    project: Lamora
+    port: 5434
+    ownership_evidence: Different project name prefix
+
+external_volumes: []
+
+external_networks: []
+
+# ============================================================================
+# PROJECT OWNERSHIP VERIFICATION
+# ============================================================================
+
+ownership_verification:
+  method: Container naming convention
+  evidence:
+    - All owned containers prefixed with "resident-cement-"
+    - Container names match docker-compose.yml service definitions
+    - Volumes follow naming pattern "docker_*_data"
+    - Network follows naming pattern "docker_resident-cement-network"
+  
+  external_interference: NONE
+  containers_modified: false
+  containers_stopped: false
+  containers_removed: false
+  
+  non_owned_container_policy: IGNORE
+  rule: "Containers lacking resident-cement-* prefix must be treated as external and must not be modified or stopped"
+
+# ============================================================================
+# DOCKER COMPOSE CONFIGURATION
+# ============================================================================
+
+docker_compose_file: infrastructure/docker/docker-compose.yml
+
+compose_services:
+  infrastructure:
+    - postgres
+    - mongodb
+    - redis
+    - kafka
+    - zookeeper
+    - keycloak
+    - minio
+    - kafka-ui
+
+  application: NOT_DEFINED
+  note: "Frontend and backend must be started manually or via npm scripts"
+
+# ============================================================================
+# RECOMMENDED PORT ASSIGNMENTS
+# ============================================================================
+
+recommended_service_ports:
+  api_gateway:
+    port: 3001
+    used_by: resident-cement-gateway (not running)
+    status: available
+    
+  frontend:
+    port: 3000
+    used_by: uradi-px-gateway (EXTERNAL)
+    status: unavailable
+    
+  alternative_frontend:
+    port: 3005
+    status: available
+    recommendation: Use port 3005 if starting frontend
+
+# ============================================================================
+# SUMMARY
+# ============================================================================
+
+summary:
+  total_owned_containers: 8
+  total_external_containers: 11
+  owned_volumes: 5
+  owned_networks: 1
+  project_isolation: CONFIRMED
+  external_interference: NONE

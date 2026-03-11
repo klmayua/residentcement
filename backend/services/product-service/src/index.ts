@@ -1,451 +1,169 @@
 /**
  * ResidentCement Product Service
  * 
- * Domain microservice for product catalog management
- * Handles product CRUD, categories, and availability checking
+ * Product catalog management with inventory tracking
  */
 
-import express, { Express, Request, Response } from 'express';
+import express, { Express, Request, Response, NextFunction } from 'express';
 import cors from 'cors';
+import helmet from 'helmet';
+import rateLimit from 'express-rate-limit';
 import { config } from 'dotenv';
-import { PrismaClient, ProductCategory } from '@prisma/client';
-import { createLogger } from './utils/logger';
+import { v4 as uuidv4 } from 'uuid';
+import { 
+  createLogger, requestIdMiddleware, requestLoggingMiddleware, errorHandler,
+  createHealthCheckService, checkMemory, NotFoundError, ConflictError,
+  createProductSchema, updateProductSchema, productQuerySchema,
+} from '@resident-cement/kernel';
+import { PrismaClient } from '@prisma/client';
+import { createKafkaClient } from '@resident-cement/kafka-client';
 
 config();
 
-const logger = createLogger('product-service');
+const logger = createLogger({ service: 'product-service', version: '1.0.0', environment: process.env.NODE_ENV || 'development' });
 const app: Express = express();
-const PORT = process.env.PORT || 3006;
+const PORT = parseInt(process.env.PORT || '3006', 10);
+const prisma = new PrismaClient({ log: process.env.NODE_ENV === 'development' ? ['error'] : ['error'] });
+const kafkaClient = createKafkaClient('product-service');
+kafkaClient.connect().catch(() => {});
 
-const prisma = new PrismaClient();
+// Health
+const healthService = createHealthCheckService('product-service', '1.0.0');
+healthService.addCheck('database', async () => {
+  const start = Date.now();
+  try { await prisma.$queryRaw`SELECT 1`; return { name: 'database', status: 'pass', responseTime: Date.now() - start }; }
+  catch { return { name: 'database', status: 'fail', responseTime: Date.now() - start }; }
+});
+healthService.addCheck('memory', () => checkMemory(0.9));
 
 // Middleware
-app.use(cors());
+app.use(helmet());
+app.use(cors({ origin: process.env.CORS_ORIGIN || '*' }));
+app.use(requestIdMiddleware());
+app.use(requestLoggingMiddleware({ skipPaths: ['/health'] }));
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
+app.use(rateLimit({ windowMs: 15 * 60 * 1000, max: 1000 }));
+app.use((req: Request, res: Response, next: NextFunction) => { (req as any).logger = logger.child({ requestId: req.id }); next(); });
 
-// Health check
-app.get('/health', (req: Request, res: Response) => {
-  res.json({
-    status: 'healthy',
-    service: 'product-service',
-    timestamp: new Date().toISOString(),
-    uptime: process.uptime()
-  });
-});
+// Health routes
+const healthRouter = express.Router();
+healthRouter.get('/', async (req: Request, res: Response) => { const h = await healthService.getHealthStatus(); res.json({ status: h.status, service: h.service, version: h.version, uptime: h.uptime }); });
+healthRouter.get('/ready', async (req: Request, res: Response) => { const h = await healthService.getHealthStatus(); if (h.status === 'unhealthy') return res.status(503).json({ ready: false }); res.json({ ready: true }); });
+healthRouter.get('/live', async (req: Request, res: Response) => { res.json({ alive: true, uptime: process.uptime() }); });
+app.use('/health', healthRouter);
 
-// GET /products - List all products with filtering
-app.get('/products', async (req: Request, res: Response) => {
+// Product routes
+const productRouter = express.Router();
+
+// GET /products - List products
+productRouter.get('/', async (req: Request, res: Response, next: NextFunction) => {
   try {
-    const { category, search, inStock, limit = 50, offset = 0 } = req.query;
-    
+    const query = productQuerySchema.parse(req.query);
+    const { page = 1, limit = 50, category, status, search } = query;
+    const offset = (page - 1) * limit;
     const where: any = {};
-    
-    if (category) {
-      where.category = category as ProductCategory;
-    }
-    
-    if (search) {
-      where.OR = [
-        { name: { contains: search as string, mode: 'insensitive' } },
-        { description: { contains: search as string, mode: 'insensitive' } },
-        { sku: { contains: search as string, mode: 'insensitive' } }
-      ];
-    }
-    
-    const products = await prisma.product.findMany({
-      where,
-      take: Number(limit),
-      skip: Number(offset),
-      orderBy: { createdAt: 'desc' },
-      include: {
-        _count: {
-          select: {
-            inventoryItems: true
-          }
-        }
-      }
-    });
-    
-    // Get availability for each product
-    const productsWithAvailability = await Promise.all(
-      products.map(async (product) => {
-        const inventory = await prisma.inventoryItem.findMany({
-          where: { productId: product.id },
-          select: {
-            quantity: true,
-            depot: {
-              select: {
-                name: true,
-                location: true
-              }
-            }
-          }
-        });
-        
-        const totalQuantity = inventory.reduce((sum, item) => sum + item.quantity, 0);
-        
-        return {
-          ...product,
-          totalStock: totalQuantity,
-          inStock: totalQuantity > 0,
-          depotStock: inventory
-        };
-      })
-    );
-    
-    const total = await prisma.product.count({ where });
-    
-    res.json({
-      data: productsWithAvailability,
-      pagination: {
-        total,
-        limit: Number(limit),
-        offset: Number(offset),
-        hasMore: Number(offset) + Number(limit) < total
-      }
-    });
-  } catch (error: any) {
-    logger.error('Error listing products', { error: error.message });
-    res.status(500).json({ error: 'Failed to list products' });
-  }
+    if (category) where.category = category;
+    if (status) where.status = status;
+    if (search) where.OR = [{ name: { contains: search, mode: 'insensitive' } }, { sku: { contains: search, mode: 'insensitive' } }, { description: { contains: search, mode: 'insensitive' } }];
+
+    const [products, total] = await Promise.all([
+      prisma.product.findMany({ where, take: limit, skip: offset, orderBy: { createdAt: 'desc' }, include: { _count: { select: { inventory: true } } } }),
+      prisma.product.count({ where }),
+    ]);
+
+    res.json({ success: true, data: products, meta: { requestId: req.id, timestamp: new Date().toISOString(), pagination: { page, limit, total, totalPages: Math.ceil(total / limit), hasMore: offset + limit < total } } });
+  } catch (error) { next(error); }
 });
 
-// GET /products/:id - Get product by ID
-app.get('/products/:id', async (req: Request, res: Response) => {
+// GET /products/:id - Get product
+productRouter.get('/:id', async (req: Request, res: Response, next: NextFunction) => {
+  const { id } = req.params;
   try {
-    const { id } = req.params;
-    
-    const product = await prisma.product.findUnique({
-      where: { id },
-      include: {
-        inventoryItems: {
-          include: {
-            depot: {
-              select: {
-                id: true,
-                name: true,
-                location: true
-              }
-            }
-          }
-        },
-        orderItems: {
-          take: 10,
-          orderBy: { createdAt: 'desc' },
-          include: {
-            order: {
-              select: {
-                id: true,
-                status: true,
-                createdAt: true
-              }
-            }
-          }
-        }
-      }
-    });
-    
-    if (!product) {
-      return res.status(404).json({ error: 'Product not found' });
-    }
-    
-    const totalStock = product.inventoryItems.reduce((sum, item) => sum + item.quantity, 0);
-    
-    res.json({
-      ...product,
-      totalStock,
-      inStock: totalStock > 0
-    });
-  } catch (error: any) {
-    logger.error('Error getting product', { error: error.message, id: req.params.id });
-    res.status(500).json({ error: 'Failed to get product' });
-  }
+    const product = await prisma.product.findUnique({ where: { id }, include: { inventory: { include: { warehouse: true } } } });
+    if (!product) throw new NotFoundError('Product', id);
+    res.json({ success: true, data: product, meta: { requestId: req.id, timestamp: new Date().toISOString() } });
+  } catch (error) { next(error); }
 });
 
-// GET /products/:id/availability - Check product availability
-app.get('/products/:id/availability', async (req: Request, res: Response) => {
+// POST /products - Create product
+productRouter.post('/', async (req: Request, res: Response, next: NextFunction) => {
   try {
-    const { id } = req.params;
-    
-    const product = await prisma.product.findUnique({
-      where: { id },
-      select: {
-        id: true,
-        name: true,
-        unit: true,
-        inventoryItems: {
-          include: {
-            depot: {
-              select: {
-                id: true,
-                name: true,
-                location: true
-              }
-            }
-          }
-        }
-      }
-    });
-    
-    if (!product) {
-      return res.status(404).json({ error: 'Product not found' });
-    }
-    
-    const totalQuantity = product.inventoryItems.reduce((sum, item) => sum + item.quantity, 0);
-    const reservedQuantity = product.inventoryItems.reduce((sum, item) => sum + (item.reservedQuantity || 0), 0);
-    
-    res.json({
-      productId: product.id,
-      productName: product.name,
-      unit: product.unit,
-      totalQuantity,
-      reservedQuantity,
-      availableQuantity: totalQuantity - reservedQuantity,
-      inStock: totalQuantity > 0,
-      depots: product.inventoryItems.map(item => ({
-        depotId: item.depotId,
-        depotName: item.depot?.name || 'Unknown',
-        location: item.depot?.location || 'Unknown',
-        quantity: item.quantity,
-        reservedQuantity: item.reservedQuantity || 0,
-        availableQuantity: item.quantity - (item.reservedQuantity || 0),
-        lastUpdated: item.lastUpdated
-      }))
-    });
-  } catch (error: any) {
-    logger.error('Error checking product availability', { error: error.message, id: req.params.id });
-    res.status(500).json({ error: 'Failed to check availability' });
-  }
-});
+    const data = createProductSchema.parse(req.body);
+    const existing = await prisma.product.findUnique({ where: { sku: data.sku } });
+    if (existing) throw new ConflictError('Product', 'sku', data.sku);
 
-// POST /products - Create new product
-app.post('/products', async (req: Request, res: Response) => {
-  try {
-    const { name, description, category, basePrice, unit, sku, specifications, minOrderQuantity } = req.body;
-    
-    // Validate required fields
-    if (!name || !basePrice || !category) {
-      return res.status(400).json({ error: 'name, basePrice, and category are required' });
-    }
-    
-    // Check for duplicate SKU
-    if (sku) {
-      const existing = await prisma.product.findUnique({
-        where: { sku }
-      });
-      
-      if (existing) {
-        return res.status(409).json({ error: 'Product with this SKU already exists' });
-      }
-    }
-    
     const product = await prisma.product.create({
-      data: {
-        name,
-        description,
-        category,
-        basePrice,
-        unit: unit || 'bags',
-        sku,
-        specifications: specifications || {},
-        minOrderQuantity: minOrderQuantity || 1,
-        isActive: true
-      }
+      data: { ...data, id: uuidv4(), status: data.status || 'ACTIVE' },
+      include: { _count: { select: { inventory: true } } },
     });
-    
-    logger.info('Product created', { 
-      productId: product.id, 
-      name: product.name,
-      sku: product.sku 
-    });
-    
-    res.status(201).json(product);
-  } catch (error: any) {
-    logger.error('Error creating product', { error: error.message });
-    res.status(500).json({ error: 'Failed to create product' });
-  }
+
+    try { await kafkaClient.publish('product.events', 'PRODUCT_CREATED', { productId: product.id, sku: product.sku, name: product.name }); } catch {}
+
+    res.status(201).json({ success: true, data: product, meta: { requestId: req.id, timestamp: new Date().toISOString() } });
+  } catch (error) { next(error); }
 });
 
 // PATCH /products/:id - Update product
-app.patch('/products/:id', async (req: Request, res: Response) => {
+productRouter.patch('/:id', async (req: Request, res: Response, next: NextFunction) => {
+  const { id } = req.params;
   try {
-    const { id } = req.params;
-    const updates = req.body;
-    
-    // Check if product exists
-    const existing = await prisma.product.findUnique({
-      where: { id }
-    });
-    
-    if (!existing) {
-      return res.status(404).json({ error: 'Product not found' });
+    const data = updateProductSchema.parse(req.body);
+    const existing = await prisma.product.findUnique({ where: { id } });
+    if (!existing) throw new NotFoundError('Product', id);
+
+    if (data.sku && data.sku !== existing.sku) {
+      const duplicate = await prisma.product.findUnique({ where: { sku: data.sku } });
+      if (duplicate) throw new ConflictError('Product', 'sku', data.sku);
     }
-    
-    // Check for duplicate SKU if SKU is being updated
-    if (updates.sku && updates.sku !== existing.sku) {
-      const duplicate = await prisma.product.findUnique({
-        where: { sku: updates.sku }
-      });
-      
-      if (duplicate) {
-        return res.status(409).json({ error: 'Product with this SKU already exists' });
-      }
-    }
-    
-    const product = await prisma.product.update({
-      where: { id },
-      data: {
-        ...updates,
-        updatedAt: new Date()
-      }
-    });
-    
-    logger.info('Product updated', { productId: id });
-    res.json(product);
-  } catch (error: any) {
-    logger.error('Error updating product', { error: error.message, id: req.params.id });
-    res.status(500).json({ error: 'Failed to update product' });
-  }
+
+    const product = await prisma.product.update({ where: { id }, data: { ...data, updatedAt: new Date() } });
+    try { await kafkaClient.publish('product.events', 'PRODUCT_UPDATED', { productId: product.id, sku: product.sku }); } catch {}
+
+    res.json({ success: true, data: product, meta: { requestId: req.id, timestamp: new Date().toISOString() } });
+  } catch (error) { next(error); }
 });
 
-// DELETE /products/:id - Deactivate product (soft delete)
-app.delete('/products/:id', async (req: Request, res: Response) => {
+// DELETE /products/:id - Delete product (soft)
+productRouter.delete('/:id', async (req: Request, res: Response, next: NextFunction) => {
+  const { id } = req.params;
   try {
-    const { id } = req.params;
-    
-    // Check if product exists
-    const existing = await prisma.product.findUnique({
-      where: { id }
-    });
-    
-    if (!existing) {
-      return res.status(404).json({ error: 'Product not found' });
-    }
-    
-    // Check for active orders with this product
-    const activeOrders = await prisma.orderItem.count({
-      where: {
-        productId: id,
-        order: {
-          status: {
-            in: ['PENDING', 'CONFIRMED', 'PROCESSING']
-          }
-        }
-      }
-    });
-    
-    if (activeOrders > 0) {
-      return res.status(400).json({ 
-        error: 'Cannot deactivate product with active orders',
-        activeOrders 
-      });
-    }
-    
-    // Soft delete - mark as inactive
-    await prisma.product.update({
-      where: { id },
-      data: { isActive: false }
-    });
-    
-    logger.info('Product deactivated', { productId: id });
-    res.json({ message: 'Product deactivated successfully' });
-  } catch (error: any) {
-    logger.error('Error deactivating product', { error: error.message, id: req.params.id });
-    res.status(500).json({ error: 'Failed to deactivate product' });
-  }
+    const existing = await prisma.product.findUnique({ where: { id } });
+    if (!existing) throw new NotFoundError('Product', id);
+
+    const product = await prisma.product.update({ where: { id }, data: { status: 'DISCONTINUED', deletedAt: new Date() } });
+    try { await kafkaClient.publish('product.events', 'PRODUCT_DELETED', { productId: product.id, sku: product.sku }); } catch {}
+
+    res.json({ success: true, data: { message: 'Product discontinued', product }, meta: { requestId: req.id, timestamp: new Date().toISOString() } });
+  } catch (error) { next(error); }
 });
 
-// GET /products/categories - List product categories
-app.get('/products/categories', (req: Request, res: Response) => {
-  const categories = Object.values(ProductCategory).map(category => ({
-    id: category,
-    name: formatCategoryName(category),
-    description: getCategoryDescription(category)
-  }));
-  
-  res.json({ categories });
-});
-
-function formatCategoryName(category: string): string {
-  return category
-    .replace(/_/g, ' ')
-    .split(' ')
-    .map(word => word.charAt(0).toUpperCase() + word.slice(1).toLowerCase())
-    .join(' ');
-}
-
-function getCategoryDescription(category: string): string {
-  const descriptions: Record<string, string> = {
-    ORDINARY_PORTLAND_CEMENT_42_5: 'High-strength cement for general construction (42.5 MPa)',
-    ORDINARY_PORTLAND_CEMENT_32_5: 'Standard cement for residential construction (32.5 MPa)',
-    POZZOLANIC_CEMENT: 'Eco-friendly cement with enhanced durability',
-    WHITE_CEMENT: 'Premium white cement for decorative applications',
-    MASONRY_CEMENT: 'Specialized cement for bricklaying and plastering',
-    OIL_WELL_CEMENT: 'Specialized cement for oil and gas industry'
-  };
-  return descriptions[category] || 'Cement product';
-}
-
-// GET /products/stats - Get product statistics
-app.get('/products/stats', async (req: Request, res: Response) => {
+// GET /products/:id/availability - Check product availability
+productRouter.get('/:id/availability', async (req: Request, res: Response, next: NextFunction) => {
+  const { id } = req.params;
   try {
-    const [total, byCategory, active, lowStock] = await Promise.all([
-      prisma.product.count(),
-      prisma.product.groupBy({
-        by: ['category'],
-        _count: true
-      }),
-      prisma.product.count({ where: { isActive: true } }),
-      prisma.product.findMany({
-        where: { isActive: true },
-        include: {
-          inventoryItems: true
-        }
-      }).then(products => {
-        return products.filter(p => 
-          p.inventoryItems.reduce((sum, i) => sum + i.quantity, 0) < 100
-        ).length;
-      })
-    ]);
-    
+    const product = await prisma.product.findUnique({ where: { id }, include: { inventory: { where: { status: 'AVAILABLE' } } } });
+    if (!product) throw new NotFoundError('Product', id);
+
+    const totalAvailable = product.inventory.reduce((sum, inv) => sum + inv.availableQuantity, 0);
+    const totalQuantity = product.inventory.reduce((sum, inv) => sum + inv.quantity, 0);
+
     res.json({
-      total,
-      active,
-      inactive: total - active,
-      lowStock,
-      byCategory: byCategory.map(c => ({
-        category: c.category,
-        count: c._count
-      }))
+      success: true,
+      data: { productId: id, sku: product.sku, name: product.name, totalAvailable, totalQuantity, warehouses: product.inventory.map(i => ({ warehouse: i.warehouseId, available: i.availableQuantity, quantity: i.quantity })) },
+      meta: { requestId: req.id, timestamp: new Date().toISOString() },
     });
-  } catch (error: any) {
-    logger.error('Error getting product stats', { error: error.message });
-    res.status(500).json({ error: 'Failed to get product statistics' });
-  }
+  } catch (error) { next(error); }
 });
 
-// Error handling middleware
-app.use((err: any, req: Request, res: Response, next: any) => {
-  logger.error('Unhandled error', { error: err.message, stack: err.stack });
-  res.status(500).json({ error: 'Internal server error' });
-});
+app.use('/api/v1/products', productRouter);
+app.use(errorHandler);
+app.use((req: Request, res: Response) => { res.status(404).json({ success: false, error: { code: 'NOT_FOUND', message: `Route ${req.method} ${req.path} not found`, traceId: req.id } }); });
 
-// Start server
-app.listen(PORT, () => {
-  logger.info(`Product Service running on port ${PORT}`);
-  logger.info(`Health check: http://localhost:${PORT}/health`);
-});
+const gracefulShutdown = async (signal: string) => { logger.info(`${signal} received`); await prisma.$disconnect(); await kafkaClient.disconnect(); process.exit(0); };
+process.on('SIGTERM', () => gracefulShutdown('SIGTERM'));
+process.on('SIGINT', () => gracefulShutdown('SIGINT'));
 
-// Graceful shutdown
-process.on('SIGTERM', async () => {
-  logger.info('SIGTERM received, shutting down gracefully');
-  await prisma.$disconnect();
-  process.exit(0);
-});
+const server = app.listen(PORT, () => { logger.info(`Product Service running on port ${PORT}`); logger.info(`Health: http://localhost:${PORT}/health`); });
 
-process.on('SIGINT', async () => {
-  logger.info('SIGINT received, shutting down gracefully');
-  await prisma.$disconnect();
-  process.exit(0);
-});
+export default app;

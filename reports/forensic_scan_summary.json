@@ -1,0 +1,28 @@
+﻿{
+    "generated_at_utc":  "2026-03-08T16:54:46.9092448Z",
+    "root_path":  "C:\\Users\\UCHE\\my-qwen-project\\PROJECTS\\ResidentCement",
+    "deterministic_depth_first":  true,
+    "include_hidden_files":  true,
+    "file_count":  3,
+    "total_size_bytes":  24101,
+    "sha256_computed_files":  3,
+    "by_language":  {
+                        "yml":  3
+                    },
+    "runtime_dependencies":  null,
+    "detected_ports":  [
+                           "2181",
+                           "5432",
+                           "6379",
+                           "9092",
+                           "27017"
+                       ],
+    "detected_api_routes":  null,
+    "errors":  [
+
+               ],
+    "scanned_targets":  [
+                            ".github"
+                        ],
+    "last_update_utc":  "2026-03-08T16:54:47.7406356Z"
+}

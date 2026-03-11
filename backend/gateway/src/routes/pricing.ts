@@ -1,13 +1,13 @@
-import { Router, Response, AuthRequest } from "express";
+import { Router, Response, Request, NextFunction } from "express";
 import { z } from "zod";
-import { authenticate } from "../middleware/auth";
+import { authenticate, AuthRequest } from "../middleware/auth";
 import fetch from "node-fetch";
 import { createLogger } from "../utils/logger";
 
 const router = Router();
 router.use(authenticate);
 
-const logger = createLogger("pricing-router");
+const logger = createLogger({ service: "pricing-router" });
 const PRICING_SERVICE_URL = process.env.PRICING_SERVICE_URL || "http://localhost:3004";
 
 const quoteSchema = z.object({

@@ -1,0 +1,21 @@
+{
+  "name": "resident-cement-tests",
+  "version": "1.0.0",
+  "private": true,
+  "description": "Test utilities and configurations for ResidentCement",
+  "scripts": {
+    "test:e2e": "playwright test --config=playwright.simple.config.ts",
+    "test:e2e:ui": "playwright test --config=playwright.simple.config.ts --ui",
+    "test:e2e:debug": "playwright test --config=playwright.simple.config.ts --debug",
+    "test:e2e:report": "playwright show-report playwright-report",
+    "test:integration": "playwright test --config=integration/playwright.config.ts",
+    "test:integration:debug": "playwright test --config=integration/playwright.config.ts --debug"
+  },
+  "devDependencies": {
+    "@playwright/test": "^1.41.0",
+    "@types/node": "^20.11.0"
+  },
+  "engines": {
+    "node": ">=20.0.0"
+  }
+}

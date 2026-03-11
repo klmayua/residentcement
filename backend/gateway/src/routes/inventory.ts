@@ -1,12 +1,12 @@
-import { Router, Response, AuthRequest } from "express";
-import { authenticate } from "../middleware/auth";
+import { Router, Response, Request, NextFunction } from "express";
+import { authenticate, AuthRequest } from "../middleware/auth";
 import fetch from "node-fetch";
 import { createLogger } from "../utils/logger";
 
 const router = Router();
 router.use(authenticate);
 
-const logger = createLogger("inventory-router");
+const logger = createLogger({ service: "inventory-router" });
 const INVENTORY_SERVICE_URL = process.env.INVENTORY_SERVICE_URL || "http://localhost:3003";
 
 router.get("/", async (req: AuthRequest, res: Response) => {

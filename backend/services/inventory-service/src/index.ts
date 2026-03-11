@@ -1,484 +1,213 @@
 /**
  * ResidentCement Inventory Service
  * 
- * Domain microservice for inventory management
- * Handles stock levels, reservations, adjustments, and depot management
+ * Warehouse and inventory management
  */
 
-import express, { Express, Request, Response } from 'express';
+import express, { Express, Request, Response, NextFunction } from 'express';
 import cors from 'cors';
+import helmet from 'helmet';
+import rateLimit from 'express-rate-limit';
 import { config } from 'dotenv';
+import { v4 as uuidv4 } from 'uuid';
+import { 
+  createLogger, requestIdMiddleware, requestLoggingMiddleware, errorHandler,
+  createHealthCheckService, checkMemory, NotFoundError, InventoryError,
+  updateInventorySchema, reserveInventorySchema, inventoryQuerySchema,
+} from '@resident-cement/kernel';
 import { PrismaClient } from '@prisma/client';
-import { createLogger } from './utils/logger';
+import { createKafkaClient } from '@resident-cement/kafka-client';
 
 config();
 
-const logger = createLogger('inventory-service');
+const logger = createLogger({ service: 'inventory-service', version: '1.0.0', environment: process.env.NODE_ENV || 'development' });
 const app: Express = express();
-const PORT = process.env.PORT || 3003;
+const PORT = parseInt(process.env.PORT || '3003', 10);
+const prisma = new PrismaClient({ log: ['error'] });
+const kafkaClient = createKafkaClient('inventory-service');
+kafkaClient.connect().catch(() => {});
 
-const prisma = new PrismaClient();
+const healthService = createHealthCheckService('inventory-service', '1.0.0');
+healthService.addCheck('database', async () => { const start = Date.now(); try { await prisma.$queryRaw`SELECT 1`; return { name: 'database', status: 'pass', responseTime: Date.now() - start }; } catch { return { name: 'database', status: 'fail', responseTime: Date.now() - start }; } });
+healthService.addCheck('memory', () => checkMemory(0.9));
 
-// Middleware
-app.use(cors());
+app.use(helmet());
+app.use(cors({ origin: process.env.CORS_ORIGIN || '*' }));
+app.use(requestIdMiddleware());
+app.use(requestLoggingMiddleware({ skipPaths: ['/health'] }));
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
+app.use(rateLimit({ windowMs: 15 * 60 * 1000, max: 1000 }));
+app.use((req: Request, res: Response, next: NextFunction) => { (req as any).logger = logger.child({ requestId: req.id }); next(); });
 
-// Health check
-app.get('/health', (req: Request, res: Response) => {
-  res.json({
-    status: 'healthy',
-    service: 'inventory-service',
-    timestamp: new Date().toISOString(),
-    uptime: process.uptime()
-  });
-});
+const healthRouter = express.Router();
+healthRouter.get('/', async (req: Request, res: Response) => { const h = await healthService.getHealthStatus(); res.json({ status: h.status, service: h.service, uptime: h.uptime }); });
+healthRouter.get('/ready', async (req: Request, res: Response) => { const h = await healthService.getHealthStatus(); if (h.status === 'unhealthy') return res.status(503).json({ ready: false }); res.json({ ready: true }); });
+healthRouter.get('/live', async (req: Request, res: Response) => { res.json({ alive: true, uptime: process.uptime() }); });
+app.use('/health', healthRouter);
 
-// GET /inventory - List all inventory items with filtering
-app.get('/inventory', async (req: Request, res: Response) => {
+const inventoryRouter = express.Router();
+
+// GET /inventory - List inventory
+inventoryRouter.get('/', async (req: Request, res: Response, next: NextFunction) => {
   try {
-    const { productId, depotId, location, lowStock, limit = 50, offset = 0 } = req.query;
-    
+    const query = inventoryQuerySchema.parse(req.query);
+    const { page = 1, limit = 50, productId, warehouseId, status } = query;
+    const offset = (page - 1) * limit;
     const where: any = {};
-    
-    if (productId) {
-      where.productId = productId as string;
-    }
-    
-    if (depotId) {
-      where.depotId = depotId as string;
-    }
-    
-    if (location) {
-      where.location = { contains: location as string, mode: 'insensitive' };
-    }
-    
-    if (lowStock === 'true') {
-      where.quantity = { lte: 100 }; // Below threshold
-    }
-    
-    const inventory = await prisma.inventoryItem.findMany({
-      where,
-      take: Number(limit),
-      skip: Number(offset),
-      orderBy: { lastUpdated: 'desc' },
-      include: {
-        product: {
-          select: {
-            id: true,
-            name: true,
-            category: true,
-            unit: true
-          }
-        },
-        depot: {
-          select: {
-            id: true,
-            name: true,
-            location: true
-          }
-        }
-      }
-    });
-    
-    const total = await prisma.inventoryItem.count({ where });
-    
-    res.json({
-      data: inventory,
-      pagination: {
-        total,
-        limit: Number(limit),
-        offset: Number(offset),
-        hasMore: Number(offset) + Number(limit) < total
-      }
-    });
-  } catch (error: any) {
-    logger.error('Error listing inventory', { error: error.message });
-    res.status(500).json({ error: 'Failed to list inventory' });
-  }
+    if (productId) where.productId = productId;
+    if (warehouseId) where.warehouseId = warehouseId;
+    if (status) where.status = status;
+
+    const [inventory, total] = await Promise.all([
+      prisma.inventory.findMany({ where, take: limit, skip: offset, include: { product: { select: { name: true, sku: true } }, warehouse: { select: { name: true, code: true } } } }),
+      prisma.inventory.count({ where }),
+    ]);
+
+    res.json({ success: true, data: inventory, meta: { requestId: req.id, timestamp: new Date().toISOString(), pagination: { page, limit, total, totalPages: Math.ceil(total / limit), hasMore: offset + limit < total } } });
+  } catch (error) { next(error); }
 });
 
-// GET /inventory/:id - Get inventory item by ID
-app.get('/inventory/:id', async (req: Request, res: Response) => {
+// GET /inventory/:id - Get inventory item
+inventoryRouter.get('/:id', async (req: Request, res: Response, next: NextFunction) => {
+  const { id } = req.params;
   try {
-    const { id } = req.params;
-    
-    const inventory = await prisma.inventoryItem.findUnique({
+    const inventory = await prisma.inventory.findUnique({ where: { id }, include: { product: true, warehouse: true } });
+    if (!inventory) throw new NotFoundError('Inventory', id);
+    res.json({ success: true, data: inventory, meta: { requestId: req.id, timestamp: new Date().toISOString() } });
+  } catch (error) { next(error); }
+});
+
+// PATCH /inventory/:id - Update inventory
+inventoryRouter.patch('/:id', async (req: Request, res: Response, next: NextFunction) => {
+  const { id } = req.params;
+  try {
+    const data = updateInventorySchema.parse(req.body);
+    const existing = await prisma.inventory.findUnique({ where: { id } });
+    if (!existing) throw new NotFoundError('Inventory', id);
+
+    const inventory = await prisma.inventory.update({
       where: { id },
-      include: {
-        product: true,
-        depot: true,
-        adjustments: {
-          orderBy: { createdAt: 'desc' },
-          take: 10
-        }
-      }
+      data: { ...data, availableQuantity: data.quantity - (existing.reservedQuantity || 0), updatedAt: new Date() },
+      include: { product: { select: { name: true, sku: true } }, warehouse: true },
     });
-    
-    if (!inventory) {
-      return res.status(404).json({ error: 'Inventory item not found' });
-    }
-    
-    res.json(inventory);
-  } catch (error: any) {
-    logger.error('Error getting inventory item', { error: error.message, id: req.params.id });
-    res.status(500).json({ error: 'Failed to get inventory item' });
-  }
+
+    res.json({ success: true, data: inventory, meta: { requestId: req.id, timestamp: new Date().toISOString() } });
+  } catch (error) { next(error); }
 });
 
-// GET /inventory/product/:productId/availability - Check product availability across depots
-app.get('/inventory/product/:productId/availability', async (req: Request, res: Response) => {
+// POST /inventory/reserve - Reserve inventory
+inventoryRouter.post('/reserve', async (req: Request, res: Response, next: NextFunction) => {
+  const requestLogger = (req as any).logger;
   try {
-    const { productId } = req.params;
-    
-    const inventory = await prisma.inventoryItem.findMany({
-      where: { productId },
-      include: {
-        depot: {
-          select: {
-            id: true,
-            name: true,
-            location: true
-          }
-        },
-        product: {
-          select: {
-            id: true,
-            name: true,
-            unit: true
-          }
-        }
-      }
-    });
-    
-    const totalQuantity = inventory.reduce((sum, item) => sum + item.quantity, 0);
-    
-    res.json({
-      productId,
-      productName: inventory[0]?.product?.name || 'Unknown',
-      unit: inventory[0]?.product?.unit || 'bags',
-      totalQuantity,
-      available: totalQuantity > 0,
-      depots: inventory.map(item => ({
-        depotId: item.depotId,
-        depotName: item.depot?.name || 'Unknown',
-        location: item.depot?.location || 'Unknown',
-        quantity: item.quantity,
-        lastUpdated: item.lastUpdated
-      }))
-    });
-  } catch (error: any) {
-    logger.error('Error checking product availability', { error: error.message, productId: req.params.productId });
-    res.status(500).json({ error: 'Failed to check availability' });
-  }
-});
+    const { productId, warehouseId, quantity, orderId } = reserveInventorySchema.parse(req.body);
 
-// POST /inventory - Create inventory item
-app.post('/inventory', async (req: Request, res: Response) => {
-  try {
-    const { productId, depotId, location, quantity, minStock, maxStock } = req.body;
-    
-    // Validate required fields
-    if (!productId || !depotId || quantity === undefined) {
-      return res.status(400).json({ error: 'productId, depotId, and quantity are required' });
-    }
-    
-    // Check for existing inventory at this depot
-    const existing = await prisma.inventoryItem.findFirst({
-      where: {
-        productId,
-        depotId
-      }
+    const inventory = await prisma.inventory.findFirst({
+      where: { productId, warehouseId, status: 'AVAILABLE' },
     });
-    
-    if (existing) {
-      return res.status(409).json({ 
-        error: 'Inventory item already exists at this depot',
-        inventoryId: existing.id
-      });
+
+    if (!inventory) throw new InventoryError('Inventory not found');
+    if (inventory.availableQuantity < quantity) {
+      throw new InventoryError('Insufficient inventory', { requested: quantity, available: inventory.availableQuantity });
     }
-    
-    const inventory = await prisma.inventoryItem.create({
+
+    const updated = await prisma.inventory.update({
+      where: { id: inventory.id },
       data: {
-        productId,
-        depotId,
-        location,
-        quantity,
-        minStock: minStock || 100,
-        maxStock: maxStock || 10000,
-        lastUpdated: new Date()
+        reservedQuantity: { increment: quantity },
+        availableQuantity: { decrement: quantity },
+        status: quantity === inventory.availableQuantity ? 'RESERVED' : inventory.status,
       },
-      include: {
-        product: true,
-        depot: true
-      }
+      include: { product: { select: { name: true, sku: true } }, warehouse: true },
     });
-    
-    logger.info('Inventory item created', { 
-      inventoryId: inventory.id, 
-      productId, 
-      depotId,
-      quantity 
-    });
-    res.status(201).json(inventory);
-  } catch (error: any) {
-    logger.error('Error creating inventory item', { error: error.message });
-    res.status(500).json({ error: 'Failed to create inventory item' });
-  }
-});
 
-// POST /inventory/adjust - Adjust inventory quantity
-app.post('/inventory/adjust', async (req: Request, res: Response) => {
-  try {
-    const { inventoryId, adjustment, reason, reference } = req.body;
-    
-    // Validate required fields
-    if (!inventoryId || !adjustment || !reason) {
-      return res.status(400).json({ error: 'inventoryId, adjustment, and reason are required' });
-    }
-    
-    // Get current inventory
-    const inventory = await prisma.inventoryItem.findUnique({
-      where: { id: inventoryId },
-      include: { product: true }
+    // Create stock movement
+    await prisma.stockMovement.create({
+      data: {
+        id: uuidv4(),
+        inventoryId: inventory.id,
+        warehouseId,
+        type: 'RESERVATION',
+        quantity: -quantity,
+        referenceType: 'ORDER',
+        referenceId: orderId,
+      },
     });
-    
-    if (!inventory) {
-      return res.status(404).json({ error: 'Inventory item not found' });
-    }
-    
-    const newQuantity = inventory.quantity + adjustment;
-    
-    if (newQuantity < 0) {
-      return res.status(400).json({ 
-        error: 'Adjustment would result in negative quantity',
-        currentQuantity: inventory.quantity,
-        requestedAdjustment: adjustment
-      });
-    }
-    
-    // Create adjustment record and update inventory in a transaction
-    const result = await prisma.$transaction(async (tx) => {
-      // Create adjustment record
-      const adjustmentRecord = await tx.inventoryAdjustment.create({
-        data: {
-          inventoryId,
-          adjustment,
-          reason,
-          reference,
-          previousQuantity: inventory.quantity,
-          newQuantity
-        }
-      });
-      
-      // Update inventory
-      const updatedInventory = await tx.inventoryItem.update({
-        where: { id: inventoryId },
-        data: {
-          quantity: newQuantity,
-          lastUpdated: new Date()
-        },
-        include: {
-          product: true,
-          depot: true
-        }
-      });
-      
-      return { adjustmentRecord, updatedInventory };
-    });
-    
-    logger.info('Inventory adjusted', { 
-      inventoryId, 
-      adjustment, 
-      reason,
-      newQuantity 
-    });
-    
-    res.json({
-      message: 'Inventory adjusted successfully',
-      adjustment: result.adjustmentRecord,
-      inventory: result.updatedInventory
-    });
-  } catch (error: any) {
-    logger.error('Error adjusting inventory', { error: error.message });
-    res.status(500).json({ error: 'Failed to adjust inventory' });
-  }
-});
 
-// POST /inventory/reserve - Reserve inventory for an order
-app.post('/inventory/reserve', async (req: Request, res: Response) => {
-  try {
-    const { productId, depotId, quantity, orderId } = req.body;
-    
-    // Validate required fields
-    if (!productId || !quantity || !orderId) {
-      return res.status(400).json({ error: 'productId, quantity, and orderId are required' });
-    }
-    
-    // Find inventory at specified depot or any depot if depotId not specified
-    const where: any = { productId, quantity: { gte: quantity } };
-    if (depotId) {
-      where.depotId = depotId;
-    }
-    
-    const inventory = await prisma.inventoryItem.findFirst({
-      where,
-      orderBy: { quantity: 'desc' }
-    });
-    
-    if (!inventory) {
-      return res.status(409).json({ 
-        error: 'Insufficient inventory',
-        requested: quantity,
-        productId,
-        depotId
-      });
-    }
-    
-    // Reserve inventory
-    const result = await prisma.$transaction(async (tx) => {
-      // Update inventory
-      await tx.inventoryItem.update({
-        where: { id: inventory.id },
-        data: {
-          quantity: inventory.quantity - quantity,
-          reservedQuantity: (inventory.reservedQuantity || 0) + quantity,
-          lastUpdated: new Date()
-        }
-      });
-      
-      // Create reservation record (you may need to add this model to schema)
-      // For now, we'll just return the updated inventory
-      return tx.inventoryItem.findUnique({
-        where: { id: inventory.id },
-        include: {
-          product: true,
-          depot: true
-        }
-      });
-    });
-    
-    logger.info('Inventory reserved', { 
-      inventoryId: inventory.id, 
-      quantity, 
-      orderId 
-    });
-    
-    res.json({
-      message: 'Inventory reserved successfully',
-      inventory: result,
-      reservedQuantity: quantity,
-      orderId
-    });
-  } catch (error: any) {
-    logger.error('Error reserving inventory', { error: error.message });
-    res.status(500).json({ error: 'Failed to reserve inventory' });
-  }
+    try { await kafkaClient.publish('inventory.events', 'INVENTORY_RESERVED', { inventoryId: inventory.id, productId, warehouseId, quantity, orderId }); } catch {}
+
+    requestLogger.info('Inventory reserved', { inventoryId: inventory.id, quantity });
+    res.json({ success: true, data: updated, meta: { requestId: req.id, timestamp: new Date().toISOString() } });
+  } catch (error) { next(error); }
 });
 
 // POST /inventory/release - Release reserved inventory
-app.post('/inventory/release', async (req: Request, res: Response) => {
+inventoryRouter.post('/release', async (req: Request, res: Response, next: NextFunction) => {
   try {
-    const { inventoryId, quantity, orderId } = req.body;
-    
-    // Validate required fields
-    if (!inventoryId || !quantity || !orderId) {
-      return res.status(400).json({ error: 'inventoryId, quantity, and orderId are required' });
-    }
-    
-    const inventory = await prisma.inventoryItem.findUnique({
-      where: { id: inventoryId }
-    });
-    
-    if (!inventory) {
-      return res.status(404).json({ error: 'Inventory item not found' });
-    }
-    
-    const currentReserved = inventory.reservedQuantity || 0;
-    
-    if (currentReserved < quantity) {
-      return res.status(400).json({ 
-        error: 'Cannot release more than reserved',
-        reserved: currentReserved,
-        requested: quantity
-      });
-    }
-    
-    // Release reservation
-    const updatedInventory = await prisma.inventoryItem.update({
+    const { inventoryId, quantity } = req.body;
+    if (!inventoryId || !quantity) throw new ValidationError('inventoryId and quantity required');
+
+    const inventory = await prisma.inventory.findUnique({ where: { id: inventoryId } });
+    if (!inventory) throw new NotFoundError('Inventory', inventoryId);
+    if (inventory.reservedQuantity < quantity) throw new InventoryError('Reserved quantity exceeds available');
+
+    const updated = await prisma.inventory.update({
       where: { id: inventoryId },
       data: {
-        quantity: inventory.quantity + quantity,
-        reservedQuantity: currentReserved - quantity,
-        lastUpdated: new Date()
+        reservedQuantity: { decrement: quantity },
+        availableQuantity: { increment: quantity },
+        status: 'AVAILABLE',
       },
-      include: {
-        product: true,
-        depot: true
-      }
     });
-    
-    logger.info('Inventory released', { 
-      inventoryId, 
-      quantity, 
-      orderId 
-    });
-    
-    res.json({
-      message: 'Inventory released successfully',
-      inventory: updatedInventory
-    });
-  } catch (error: any) {
-    logger.error('Error releasing inventory', { error: error.message });
-    res.status(500).json({ error: 'Failed to release inventory' });
-  }
+
+    try { await kafkaClient.publish('inventory.events', 'INVENTORY_RELEASED', { inventoryId, quantity }); } catch {}
+
+    res.json({ success: true, data: updated, meta: { requestId: req.id, timestamp: new Date().toISOString() } });
+  } catch (error) { next(error); }
 });
 
-// GET /inventory/low-stock - Get all low stock items
-app.get('/inventory/low-stock', async (req: Request, res: Response) => {
+// GET /inventory/low-stock - Get low stock items
+inventoryRouter.get('/low-stock', async (req: Request, res: Response, next: NextFunction) => {
   try {
-    const inventory = await prisma.inventoryItem.findMany({
-      where: {
-        quantity: { lte: prisma.inventoryItem.fields.minStock }
-      },
-      include: {
-        product: true,
-        depot: true
-      },
-      orderBy: { quantity: 'asc' }
+    const { threshold = 100 } = req.query;
+    const inventory = await prisma.inventory.findMany({
+      where: { availableQuantity: { lte: Number(threshold) }, status: 'AVAILABLE' },
+      include: { product: { select: { name: true, sku: true } }, warehouse: { select: { name: true, code: true } } },
+      orderBy: { availableQuantity: 'asc' },
     });
-    
-    res.json({
-      data: inventory,
-      count: inventory.length
-    });
-  } catch (error: any) {
-    logger.error('Error getting low stock items', { error: error.message });
-    res.status(500).json({ error: 'Failed to get low stock items' });
-  }
+
+    res.json({ success: true, data: inventory, meta: { requestId: req.id, timestamp: new Date().toISOString() } });
+  } catch (error) { next(error); }
 });
 
-// Error handling middleware
-app.use((err: any, req: Request, res: Response, next: any) => {
-  logger.error('Unhandled error', { error: err.message, stack: err.stack });
-  res.status(500).json({ error: 'Internal server error' });
+// Warehouse routes
+const warehouseRouter = express.Router();
+
+warehouseRouter.get('/', async (req: Request, res: Response, next: NextFunction) => {
+  try {
+    const warehouses = await prisma.warehouse.findMany({ where: { isActive: true }, include: { _count: { select: { inventory: true } } } });
+    res.json({ success: true, data: warehouses, meta: { requestId: req.id, timestamp: new Date().toISOString() } });
+  } catch (error) { next(error); }
 });
 
-// Start server
-app.listen(PORT, () => {
-  logger.info(`Inventory Service running on port ${PORT}`);
-  logger.info(`Health check: http://localhost:${PORT}/health`);
+warehouseRouter.get('/:id', async (req: Request, res: Response, next: NextFunction) => {
+  const { id } = req.params;
+  try {
+    const warehouse = await prisma.warehouse.findUnique({ where: { id }, include: { inventory: { include: { product: { select: { name: true, sku: true } } } } } });
+    if (!warehouse) throw new NotFoundError('Warehouse', id);
+    res.json({ success: true, data: warehouse, meta: { requestId: req.id, timestamp: new Date().toISOString() } });
+  } catch (error) { next(error); }
 });
 
-// Graceful shutdown
-process.on('SIGTERM', async () => {
-  logger.info('SIGTERM received, shutting down gracefully');
-  await prisma.$disconnect();
-  process.exit(0);
-});
+app.use('/api/v1/inventory', inventoryRouter);
+app.use('/api/v1/warehouses', warehouseRouter);
+app.use(errorHandler);
+app.use((req: Request, res: Response) => { res.status(404).json({ success: false, error: { code: 'NOT_FOUND', message: `Route ${req.method} ${req.path} not found`, traceId: req.id } }); });
 
-process.on('SIGINT', async () => {
-  logger.info('SIGINT received, shutting down gracefully');
-  await prisma.$disconnect();
-  process.exit(0);
-});
+const gracefulShutdown = async (signal: string) => { await prisma.$disconnect(); await kafkaClient.disconnect(); process.exit(0); };
+process.on('SIGTERM', () => gracefulShutdown('SIGTERM'));
+process.on('SIGINT', () => gracefulShutdown('SIGINT'));
+
+const server = app.listen(PORT, () => { logger.info(`Inventory Service running on port ${PORT}`); logger.info(`Health: http://localhost:${PORT}/health`); });
+
+export default app;

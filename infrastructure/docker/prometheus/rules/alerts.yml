@@ -1,0 +1,304 @@
+# =============================================================================
+# Prometheus Alerting Rules for ResidentCement Platform
+# =============================================================================
+
+groups:
+  # ---------------------------------------------------------------------------
+  # Service Health Alerts
+  # ---------------------------------------------------------------------------
+  - name: service_health
+    interval: 30s
+    rules:
+      - alert: ServiceDown
+        expr: up == 0
+        for: 1m
+        labels:
+          severity: critical
+        annotations:
+          summary: "Service {{ $labels.service }} is down"
+          description: "{{ $labels.instance }} of job {{ $labels.job }} has been down for more than 1 minute."
+
+      - alert: HighErrorRate
+        expr: rate(http_requests_total{status=~"5.."}[5m]) > 0.1
+        for: 5m
+        labels:
+          severity: warning
+        annotations:
+          summary: "High error rate detected"
+          description: "Service {{ $labels.service }} has error rate of {{ $value }} errors/sec"
+
+      - alert: ServiceDegraded
+        expr: probe_success == 0
+        for: 2m
+        labels:
+          severity: warning
+        annotations:
+          summary: "Health check failed for {{ $labels.instance }}"
+          description: "Service health check has been failing for more than 2 minutes"
+
+  # ---------------------------------------------------------------------------
+  # API Performance Alerts
+  # ---------------------------------------------------------------------------
+  - name: api_performance
+    interval: 30s
+    rules:
+      - alert: HighResponseTime
+        expr: histogram_quantile(0.95, rate(http_request_duration_seconds_bucket[5m])) > 1
+        for: 5m
+        labels:
+          severity: warning
+        annotations:
+          summary: "High response time detected"
+          description: "Service {{ $labels.service }} has 95th percentile response time of {{ $value }}s"
+
+      - alert: VeryHighResponseTime
+        expr: histogram_quantile(0.99, rate(http_request_duration_seconds_bucket[5m])) > 5
+        for: 5m
+        labels:
+          severity: critical
+        annotations:
+          summary: "Very high response time detected"
+          description: "Service {{ $labels.service }} has 99th percentile response time of {{ $value }}s"
+
+      - alert: HighRequestRate
+        expr: rate(http_requests_total[5m]) > 1000
+        for: 5m
+        labels:
+          severity: info
+        annotations:
+          summary: "High request rate detected"
+          description: "Service {{ $labels.service }} is receiving {{ $value }} requests/sec"
+
+  # ---------------------------------------------------------------------------
+  # Infrastructure Alerts
+  # ---------------------------------------------------------------------------
+  - name: infrastructure
+    interval: 30s
+    rules:
+      - alert: HighCPUUsage
+        expr: 100 - (avg by(instance) (rate(node_cpu_seconds_total{mode="idle"}[5m])) * 100) > 80
+        for: 10m
+        labels:
+          severity: warning
+        annotations:
+          summary: "High CPU usage detected"
+          description: "CPU usage is {{ $value }}% on {{ $labels.instance }}"
+
+      - alert: VeryHighCPUUsage
+        expr: 100 - (avg by(instance) (rate(node_cpu_seconds_total{mode="idle"}[5m])) * 100) > 95
+        for: 5m
+        labels:
+          severity: critical
+        annotations:
+          summary: "Critical CPU usage detected"
+          description: "CPU usage is {{ $value }}% on {{ $labels.instance }}"
+
+      - alert: HighMemoryUsage
+        expr: (1 - (node_memory_MemAvailable_bytes / node_memory_MemTotal_bytes)) * 100 > 85
+        for: 10m
+        labels:
+          severity: warning
+        annotations:
+          summary: "High memory usage detected"
+          description: "Memory usage is {{ $value }}% on {{ $labels.instance }}"
+
+      - alert: VeryHighMemoryUsage
+        expr: (1 - (node_memory_MemAvailable_bytes / node_memory_MemTotal_bytes)) * 100 > 95
+        for: 5m
+        labels:
+          severity: critical
+        annotations:
+          summary: "Critical memory usage detected"
+          description: "Memory usage is {{ $value }}% on {{ $labels.instance }}"
+
+      - alert: DiskSpaceLow
+        expr: (node_filesystem_avail_bytes{mountpoint="/"} / node_filesystem_size_bytes{mountpoint="/"}) * 100 < 15
+        for: 30m
+        labels:
+          severity: warning
+        annotations:
+          summary: "Low disk space detected"
+          description: "Disk space is {{ $value }}% available on {{ $labels.instance }}"
+
+      - alert: DiskSpaceCritical
+        expr: (node_filesystem_avail_bytes{mountpoint="/"} / node_filesystem_size_bytes{mountpoint="/"}) * 100 < 5
+        for: 10m
+        labels:
+          severity: critical
+        annotations:
+          summary: "Critical disk space"
+          description: "Disk space is {{ $value }}% available on {{ $labels.instance }}"
+
+  # ---------------------------------------------------------------------------
+  # Database Alerts
+  # ---------------------------------------------------------------------------
+  - name: database
+    interval: 30s
+    rules:
+      - alert: PostgresDown
+        expr: pg_up == 0
+        for: 1m
+        labels:
+          severity: critical
+        annotations:
+          summary: "PostgreSQL is down"
+          description: "PostgreSQL instance {{ $labels.instance }} is not responding"
+
+      - alert: PostgresHighConnections
+        expr: pg_stat_activity_count > 100
+        for: 5m
+        labels:
+          severity: warning
+        annotations:
+          summary: "High PostgreSQL connections"
+          description: "PostgreSQL has {{ $value }} active connections"
+
+      - alert: PostgresHighReplicationLag
+        expr: pg_replication_lag > 30
+        for: 5m
+        labels:
+          severity: warning
+        annotations:
+          summary: "PostgreSQL replication lag detected"
+          description: "Replication lag is {{ $value }} seconds"
+
+      - alert: MongoDDown
+        expr: mongodb_up == 0
+        for: 1m
+        labels:
+          severity: critical
+        annotations:
+          summary: "MongoDB is down"
+          description: "MongoDB instance {{ $labels.instance }} is not responding"
+
+  # ---------------------------------------------------------------------------
+  # Cache Alerts
+  # ---------------------------------------------------------------------------
+  - name: cache
+    interval: 30s
+    rules:
+      - alert: RedisDown
+        expr: redis_up == 0
+        for: 1m
+        labels:
+          severity: critical
+        annotations:
+          summary: "Redis is down"
+          description: "Redis instance {{ $labels.instance }} is not responding"
+
+      - alert: RedisHighMemoryUsage
+        expr: redis_memory_used_bytes / redis_memory_max_bytes > 0.9
+        for: 10m
+        labels:
+          severity: warning
+        annotations:
+          summary: "Redis high memory usage"
+          description: "Redis memory usage is {{ $value | humanizePercentage }}"
+
+      - alert: RedisHighHitRate
+        expr: rate(redis_keyspace_hits_total[5m]) / (rate(redis_keyspace_hits_total[5m]) + rate(redis_keyspace_misses_total[5m])) < 0.8
+        for: 30m
+        labels:
+          severity: info
+        annotations:
+          summary: "Redis cache hit rate low"
+          description: "Cache hit rate is {{ $value | humanizePercentage }}"
+
+  # ---------------------------------------------------------------------------
+  # Message Queue Alerts
+  # ---------------------------------------------------------------------------
+  - name: message_queue
+    interval: 30s
+    rules:
+      - alert: KafkaBrokerDown
+        expr: kafka_brokers == 0
+        for: 1m
+        labels:
+          severity: critical
+        annotations:
+          summary: "Kafka broker is down"
+          description: "No Kafka brokers are available"
+
+      - alert: KafkaHighConsumerLag
+        expr: kafka_consumer_lag > 10000
+        for: 10m
+        labels:
+          severity: warning
+        annotations:
+          summary: "High Kafka consumer lag"
+          description: "Consumer lag is {{ $value }} messages"
+
+      - alert: KafkaHighProducerErrorRate
+        expr: rate(kafka_producer_failures_total[5m]) > 10
+        for: 5m
+        labels:
+          severity: critical
+        annotations:
+          summary: "High Kafka producer error rate"
+          description: "Producer failures: {{ $value }}/sec"
+
+  # ---------------------------------------------------------------------------
+  # Container Alerts
+  # ---------------------------------------------------------------------------
+  - name: containers
+    interval: 30s
+    rules:
+      - alert: ContainerHighCPU
+        expr: rate(container_cpu_usage_seconds_total[5m]) > 0.9
+        for: 10m
+        labels:
+          severity: warning
+        annotations:
+          summary: "Container high CPU usage"
+          description: "Container {{ $labels.name }} CPU usage is {{ $value | humanizePercentage }}"
+
+      - alert: ContainerHighMemory
+        expr: container_memory_usage_bytes / container_spec_memory_limit_bytes > 0.9
+        for: 10m
+        labels:
+          severity: warning
+        annotations:
+          summary: "Container high memory usage"
+          description: "Container {{ $labels.name }} memory usage is {{ $value | humanizePercentage }}"
+
+      - alert: ContainerRestarted
+        expr: increase(container_last_seen[5m]) > 5
+        for: 5m
+        labels:
+          severity: warning
+        annotations:
+          summary: "Container restarted"
+          description: "Container {{ $labels.name }} has restarted multiple times"
+
+  # ---------------------------------------------------------------------------
+  # Business Metrics Alerts
+  # ---------------------------------------------------------------------------
+  - name: business_metrics
+    interval: 1m
+    rules:
+      - alert: HighOrderFailureRate
+        expr: rate(orders_created_total[5m]) - rate(orders_completed_total[5m]) > 10
+        for: 15m
+        labels:
+          severity: warning
+        annotations:
+          summary: "High order failure rate"
+          description: "Order completion gap is {{ $value }} orders/min"
+
+      - alert: PaymentFailureSpike
+        expr: rate(payments_failed_total[5m]) > 5
+        for: 5m
+        labels:
+          severity: critical
+        annotations:
+          summary: "Payment failure spike"
+          description: "Payment failures: {{ $value }}/min"
+
+      - alert: LowInventoryAlert
+        expr: inventory_quantity < 100
+        for: 1h
+        labels:
+          severity: warning
+        annotations:
+          summary: "Low inventory for product {{ $labels.product_id }}"
+          description: "Inventory level: {{ $value }} units"

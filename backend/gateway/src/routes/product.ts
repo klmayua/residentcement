@@ -1,8 +1,10 @@
-import { Router, Response, AuthRequest } from "express";
+import { Router, Response, Request, NextFunction } from "express";
 import { z } from "zod";
 import prisma from "../lib/prisma";
 import logger from "../utils/logger";
+import { AuthRequest } from "../middleware/auth";
 
+const router = Router();
 const productLogger = logger;
 
 const createProductSchema = z.object({

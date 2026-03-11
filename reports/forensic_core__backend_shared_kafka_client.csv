@@ -1,0 +1,4 @@
+﻿"path","size_bytes","sha256","language"
+"backend/shared/kafka-client/package.json","449","ea0b76d92442063ffad8a4f12181f751e3885bac76e605144908a2719a289047","json"
+"backend/shared/kafka-client/tsconfig.json","394","00655e13966bef2403a780f69d36b67762764265d5204c5d672b767dd7678e66","json"
+"backend/shared/kafka-client/src/index.ts","4376","f873777d31130a80b67a026ca009d819b28d330ad0dde50faf47ff34ea4f3a15","ts"

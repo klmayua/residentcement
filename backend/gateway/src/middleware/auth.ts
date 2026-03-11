@@ -6,14 +6,19 @@ const authLogger = logger;
 
 export interface AuthRequest extends Request {
   user?: {
-    sub: string;
+    id: string;
+    sub?: string;
     email: string;
+    name: string;
     role: string;
     tenantId?: string;
   };
 }
 
-const JWT_SECRET = process.env.JWT_SECRET || "development-secret-key-change-in-production";
+const JWT_SECRET = process.env.JWT_SECRET;
+if (!JWT_SECRET) {
+  throw new Error("JWT_SECRET environment variable is required");
+}
 
 export const authenticate = (req: AuthRequest, res: Response, next: NextFunction) => {
   const authHeader = req.headers.authorization;
@@ -34,7 +39,14 @@ export const authenticate = (req: AuthRequest, res: Response, next: NextFunction
       role: string;
       tenantId?: string;
     };
-    req.user = decoded;
+    req.user = {
+      id: decoded.sub,
+      sub: decoded.sub,
+      email: decoded.email,
+      name: decoded.email.split('@')[0],
+      role: decoded.role,
+      tenantId: decoded.tenantId,
+    };
     next();
   } catch (error) {
     logger.warn({ message: "Invalid token", token: token.substring(0, 20) + "..." });

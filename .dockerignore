@@ -1,0 +1,14 @@
+# Dependencies that should be excluded
+node_modules
+frontend
+docs
+scripts
+tests
+.git
+*.md
+*.log
+infrastructure
+forensics
+reports
+backend/gateway/src
+backend/shared/kernel/src

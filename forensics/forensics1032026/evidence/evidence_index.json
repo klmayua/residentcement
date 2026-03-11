@@ -1,0 +1,319 @@
+{
+  "audit_date": "2026-03-10",
+  "auditor_role": "2030 Systems Architecture Expert",
+  "total_files": 39,
+  "evidence": [
+    {
+      "original_path": "C:\\Users\\UCHE\\my-qwen-project\\PROJECTS\\ResidentCement\\infrastructure\\k8s\\api-gateway.yaml",
+      "evidence_path": "C:\\Users\\UCHE\\my-qwen-project\\PROJECTS\\ResidentCement\\.audit\\evidence\\kubernetes\\api-gateway.yaml",
+      "sha256": "c1356079eb16bab35d152da950ec65cd5c72e1c83c290189ffbbc6c657cfd951",
+      "collected_at": "2026-03-10T08:38:48.183350",
+      "category": "kubernetes",
+      "size_bytes": 8658
+    },
+    {
+      "original_path": "C:\\Users\\UCHE\\my-qwen-project\\PROJECTS\\ResidentCement\\infrastructure\\k8s\\infrastructure.yaml",
+      "evidence_path": "C:\\Users\\UCHE\\my-qwen-project\\PROJECTS\\ResidentCement\\.audit\\evidence\\kubernetes\\infrastructure.yaml",
+      "sha256": "44805c35ff679744917ac4ccbbd48ed8ecea3cdbe70ec4a83f169a91e411a3c5",
+      "collected_at": "2026-03-10T08:38:48.207755",
+      "category": "kubernetes",
+      "size_bytes": 14590
+    },
+    {
+      "original_path": "C:\\Users\\UCHE\\my-qwen-project\\PROJECTS\\ResidentCement\\infrastructure\\k8s\\ingress.yaml",
+      "evidence_path": "C:\\Users\\UCHE\\my-qwen-project\\PROJECTS\\ResidentCement\\.audit\\evidence\\kubernetes\\ingress.yaml",
+      "sha256": "d41a5b15290d4fbac1f0dcae9d4423074b57c37f037b7495f26be5a4d82b55dc",
+      "collected_at": "2026-03-10T08:38:48.217200",
+      "category": "kubernetes",
+      "size_bytes": 6893
+    },
+    {
+      "original_path": "C:\\Users\\UCHE\\my-qwen-project\\PROJECTS\\ResidentCement\\infrastructure\\k8s\\microservices.yaml",
+      "evidence_path": "C:\\Users\\UCHE\\my-qwen-project\\PROJECTS\\ResidentCement\\.audit\\evidence\\kubernetes\\microservices.yaml",
+      "sha256": "5ba29d3e4f58060bb959d1119dee8f95c49c06b6715a17fe4da3b0d233f6cd30",
+      "collected_at": "2026-03-10T08:38:48.224134",
+      "category": "kubernetes",
+      "size_bytes": 13185
+    },
+    {
+      "original_path": "C:\\Users\\UCHE\\my-qwen-project\\PROJECTS\\ResidentCement\\infrastructure\\k8s\\namespace.yaml",
+      "evidence_path": "C:\\Users\\UCHE\\my-qwen-project\\PROJECTS\\ResidentCement\\.audit\\evidence\\kubernetes\\namespace.yaml",
+      "sha256": "15e388bb5fe55b4caf2b414fa4ec4e4fc35e9d3b3db72c5f896b5f70f6abba37",
+      "collected_at": "2026-03-10T08:38:48.234791",
+      "category": "kubernetes",
+      "size_bytes": 435
+    },
+    {
+      "original_path": "C:\\Users\\UCHE\\my-qwen-project\\PROJECTS\\ResidentCement\\frontend\\apps\\distributor-portal\\Dockerfile",
+      "evidence_path": "C:\\Users\\UCHE\\my-qwen-project\\PROJECTS\\ResidentCement\\.audit\\evidence\\docker\\Dockerfile",
+      "sha256": "5aabe832fca650405a6c565da41658c863c0c5c9fb6bbe81d0e10e030866b3d8",
+      "collected_at": "2026-03-10T08:39:28.467548",
+      "category": "docker",
+      "size_bytes": 724
+    },
+    {
+      "original_path": "C:\\Users\\UCHE\\my-qwen-project\\PROJECTS\\ResidentCement\\backend\\gateway\\Dockerfile",
+      "evidence_path": "C:\\Users\\UCHE\\my-qwen-project\\PROJECTS\\ResidentCement\\.audit\\evidence\\docker\\Dockerfile",
+      "sha256": "0a598505fa0bee5296d52d2b960d480da9012bd9a9f0e5a26ab90002cdd70b11",
+      "collected_at": "2026-03-10T08:39:28.477964",
+      "category": "docker",
+      "size_bytes": 150
+    },
+    {
+      "original_path": "C:\\Users\\UCHE\\my-qwen-project\\PROJECTS\\ResidentCement\\backend\\services\\customer-service\\Dockerfile",
+      "evidence_path": "C:\\Users\\UCHE\\my-qwen-project\\PROJECTS\\ResidentCement\\.audit\\evidence\\docker\\Dockerfile",
+      "sha256": "872cbf9bb61c33aaf7fc23dd2bf9a663f703b5f768aad276e65a9ba3ec6dbfa1",
+      "collected_at": "2026-03-10T08:39:28.483980",
+      "category": "docker",
+      "size_bytes": 697
+    },
+    {
+      "original_path": "C:\\Users\\UCHE\\my-qwen-project\\PROJECTS\\ResidentCement\\backend\\services\\inventory-service\\Dockerfile",
+      "evidence_path": "C:\\Users\\UCHE\\my-qwen-project\\PROJECTS\\ResidentCement\\.audit\\evidence\\docker\\Dockerfile",
+      "sha256": "3adcdae71237d183863eb77caa41ae657fd979d5a52e377e39a2cbab9f6440fb",
+      "collected_at": "2026-03-10T08:39:28.490356",
+      "category": "docker",
+      "size_bytes": 698
+    },
+    {
+      "original_path": "C:\\Users\\UCHE\\my-qwen-project\\PROJECTS\\ResidentCement\\backend\\services\\order-service\\Dockerfile",
+      "evidence_path": "C:\\Users\\UCHE\\my-qwen-project\\PROJECTS\\ResidentCement\\.audit\\evidence\\docker\\Dockerfile",
+      "sha256": "eb42dab3a83589649691c230466c42f0a4769b20b9b6ef79cfd06d326d34070b",
+      "collected_at": "2026-03-10T08:39:28.495462",
+      "category": "docker",
+      "size_bytes": 694
+    },
+    {
+      "original_path": "C:\\Users\\UCHE\\my-qwen-project\\PROJECTS\\ResidentCement\\backend\\services\\payment-service\\Dockerfile",
+      "evidence_path": "C:\\Users\\UCHE\\my-qwen-project\\PROJECTS\\ResidentCement\\.audit\\evidence\\docker\\Dockerfile",
+      "sha256": "f7270b358e6f10c23048045042af1d7b88acedb1cb7a1005d70a0f2a5a4be289",
+      "collected_at": "2026-03-10T08:39:28.501999",
+      "category": "docker",
+      "size_bytes": 696
+    },
+    {
+      "original_path": "C:\\Users\\UCHE\\my-qwen-project\\PROJECTS\\ResidentCement\\backend\\services\\pricing-service\\Dockerfile",
+      "evidence_path": "C:\\Users\\UCHE\\my-qwen-project\\PROJECTS\\ResidentCement\\.audit\\evidence\\docker\\Dockerfile",
+      "sha256": "4e3d1aa0eb4c028f3a41b706ca9329f8116222e7428dbd07820057541ad195fd",
+      "collected_at": "2026-03-10T08:39:28.508616",
+      "category": "docker",
+      "size_bytes": 696
+    },
+    {
+      "original_path": "C:\\Users\\UCHE\\my-qwen-project\\PROJECTS\\ResidentCement\\backend\\services\\product-service\\Dockerfile",
+      "evidence_path": "C:\\Users\\UCHE\\my-qwen-project\\PROJECTS\\ResidentCement\\.audit\\evidence\\docker\\Dockerfile",
+      "sha256": "3386f6dcf496aa76185abb7f53f731a1f9f82b6cf2a3435db54eff0f9ab4930d",
+      "collected_at": "2026-03-10T08:39:28.514436",
+      "category": "docker",
+      "size_bytes": 696
+    },
+    {
+      "original_path": "C:\\Users\\UCHE\\my-qwen-project\\PROJECTS\\ResidentCement\\.audit\\hashes\\Dockerfile.sha256",
+      "evidence_path": "C:\\Users\\UCHE\\my-qwen-project\\PROJECTS\\ResidentCement\\.audit\\evidence\\docker\\Dockerfile.sha256",
+      "sha256": "8623f663899349b7422a62b0fc4afa01c1d92b4278b053cc4291eb27ff281c08",
+      "collected_at": "2026-03-10T08:39:28.518484",
+      "category": "docker",
+      "size_bytes": 78
+    },
+    {
+      "original_path": "C:\\Users\\UCHE\\my-qwen-project\\PROJECTS\\ResidentCement\\.audit\\hashes\\Dockerfile.sha256.sha256",
+      "evidence_path": "C:\\Users\\UCHE\\my-qwen-project\\PROJECTS\\ResidentCement\\.audit\\evidence\\docker\\Dockerfile.sha256.sha256",
+      "sha256": "0fba79a35f20e303b61dd3e30c54a789d1aa54f423049c48bd2355eeb77afe82",
+      "collected_at": "2026-03-10T08:39:28.523275",
+      "category": "docker",
+      "size_bytes": 85
+    },
+    {
+      "original_path": "C:\\Users\\UCHE\\my-qwen-project\\PROJECTS\\ResidentCement\\.env",
+      "evidence_path": "C:\\Users\\UCHE\\my-qwen-project\\PROJECTS\\ResidentCement\\.audit\\evidence\\environment\\.env",
+      "sha256": "e45503c167fd1eca4e2cf13b08ad05cf6cac21936f8ba88439cc09f3d6226c77",
+      "collected_at": "2026-03-10T08:39:46.157116",
+      "category": "environment",
+      "size_bytes": 851
+    },
+    {
+      "original_path": "C:\\Users\\UCHE\\my-qwen-project\\PROJECTS\\ResidentCement\\.env.example",
+      "evidence_path": "C:\\Users\\UCHE\\my-qwen-project\\PROJECTS\\ResidentCement\\.audit\\evidence\\environment\\.env.example",
+      "sha256": "81e90a9882f80d3daf4e71b4b9c8753a86d9fb4014b89daecca3dc72134089c3",
+      "collected_at": "2026-03-10T08:39:46.162705",
+      "category": "environment",
+      "size_bytes": 910
+    },
+    {
+      "original_path": "C:\\Users\\UCHE\\my-qwen-project\\PROJECTS\\ResidentCement\\backend\\gateway\\.env",
+      "evidence_path": "C:\\Users\\UCHE\\my-qwen-project\\PROJECTS\\ResidentCement\\.audit\\evidence\\environment\\.env",
+      "sha256": "18b91c21589a57136725476a89ec4891a0e6f814f48b6435d57a91074cc70fab",
+      "collected_at": "2026-03-10T08:39:46.169390",
+      "category": "environment",
+      "size_bytes": 598
+    },
+    {
+      "original_path": "C:\\Users\\UCHE\\my-qwen-project\\PROJECTS\\ResidentCement\\backend\\gateway\\.env.example",
+      "evidence_path": "C:\\Users\\UCHE\\my-qwen-project\\PROJECTS\\ResidentCement\\.audit\\evidence\\environment\\.env.example",
+      "sha256": "18b91c21589a57136725476a89ec4891a0e6f814f48b6435d57a91074cc70fab",
+      "collected_at": "2026-03-10T08:39:46.175506",
+      "category": "environment",
+      "size_bytes": 598
+    },
+    {
+      "original_path": "C:\\Users\\UCHE\\my-qwen-project\\PROJECTS\\ResidentCement\\backend\\services\\customer-service\\.env",
+      "evidence_path": "C:\\Users\\UCHE\\my-qwen-project\\PROJECTS\\ResidentCement\\.audit\\evidence\\environment\\.env",
+      "sha256": "ad4632255b4117f4dcceacd4b42f125799f74446ca8615db4666d2ed9330080d",
+      "collected_at": "2026-03-10T08:39:46.182086",
+      "category": "environment",
+      "size_bytes": 411
+    },
+    {
+      "original_path": "C:\\Users\\UCHE\\my-qwen-project\\PROJECTS\\ResidentCement\\backend\\services\\customer-service\\.env.example",
+      "evidence_path": "C:\\Users\\UCHE\\my-qwen-project\\PROJECTS\\ResidentCement\\.audit\\evidence\\environment\\.env.example",
+      "sha256": "ad4632255b4117f4dcceacd4b42f125799f74446ca8615db4666d2ed9330080d",
+      "collected_at": "2026-03-10T08:39:46.186908",
+      "category": "environment",
+      "size_bytes": 411
+    },
+    {
+      "original_path": "C:\\Users\\UCHE\\my-qwen-project\\PROJECTS\\ResidentCement\\backend\\services\\events\\.env",
+      "evidence_path": "C:\\Users\\UCHE\\my-qwen-project\\PROJECTS\\ResidentCement\\.audit\\evidence\\environment\\.env",
+      "sha256": "c56c3ce2c7b2fe383227da2ff6bc71bf64804f87c972561cde027aefc89cb608",
+      "collected_at": "2026-03-10T08:39:46.191366",
+      "category": "environment",
+      "size_bytes": 208
+    },
+    {
+      "original_path": "C:\\Users\\UCHE\\my-qwen-project\\PROJECTS\\ResidentCement\\backend\\services\\inventory-service\\.env",
+      "evidence_path": "C:\\Users\\UCHE\\my-qwen-project\\PROJECTS\\ResidentCement\\.audit\\evidence\\environment\\.env",
+      "sha256": "ebf069134cd25ff7ab02e4c08c28c43ab1c4c970f90afeca0db7dcb5700a0e1b",
+      "collected_at": "2026-03-10T08:39:46.195338",
+      "category": "environment",
+      "size_bytes": 414
+    },
+    {
+      "original_path": "C:\\Users\\UCHE\\my-qwen-project\\PROJECTS\\ResidentCement\\backend\\services\\inventory-service\\.env.example",
+      "evidence_path": "C:\\Users\\UCHE\\my-qwen-project\\PROJECTS\\ResidentCement\\.audit\\evidence\\environment\\.env.example",
+      "sha256": "9a7729b33e786a5bdfeca822cd86e33476b479cc0cf3794c409c699459813837",
+      "collected_at": "2026-03-10T08:39:46.199533",
+      "category": "environment",
+      "size_bytes": 292
+    },
+    {
+      "original_path": "C:\\Users\\UCHE\\my-qwen-project\\PROJECTS\\ResidentCement\\backend\\services\\order-service\\.env",
+      "evidence_path": "C:\\Users\\UCHE\\my-qwen-project\\PROJECTS\\ResidentCement\\.audit\\evidence\\environment\\.env",
+      "sha256": "9ef8425c7f8a9e8bd083cd4f324e6dc249306aca4fd2b34b7e3afa0d73ac1696",
+      "collected_at": "2026-03-10T08:39:46.207253",
+      "category": "environment",
+      "size_bytes": 402
+    },
+    {
+      "original_path": "C:\\Users\\UCHE\\my-qwen-project\\PROJECTS\\ResidentCement\\backend\\services\\order-service\\.env.example",
+      "evidence_path": "C:\\Users\\UCHE\\my-qwen-project\\PROJECTS\\ResidentCement\\.audit\\evidence\\environment\\.env.example",
+      "sha256": "191f98c2016ab91195fd5cf375cc2f9c07b78b278019674211adcd0a9a793038",
+      "collected_at": "2026-03-10T08:39:46.212761",
+      "category": "environment",
+      "size_bytes": 199
+    },
+    {
+      "original_path": "C:\\Users\\UCHE\\my-qwen-project\\PROJECTS\\ResidentCement\\backend\\services\\payment-service\\.env",
+      "evidence_path": "C:\\Users\\UCHE\\my-qwen-project\\PROJECTS\\ResidentCement\\.audit\\evidence\\environment\\.env",
+      "sha256": "a350fd4833cfd628b72495873754357082fe19204dbd8aa95e79b7420d06cc5e",
+      "collected_at": "2026-03-10T08:39:46.217225",
+      "category": "environment",
+      "size_bytes": 529
+    },
+    {
+      "original_path": "C:\\Users\\UCHE\\my-qwen-project\\PROJECTS\\ResidentCement\\backend\\services\\payment-service\\.env.example",
+      "evidence_path": "C:\\Users\\UCHE\\my-qwen-project\\PROJECTS\\ResidentCement\\.audit\\evidence\\environment\\.env.example",
+      "sha256": "0ebddde9c8dc50807ea336f72d4a2146263dfbec4b69756cd4331e3c62a2f731",
+      "collected_at": "2026-03-10T08:39:46.222136",
+      "category": "environment",
+      "size_bytes": 403
+    },
+    {
+      "original_path": "C:\\Users\\UCHE\\my-qwen-project\\PROJECTS\\ResidentCement\\backend\\services\\pricing-service\\.env",
+      "evidence_path": "C:\\Users\\UCHE\\my-qwen-project\\PROJECTS\\ResidentCement\\.audit\\evidence\\environment\\.env",
+      "sha256": "772bdc4af1727af9facbffd31868889edfb3db471cdf71cd659fbb6dfaeb482a",
+      "collected_at": "2026-03-10T08:39:46.227299",
+      "category": "environment",
+      "size_bytes": 408
+    },
+    {
+      "original_path": "C:\\Users\\UCHE\\my-qwen-project\\PROJECTS\\ResidentCement\\backend\\services\\pricing-service\\.env.example",
+      "evidence_path": "C:\\Users\\UCHE\\my-qwen-project\\PROJECTS\\ResidentCement\\.audit\\evidence\\environment\\.env.example",
+      "sha256": "4ead06b17cb2e65a87ec6da2829517dc0b9a15329e7bfa59d02ea37ce6d9499b",
+      "collected_at": "2026-03-10T08:39:46.232778",
+      "category": "environment",
+      "size_bytes": 290
+    },
+    {
+      "original_path": "C:\\Users\\UCHE\\my-qwen-project\\PROJECTS\\ResidentCement\\backend\\services\\product-service\\.env",
+      "evidence_path": "C:\\Users\\UCHE\\my-qwen-project\\PROJECTS\\ResidentCement\\.audit\\evidence\\environment\\.env",
+      "sha256": "7c76e7db79d61f84770dcb26b5a4fec2b406d1f7ad27b0eb97f2f9252738e3ca",
+      "collected_at": "2026-03-10T08:39:46.236918",
+      "category": "environment",
+      "size_bytes": 408
+    },
+    {
+      "original_path": "C:\\Users\\UCHE\\my-qwen-project\\PROJECTS\\ResidentCement\\backend\\services\\product-service\\.env.example",
+      "evidence_path": "C:\\Users\\UCHE\\my-qwen-project\\PROJECTS\\ResidentCement\\.audit\\evidence\\environment\\.env.example",
+      "sha256": "d8dfdc454c482decce4c7c97e5d236f046476a821fec44a4bd5683b3016cec36",
+      "collected_at": "2026-03-10T08:39:46.241800",
+      "category": "environment",
+      "size_bytes": 201
+    },
+    {
+      "original_path": "C:\\Users\\UCHE\\my-qwen-project\\PROJECTS\\ResidentCement\\.audit\\hashes\\.env.example.sha256",
+      "evidence_path": "C:\\Users\\UCHE\\my-qwen-project\\PROJECTS\\ResidentCement\\.audit\\evidence\\environment\\.env.example.sha256",
+      "sha256": "409fa7176ab290e4ff4a710085cb98f41f850aa1db7b14b09502e41c0fa44b78",
+      "collected_at": "2026-03-10T08:39:46.251849",
+      "category": "environment",
+      "size_bytes": 80
+    },
+    {
+      "original_path": "C:\\Users\\UCHE\\my-qwen-project\\PROJECTS\\ResidentCement\\.audit\\hashes\\.env.example.sha256.sha256",
+      "evidence_path": "C:\\Users\\UCHE\\my-qwen-project\\PROJECTS\\ResidentCement\\.audit\\evidence\\environment\\.env.example.sha256.sha256",
+      "sha256": "58891e1da7e91001ca4bf87bff843118d6fcd15118e6922e58736a2112361319",
+      "collected_at": "2026-03-10T08:39:46.256723",
+      "category": "environment",
+      "size_bytes": 87
+    },
+    {
+      "original_path": "C:\\Users\\UCHE\\my-qwen-project\\PROJECTS\\ResidentCement\\.audit\\hashes\\.env.sha256",
+      "evidence_path": "C:\\Users\\UCHE\\my-qwen-project\\PROJECTS\\ResidentCement\\.audit\\evidence\\environment\\.env.sha256",
+      "sha256": "ee3b36b5279c4ee75beb60176b653f19df35ef7030aaa80380306968ddd804a2",
+      "collected_at": "2026-03-10T08:39:46.261176",
+      "category": "environment",
+      "size_bytes": 72
+    },
+    {
+      "original_path": "C:\\Users\\UCHE\\my-qwen-project\\PROJECTS\\ResidentCement\\.audit\\hashes\\.env.sha256.sha256",
+      "evidence_path": "C:\\Users\\UCHE\\my-qwen-project\\PROJECTS\\ResidentCement\\.audit\\evidence\\environment\\.env.sha256.sha256",
+      "sha256": "90a847c3207d4eee46a940ba74b8cfe84e1d4ee9f65b0db5b645f1ec94accb2c",
+      "collected_at": "2026-03-10T08:39:46.269200",
+      "category": "environment",
+      "size_bytes": 79
+    },
+    {
+      "original_path": "C:\\Users\\UCHE\\my-qwen-project\\PROJECTS\\ResidentCement\\.github\\workflows\\cd.yml",
+      "evidence_path": "C:\\Users\\UCHE\\my-qwen-project\\PROJECTS\\ResidentCement\\.audit\\evidence\\github_actions\\cd.yml",
+      "sha256": "2adeafd4187b5dd8e06f2097578649ad223e01e8c63d94fab6b0b4117855bf1f",
+      "collected_at": "2026-03-10T08:39:46.283278",
+      "category": "github_actions",
+      "size_bytes": 3570
+    },
+    {
+      "original_path": "C:\\Users\\UCHE\\my-qwen-project\\PROJECTS\\ResidentCement\\.github\\workflows\\ci-cd.yml",
+      "evidence_path": "C:\\Users\\UCHE\\my-qwen-project\\PROJECTS\\ResidentCement\\.audit\\evidence\\github_actions\\ci-cd.yml",
+      "sha256": "2bba600c20fc3719519c32f4e2744e82a6d54f84e939af373c3fa7395d98d332",
+      "collected_at": "2026-03-10T08:39:46.290678",
+      "category": "github_actions",
+      "size_bytes": 14944
+    },
+    {
+      "original_path": "C:\\Users\\UCHE\\my-qwen-project\\PROJECTS\\ResidentCement\\.github\\workflows\\ci.yml",
+      "evidence_path": "C:\\Users\\UCHE\\my-qwen-project\\PROJECTS\\ResidentCement\\.audit\\evidence\\github_actions\\ci.yml",
+      "sha256": "23350e37d8e240f5c14f9436a204c47c0800cee03f8eb7ea4368b2ed76077bf3",
+      "collected_at": "2026-03-10T08:39:46.297365",
+      "category": "github_actions",
+      "size_bytes": 5587
+    }
+  ]
+}

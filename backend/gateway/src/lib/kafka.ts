@@ -5,9 +5,9 @@
  */
 
 import { Kafka, Producer, logLevel } from 'kafkajs';
-import { createLogger } from './utils/logger';
+import { createLogger } from '../utils/logger';
 
-const logger = createLogger('event-publisher');
+const logger = createLogger({ service: 'event-publisher' });
 
 const kafka = new Kafka({
   clientId: 'resident-cement-events',

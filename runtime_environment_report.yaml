@@ -1,0 +1,24 @@
+﻿runtime_environment:
+  generated_at_utc: '2026-03-08T19:17:41.3779147Z'
+  project_root: 'C:/Users/UCHE/my-qwen-project/PROJECTS/ResidentCement'
+  runtimes:
+    node: 'v24.12.0'
+    python: 'python_missing'
+    cargo: 'cargo_missing'
+    go: 'go_missing'
+  package_manager_indicators:
+    package_json: true
+    package_lock_json: true
+    yarn_lock: false
+    pnpm_lock_yaml: false
+    requirements_txt: false
+    pyproject_toml: false
+    cargo_toml: false
+    go_mod: false
+  forensic_coverage:
+    files_hashed: 129155
+    total_size_bytes: 2798983624
+    unavailable_hashes: 6
+  build_artifacts:
+    - 'backend/gateway/dist'
+    - 'backend/shared/kernel/dist'

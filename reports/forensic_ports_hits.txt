@@ -1,0 +1,177 @@
+﻿C:\Users\UCHE\my-qwen-project\PROJECTS\ResidentCement\backend\gateway\dist\lib\kafka.js:14:brokers: (process.env.KAFKA_BROKERS || 'localhost:9092').split(','),
+C:\Users\UCHE\my-qwen-project\PROJECTS\ResidentCement\backend\gateway\dist\lib\swagger.js:111:url: 'http://localhost:3001',
+C:\Users\UCHE\my-qwen-project\PROJECTS\ResidentCement\backend\gateway\dist\lib\swagger.js:173:authorizationUrl: 'http://localhost:8180/realms/resident-cement/protocol/openid-connect/auth',
+C:\Users\UCHE\my-qwen-project\PROJECTS\ResidentCement\backend\gateway\dist\lib\swagger.js:174:tokenUrl: 'http://localhost:8180/realms/resident-cement/protocol/openid-connect/token',
+C:\Users\UCHE\my-qwen-project\PROJECTS\ResidentCement\backend\gateway\dist\lib\swagger.js:184:tokenUrl: 'http://localhost:8180/realms/resident-cement/protocol/openid-connect/token',
+C:\Users\UCHE\my-qwen-project\PROJECTS\ResidentCement\backend\gateway\dist\routes\inventory.js:15:const INVENTORY_SERVICE_URL = process.env.INVENTORY_SERVICE_URL || "http://localhost:3003";
+C:\Users\UCHE\my-qwen-project\PROJECTS\ResidentCement\backend\gateway\dist\routes\payment.js:16:const PAYMENT_SERVICE_URL = process.env.PAYMENT_SERVICE_URL || "http://localhost:3005";
+C:\Users\UCHE\my-qwen-project\PROJECTS\ResidentCement\backend\gateway\dist\routes\pricing.js:16:const PRICING_SERVICE_URL = process.env.PRICING_SERVICE_URL || "http://localhost:3004";
+C:\Users\UCHE\my-qwen-project\PROJECTS\ResidentCement\backend\gateway\dist\index.js:37:const PORT = process.env.PORT || 3001;
+C:\Users\UCHE\my-qwen-project\PROJECTS\ResidentCement\backend\gateway\dist\index.js:53:process.env.CORS_ORIGIN || "http://localhost:3000",
+C:\Users\UCHE\my-qwen-project\PROJECTS\ResidentCement\backend\gateway\dist\index.js:54:"http://localhost:3000",
+C:\Users\UCHE\my-qwen-project\PROJECTS\ResidentCement\backend\gateway\dist\index.js:55:"http://localhost:8180", // Keycloak
+C:\Users\UCHE\my-qwen-project\PROJECTS\ResidentCement\backend\gateway\dist\index.js:189:const server = app.listen(PORT, () => {
+C:\Users\UCHE\my-qwen-project\PROJECTS\ResidentCement\backend\gateway\src\lib\kafka.ts:14:brokers: (process.env.KAFKA_BROKERS || 'localhost:9092').split(','),
+C:\Users\UCHE\my-qwen-project\PROJECTS\ResidentCement\backend\gateway\src\lib\swagger.ts:111:url: 'http://localhost:3001',
+C:\Users\UCHE\my-qwen-project\PROJECTS\ResidentCement\backend\gateway\src\lib\swagger.ts:173:authorizationUrl: 'http://localhost:8180/realms/resident-cement/protocol/openid-connect/auth',
+C:\Users\UCHE\my-qwen-project\PROJECTS\ResidentCement\backend\gateway\src\lib\swagger.ts:174:tokenUrl: 'http://localhost:8180/realms/resident-cement/protocol/openid-connect/token',
+C:\Users\UCHE\my-qwen-project\PROJECTS\ResidentCement\backend\gateway\src\lib\swagger.ts:184:tokenUrl: 'http://localhost:8180/realms/resident-cement/protocol/openid-connect/token',
+C:\Users\UCHE\my-qwen-project\PROJECTS\ResidentCement\backend\gateway\src\routes\inventory.ts:10:const INVENTORY_SERVICE_URL = process.env.INVENTORY_SERVICE_URL || "http://localhost:3003";
+C:\Users\UCHE\my-qwen-project\PROJECTS\ResidentCement\backend\gateway\src\routes\payment.ts:11:const PAYMENT_SERVICE_URL = process.env.PAYMENT_SERVICE_URL || "http://localhost:3005";
+C:\Users\UCHE\my-qwen-project\PROJECTS\ResidentCement\backend\gateway\src\routes\pricing.ts:11:const PRICING_SERVICE_URL = process.env.PRICING_SERVICE_URL || "http://localhost:3004";
+C:\Users\UCHE\my-qwen-project\PROJECTS\ResidentCement\backend\gateway\src\index.ts:44:const PORT = process.env.PORT || 3001;
+C:\Users\UCHE\my-qwen-project\PROJECTS\ResidentCement\backend\gateway\src\index.ts:65:process.env.CORS_ORIGIN || "http://localhost:3000",
+C:\Users\UCHE\my-qwen-project\PROJECTS\ResidentCement\backend\gateway\src\index.ts:66:"http://localhost:3000",
+C:\Users\UCHE\my-qwen-project\PROJECTS\ResidentCement\backend\gateway\src\index.ts:67:"http://localhost:8180", // Keycloak
+C:\Users\UCHE\my-qwen-project\PROJECTS\ResidentCement\backend\gateway\src\index.ts:225:const server = app.listen(PORT, () => {
+C:\Users\UCHE\my-qwen-project\PROJECTS\ResidentCement\backend\services\customer-service\src\index.ts:49:const PORT = parseInt(process.env.PORT || '3002', 10);
+C:\Users\UCHE\my-qwen-project\PROJECTS\ResidentCement\backend\services\customer-service\src\index.ts:618:const server = app.listen(PORT, () => {
+C:\Users\UCHE\my-qwen-project\PROJECTS\ResidentCement\backend\services\events\src\consumer.ts:23:brokers: (process.env.KAFKA_BROKERS || 'localhost:29092').split(','),
+C:\Users\UCHE\my-qwen-project\PROJECTS\ResidentCement\backend\services\events\src\index.ts:26:brokers: (process.env.KAFKA_BROKERS || "localhost:29092").split(","),
+C:\Users\UCHE\my-qwen-project\PROJECTS\ResidentCement\backend\services\inventory-service\src\index.ts:25:const PORT = parseInt(process.env.PORT || '3003', 10);
+C:\Users\UCHE\my-qwen-project\PROJECTS\ResidentCement\backend\services\inventory-service\src\index.ts:211:const server = app.listen(PORT, () => { logger.info(`Inventory Service running on port ${PORT}`); logger.info(`Health: http://localhost:${PORT}/health`); });
+C:\Users\UCHE\my-qwen-project\PROJECTS\ResidentCement\backend\services\order-service\src\index.ts:43:const PORT = parseInt(process.env.PORT || '3007', 10);
+C:\Users\UCHE\my-qwen-project\PROJECTS\ResidentCement\backend\services\order-service\src\index.ts:330:const server = app.listen(PORT, () => {
+C:\Users\UCHE\my-qwen-project\PROJECTS\ResidentCement\backend\services\payment-service\src\index.ts:26:const PORT = parseInt(process.env.PORT || '3005', 10);
+C:\Users\UCHE\my-qwen-project\PROJECTS\ResidentCement\backend\services\payment-service\src\index.ts:271:const server = app.listen(PORT, () => { logger.info(`Payment Service running on port ${PORT}`); logger.info(`Health: http://localhost:${PORT}/health`); });
+C:\Users\UCHE\my-qwen-project\PROJECTS\ResidentCement\backend\services\pricing-service\src\index.ts:25:const PORT = parseInt(process.env.PORT || '3004', 10);
+C:\Users\UCHE\my-qwen-project\PROJECTS\ResidentCement\backend\services\pricing-service\src\index.ts:329:const server = app.listen(PORT, () => { logger.info(`Pricing Service running on port ${PORT}`); logger.info(`Health: http://localhost:${PORT}/health`); });
+C:\Users\UCHE\my-qwen-project\PROJECTS\ResidentCement\backend\services\product-service\src\index.ts:25:const PORT = parseInt(process.env.PORT || '3006', 10);
+C:\Users\UCHE\my-qwen-project\PROJECTS\ResidentCement\backend\services\product-service\src\index.ts:167:const server = app.listen(PORT, () => { logger.info(`Product Service running on port ${PORT}`); logger.info(`Health: http://localhost:${PORT}/health`); });
+C:\Users\UCHE\my-qwen-project\PROJECTS\ResidentCement\backend\shared\kafka-client\src\index.ts:51:brokers: (process.env.KAFKA_BROKERS || 'localhost:29092').split(','),
+C:\Users\UCHE\my-qwen-project\PROJECTS\ResidentCement\backend\shared\kernel\dist\middleware.js:185:allowedOrigins: ['http://localhost:3000'],
+C:\Users\UCHE\my-qwen-project\PROJECTS\ResidentCement\backend\shared\kernel\src\middleware.ts:261:allowedOrigins: ['http://localhost:3000'],
+C:\Users\UCHE\my-qwen-project\PROJECTS\ResidentCement\frontend\apps\admin-dashboard\src\lib\api.ts:7:const API_BASE_URL = process.env.NEXT_PUBLIC_API_URL || 'http://localhost:3001/api/v1';
+C:\Users\UCHE\my-qwen-project\PROJECTS\ResidentCement\frontend\apps\distributor-portal\src\components\ui\toaster.tsx:11:const ToastViewport = React.forwardRef<
+C:\Users\UCHE\my-qwen-project\PROJECTS\ResidentCement\frontend\apps\distributor-portal\src\lib\api.ts:3:const API_URL = process.env.NEXT_PUBLIC_API_URL || 'http://localhost:3001';
+C:\Users\UCHE\my-qwen-project\PROJECTS\ResidentCement\frontend\apps\distributor-portal\next.config.js:8:API_URL: process.env.API_URL || 'http://localhost:3001',
+C:\Users\UCHE\my-qwen-project\PROJECTS\ResidentCement\frontend\apps\distributor-portal\next.config.js:9:KEYCLOAK_URL: process.env.KEYCLOAK_URL || 'http://localhost:8180',
+C:\Users\UCHE\my-qwen-project\PROJECTS\ResidentCement\infrastructure\docker\grafana\dashboards\api-gateway.json:16:"url": "http://localhost:3001/api-docs"
+C:\Users\UCHE\my-qwen-project\PROJECTS\ResidentCement\infrastructure\docker\grafana\provisioning\datasources\datasources.yml:8:url: http://prometheus:9090
+C:\Users\UCHE\my-qwen-project\PROJECTS\ResidentCement\infrastructure\docker\grafana\provisioning\datasources\datasources.yml:20:url: http://loki:3100
+C:\Users\UCHE\my-qwen-project\PROJECTS\ResidentCement\infrastructure\docker\grafana\provisioning\datasources\datasources.yml:35:url: http://tempo:3200
+C:\Users\UCHE\my-qwen-project\PROJECTS\ResidentCement\infrastructure\docker\grafana\provisioning\datasources\datasources.yml:64:url: http://alertmanager:9093
+C:\Users\UCHE\my-qwen-project\PROJECTS\ResidentCement\infrastructure\docker\docker-compose.monitoring.yml:31:test: ["CMD", "wget", "-q", "--spider", "http://localhost:9090/-/healthy"]
+C:\Users\UCHE\my-qwen-project\PROJECTS\ResidentCement\infrastructure\docker\docker-compose.monitoring.yml:49:GF_SERVER_ROOT_URL: http://localhost:3200
+C:\Users\UCHE\my-qwen-project\PROJECTS\ResidentCement\infrastructure\docker\docker-compose.monitoring.yml:65:test: ["CMD", "wget", "-q", "--spider", "http://localhost:3000/api/health"]
+C:\Users\UCHE\my-qwen-project\PROJECTS\ResidentCement\infrastructure\docker\docker-compose.monitoring.yml:86:test: ["CMD", "wget", "-q", "--spider", "http://localhost:3100/ready"]
+C:\Users\UCHE\my-qwen-project\PROJECTS\ResidentCement\infrastructure\docker\docker-compose.monitoring.yml:126:test: ["CMD", "wget", "-q", "--spider", "http://localhost:3200/ready"]
+C:\Users\UCHE\my-qwen-project\PROJECTS\ResidentCement\infrastructure\docker\docker-compose.monitoring.yml:146:- '--web.external-url=http://localhost:9093'
+C:\Users\UCHE\my-qwen-project\PROJECTS\ResidentCement\infrastructure\docker\docker-compose.monitoring.yml:153:test: ["CMD", "wget", "-q", "--spider", "http://localhost:9093/-/healthy"]
+C:\Users\UCHE\my-qwen-project\PROJECTS\ResidentCement\infrastructure\docker\docker-compose.yml:58:ZOOKEEPER_CLIENT_PORT: 2181
+C:\Users\UCHE\my-qwen-project\PROJECTS\ResidentCement\infrastructure\docker\docker-compose.yml:75:KAFKA_ADVERTISED_LISTENERS: PLAINTEXT://kafka:29092,PLAINTEXT_HOST://localhost:9092
+C:\Users\UCHE\my-qwen-project\PROJECTS\ResidentCement\infrastructure\docker\kong.yml:6:url: http://customer-service:3001
+C:\Users\UCHE\my-qwen-project\PROJECTS\ResidentCement\infrastructure\docker\kong.yml:25:url: http://order-service:3002
+C:\Users\UCHE\my-qwen-project\PROJECTS\ResidentCement\infrastructure\docker\kong.yml:39:url: http://product-service:3003
+C:\Users\UCHE\my-qwen-project\PROJECTS\ResidentCement\infrastructure\docker\kong.yml:52:url: http://inventory-service:3004
+C:\Users\UCHE\my-qwen-project\PROJECTS\ResidentCement\infrastructure\docker\kong.yml:66:url: http://pricing-service:3005
+C:\Users\UCHE\my-qwen-project\PROJECTS\ResidentCement\infrastructure\docker\kong.yml:80:url: http://payment-service:3006
+C:\Users\UCHE\my-qwen-project\PROJECTS\ResidentCement\infrastructure\docker\kong.yml:93:url: http://frontend:3000
+C:\Users\UCHE\my-qwen-project\PROJECTS\ResidentCement\infrastructure\docker\prometheus.yml:35:- targets: ['localhost:9090']
+C:\Users\UCHE\my-qwen-project\PROJECTS\ResidentCement\infrastructure\docker\prometheus.yml:133:- http://host.docker.internal:3001/health
+C:\Users\UCHE\my-qwen-project\PROJECTS\ResidentCement\infrastructure\docker\prometheus.yml:134:- http://host.docker.internal:3001/health/ready
+C:\Users\UCHE\my-qwen-project\PROJECTS\ResidentCement\infrastructure\docker\prometheus.yml:158:#   - url: 'http://cortex:9009/api/v1/push'
+C:\Users\UCHE\my-qwen-project\PROJECTS\ResidentCement\infrastructure\docker\prometheus.yml:167:#   - url: 'http://cortex:9009/api/v1/read'
+C:\Users\UCHE\my-qwen-project\PROJECTS\ResidentCement\infrastructure\k8s\api-gateway.yaml:33:prometheus.io/port: "3001"
+C:\Users\UCHE\my-qwen-project\PROJECTS\ResidentCement\infrastructure\k8s\api-gateway.yaml:47:containerPort: 3001
+C:\Users\UCHE\my-qwen-project\PROJECTS\ResidentCement\infrastructure\k8s\api-gateway.yaml:71:value: "http://keycloak:8080"
+C:\Users\UCHE\my-qwen-project\PROJECTS\ResidentCement\infrastructure\k8s\api-gateway.yaml:102:port: 3001
+C:\Users\UCHE\my-qwen-project\PROJECTS\ResidentCement\infrastructure\k8s\api-gateway.yaml:110:port: 3001
+C:\Users\UCHE\my-qwen-project\PROJECTS\ResidentCement\infrastructure\k8s\api-gateway.yaml:118:port: 3001
+C:\Users\UCHE\my-qwen-project\PROJECTS\ResidentCement\infrastructure\k8s\api-gateway.yaml:167:prometheus.io/port: "3001"
+C:\Users\UCHE\my-qwen-project\PROJECTS\ResidentCement\infrastructure\k8s\api-gateway.yaml:171:- port: 80
+C:\Users\UCHE\my-qwen-project\PROJECTS\ResidentCement\infrastructure\k8s\api-gateway.yaml:172:targetPort: 3001
+C:\Users\UCHE\my-qwen-project\PROJECTS\ResidentCement\infrastructure\k8s\api-gateway.yaml:279:port: 3001
+C:\Users\UCHE\my-qwen-project\PROJECTS\ResidentCement\infrastructure\k8s\api-gateway.yaml:285:port: 5432  # PostgreSQL
+C:\Users\UCHE\my-qwen-project\PROJECTS\ResidentCement\infrastructure\k8s\api-gateway.yaml:287:port: 6379  # Redis
+C:\Users\UCHE\my-qwen-project\PROJECTS\ResidentCement\infrastructure\k8s\api-gateway.yaml:289:port: 9092  # Kafka
+C:\Users\UCHE\my-qwen-project\PROJECTS\ResidentCement\infrastructure\k8s\api-gateway.yaml:291:port: 8080  # Keycloak
+C:\Users\UCHE\my-qwen-project\PROJECTS\ResidentCement\infrastructure\k8s\api-gateway.yaml:293:port: 9000  # MinIO
+C:\Users\UCHE\my-qwen-project\PROJECTS\ResidentCement\infrastructure\k8s\api-gateway.yaml:298:port: 53  # DNS
+C:\Users\UCHE\my-qwen-project\PROJECTS\ResidentCement\infrastructure\k8s\infrastructure.yaml:32:- containerPort: 5432
+C:\Users\UCHE\my-qwen-project\PROJECTS\ResidentCement\infrastructure\k8s\infrastructure.yaml:97:- port: 5432
+C:\Users\UCHE\my-qwen-project\PROJECTS\ResidentCement\infrastructure\k8s\infrastructure.yaml:98:targetPort: 5432
+C:\Users\UCHE\my-qwen-project\PROJECTS\ResidentCement\infrastructure\k8s\infrastructure.yaml:115:- port: 5432
+C:\Users\UCHE\my-qwen-project\PROJECTS\ResidentCement\infrastructure\k8s\infrastructure.yaml:116:targetPort: 5432
+C:\Users\UCHE\my-qwen-project\PROJECTS\ResidentCement\infrastructure\k8s\infrastructure.yaml:149:- containerPort: 27017
+C:\Users\UCHE\my-qwen-project\PROJECTS\ResidentCement\infrastructure\k8s\infrastructure.yaml:210:- port: 27017
+C:\Users\UCHE\my-qwen-project\PROJECTS\ResidentCement\infrastructure\k8s\infrastructure.yaml:211:targetPort: 27017
+C:\Users\UCHE\my-qwen-project\PROJECTS\ResidentCement\infrastructure\k8s\infrastructure.yaml:228:- port: 27017
+C:\Users\UCHE\my-qwen-project\PROJECTS\ResidentCement\infrastructure\k8s\infrastructure.yaml:229:targetPort: 27017
+C:\Users\UCHE\my-qwen-project\PROJECTS\ResidentCement\infrastructure\k8s\infrastructure.yaml:266:- containerPort: 6379
+C:\Users\UCHE\my-qwen-project\PROJECTS\ResidentCement\infrastructure\k8s\infrastructure.yaml:314:- port: 6379
+C:\Users\UCHE\my-qwen-project\PROJECTS\ResidentCement\infrastructure\k8s\infrastructure.yaml:315:targetPort: 6379
+C:\Users\UCHE\my-qwen-project\PROJECTS\ResidentCement\infrastructure\k8s\infrastructure.yaml:332:- port: 6379
+C:\Users\UCHE\my-qwen-project\PROJECTS\ResidentCement\infrastructure\k8s\infrastructure.yaml:333:targetPort: 6379
+C:\Users\UCHE\my-qwen-project\PROJECTS\ResidentCement\infrastructure\k8s\infrastructure.yaml:366:- containerPort: 9092
+C:\Users\UCHE\my-qwen-project\PROJECTS\ResidentCement\infrastructure\k8s\infrastructure.yaml:398:- localhost:9092
+C:\Users\UCHE\my-qwen-project\PROJECTS\ResidentCement\infrastructure\k8s\infrastructure.yaml:406:- localhost:9092
+C:\Users\UCHE\my-qwen-project\PROJECTS\ResidentCement\infrastructure\k8s\infrastructure.yaml:431:- port: 9092
+C:\Users\UCHE\my-qwen-project\PROJECTS\ResidentCement\infrastructure\k8s\infrastructure.yaml:432:targetPort: 9092
+C:\Users\UCHE\my-qwen-project\PROJECTS\ResidentCement\infrastructure\k8s\infrastructure.yaml:462:- containerPort: 2181
+C:\Users\UCHE\my-qwen-project\PROJECTS\ResidentCement\infrastructure\k8s\infrastructure.yaml:523:- port: 2181
+C:\Users\UCHE\my-qwen-project\PROJECTS\ResidentCement\infrastructure\k8s\infrastructure.yaml:524:targetPort: 2181
+C:\Users\UCHE\my-qwen-project\PROJECTS\ResidentCement\infrastructure\k8s\infrastructure.yaml:561:- containerPort: 9000
+C:\Users\UCHE\my-qwen-project\PROJECTS\ResidentCement\infrastructure\k8s\infrastructure.yaml:563:- containerPort: 9001
+C:\Users\UCHE\my-qwen-project\PROJECTS\ResidentCement\infrastructure\k8s\infrastructure.yaml:589:port: 9000
+C:\Users\UCHE\my-qwen-project\PROJECTS\ResidentCement\infrastructure\k8s\infrastructure.yaml:595:port: 9000
+C:\Users\UCHE\my-qwen-project\PROJECTS\ResidentCement\infrastructure\k8s\infrastructure.yaml:620:- port: 9000
+C:\Users\UCHE\my-qwen-project\PROJECTS\ResidentCement\infrastructure\k8s\infrastructure.yaml:621:targetPort: 9000
+C:\Users\UCHE\my-qwen-project\PROJECTS\ResidentCement\infrastructure\k8s\infrastructure.yaml:623:- port: 9001
+C:\Users\UCHE\my-qwen-project\PROJECTS\ResidentCement\infrastructure\k8s\infrastructure.yaml:624:targetPort: 9001
+C:\Users\UCHE\my-qwen-project\PROJECTS\ResidentCement\infrastructure\k8s\infrastructure.yaml:641:- port: 9000
+C:\Users\UCHE\my-qwen-project\PROJECTS\ResidentCement\infrastructure\k8s\infrastructure.yaml:642:targetPort: 9000
+C:\Users\UCHE\my-qwen-project\PROJECTS\ResidentCement\infrastructure\k8s\infrastructure.yaml:644:- port: 9001
+C:\Users\UCHE\my-qwen-project\PROJECTS\ResidentCement\infrastructure\k8s\infrastructure.yaml:645:targetPort: 9001
+C:\Users\UCHE\my-qwen-project\PROJECTS\ResidentCement\infrastructure\k8s\ingress.yaml:85:port:
+C:\Users\UCHE\my-qwen-project\PROJECTS\ResidentCement\infrastructure\k8s\ingress.yaml:97:port:
+C:\Users\UCHE\my-qwen-project\PROJECTS\ResidentCement\infrastructure\k8s\ingress.yaml:108:port:
+C:\Users\UCHE\my-qwen-project\PROJECTS\ResidentCement\infrastructure\k8s\ingress.yaml:120:port:
+C:\Users\UCHE\my-qwen-project\PROJECTS\ResidentCement\infrastructure\k8s\ingress.yaml:132:port:
+C:\Users\UCHE\my-qwen-project\PROJECTS\ResidentCement\infrastructure\k8s\ingress.yaml:167:port:
+C:\Users\UCHE\my-qwen-project\PROJECTS\ResidentCement\infrastructure\k8s\ingress.yaml:176:port:
+C:\Users\UCHE\my-qwen-project\PROJECTS\ResidentCement\infrastructure\k8s\ingress.yaml:185:port:
+C:\Users\UCHE\my-qwen-project\PROJECTS\ResidentCement\infrastructure\k8s\ingress.yaml:194:port:
+C:\Users\UCHE\my-qwen-project\PROJECTS\ResidentCement\infrastructure\k8s\microservices.yaml:28:prometheus.io/port: "3002"
+C:\Users\UCHE\my-qwen-project\PROJECTS\ResidentCement\infrastructure\k8s\microservices.yaml:35:- containerPort: 3002
+C:\Users\UCHE\my-qwen-project\PROJECTS\ResidentCement\infrastructure\k8s\microservices.yaml:65:port: 3002
+C:\Users\UCHE\my-qwen-project\PROJECTS\ResidentCement\infrastructure\k8s\microservices.yaml:71:port: 3002
+C:\Users\UCHE\my-qwen-project\PROJECTS\ResidentCement\infrastructure\k8s\microservices.yaml:85:- port: 80
+C:\Users\UCHE\my-qwen-project\PROJECTS\ResidentCement\infrastructure\k8s\microservices.yaml:86:targetPort: 3002
+C:\Users\UCHE\my-qwen-project\PROJECTS\ResidentCement\infrastructure\k8s\microservices.yaml:114:prometheus.io/port: "3007"
+C:\Users\UCHE\my-qwen-project\PROJECTS\ResidentCement\infrastructure\k8s\microservices.yaml:121:- containerPort: 3007
+C:\Users\UCHE\my-qwen-project\PROJECTS\ResidentCement\infrastructure\k8s\microservices.yaml:151:port: 3007
+C:\Users\UCHE\my-qwen-project\PROJECTS\ResidentCement\infrastructure\k8s\microservices.yaml:157:port: 3007
+C:\Users\UCHE\my-qwen-project\PROJECTS\ResidentCement\infrastructure\k8s\microservices.yaml:171:- port: 80
+C:\Users\UCHE\my-qwen-project\PROJECTS\ResidentCement\infrastructure\k8s\microservices.yaml:172:targetPort: 3007
+C:\Users\UCHE\my-qwen-project\PROJECTS\ResidentCement\infrastructure\k8s\microservices.yaml:200:prometheus.io/port: "3006"
+C:\Users\UCHE\my-qwen-project\PROJECTS\ResidentCement\infrastructure\k8s\microservices.yaml:207:- containerPort: 3006
+C:\Users\UCHE\my-qwen-project\PROJECTS\ResidentCement\infrastructure\k8s\microservices.yaml:237:port: 3006
+C:\Users\UCHE\my-qwen-project\PROJECTS\ResidentCement\infrastructure\k8s\microservices.yaml:243:port: 3006
+C:\Users\UCHE\my-qwen-project\PROJECTS\ResidentCement\infrastructure\k8s\microservices.yaml:257:- port: 80
+C:\Users\UCHE\my-qwen-project\PROJECTS\ResidentCement\infrastructure\k8s\microservices.yaml:258:targetPort: 3006
+C:\Users\UCHE\my-qwen-project\PROJECTS\ResidentCement\infrastructure\k8s\microservices.yaml:286:prometheus.io/port: "3003"
+C:\Users\UCHE\my-qwen-project\PROJECTS\ResidentCement\infrastructure\k8s\microservices.yaml:293:- containerPort: 3003
+C:\Users\UCHE\my-qwen-project\PROJECTS\ResidentCement\infrastructure\k8s\microservices.yaml:323:port: 3003
+C:\Users\UCHE\my-qwen-project\PROJECTS\ResidentCement\infrastructure\k8s\microservices.yaml:329:port: 3003
+C:\Users\UCHE\my-qwen-project\PROJECTS\ResidentCement\infrastructure\k8s\microservices.yaml:343:- port: 80
+C:\Users\UCHE\my-qwen-project\PROJECTS\ResidentCement\infrastructure\k8s\microservices.yaml:344:targetPort: 3003
+C:\Users\UCHE\my-qwen-project\PROJECTS\ResidentCement\infrastructure\k8s\microservices.yaml:372:prometheus.io/port: "3005"
+C:\Users\UCHE\my-qwen-project\PROJECTS\ResidentCement\infrastructure\k8s\microservices.yaml:379:- containerPort: 3005
+C:\Users\UCHE\my-qwen-project\PROJECTS\ResidentCement\infrastructure\k8s\microservices.yaml:414:port: 3005
+C:\Users\UCHE\my-qwen-project\PROJECTS\ResidentCement\infrastructure\k8s\microservices.yaml:420:port: 3005
+C:\Users\UCHE\my-qwen-project\PROJECTS\ResidentCement\infrastructure\k8s\microservices.yaml:434:- port: 80
+C:\Users\UCHE\my-qwen-project\PROJECTS\ResidentCement\infrastructure\k8s\microservices.yaml:435:targetPort: 3005
+C:\Users\UCHE\my-qwen-project\PROJECTS\ResidentCement\infrastructure\k8s\microservices.yaml:463:prometheus.io/port: "3004"
+C:\Users\UCHE\my-qwen-project\PROJECTS\ResidentCement\infrastructure\k8s\microservices.yaml:470:- containerPort: 3004
+C:\Users\UCHE\my-qwen-project\PROJECTS\ResidentCement\infrastructure\k8s\microservices.yaml:500:port: 3004
+C:\Users\UCHE\my-qwen-project\PROJECTS\ResidentCement\infrastructure\k8s\microservices.yaml:506:port: 3004
+C:\Users\UCHE\my-qwen-project\PROJECTS\ResidentCement\infrastructure\k8s\microservices.yaml:520:- port: 80
+C:\Users\UCHE\my-qwen-project\PROJECTS\ResidentCement\infrastructure\k8s\microservices.yaml:521:targetPort: 3004
+C:\Users\UCHE\my-qwen-project\PROJECTS\ResidentCement\tests\e2e\src\distributor-portal.spec.ts:55:const response = await request.get("http://localhost:3001/health");
+C:\Users\UCHE\my-qwen-project\PROJECTS\ResidentCement\tests\e2e\src\distributor-portal.spec.ts:62:const response = await request.post("http://localhost:3001/api/v1/auth/login", {
+C:\Users\UCHE\my-qwen-project\PROJECTS\ResidentCement\tests\e2e\src\resident-cement.spec.ts:11:const BASE_URL = process.env.BASE_URL || 'http://localhost:3000';
+C:\Users\UCHE\my-qwen-project\PROJECTS\ResidentCement\tests\e2e\src\resident-cement.spec.ts:12:const API_URL = process.env.API_URL || 'http://localhost:3001';
+C:\Users\UCHE\my-qwen-project\PROJECTS\ResidentCement\tests\e2e\playwright.config.ts:21:baseURL: process.env.BASE_URL || 'http://localhost:3000',
+C:\Users\UCHE\my-qwen-project\PROJECTS\ResidentCement\tests\e2e\playwright.config.ts:59:url: 'http://localhost:3000/health',
+C:\Users\UCHE\my-qwen-project\PROJECTS\ResidentCement\tests\integration\playwright.config.ts:20:baseURL: process.env.API_BASE_URL || 'http://localhost:3001',

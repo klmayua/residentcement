@@ -1,0 +1,315 @@
+﻿{
+    "total_files":  129155,
+    "total_size_bytes":  2798983624,
+    "unavailable_hashes":  6,
+    "languages":  [
+                      {
+                          "language":  "js",
+                          "count":  62582
+                      },
+                      {
+                          "language":  "ts",
+                          "count":  20330
+                      },
+                      {
+                          "language":  "map",
+                          "count":  16862
+                      },
+                      {
+                          "language":  "json",
+                          "count":  7541
+                      },
+                      {
+                          "language":  "md",
+                          "count":  6054
+                      },
+                      {
+                          "language":  "unknown",
+                          "count":  4545
+                      },
+                      {
+                          "language":  "mjs",
+                          "count":  2391
+                      },
+                      {
+                          "language":  "cjs",
+                          "count":  1496
+                      },
+                      {
+                          "language":  "mts",
+                          "count":  1484
+                      },
+                      {
+                          "language":  "flow",
+                          "count":  1193
+                      },
+                      {
+                          "language":  "cts",
+                          "count":  925
+                      },
+                      {
+                          "language":  "yml",
+                          "count":  663
+                      },
+                      {
+                          "language":  "eslintrc",
+                          "count":  441
+                      },
+                      {
+                          "language":  "nycrc",
+                          "count":  330
+                      },
+                      {
+                          "language":  "jst",
+                          "count":  250
+                      },
+                      {
+                          "language":  "ps1",
+                          "count":  223
+                      },
+                      {
+                          "language":  "cmd",
+                          "count":  222
+                      },
+                      {
+                          "language":  "svg",
+                          "count":  169
+                      },
+                      {
+                          "language":  "txt",
+                          "count":  162
+                      },
+                      {
+                          "language":  "editorconfig",
+                          "count":  145
+                      },
+                      {
+                          "language":  "woff2",
+                          "count":  112
+                      },
+                      {
+                          "language":  "npmignore",
+                          "count":  111
+                      },
+                      {
+                          "language":  "tsx",
+                          "count":  94
+                      },
+                      {
+                          "language":  "markdown",
+                          "count":  65
+                      },
+                      {
+                          "language":  "sha256",
+                          "count":  60
+                      },
+                      {
+                          "language":  "gz",
+                          "count":  54
+                      },
+                      {
+                          "language":  "def",
+                          "count":  50
+                      },
+                      {
+                          "language":  "wasm",
+                          "count":  48
+                      },
+                      {
+                          "language":  "css",
+                          "count":  46
+                      },
+                      {
+                          "language":  "babelrc",
+                          "count":  37
+                      },
+                      {
+                          "language":  "gitattributes",
+                          "count":  37
+                      },
+                      {
+                          "language":  "html",
+                          "count":  32
+                      },
+                      {
+                          "language":  "bsd",
+                          "count":  24
+                      },
+                      {
+                          "language":  "png",
+                          "count":  23
+                      },
+                      {
+                          "language":  "bnf",
+                          "count":  22
+                      },
+                      {
+                          "language":  "woff",
+                          "count":  21
+                      },
+                      {
+                          "language":  "jshintrc",
+                          "count":  20
+                      },
+                      {
+                          "language":  "csv",
+                          "count":  19
+                      },
+                      {
+                          "language":  "snap",
+                          "count":  19
+                      },
+                      {
+                          "language":  "coffee",
+                          "count":  16
+                      },
+                      {
+                          "language":  "cc",
+                          "count":  14
+                      },
+                      {
+                          "language":  "lock",
+                          "count":  14
+                      },
+                      {
+                          "language":  "sample",
+                          "count":  14
+                      },
+                      {
+                          "language":  "node",
+                          "count":  14
+                      },
+                      {
+                          "language":  "exe",
+                          "count":  14
+                      },
+                      {
+                          "language":  "closure-compiler",
+                          "count":  13
+                      },
+                      {
+                          "language":  "yaml",
+                          "count":  13
+                      },
+                      {
+                          "language":  "esprima",
+                          "count":  13
+                      },
+                      {
+                          "language":  "h",
+                          "count":  12
+                      },
+                      {
+                          "language":  "gitkeep",
+                          "count":  11
+                      },
+                      {
+                          "language":  "py",
+                          "count":  11
+                      },
+                      {
+                          "language":  "go",
+                          "count":  10
+                      },
+                      {
+                          "language":  "php",
+                          "count":  10
+                      },
+                      {
+                          "language":  "tsbuildinfo",
+                          "count":  10
+                      },
+                      {
+                          "language":  "env",
+                          "count":  9
+                      },
+                      {
+                          "language":  "1",
+                          "count":  6
+                      },
+                      {
+                          "language":  "eslintignore",
+                          "count":  6
+                      },
+                      {
+                          "language":  "example",
+                          "count":  5
+                      },
+                      {
+                          "language":  "sh",
+                          "count":  4
+                      },
+                      {
+                          "language":  "dll",
+                          "count":  4
+                      },
+                      {
+                          "language":  "eslintcache",
+                          "count":  4
+                      },
+                      {
+                          "language":  "lintstagedrc",
+                          "count":  3
+                      },
+                      {
+                          "language":  "prisma",
+                          "count":  3
+                      },
+                      {
+                          "language":  "ts-jest-digest",
+                          "count":  3
+                      },
+                      {
+                          "language":  "gitmodules",
+                          "count":  2
+                      },
+                      {
+                          "language":  "nvmrc",
+                          "count":  2
+                      },
+                      {
+                          "language":  "ttf",
+                          "count":  2
+                      },
+                      {
+                          "language":  "gyp",
+                          "count":  2
+                      },
+                      {
+                          "language":  "gitignore",
+                          "count":  1
+                      },
+                      {
+                          "language":  "prettierrc",
+                          "count":  1
+                      },
+                      {
+                          "language":  "x",
+                          "count":  1
+                      },
+                      {
+                          "language":  "data",
+                          "count":  1
+                      },
+                      {
+                          "language":  "sql",
+                          "count":  1
+                      },
+                      {
+                          "language":  "nix",
+                          "count":  1
+                      },
+                      {
+                          "language":  "nojekyll",
+                          "count":  1
+                      },
+                      {
+                          "language":  "ico",
+                          "count":  1
+                      },
+                      {
+                          "language":  "gif",
+                          "count":  1
+                      }
+                  ]
+}

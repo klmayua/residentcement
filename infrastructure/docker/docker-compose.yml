@@ -7,7 +7,7 @@ services:
     container_name: resident-cement-postgres
     environment:
       POSTGRES_USER: resident_cement
-      POSTGRES_PASSWORD: dev_password_2026
+      POSTGRES_PASSWORD: ${DB_PASSWORD:-REDACTED_MVP}
       POSTGRES_DB: resident_cement
     ports:
       - "5432:5432"
@@ -28,7 +28,7 @@ services:
     container_name: resident-cement-mongo
     environment:
       MONGO_INITDB_ROOT_USERNAME: resident_cement
-      MONGO_INITDB_ROOT_PASSWORD: dev_password_2026
+      MONGO_INITDB_ROOT_PASSWORD: ${MONGO_PASSWORD:-REDACTED_MVP}
     ports:
       - "27017:27017"
     volumes:

@@ -1,0 +1,27 @@
+{
+  "generated_at_utc": "2026-03-08T00:00:00Z",
+  "evidence_sources": [
+    "backend/gateway/src/index.ts",
+    "backend/services/events/src/consumer.ts",
+    "frontend/apps/distributor-portal/src/lib/api.ts",
+    "frontend/apps/admin-dashboard/src/lib/api.ts",
+    "infrastructure/docker/docker-compose.yml"
+  ],
+  "modules": [
+    { "id": "api-gateway", "type": "gateway", "file": "backend/gateway/src/index.ts", "port": 3001, "routes": ["/api/v1/auth", "/api/v1/customers", "/api/v1/orders", "/api/v1/products", "/api/v1/inventory", "/api/v1/pricing", "/api/v1/quotes", "/api/v1/payments"] },
+    { "id": "customer-service", "type": "service", "file": "backend/services/customer-service/src/index.ts", "port": 3002, "routes": ["/api/v1/customers"] },
+    { "id": "inventory-service", "type": "service", "file": "backend/services/inventory-service/src/index.ts", "port": 3003, "routes": ["/api/v1/inventory", "/api/v1/warehouses"] },
+    { "id": "pricing-service", "type": "service", "file": "backend/services/pricing-service/src/index.ts", "port": 3004, "routes": ["/api/v1/pricing", "/api/v1/quotes"] },
+    { "id": "payment-service", "type": "service", "file": "backend/services/payment-service/src/index.ts", "port": 3005, "routes": ["/api/v1/payments"] },
+    { "id": "product-service", "type": "service", "file": "backend/services/product-service/src/index.ts", "port": 3006, "routes": ["/api/v1/products"] },
+    { "id": "order-service", "type": "service", "file": "backend/services/order-service/src/index.ts", "port": 3007, "routes": ["/api/v1/orders"] },
+    { "id": "events-service", "type": "event-consumer", "file": "backend/services/events/src/consumer.ts", "topics": ["order.events", "customer.events", "inventory.events", "payment.events", "product.events"] },
+    { "id": "distributor-portal", "type": "frontend", "file": "frontend/apps/distributor-portal/src/lib/api.ts", "gatewayMarkers": ["http://localhost:3001", "/api/v1/warehouses"] },
+    { "id": "admin-dashboard", "type": "frontend", "file": "frontend/apps/admin-dashboard/src/lib/api.ts", "gatewayMarkers": ["http://localhost:3001/api/v1", "/dashboard/stats"] }
+  ],
+  "rules": {
+    "gateway_is_only_northbound_entrypoint": true,
+    "no_direct_cross_service_imports": true,
+    "frontend_must_call_gateway_not_service_ports": [3002, 3003, 3004, 3005, 3006, 3007]
+  }
+}

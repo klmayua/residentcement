@@ -1,0 +1,1611 @@
+﻿dependencies:
+  - project: ''
+    dependency: 'concurrently'
+    declared_version: '^8.2.2'
+    group: 'devDependencies'
+    lockfile_present: true
+    installed: true
+    classification: installed_matching_lockfile
+  - project: 'backend/gateway'
+    dependency: '@prisma/client'
+    declared_version: '^5.9.0'
+    group: 'dependencies'
+    lockfile_present: true
+    installed: true
+    classification: installed_matching_lockfile
+  - project: 'backend/gateway'
+    dependency: '@resident-cement/kernel'
+    declared_version: 'file:../shared/kernel'
+    group: 'dependencies'
+    lockfile_present: true
+    installed: true
+    classification: installed_matching_lockfile
+  - project: 'backend/gateway'
+    dependency: '@resident-cement/kernel'
+    declared_version: 'file:../shared/kernel'
+    group: 'devDependencies'
+    lockfile_present: true
+    installed: true
+    classification: installed_matching_lockfile
+  - project: 'backend/gateway'
+    dependency: '@types/bcryptjs'
+    declared_version: '^2.4.6'
+    group: 'devDependencies'
+    lockfile_present: true
+    installed: true
+    classification: installed_matching_lockfile
+  - project: 'backend/gateway'
+    dependency: '@types/cors'
+    declared_version: '^2.8.17'
+    group: 'devDependencies'
+    lockfile_present: true
+    installed: true
+    classification: installed_matching_lockfile
+  - project: 'backend/gateway'
+    dependency: '@types/express'
+    declared_version: '^4.17.21'
+    group: 'devDependencies'
+    lockfile_present: true
+    installed: true
+    classification: installed_matching_lockfile
+  - project: 'backend/gateway'
+    dependency: '@types/jest'
+    declared_version: '^29.5.11'
+    group: 'devDependencies'
+    lockfile_present: true
+    installed: true
+    classification: installed_matching_lockfile
+  - project: 'backend/gateway'
+    dependency: '@types/jsonwebtoken'
+    declared_version: '^9.0.5'
+    group: 'devDependencies'
+    lockfile_present: true
+    installed: true
+    classification: installed_matching_lockfile
+  - project: 'backend/gateway'
+    dependency: '@types/node'
+    declared_version: '^20.11.0'
+    group: 'devDependencies'
+    lockfile_present: true
+    installed: true
+    classification: installed_matching_lockfile
+  - project: 'backend/gateway'
+    dependency: '@types/node-fetch'
+    declared_version: '^2.6.11'
+    group: 'devDependencies'
+    lockfile_present: true
+    installed: true
+    classification: installed_matching_lockfile
+  - project: 'backend/gateway'
+    dependency: '@types/swagger-jsdoc'
+    declared_version: '^6.0.4'
+    group: 'devDependencies'
+    lockfile_present: true
+    installed: true
+    classification: installed_matching_lockfile
+  - project: 'backend/gateway'
+    dependency: '@types/swagger-ui-express'
+    declared_version: '^4.1.6'
+    group: 'devDependencies'
+    lockfile_present: true
+    installed: true
+    classification: installed_matching_lockfile
+  - project: 'backend/gateway'
+    dependency: '@types/uuid'
+    declared_version: '^9.0.7'
+    group: 'devDependencies'
+    lockfile_present: true
+    installed: true
+    classification: installed_matching_lockfile
+  - project: 'backend/gateway'
+    dependency: '@typescript-eslint/eslint-plugin'
+    declared_version: '^6.19.0'
+    group: 'devDependencies'
+    lockfile_present: true
+    installed: true
+    classification: installed_matching_lockfile
+  - project: 'backend/gateway'
+    dependency: '@typescript-eslint/parser'
+    declared_version: '^6.19.0'
+    group: 'devDependencies'
+    lockfile_present: true
+    installed: true
+    classification: installed_matching_lockfile
+  - project: 'backend/gateway'
+    dependency: 'bcryptjs'
+    declared_version: '^2.4.3'
+    group: 'dependencies'
+    lockfile_present: true
+    installed: true
+    classification: installed_matching_lockfile
+  - project: 'backend/gateway'
+    dependency: 'cors'
+    declared_version: '^2.8.5'
+    group: 'dependencies'
+    lockfile_present: true
+    installed: true
+    classification: installed_matching_lockfile
+  - project: 'backend/gateway'
+    dependency: 'dotenv'
+    declared_version: '^16.3.1'
+    group: 'dependencies'
+    lockfile_present: true
+    installed: true
+    classification: installed_matching_lockfile
+  - project: 'backend/gateway'
+    dependency: 'eslint'
+    declared_version: '^8.56.0'
+    group: 'devDependencies'
+    lockfile_present: true
+    installed: true
+    classification: installed_matching_lockfile
+  - project: 'backend/gateway'
+    dependency: 'express'
+    declared_version: '^4.18.2'
+    group: 'dependencies'
+    lockfile_present: true
+    installed: true
+    classification: installed_matching_lockfile
+  - project: 'backend/gateway'
+    dependency: 'express-rate-limit'
+    declared_version: '^7.1.5'
+    group: 'dependencies'
+    lockfile_present: true
+    installed: true
+    classification: installed_matching_lockfile
+  - project: 'backend/gateway'
+    dependency: 'helmet'
+    declared_version: '^7.1.0'
+    group: 'dependencies'
+    lockfile_present: true
+    installed: true
+    classification: installed_matching_lockfile
+  - project: 'backend/gateway'
+    dependency: 'ioredis'
+    declared_version: '^5.3.2'
+    group: 'dependencies'
+    lockfile_present: true
+    installed: true
+    classification: installed_matching_lockfile
+  - project: 'backend/gateway'
+    dependency: 'jest'
+    declared_version: '^29.7.0'
+    group: 'devDependencies'
+    lockfile_present: true
+    installed: true
+    classification: installed_matching_lockfile
+  - project: 'backend/gateway'
+    dependency: 'jose'
+    declared_version: '^5.2.0'
+    group: 'dependencies'
+    lockfile_present: true
+    installed: true
+    classification: installed_matching_lockfile
+  - project: 'backend/gateway'
+    dependency: 'jsonwebtoken'
+    declared_version: '^9.0.2'
+    group: 'dependencies'
+    lockfile_present: true
+    installed: true
+    classification: installed_matching_lockfile
+  - project: 'backend/gateway'
+    dependency: 'kafkajs'
+    declared_version: '^2.2.4'
+    group: 'dependencies'
+    lockfile_present: true
+    installed: true
+    classification: installed_matching_lockfile
+  - project: 'backend/gateway'
+    dependency: 'node-fetch'
+    declared_version: '^2.7.0'
+    group: 'dependencies'
+    lockfile_present: true
+    installed: true
+    classification: installed_matching_lockfile
+  - project: 'backend/gateway'
+    dependency: 'pg'
+    declared_version: '^8.11.3'
+    group: 'dependencies'
+    lockfile_present: true
+    installed: true
+    classification: installed_matching_lockfile
+  - project: 'backend/gateway'
+    dependency: 'prisma'
+    declared_version: '^5.9.0'
+    group: 'devDependencies'
+    lockfile_present: true
+    installed: true
+    classification: installed_matching_lockfile
+  - project: 'backend/gateway'
+    dependency: 'swagger-jsdoc'
+    declared_version: '^6.2.8'
+    group: 'dependencies'
+    lockfile_present: true
+    installed: true
+    classification: installed_matching_lockfile
+  - project: 'backend/gateway'
+    dependency: 'swagger-ui-express'
+    declared_version: '^5.0.0'
+    group: 'dependencies'
+    lockfile_present: true
+    installed: true
+    classification: installed_matching_lockfile
+  - project: 'backend/gateway'
+    dependency: 'ts-jest'
+    declared_version: '^29.1.1'
+    group: 'devDependencies'
+    lockfile_present: true
+    installed: true
+    classification: installed_matching_lockfile
+  - project: 'backend/gateway'
+    dependency: 'tsx'
+    declared_version: '^4.7.0'
+    group: 'devDependencies'
+    lockfile_present: true
+    installed: true
+    classification: installed_matching_lockfile
+  - project: 'backend/gateway'
+    dependency: 'typescript'
+    declared_version: '^5.3.3'
+    group: 'devDependencies'
+    lockfile_present: true
+    installed: true
+    classification: installed_matching_lockfile
+  - project: 'backend/gateway'
+    dependency: 'uuid'
+    declared_version: '^9.0.1'
+    group: 'dependencies'
+    lockfile_present: true
+    installed: true
+    classification: installed_matching_lockfile
+  - project: 'backend/gateway'
+    dependency: 'winston'
+    declared_version: '^3.11.0'
+    group: 'dependencies'
+    lockfile_present: true
+    installed: true
+    classification: installed_matching_lockfile
+  - project: 'backend/gateway'
+    dependency: 'zod'
+    declared_version: '^3.22.4'
+    group: 'dependencies'
+    lockfile_present: true
+    installed: true
+    classification: installed_matching_lockfile
+  - project: 'backend/gateway/prisma'
+    dependency: '@prisma/client'
+    declared_version: '^7.4.2'
+    group: 'dependencies'
+    lockfile_present: true
+    installed: true
+    classification: installed_matching_lockfile
+  - project: 'backend/gateway/prisma'
+    dependency: 'prisma'
+    declared_version: '^7.4.2'
+    group: 'dependencies'
+    lockfile_present: true
+    installed: true
+    classification: installed_matching_lockfile
+  - project: 'backend/services/customer-service'
+    dependency: '@prisma/client'
+    declared_version: '^5.9.0'
+    group: 'dependencies'
+    lockfile_present: true
+    installed: true
+    classification: installed_matching_lockfile
+  - project: 'backend/services/customer-service'
+    dependency: '@resident-cement/kernel'
+    declared_version: 'file:../../shared/kernel'
+    group: 'dependencies'
+    lockfile_present: true
+    installed: true
+    classification: installed_matching_lockfile
+  - project: 'backend/services/customer-service'
+    dependency: '@types/cors'
+    declared_version: '^2.8.17'
+    group: 'devDependencies'
+    lockfile_present: true
+    installed: true
+    classification: installed_matching_lockfile
+  - project: 'backend/services/customer-service'
+    dependency: '@types/express'
+    declared_version: '^4.17.21'
+    group: 'devDependencies'
+    lockfile_present: true
+    installed: true
+    classification: installed_matching_lockfile
+  - project: 'backend/services/customer-service'
+    dependency: '@types/jest'
+    declared_version: '^29.5.11'
+    group: 'devDependencies'
+    lockfile_present: true
+    installed: true
+    classification: installed_matching_lockfile
+  - project: 'backend/services/customer-service'
+    dependency: '@types/node'
+    declared_version: '^20.11.0'
+    group: 'devDependencies'
+    lockfile_present: true
+    installed: true
+    classification: installed_matching_lockfile
+  - project: 'backend/services/customer-service'
+    dependency: '@types/uuid'
+    declared_version: '^9.0.7'
+    group: 'devDependencies'
+    lockfile_present: true
+    installed: true
+    classification: installed_matching_lockfile
+  - project: 'backend/services/customer-service'
+    dependency: '@typescript-eslint/eslint-plugin'
+    declared_version: '^6.19.0'
+    group: 'devDependencies'
+    lockfile_present: true
+    installed: true
+    classification: installed_matching_lockfile
+  - project: 'backend/services/customer-service'
+    dependency: '@typescript-eslint/parser'
+    declared_version: '^6.19.0'
+    group: 'devDependencies'
+    lockfile_present: true
+    installed: true
+    classification: installed_matching_lockfile
+  - project: 'backend/services/customer-service'
+    dependency: 'cors'
+    declared_version: '^2.8.5'
+    group: 'dependencies'
+    lockfile_present: true
+    installed: true
+    classification: installed_matching_lockfile
+  - project: 'backend/services/customer-service'
+    dependency: 'dotenv'
+    declared_version: '^16.3.1'
+    group: 'dependencies'
+    lockfile_present: true
+    installed: true
+    classification: installed_matching_lockfile
+  - project: 'backend/services/customer-service'
+    dependency: 'eslint'
+    declared_version: '^8.56.0'
+    group: 'devDependencies'
+    lockfile_present: true
+    installed: true
+    classification: installed_matching_lockfile
+  - project: 'backend/services/customer-service'
+    dependency: 'express'
+    declared_version: '^4.18.2'
+    group: 'dependencies'
+    lockfile_present: true
+    installed: true
+    classification: installed_matching_lockfile
+  - project: 'backend/services/customer-service'
+    dependency: 'express-rate-limit'
+    declared_version: '^7.1.5'
+    group: 'dependencies'
+    lockfile_present: true
+    installed: true
+    classification: installed_matching_lockfile
+  - project: 'backend/services/customer-service'
+    dependency: 'helmet'
+    declared_version: '^7.1.0'
+    group: 'dependencies'
+    lockfile_present: true
+    installed: true
+    classification: installed_matching_lockfile
+  - project: 'backend/services/customer-service'
+    dependency: 'ioredis'
+    declared_version: '^5.3.2'
+    group: 'dependencies'
+    lockfile_present: true
+    installed: true
+    classification: installed_matching_lockfile
+  - project: 'backend/services/customer-service'
+    dependency: 'jest'
+    declared_version: '^29.7.0'
+    group: 'devDependencies'
+    lockfile_present: true
+    installed: true
+    classification: installed_matching_lockfile
+  - project: 'backend/services/customer-service'
+    dependency: 'kafkajs'
+    declared_version: '^2.2.4'
+    group: 'dependencies'
+    lockfile_present: true
+    installed: true
+    classification: installed_matching_lockfile
+  - project: 'backend/services/customer-service'
+    dependency: 'prisma'
+    declared_version: '^5.9.0'
+    group: 'devDependencies'
+    lockfile_present: true
+    installed: true
+    classification: installed_matching_lockfile
+  - project: 'backend/services/customer-service'
+    dependency: 'ts-jest'
+    declared_version: '^29.1.1'
+    group: 'devDependencies'
+    lockfile_present: true
+    installed: true
+    classification: installed_matching_lockfile
+  - project: 'backend/services/customer-service'
+    dependency: 'tsx'
+    declared_version: '^4.7.0'
+    group: 'devDependencies'
+    lockfile_present: true
+    installed: true
+    classification: installed_matching_lockfile
+  - project: 'backend/services/customer-service'
+    dependency: 'typescript'
+    declared_version: '^5.3.3'
+    group: 'devDependencies'
+    lockfile_present: true
+    installed: true
+    classification: installed_matching_lockfile
+  - project: 'backend/services/customer-service'
+    dependency: 'uuid'
+    declared_version: '^9.0.1'
+    group: 'dependencies'
+    lockfile_present: true
+    installed: true
+    classification: installed_matching_lockfile
+  - project: 'backend/services/customer-service'
+    dependency: 'winston'
+    declared_version: '^3.11.0'
+    group: 'dependencies'
+    lockfile_present: true
+    installed: true
+    classification: installed_matching_lockfile
+  - project: 'backend/services/customer-service'
+    dependency: 'zod'
+    declared_version: '^3.22.4'
+    group: 'dependencies'
+    lockfile_present: true
+    installed: true
+    classification: installed_matching_lockfile
+  - project: 'backend/services/events'
+    dependency: '@types/node'
+    declared_version: '^20.11.0'
+    group: 'devDependencies'
+    lockfile_present: false
+    installed: false
+    classification: missing
+  - project: 'backend/services/events'
+    dependency: '@types/uuid'
+    declared_version: '^9.0.7'
+    group: 'devDependencies'
+    lockfile_present: false
+    installed: false
+    classification: missing
+  - project: 'backend/services/events'
+    dependency: 'kafkajs'
+    declared_version: '^2.2.4'
+    group: 'dependencies'
+    lockfile_present: false
+    installed: false
+    classification: missing
+  - project: 'backend/services/events'
+    dependency: 'tsx'
+    declared_version: '^4.7.0'
+    group: 'devDependencies'
+    lockfile_present: false
+    installed: false
+    classification: missing
+  - project: 'backend/services/events'
+    dependency: 'typescript'
+    declared_version: '^5.3.3'
+    group: 'devDependencies'
+    lockfile_present: false
+    installed: false
+    classification: missing
+  - project: 'backend/services/events'
+    dependency: 'uuid'
+    declared_version: '^9.0.1'
+    group: 'dependencies'
+    lockfile_present: false
+    installed: false
+    classification: missing
+  - project: 'backend/services/events'
+    dependency: 'winston'
+    declared_version: '^3.11.0'
+    group: 'dependencies'
+    lockfile_present: false
+    installed: false
+    classification: missing
+  - project: 'backend/services/events'
+    dependency: 'zod'
+    declared_version: '^3.22.4'
+    group: 'dependencies'
+    lockfile_present: false
+    installed: false
+    classification: missing
+  - project: 'backend/services/inventory-service'
+    dependency: '@prisma/client'
+    declared_version: '^5.9.0'
+    group: 'dependencies'
+    lockfile_present: true
+    installed: true
+    classification: installed_matching_lockfile
+  - project: 'backend/services/inventory-service'
+    dependency: '@types/cors'
+    declared_version: '^2.8.17'
+    group: 'devDependencies'
+    lockfile_present: true
+    installed: true
+    classification: installed_matching_lockfile
+  - project: 'backend/services/inventory-service'
+    dependency: '@types/express'
+    declared_version: '^4.17.21'
+    group: 'devDependencies'
+    lockfile_present: true
+    installed: true
+    classification: installed_matching_lockfile
+  - project: 'backend/services/inventory-service'
+    dependency: '@types/node'
+    declared_version: '^20.11.0'
+    group: 'devDependencies'
+    lockfile_present: true
+    installed: true
+    classification: installed_matching_lockfile
+  - project: 'backend/services/inventory-service'
+    dependency: 'cors'
+    declared_version: '^2.8.5'
+    group: 'dependencies'
+    lockfile_present: true
+    installed: true
+    classification: installed_matching_lockfile
+  - project: 'backend/services/inventory-service'
+    dependency: 'dotenv'
+    declared_version: '^16.3.1'
+    group: 'dependencies'
+    lockfile_present: true
+    installed: true
+    classification: installed_matching_lockfile
+  - project: 'backend/services/inventory-service'
+    dependency: 'eslint'
+    declared_version: '^8.56.0'
+    group: 'devDependencies'
+    lockfile_present: true
+    installed: true
+    classification: installed_matching_lockfile
+  - project: 'backend/services/inventory-service'
+    dependency: 'express'
+    declared_version: '^4.18.2'
+    group: 'dependencies'
+    lockfile_present: true
+    installed: true
+    classification: installed_matching_lockfile
+  - project: 'backend/services/inventory-service'
+    dependency: 'helmet'
+    declared_version: '^7.1.0'
+    group: 'dependencies'
+    lockfile_present: true
+    installed: true
+    classification: installed_matching_lockfile
+  - project: 'backend/services/inventory-service'
+    dependency: 'prisma'
+    declared_version: '^5.9.0'
+    group: 'devDependencies'
+    lockfile_present: true
+    installed: true
+    classification: installed_matching_lockfile
+  - project: 'backend/services/inventory-service'
+    dependency: 'tsx'
+    declared_version: '^4.7.0'
+    group: 'devDependencies'
+    lockfile_present: true
+    installed: true
+    classification: installed_matching_lockfile
+  - project: 'backend/services/inventory-service'
+    dependency: 'typescript'
+    declared_version: '^5.3.3'
+    group: 'devDependencies'
+    lockfile_present: true
+    installed: true
+    classification: installed_matching_lockfile
+  - project: 'backend/services/inventory-service'
+    dependency: 'winston'
+    declared_version: '^3.11.0'
+    group: 'dependencies'
+    lockfile_present: true
+    installed: true
+    classification: installed_matching_lockfile
+  - project: 'backend/services/order-service'
+    dependency: '@prisma/client'
+    declared_version: '^5.9.0'
+    group: 'dependencies'
+    lockfile_present: true
+    installed: true
+    classification: installed_matching_lockfile
+  - project: 'backend/services/order-service'
+    dependency: '@types/cors'
+    declared_version: '^2.8.17'
+    group: 'devDependencies'
+    lockfile_present: true
+    installed: true
+    classification: installed_matching_lockfile
+  - project: 'backend/services/order-service'
+    dependency: '@types/express'
+    declared_version: '^4.17.21'
+    group: 'devDependencies'
+    lockfile_present: true
+    installed: true
+    classification: installed_matching_lockfile
+  - project: 'backend/services/order-service'
+    dependency: '@types/node'
+    declared_version: '^20.11.0'
+    group: 'devDependencies'
+    lockfile_present: true
+    installed: true
+    classification: installed_matching_lockfile
+  - project: 'backend/services/order-service'
+    dependency: '@types/uuid'
+    declared_version: '^9.0.7'
+    group: 'devDependencies'
+    lockfile_present: true
+    installed: true
+    classification: installed_matching_lockfile
+  - project: 'backend/services/order-service'
+    dependency: 'cors'
+    declared_version: '^2.8.5'
+    group: 'dependencies'
+    lockfile_present: true
+    installed: true
+    classification: installed_matching_lockfile
+  - project: 'backend/services/order-service'
+    dependency: 'dotenv'
+    declared_version: '^16.3.1'
+    group: 'dependencies'
+    lockfile_present: true
+    installed: true
+    classification: installed_matching_lockfile
+  - project: 'backend/services/order-service'
+    dependency: 'eslint'
+    declared_version: '^8.56.0'
+    group: 'devDependencies'
+    lockfile_present: true
+    installed: true
+    classification: installed_matching_lockfile
+  - project: 'backend/services/order-service'
+    dependency: 'express'
+    declared_version: '^4.18.2'
+    group: 'dependencies'
+    lockfile_present: true
+    installed: true
+    classification: installed_matching_lockfile
+  - project: 'backend/services/order-service'
+    dependency: 'helmet'
+    declared_version: '^7.1.0'
+    group: 'dependencies'
+    lockfile_present: true
+    installed: true
+    classification: installed_matching_lockfile
+  - project: 'backend/services/order-service'
+    dependency: 'prisma'
+    declared_version: '^5.9.0'
+    group: 'devDependencies'
+    lockfile_present: true
+    installed: true
+    classification: installed_matching_lockfile
+  - project: 'backend/services/order-service'
+    dependency: 'tsx'
+    declared_version: '^4.7.0'
+    group: 'devDependencies'
+    lockfile_present: true
+    installed: true
+    classification: installed_matching_lockfile
+  - project: 'backend/services/order-service'
+    dependency: 'typescript'
+    declared_version: '^5.3.3'
+    group: 'devDependencies'
+    lockfile_present: true
+    installed: true
+    classification: installed_matching_lockfile
+  - project: 'backend/services/order-service'
+    dependency: 'uuid'
+    declared_version: '^9.0.1'
+    group: 'dependencies'
+    lockfile_present: true
+    installed: true
+    classification: installed_matching_lockfile
+  - project: 'backend/services/order-service'
+    dependency: 'winston'
+    declared_version: '^3.11.0'
+    group: 'dependencies'
+    lockfile_present: true
+    installed: true
+    classification: installed_matching_lockfile
+  - project: 'backend/services/payment-service'
+    dependency: '@prisma/client'
+    declared_version: '^5.9.0'
+    group: 'dependencies'
+    lockfile_present: true
+    installed: true
+    classification: installed_matching_lockfile
+  - project: 'backend/services/payment-service'
+    dependency: '@types/cors'
+    declared_version: '^2.8.17'
+    group: 'devDependencies'
+    lockfile_present: true
+    installed: true
+    classification: installed_matching_lockfile
+  - project: 'backend/services/payment-service'
+    dependency: '@types/express'
+    declared_version: '^4.17.21'
+    group: 'devDependencies'
+    lockfile_present: true
+    installed: true
+    classification: installed_matching_lockfile
+  - project: 'backend/services/payment-service'
+    dependency: '@types/node'
+    declared_version: '^20.11.0'
+    group: 'devDependencies'
+    lockfile_present: true
+    installed: true
+    classification: installed_matching_lockfile
+  - project: 'backend/services/payment-service'
+    dependency: '@types/uuid'
+    declared_version: '^9.0.7'
+    group: 'devDependencies'
+    lockfile_present: true
+    installed: true
+    classification: installed_matching_lockfile
+  - project: 'backend/services/payment-service'
+    dependency: 'cors'
+    declared_version: '^2.8.5'
+    group: 'dependencies'
+    lockfile_present: true
+    installed: true
+    classification: installed_matching_lockfile
+  - project: 'backend/services/payment-service'
+    dependency: 'dotenv'
+    declared_version: '^16.3.1'
+    group: 'dependencies'
+    lockfile_present: true
+    installed: true
+    classification: installed_matching_lockfile
+  - project: 'backend/services/payment-service'
+    dependency: 'eslint'
+    declared_version: '^8.56.0'
+    group: 'devDependencies'
+    lockfile_present: true
+    installed: true
+    classification: installed_matching_lockfile
+  - project: 'backend/services/payment-service'
+    dependency: 'express'
+    declared_version: '^4.18.2'
+    group: 'dependencies'
+    lockfile_present: true
+    installed: true
+    classification: installed_matching_lockfile
+  - project: 'backend/services/payment-service'
+    dependency: 'helmet'
+    declared_version: '^7.1.0'
+    group: 'dependencies'
+    lockfile_present: true
+    installed: true
+    classification: installed_matching_lockfile
+  - project: 'backend/services/payment-service'
+    dependency: 'prisma'
+    declared_version: '^5.9.0'
+    group: 'devDependencies'
+    lockfile_present: true
+    installed: true
+    classification: installed_matching_lockfile
+  - project: 'backend/services/payment-service'
+    dependency: 'tsx'
+    declared_version: '^4.7.0'
+    group: 'devDependencies'
+    lockfile_present: true
+    installed: true
+    classification: installed_matching_lockfile
+  - project: 'backend/services/payment-service'
+    dependency: 'typescript'
+    declared_version: '^5.3.3'
+    group: 'devDependencies'
+    lockfile_present: true
+    installed: true
+    classification: installed_matching_lockfile
+  - project: 'backend/services/payment-service'
+    dependency: 'uuid'
+    declared_version: '^9.0.1'
+    group: 'dependencies'
+    lockfile_present: true
+    installed: true
+    classification: installed_matching_lockfile
+  - project: 'backend/services/payment-service'
+    dependency: 'winston'
+    declared_version: '^3.11.0'
+    group: 'dependencies'
+    lockfile_present: true
+    installed: true
+    classification: installed_matching_lockfile
+  - project: 'backend/services/pricing-service'
+    dependency: '@prisma/client'
+    declared_version: '^5.9.0'
+    group: 'dependencies'
+    lockfile_present: true
+    installed: true
+    classification: installed_matching_lockfile
+  - project: 'backend/services/pricing-service'
+    dependency: '@types/cors'
+    declared_version: '^2.8.17'
+    group: 'devDependencies'
+    lockfile_present: true
+    installed: true
+    classification: installed_matching_lockfile
+  - project: 'backend/services/pricing-service'
+    dependency: '@types/express'
+    declared_version: '^4.17.21'
+    group: 'devDependencies'
+    lockfile_present: true
+    installed: true
+    classification: installed_matching_lockfile
+  - project: 'backend/services/pricing-service'
+    dependency: '@types/node'
+    declared_version: '^20.11.0'
+    group: 'devDependencies'
+    lockfile_present: true
+    installed: true
+    classification: installed_matching_lockfile
+  - project: 'backend/services/pricing-service'
+    dependency: '@types/uuid'
+    declared_version: '^9.0.7'
+    group: 'devDependencies'
+    lockfile_present: true
+    installed: true
+    classification: installed_matching_lockfile
+  - project: 'backend/services/pricing-service'
+    dependency: 'cors'
+    declared_version: '^2.8.5'
+    group: 'dependencies'
+    lockfile_present: true
+    installed: true
+    classification: installed_matching_lockfile
+  - project: 'backend/services/pricing-service'
+    dependency: 'dotenv'
+    declared_version: '^16.3.1'
+    group: 'dependencies'
+    lockfile_present: true
+    installed: true
+    classification: installed_matching_lockfile
+  - project: 'backend/services/pricing-service'
+    dependency: 'eslint'
+    declared_version: '^8.56.0'
+    group: 'devDependencies'
+    lockfile_present: true
+    installed: true
+    classification: installed_matching_lockfile
+  - project: 'backend/services/pricing-service'
+    dependency: 'express'
+    declared_version: '^4.18.2'
+    group: 'dependencies'
+    lockfile_present: true
+    installed: true
+    classification: installed_matching_lockfile
+  - project: 'backend/services/pricing-service'
+    dependency: 'helmet'
+    declared_version: '^7.1.0'
+    group: 'dependencies'
+    lockfile_present: true
+    installed: true
+    classification: installed_matching_lockfile
+  - project: 'backend/services/pricing-service'
+    dependency: 'prisma'
+    declared_version: '^5.9.0'
+    group: 'devDependencies'
+    lockfile_present: true
+    installed: true
+    classification: installed_matching_lockfile
+  - project: 'backend/services/pricing-service'
+    dependency: 'tsx'
+    declared_version: '^4.7.0'
+    group: 'devDependencies'
+    lockfile_present: true
+    installed: true
+    classification: installed_matching_lockfile
+  - project: 'backend/services/pricing-service'
+    dependency: 'typescript'
+    declared_version: '^5.3.3'
+    group: 'devDependencies'
+    lockfile_present: true
+    installed: true
+    classification: installed_matching_lockfile
+  - project: 'backend/services/pricing-service'
+    dependency: 'uuid'
+    declared_version: '^9.0.1'
+    group: 'dependencies'
+    lockfile_present: true
+    installed: true
+    classification: installed_matching_lockfile
+  - project: 'backend/services/pricing-service'
+    dependency: 'winston'
+    declared_version: '^3.11.0'
+    group: 'dependencies'
+    lockfile_present: true
+    installed: true
+    classification: installed_matching_lockfile
+  - project: 'backend/services/product-service'
+    dependency: '@prisma/client'
+    declared_version: '^5.9.0'
+    group: 'dependencies'
+    lockfile_present: true
+    installed: true
+    classification: installed_matching_lockfile
+  - project: 'backend/services/product-service'
+    dependency: '@types/cors'
+    declared_version: '^2.8.17'
+    group: 'devDependencies'
+    lockfile_present: true
+    installed: true
+    classification: installed_matching_lockfile
+  - project: 'backend/services/product-service'
+    dependency: '@types/express'
+    declared_version: '^4.17.21'
+    group: 'devDependencies'
+    lockfile_present: true
+    installed: true
+    classification: installed_matching_lockfile
+  - project: 'backend/services/product-service'
+    dependency: '@types/node'
+    declared_version: '^20.11.0'
+    group: 'devDependencies'
+    lockfile_present: true
+    installed: true
+    classification: installed_matching_lockfile
+  - project: 'backend/services/product-service'
+    dependency: 'cors'
+    declared_version: '^2.8.5'
+    group: 'dependencies'
+    lockfile_present: true
+    installed: true
+    classification: installed_matching_lockfile
+  - project: 'backend/services/product-service'
+    dependency: 'dotenv'
+    declared_version: '^16.3.1'
+    group: 'dependencies'
+    lockfile_present: true
+    installed: true
+    classification: installed_matching_lockfile
+  - project: 'backend/services/product-service'
+    dependency: 'eslint'
+    declared_version: '^8.56.0'
+    group: 'devDependencies'
+    lockfile_present: true
+    installed: true
+    classification: installed_matching_lockfile
+  - project: 'backend/services/product-service'
+    dependency: 'express'
+    declared_version: '^4.18.2'
+    group: 'dependencies'
+    lockfile_present: true
+    installed: true
+    classification: installed_matching_lockfile
+  - project: 'backend/services/product-service'
+    dependency: 'helmet'
+    declared_version: '^7.1.0'
+    group: 'dependencies'
+    lockfile_present: true
+    installed: true
+    classification: installed_matching_lockfile
+  - project: 'backend/services/product-service'
+    dependency: 'prisma'
+    declared_version: '^5.9.0'
+    group: 'devDependencies'
+    lockfile_present: true
+    installed: true
+    classification: installed_matching_lockfile
+  - project: 'backend/services/product-service'
+    dependency: 'tsx'
+    declared_version: '^4.7.0'
+    group: 'devDependencies'
+    lockfile_present: true
+    installed: true
+    classification: installed_matching_lockfile
+  - project: 'backend/services/product-service'
+    dependency: 'typescript'
+    declared_version: '^5.3.3'
+    group: 'devDependencies'
+    lockfile_present: true
+    installed: true
+    classification: installed_matching_lockfile
+  - project: 'backend/services/product-service'
+    dependency: 'winston'
+    declared_version: '^3.11.0'
+    group: 'dependencies'
+    lockfile_present: true
+    installed: true
+    classification: installed_matching_lockfile
+  - project: 'backend/shared/kafka-client'
+    dependency: '@types/node'
+    declared_version: '^20.10.0'
+    group: 'devDependencies'
+    lockfile_present: false
+    installed: false
+    classification: missing
+  - project: 'backend/shared/kafka-client'
+    dependency: '@types/uuid'
+    declared_version: '^9.0.7'
+    group: 'devDependencies'
+    lockfile_present: false
+    installed: false
+    classification: missing
+  - project: 'backend/shared/kafka-client'
+    dependency: 'kafkajs'
+    declared_version: '^2.2.4'
+    group: 'dependencies'
+    lockfile_present: false
+    installed: false
+    classification: missing
+  - project: 'backend/shared/kafka-client'
+    dependency: 'typescript'
+    declared_version: '^5.3.3'
+    group: 'devDependencies'
+    lockfile_present: false
+    installed: false
+    classification: missing
+  - project: 'backend/shared/kafka-client'
+    dependency: 'uuid'
+    declared_version: '^9.0.1'
+    group: 'dependencies'
+    lockfile_present: false
+    installed: false
+    classification: missing
+  - project: 'backend/shared/kernel'
+    dependency: '@types/body-parser'
+    declared_version: '^1.19.6'
+    group: 'devDependencies'
+    lockfile_present: true
+    installed: true
+    classification: installed_matching_lockfile
+  - project: 'backend/shared/kernel'
+    dependency: '@types/express'
+    declared_version: '^4.17.21'
+    group: 'devDependencies'
+    lockfile_present: true
+    installed: true
+    classification: installed_matching_lockfile
+  - project: 'backend/shared/kernel'
+    dependency: '@types/http-errors'
+    declared_version: '^2.0.5'
+    group: 'devDependencies'
+    lockfile_present: true
+    installed: true
+    classification: installed_matching_lockfile
+  - project: 'backend/shared/kernel'
+    dependency: '@types/jest'
+    declared_version: '^29.5.11'
+    group: 'devDependencies'
+    lockfile_present: true
+    installed: true
+    classification: installed_matching_lockfile
+  - project: 'backend/shared/kernel'
+    dependency: '@types/node'
+    declared_version: '^20.11.0'
+    group: 'devDependencies'
+    lockfile_present: true
+    installed: true
+    classification: installed_matching_lockfile
+  - project: 'backend/shared/kernel'
+    dependency: '@types/range-parser'
+    declared_version: '^1.2.7'
+    group: 'devDependencies'
+    lockfile_present: true
+    installed: true
+    classification: installed_matching_lockfile
+  - project: 'backend/shared/kernel'
+    dependency: '@types/send'
+    declared_version: '^1.2.1'
+    group: 'devDependencies'
+    lockfile_present: true
+    installed: true
+    classification: installed_matching_lockfile
+  - project: 'backend/shared/kernel'
+    dependency: '@types/uuid'
+    declared_version: '^9.0.7'
+    group: 'devDependencies'
+    lockfile_present: true
+    installed: true
+    classification: installed_matching_lockfile
+  - project: 'backend/shared/kernel'
+    dependency: '@types/yargs-parser'
+    declared_version: '^21.0.3'
+    group: 'devDependencies'
+    lockfile_present: true
+    installed: true
+    classification: installed_matching_lockfile
+  - project: 'backend/shared/kernel'
+    dependency: '@typescript-eslint/eslint-plugin'
+    declared_version: '^6.19.0'
+    group: 'devDependencies'
+    lockfile_present: true
+    installed: true
+    classification: installed_matching_lockfile
+  - project: 'backend/shared/kernel'
+    dependency: '@typescript-eslint/parser'
+    declared_version: '^6.19.0'
+    group: 'devDependencies'
+    lockfile_present: true
+    installed: true
+    classification: installed_matching_lockfile
+  - project: 'backend/shared/kernel'
+    dependency: 'eslint'
+    declared_version: '^8.56.0'
+    group: 'devDependencies'
+    lockfile_present: true
+    installed: true
+    classification: installed_matching_lockfile
+  - project: 'backend/shared/kernel'
+    dependency: 'express'
+    declared_version: '^4.18.2'
+    group: 'peerDependencies'
+    lockfile_present: true
+    installed: true
+    classification: installed_matching_lockfile
+  - project: 'backend/shared/kernel'
+    dependency: 'jest'
+    declared_version: '^29.7.0'
+    group: 'devDependencies'
+    lockfile_present: true
+    installed: true
+    classification: installed_matching_lockfile
+  - project: 'backend/shared/kernel'
+    dependency: 'ts-jest'
+    declared_version: '^29.1.1'
+    group: 'devDependencies'
+    lockfile_present: true
+    installed: true
+    classification: installed_matching_lockfile
+  - project: 'backend/shared/kernel'
+    dependency: 'typescript'
+    declared_version: '^5.3.3'
+    group: 'devDependencies'
+    lockfile_present: true
+    installed: true
+    classification: installed_matching_lockfile
+  - project: 'backend/shared/kernel'
+    dependency: 'uuid'
+    declared_version: '^9.0.1'
+    group: 'dependencies'
+    lockfile_present: true
+    installed: true
+    classification: installed_matching_lockfile
+  - project: 'backend/shared/kernel'
+    dependency: 'winston'
+    declared_version: '^3.11.0'
+    group: 'dependencies'
+    lockfile_present: true
+    installed: true
+    classification: installed_matching_lockfile
+  - project: 'backend/shared/kernel'
+    dependency: 'winston-transport'
+    declared_version: '^4.7.0'
+    group: 'dependencies'
+    lockfile_present: true
+    installed: true
+    classification: installed_matching_lockfile
+  - project: 'backend/shared/kernel'
+    dependency: 'zod'
+    declared_version: '^3.22.4'
+    group: 'dependencies'
+    lockfile_present: true
+    installed: true
+    classification: installed_matching_lockfile
+  - project: 'frontend/apps/admin-dashboard'
+    dependency: '@hookform/resolvers'
+    declared_version: '^3.3.4'
+    group: 'dependencies'
+    lockfile_present: true
+    installed: true
+    classification: installed_matching_lockfile
+  - project: 'frontend/apps/admin-dashboard'
+    dependency: '@radix-ui/react-dropdown-menu'
+    declared_version: '^2.0.6'
+    group: 'dependencies'
+    lockfile_present: true
+    installed: true
+    classification: installed_matching_lockfile
+  - project: 'frontend/apps/admin-dashboard'
+    dependency: '@tanstack/react-query'
+    declared_version: '^5.17.0'
+    group: 'dependencies'
+    lockfile_present: true
+    installed: true
+    classification: installed_matching_lockfile
+  - project: 'frontend/apps/admin-dashboard'
+    dependency: '@types/node'
+    declared_version: '^20.11.0'
+    group: 'devDependencies'
+    lockfile_present: true
+    installed: true
+    classification: installed_matching_lockfile
+  - project: 'frontend/apps/admin-dashboard'
+    dependency: '@types/react'
+    declared_version: '^19.0.0'
+    group: 'devDependencies'
+    lockfile_present: true
+    installed: true
+    classification: installed_matching_lockfile
+  - project: 'frontend/apps/admin-dashboard'
+    dependency: '@types/react-dom'
+    declared_version: '^19.0.0'
+    group: 'devDependencies'
+    lockfile_present: true
+    installed: true
+    classification: installed_matching_lockfile
+  - project: 'frontend/apps/admin-dashboard'
+    dependency: 'autoprefixer'
+    declared_version: '^10.4.17'
+    group: 'devDependencies'
+    lockfile_present: true
+    installed: true
+    classification: installed_matching_lockfile
+  - project: 'frontend/apps/admin-dashboard'
+    dependency: 'eslint'
+    declared_version: '^8.56.0'
+    group: 'devDependencies'
+    lockfile_present: true
+    installed: true
+    classification: installed_matching_lockfile
+  - project: 'frontend/apps/admin-dashboard'
+    dependency: 'eslint-config-next'
+    declared_version: '15.1.0'
+    group: 'devDependencies'
+    lockfile_present: true
+    installed: true
+    classification: installed_matching_lockfile
+  - project: 'frontend/apps/admin-dashboard'
+    dependency: 'framer-motion'
+    declared_version: '^11.0.0'
+    group: 'dependencies'
+    lockfile_present: true
+    installed: true
+    classification: installed_matching_lockfile
+  - project: 'frontend/apps/admin-dashboard'
+    dependency: 'lucide-react'
+    declared_version: '^0.312.0'
+    group: 'dependencies'
+    lockfile_present: true
+    installed: true
+    classification: installed_matching_lockfile
+  - project: 'frontend/apps/admin-dashboard'
+    dependency: 'next'
+    declared_version: '15.1.0'
+    group: 'dependencies'
+    lockfile_present: true
+    installed: true
+    classification: installed_matching_lockfile
+  - project: 'frontend/apps/admin-dashboard'
+    dependency: 'next-themes'
+    declared_version: '^0.2.1'
+    group: 'dependencies'
+    lockfile_present: true
+    installed: true
+    classification: installed_matching_lockfile
+  - project: 'frontend/apps/admin-dashboard'
+    dependency: 'postcss'
+    declared_version: '^8.4.33'
+    group: 'devDependencies'
+    lockfile_present: true
+    installed: true
+    classification: installed_matching_lockfile
+  - project: 'frontend/apps/admin-dashboard'
+    dependency: 'react'
+    declared_version: '^19.0.0'
+    group: 'dependencies'
+    lockfile_present: true
+    installed: true
+    classification: installed_matching_lockfile
+  - project: 'frontend/apps/admin-dashboard'
+    dependency: 'react-dom'
+    declared_version: '^19.0.0'
+    group: 'dependencies'
+    lockfile_present: true
+    installed: true
+    classification: installed_matching_lockfile
+  - project: 'frontend/apps/admin-dashboard'
+    dependency: 'react-hook-form'
+    declared_version: '^7.49.3'
+    group: 'dependencies'
+    lockfile_present: true
+    installed: true
+    classification: installed_matching_lockfile
+  - project: 'frontend/apps/admin-dashboard'
+    dependency: 'recharts'
+    declared_version: '^2.10.4'
+    group: 'dependencies'
+    lockfile_present: true
+    installed: true
+    classification: installed_matching_lockfile
+  - project: 'frontend/apps/admin-dashboard'
+    dependency: 'sonner'
+    declared_version: '^1.3.1'
+    group: 'dependencies'
+    lockfile_present: true
+    installed: true
+    classification: installed_matching_lockfile
+  - project: 'frontend/apps/admin-dashboard'
+    dependency: 'tailwindcss'
+    declared_version: '^3.4.1'
+    group: 'devDependencies'
+    lockfile_present: true
+    installed: true
+    classification: installed_matching_lockfile
+  - project: 'frontend/apps/admin-dashboard'
+    dependency: 'typescript'
+    declared_version: '^5.3.3'
+    group: 'devDependencies'
+    lockfile_present: true
+    installed: true
+    classification: installed_matching_lockfile
+  - project: 'frontend/apps/admin-dashboard'
+    dependency: 'zod'
+    declared_version: '^3.22.4'
+    group: 'dependencies'
+    lockfile_present: true
+    installed: true
+    classification: installed_matching_lockfile
+  - project: 'frontend/apps/distributor-portal'
+    dependency: '@radix-ui/react-dialog'
+    declared_version: '^1.0.5'
+    group: 'dependencies'
+    lockfile_present: true
+    installed: true
+    classification: installed_matching_lockfile
+  - project: 'frontend/apps/distributor-portal'
+    dependency: '@radix-ui/react-dropdown-menu'
+    declared_version: '^2.0.6'
+    group: 'dependencies'
+    lockfile_present: true
+    installed: true
+    classification: installed_matching_lockfile
+  - project: 'frontend/apps/distributor-portal'
+    dependency: '@radix-ui/react-label'
+    declared_version: '^2.0.2'
+    group: 'dependencies'
+    lockfile_present: true
+    installed: true
+    classification: installed_matching_lockfile
+  - project: 'frontend/apps/distributor-portal'
+    dependency: '@radix-ui/react-select'
+    declared_version: '^2.0.0'
+    group: 'dependencies'
+    lockfile_present: true
+    installed: true
+    classification: installed_matching_lockfile
+  - project: 'frontend/apps/distributor-portal'
+    dependency: '@radix-ui/react-slot'
+    declared_version: '^1.0.2'
+    group: 'dependencies'
+    lockfile_present: true
+    installed: true
+    classification: installed_matching_lockfile
+  - project: 'frontend/apps/distributor-portal'
+    dependency: '@radix-ui/react-tabs'
+    declared_version: '^1.0.4'
+    group: 'dependencies'
+    lockfile_present: true
+    installed: true
+    classification: installed_matching_lockfile
+  - project: 'frontend/apps/distributor-portal'
+    dependency: '@radix-ui/react-toast'
+    declared_version: '^1.1.5'
+    group: 'dependencies'
+    lockfile_present: true
+    installed: true
+    classification: installed_matching_lockfile
+  - project: 'frontend/apps/distributor-portal'
+    dependency: '@tanstack/react-query'
+    declared_version: '^5.17.0'
+    group: 'dependencies'
+    lockfile_present: true
+    installed: true
+    classification: installed_matching_lockfile
+  - project: 'frontend/apps/distributor-portal'
+    dependency: '@tanstack/react-table'
+    declared_version: '^8.11.0'
+    group: 'dependencies'
+    lockfile_present: true
+    installed: true
+    classification: installed_matching_lockfile
+  - project: 'frontend/apps/distributor-portal'
+    dependency: '@types/node'
+    declared_version: '^20.11.0'
+    group: 'devDependencies'
+    lockfile_present: true
+    installed: true
+    classification: installed_matching_lockfile
+  - project: 'frontend/apps/distributor-portal'
+    dependency: '@types/react'
+    declared_version: '^18.2.48'
+    group: 'devDependencies'
+    lockfile_present: true
+    installed: true
+    classification: installed_matching_lockfile
+  - project: 'frontend/apps/distributor-portal'
+    dependency: '@types/react-dom'
+    declared_version: '^18.2.18'
+    group: 'devDependencies'
+    lockfile_present: true
+    installed: true
+    classification: installed_matching_lockfile
+  - project: 'frontend/apps/distributor-portal'
+    dependency: '@typescript-eslint/eslint-plugin'
+    declared_version: '^6.19.0'
+    group: 'devDependencies'
+    lockfile_present: true
+    installed: true
+    classification: installed_matching_lockfile
+  - project: 'frontend/apps/distributor-portal'
+    dependency: 'autoprefixer'
+    declared_version: '^10.4.17'
+    group: 'devDependencies'
+    lockfile_present: true
+    installed: true
+    classification: installed_matching_lockfile
+  - project: 'frontend/apps/distributor-portal'
+    dependency: 'axios'
+    declared_version: '^1.6.5'
+    group: 'dependencies'
+    lockfile_present: true
+    installed: true
+    classification: installed_matching_lockfile
+  - project: 'frontend/apps/distributor-portal'
+    dependency: 'class-variance-authority'
+    declared_version: '^0.7.0'
+    group: 'dependencies'
+    lockfile_present: true
+    installed: true
+    classification: installed_matching_lockfile
+  - project: 'frontend/apps/distributor-portal'
+    dependency: 'clsx'
+    declared_version: '^2.1.0'
+    group: 'dependencies'
+    lockfile_present: true
+    installed: true
+    classification: installed_matching_lockfile
+  - project: 'frontend/apps/distributor-portal'
+    dependency: 'date-fns'
+    declared_version: '^3.0.0'
+    group: 'dependencies'
+    lockfile_present: true
+    installed: true
+    classification: installed_matching_lockfile
+  - project: 'frontend/apps/distributor-portal'
+    dependency: 'eslint'
+    declared_version: '^8.56.0'
+    group: 'devDependencies'
+    lockfile_present: true
+    installed: true
+    classification: installed_matching_lockfile
+  - project: 'frontend/apps/distributor-portal'
+    dependency: 'eslint-config-next'
+    declared_version: '15.1.0'
+    group: 'devDependencies'
+    lockfile_present: true
+    installed: true
+    classification: installed_matching_lockfile
+  - project: 'frontend/apps/distributor-portal'
+    dependency: 'lucide-react'
+    declared_version: '^0.312.0'
+    group: 'dependencies'
+    lockfile_present: true
+    installed: true
+    classification: installed_matching_lockfile
+  - project: 'frontend/apps/distributor-portal'
+    dependency: 'next'
+    declared_version: '15.1.0'
+    group: 'dependencies'
+    lockfile_present: true
+    installed: true
+    classification: installed_matching_lockfile
+  - project: 'frontend/apps/distributor-portal'
+    dependency: 'next-themes'
+    declared_version: '^0.2.1'
+    group: 'dependencies'
+    lockfile_present: true
+    installed: true
+    classification: installed_matching_lockfile
+  - project: 'frontend/apps/distributor-portal'
+    dependency: 'postcss'
+    declared_version: '^8.4.33'
+    group: 'devDependencies'
+    lockfile_present: true
+    installed: true
+    classification: installed_matching_lockfile
+  - project: 'frontend/apps/distributor-portal'
+    dependency: 'prettier'
+    declared_version: '^3.2.4'
+    group: 'devDependencies'
+    lockfile_present: true
+    installed: true
+    classification: installed_matching_lockfile
+  - project: 'frontend/apps/distributor-portal'
+    dependency: 'prettier-plugin-tailwindcss'
+    declared_version: '^0.5.11'
+    group: 'devDependencies'
+    lockfile_present: true
+    installed: true
+    classification: installed_matching_lockfile
+  - project: 'frontend/apps/distributor-portal'
+    dependency: 'react'
+    declared_version: '^18.2.0'
+    group: 'dependencies'
+    lockfile_present: true
+    installed: true
+    classification: installed_matching_lockfile
+  - project: 'frontend/apps/distributor-portal'
+    dependency: 'react-dom'
+    declared_version: '^18.2.0'
+    group: 'dependencies'
+    lockfile_present: true
+    installed: true
+    classification: installed_matching_lockfile
+  - project: 'frontend/apps/distributor-portal'
+    dependency: 'react-hook-form'
+    declared_version: '^7.49.0'
+    group: 'dependencies'
+    lockfile_present: true
+    installed: true
+    classification: installed_matching_lockfile
+  - project: 'frontend/apps/distributor-portal'
+    dependency: 'recharts'
+    declared_version: '^2.10.0'
+    group: 'dependencies'
+    lockfile_present: true
+    installed: true
+    classification: installed_matching_lockfile
+  - project: 'frontend/apps/distributor-portal'
+    dependency: 'tailwindcss'
+    declared_version: '^3.4.1'
+    group: 'devDependencies'
+    lockfile_present: true
+    installed: true
+    classification: installed_matching_lockfile
+  - project: 'frontend/apps/distributor-portal'
+    dependency: 'tailwindcss-animate'
+    declared_version: '^1.0.7'
+    group: 'dependencies'
+    lockfile_present: true
+    installed: true
+    classification: installed_matching_lockfile
+  - project: 'frontend/apps/distributor-portal'
+    dependency: 'tailwind-merge'
+    declared_version: '^2.2.0'
+    group: 'dependencies'
+    lockfile_present: true
+    installed: true
+    classification: installed_matching_lockfile
+  - project: 'frontend/apps/distributor-portal'
+    dependency: 'typescript'
+    declared_version: '^5.3.3'
+    group: 'devDependencies'
+    lockfile_present: true
+    installed: true
+    classification: installed_matching_lockfile
+  - project: 'frontend/apps/distributor-portal'
+    dependency: 'zod'
+    declared_version: '^3.22.4'
+    group: 'dependencies'
+    lockfile_present: true
+    installed: true
+    classification: installed_matching_lockfile
+  - project: 'frontend/apps/distributor-portal'
+    dependency: 'zustand'
+    declared_version: '^4.5.0'
+    group: 'dependencies'
+    lockfile_present: true
+    installed: true
+    classification: installed_matching_lockfile
+  - project: 'tests'
+    dependency: '@playwright/test'
+    declared_version: '^1.41.0'
+    group: 'devDependencies'
+    lockfile_present: false
+    installed: false
+    classification: missing
+  - project: 'tests'
+    dependency: '@types/node'
+    declared_version: '^20.11.0'
+    group: 'devDependencies'
+    lockfile_present: false
+    installed: false
+    classification: missing

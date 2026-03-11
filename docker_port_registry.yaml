@@ -1,0 +1,44 @@
+﻿docker_active_bindings:
+  - 'founderos-postgres 0.0.0.0:5435->5432/tcp, [::]:5435->5432/tcp'
+  - 'resident-cement-postgres 0.0.0.0:5432->5432/tcp, [::]:5432->5432/tcp'
+  - 'resident-cement-minio 0.0.0.0:9000->9000/tcp, [::]:9000->9000/tcp, 0.0.0.0:9002->9001/tcp, [::]:9002->9001/tcp'
+  - 'resident-cement-kafka-ui 0.0.0.0:8085->8080/tcp, [::]:8085->8080/tcp'
+  - 'resident-cement-kafka 0.0.0.0:9092->9092/tcp, [::]:9092->9092/tcp, 0.0.0.0:29092->29092/tcp, [::]:29092->29092/tcp'
+  - 'resident-cement-redis 0.0.0.0:6379->6379/tcp, [::]:6379->6379/tcp'
+  - 'resident-cement-mongo 0.0.0.0:27017->27017/tcp, [::]:27017->27017/tcp'
+  - 'resident-cement-keycloak 0.0.0.0:8180->8080/tcp, [::]:8180->8080/tcp'
+  - 'resident-cement-zookeeper 2181/tcp, 2888/tcp, 3888/tcp'
+  - 'lamora-backend-dev 0.0.0.0:8001->8001/tcp, [::]:8001->8001/tcp'
+  - 'lamora-postgres-dev 0.0.0.0:5434->5432/tcp, [::]:5434->5432/tcp'
+host_listening_ports:
+  - 135
+  - 139
+  - 445
+  - 808
+  - 5040
+  - 5432
+  - 5434
+  - 5435
+  - 6379
+  - 7070
+  - 8001
+  - 8085
+  - 8180
+  - 8733
+  - 9000
+  - 9001
+  - 9002
+  - 9092
+  - 11434
+  - 27017
+  - 29092
+  - 42000
+  - 42050
+  - 49664
+  - 49665
+  - 49666
+  - 49667
+  - 49668
+  - 49669
+  - 61373
+  - 62630

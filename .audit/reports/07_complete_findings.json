@@ -1,0 +1,1294 @@
+{
+  "phase1": {
+    "phase": "AI Code Forensics",
+    "status": "completed",
+    "findings": [],
+    "risk_level": "medium",
+    "ai_generated_markers": [
+      {
+        "file": "C:\\Users\\UCHE\\my-qwen-project\\PROJECTS\\ResidentCement\\.audit\\forensic_audit_executor.py",
+        "pattern_matched": "generated code"
+      }
+    ],
+    "backdoor_scan": {
+      "total_findings": 58,
+      "findings": [
+        {
+          "file": "C:\\Users\\UCHE\\my-qwen-project\\PROJECTS\\ResidentCement\\backend\\shared\\kernel\\dist\\index.js",
+          "category": "obfuscated_network_calls",
+          "pattern": "Function\\s*\\(",
+          "severity": "medium"
+        },
+        {
+          "file": "C:\\Users\\UCHE\\my-qwen-project\\PROJECTS\\ResidentCement\\backend\\shared\\kernel\\dist\\logger.js",
+          "category": "obfuscated_network_calls",
+          "pattern": "Function\\s*\\(",
+          "severity": "medium"
+        },
+        {
+          "file": "C:\\Users\\UCHE\\my-qwen-project\\PROJECTS\\ResidentCement\\backend\\gateway\\dist\\index.js",
+          "category": "obfuscated_network_calls",
+          "pattern": "Function\\s*\\(",
+          "severity": "medium"
+        },
+        {
+          "file": "C:\\Users\\UCHE\\my-qwen-project\\PROJECTS\\ResidentCement\\backend\\gateway\\dist\\lib\\kafka.js",
+          "category": "obfuscated_network_calls",
+          "pattern": "Function\\s*\\(",
+          "severity": "medium"
+        },
+        {
+          "file": "C:\\Users\\UCHE\\my-qwen-project\\PROJECTS\\ResidentCement\\backend\\gateway\\dist\\middleware\\auth.js",
+          "category": "obfuscated_network_calls",
+          "pattern": "Function\\s*\\(",
+          "severity": "medium"
+        },
+        {
+          "file": "C:\\Users\\UCHE\\my-qwen-project\\PROJECTS\\ResidentCement\\backend\\gateway\\dist\\routes\\auth.js",
+          "category": "obfuscated_network_calls",
+          "pattern": "Function\\s*\\(",
+          "severity": "medium"
+        },
+        {
+          "file": "C:\\Users\\UCHE\\my-qwen-project\\PROJECTS\\ResidentCement\\backend\\gateway\\dist\\routes\\customer.js",
+          "category": "obfuscated_network_calls",
+          "pattern": "Function\\s*\\(",
+          "severity": "medium"
+        },
+        {
+          "file": "C:\\Users\\UCHE\\my-qwen-project\\PROJECTS\\ResidentCement\\backend\\gateway\\dist\\routes\\inventory.js",
+          "category": "obfuscated_network_calls",
+          "pattern": "Function\\s*\\(",
+          "severity": "medium"
+        },
+        {
+          "file": "C:\\Users\\UCHE\\my-qwen-project\\PROJECTS\\ResidentCement\\backend\\gateway\\dist\\routes\\order.js",
+          "category": "obfuscated_network_calls",
+          "pattern": "Function\\s*\\(",
+          "severity": "medium"
+        },
+        {
+          "file": "C:\\Users\\UCHE\\my-qwen-project\\PROJECTS\\ResidentCement\\backend\\gateway\\dist\\routes\\payment.js",
+          "category": "obfuscated_network_calls",
+          "pattern": "Function\\s*\\(",
+          "severity": "medium"
+        },
+        {
+          "file": "C:\\Users\\UCHE\\my-qwen-project\\PROJECTS\\ResidentCement\\backend\\gateway\\dist\\routes\\pricing.js",
+          "category": "obfuscated_network_calls",
+          "pattern": "Function\\s*\\(",
+          "severity": "medium"
+        },
+        {
+          "file": "C:\\Users\\UCHE\\my-qwen-project\\PROJECTS\\ResidentCement\\backend\\gateway\\dist\\routes\\product.js",
+          "category": "obfuscated_network_calls",
+          "pattern": "Function\\s*\\(",
+          "severity": "medium"
+        },
+        {
+          "file": "C:\\Users\\UCHE\\my-qwen-project\\PROJECTS\\ResidentCement\\backend\\gateway\\dist\\utils\\logger.js",
+          "category": "obfuscated_network_calls",
+          "pattern": "Function\\s*\\(",
+          "severity": "medium"
+        },
+        {
+          "file": "C:\\Users\\UCHE\\my-qwen-project\\PROJECTS\\ResidentCement\\.audit\\forensic_audit_executor.py",
+          "category": "suspicious_data_exfil",
+          "pattern": "XMLHttpRequest",
+          "severity": "medium"
+        },
+        {
+          "file": "C:\\Users\\UCHE\\my-qwen-project\\PROJECTS\\ResidentCement\\.audit\\forensic_audit_executor.py",
+          "category": "time_based_logic",
+          "pattern": "time\\.Now\\s*\\(\\)",
+          "severity": "medium"
+        },
+        {
+          "file": "C:\\Users\\UCHE\\my-qwen-project\\PROJECTS\\ResidentCement\\tests\\e2e\\platform.spec.ts",
+          "category": "time_based_logic",
+          "pattern": "Date\\.now\\s*\\(\\)",
+          "severity": "medium"
+        },
+        {
+          "file": "C:\\Users\\UCHE\\my-qwen-project\\PROJECTS\\ResidentCement\\tests\\e2e\\src\\resident-cement.spec.ts",
+          "category": "time_based_logic",
+          "pattern": "Date\\.now\\s*\\(\\)",
+          "severity": "medium"
+        },
+        {
+          "file": "C:\\Users\\UCHE\\my-qwen-project\\PROJECTS\\ResidentCement\\backend\\shared\\kernel\\src\\errors.ts",
+          "category": "time_based_logic",
+          "pattern": "new Date\\s*\\(\\)",
+          "severity": "medium"
+        },
+        {
+          "file": "C:\\Users\\UCHE\\my-qwen-project\\PROJECTS\\ResidentCement\\backend\\shared\\kernel\\src\\health.ts",
+          "category": "time_based_logic",
+          "pattern": "Date\\.now\\s*\\(\\)",
+          "severity": "medium"
+        },
+        {
+          "file": "C:\\Users\\UCHE\\my-qwen-project\\PROJECTS\\ResidentCement\\backend\\shared\\kernel\\src\\health.ts",
+          "category": "time_based_logic",
+          "pattern": "new Date\\s*\\(\\)",
+          "severity": "medium"
+        },
+        {
+          "file": "C:\\Users\\UCHE\\my-qwen-project\\PROJECTS\\ResidentCement\\backend\\shared\\kernel\\src\\logger.ts",
+          "category": "time_based_logic",
+          "pattern": "Date\\.now\\s*\\(\\)",
+          "severity": "medium"
+        },
+        {
+          "file": "C:\\Users\\UCHE\\my-qwen-project\\PROJECTS\\ResidentCement\\backend\\shared\\kernel\\src\\middleware.ts",
+          "category": "time_based_logic",
+          "pattern": "Date\\.now\\s*\\(\\)",
+          "severity": "medium"
+        },
+        {
+          "file": "C:\\Users\\UCHE\\my-qwen-project\\PROJECTS\\ResidentCement\\backend\\shared\\kernel\\src\\utils.ts",
+          "category": "time_based_logic",
+          "pattern": "Date\\.now\\s*\\(\\)",
+          "severity": "medium"
+        },
+        {
+          "file": "C:\\Users\\UCHE\\my-qwen-project\\PROJECTS\\ResidentCement\\backend\\shared\\kernel\\src\\utils.ts",
+          "category": "time_based_logic",
+          "pattern": "new Date\\s*\\(\\)",
+          "severity": "medium"
+        },
+        {
+          "file": "C:\\Users\\UCHE\\my-qwen-project\\PROJECTS\\ResidentCement\\backend\\shared\\kafka-client\\src\\index.ts",
+          "category": "time_based_logic",
+          "pattern": "new Date\\s*\\(\\)",
+          "severity": "medium"
+        },
+        {
+          "file": "C:\\Users\\UCHE\\my-qwen-project\\PROJECTS\\ResidentCement\\backend\\services\\product-service\\src\\index.ts",
+          "category": "time_based_logic",
+          "pattern": "Date\\.now\\s*\\(\\)",
+          "severity": "medium"
+        },
+        {
+          "file": "C:\\Users\\UCHE\\my-qwen-project\\PROJECTS\\ResidentCement\\backend\\services\\product-service\\src\\index.ts",
+          "category": "time_based_logic",
+          "pattern": "new Date\\s*\\(\\)",
+          "severity": "medium"
+        },
+        {
+          "file": "C:\\Users\\UCHE\\my-qwen-project\\PROJECTS\\ResidentCement\\backend\\services\\pricing-service\\src\\index.ts",
+          "category": "time_based_logic",
+          "pattern": "Date\\.now\\s*\\(\\)",
+          "severity": "medium"
+        },
+        {
+          "file": "C:\\Users\\UCHE\\my-qwen-project\\PROJECTS\\ResidentCement\\backend\\services\\pricing-service\\src\\index.ts",
+          "category": "time_based_logic",
+          "pattern": "new Date\\s*\\(\\)",
+          "severity": "medium"
+        },
+        {
+          "file": "C:\\Users\\UCHE\\my-qwen-project\\PROJECTS\\ResidentCement\\backend\\services\\payment-service\\src\\index.ts",
+          "category": "time_based_logic",
+          "pattern": "Date\\.now\\s*\\(\\)",
+          "severity": "medium"
+        },
+        {
+          "file": "C:\\Users\\UCHE\\my-qwen-project\\PROJECTS\\ResidentCement\\backend\\services\\payment-service\\src\\index.ts",
+          "category": "time_based_logic",
+          "pattern": "new Date\\s*\\(\\)",
+          "severity": "medium"
+        },
+        {
+          "file": "C:\\Users\\UCHE\\my-qwen-project\\PROJECTS\\ResidentCement\\backend\\services\\order-service\\src\\index.ts",
+          "category": "time_based_logic",
+          "pattern": "Date\\.now\\s*\\(\\)",
+          "severity": "medium"
+        },
+        {
+          "file": "C:\\Users\\UCHE\\my-qwen-project\\PROJECTS\\ResidentCement\\backend\\services\\order-service\\src\\index.ts",
+          "category": "time_based_logic",
+          "pattern": "new Date\\s*\\(\\)",
+          "severity": "medium"
+        },
+        {
+          "file": "C:\\Users\\UCHE\\my-qwen-project\\PROJECTS\\ResidentCement\\backend\\services\\inventory-service\\src\\index.ts",
+          "category": "time_based_logic",
+          "pattern": "Date\\.now\\s*\\(\\)",
+          "severity": "medium"
+        },
+        {
+          "file": "C:\\Users\\UCHE\\my-qwen-project\\PROJECTS\\ResidentCement\\backend\\services\\inventory-service\\src\\index.ts",
+          "category": "time_based_logic",
+          "pattern": "new Date\\s*\\(\\)",
+          "severity": "medium"
+        },
+        {
+          "file": "C:\\Users\\UCHE\\my-qwen-project\\PROJECTS\\ResidentCement\\backend\\services\\events\\src\\index.ts",
+          "category": "time_based_logic",
+          "pattern": "new Date\\s*\\(\\)",
+          "severity": "medium"
+        },
+        {
+          "file": "C:\\Users\\UCHE\\my-qwen-project\\PROJECTS\\ResidentCement\\backend\\services\\customer-service\\src\\index.ts",
+          "category": "time_based_logic",
+          "pattern": "Date\\.now\\s*\\(\\)",
+          "severity": "medium"
+        },
+        {
+          "file": "C:\\Users\\UCHE\\my-qwen-project\\PROJECTS\\ResidentCement\\backend\\services\\customer-service\\src\\index.ts",
+          "category": "time_based_logic",
+          "pattern": "new Date\\s*\\(\\)",
+          "severity": "medium"
+        },
+        {
+          "file": "C:\\Users\\UCHE\\my-qwen-project\\PROJECTS\\ResidentCement\\backend\\gateway\\prisma\\seed.ts",
+          "category": "time_based_logic",
+          "pattern": "new Date\\s*\\(\\)",
+          "severity": "medium"
+        },
+        {
+          "file": "C:\\Users\\UCHE\\my-qwen-project\\PROJECTS\\ResidentCement\\backend\\gateway\\src\\lib\\kafka.ts",
+          "category": "time_based_logic",
+          "pattern": "Date\\.now\\s*\\(\\)",
+          "severity": "medium"
+        },
+        {
+          "file": "C:\\Users\\UCHE\\my-qwen-project\\PROJECTS\\ResidentCement\\backend\\gateway\\src\\lib\\kafka.ts",
+          "category": "time_based_logic",
+          "pattern": "new Date\\s*\\(\\)",
+          "severity": "medium"
+        },
+        {
+          "file": "C:\\Users\\UCHE\\my-qwen-project\\PROJECTS\\ResidentCement\\backend\\gateway\\src\\routes\\auth.ts",
+          "category": "time_based_logic",
+          "pattern": "new Date\\s*\\(\\)",
+          "severity": "medium"
+        },
+        {
+          "file": "C:\\Users\\UCHE\\my-qwen-project\\PROJECTS\\ResidentCement\\backend\\gateway\\src\\routes\\health.ts",
+          "category": "time_based_logic",
+          "pattern": "new Date\\s*\\(\\)",
+          "severity": "medium"
+        },
+        {
+          "file": "C:\\Users\\UCHE\\my-qwen-project\\PROJECTS\\ResidentCement\\backend\\gateway\\src\\routes\\order.ts",
+          "category": "time_based_logic",
+          "pattern": "Date\\.now\\s*\\(\\)",
+          "severity": "medium"
+        },
+        {
+          "file": "C:\\Users\\UCHE\\my-qwen-project\\PROJECTS\\ResidentCement\\backend\\gateway\\src\\routes\\product.ts",
+          "category": "time_based_logic",
+          "pattern": "new Date\\s*\\(\\)",
+          "severity": "medium"
+        },
+        {
+          "file": "C:\\Users\\UCHE\\my-qwen-project\\PROJECTS\\ResidentCement\\backend\\shared\\kernel\\dist\\errors.js",
+          "category": "time_based_logic",
+          "pattern": "new Date\\s*\\(\\)",
+          "severity": "medium"
+        },
+        {
+          "file": "C:\\Users\\UCHE\\my-qwen-project\\PROJECTS\\ResidentCement\\backend\\shared\\kernel\\dist\\health.js",
+          "category": "time_based_logic",
+          "pattern": "Date\\.now\\s*\\(\\)",
+          "severity": "medium"
+        },
+        {
+          "file": "C:\\Users\\UCHE\\my-qwen-project\\PROJECTS\\ResidentCement\\backend\\shared\\kernel\\dist\\health.js",
+          "category": "time_based_logic",
+          "pattern": "new Date\\s*\\(\\)",
+          "severity": "medium"
+        },
+        {
+          "file": "C:\\Users\\UCHE\\my-qwen-project\\PROJECTS\\ResidentCement\\backend\\shared\\kernel\\dist\\logger.js",
+          "category": "time_based_logic",
+          "pattern": "Date\\.now\\s*\\(\\)",
+          "severity": "medium"
+        },
+        {
+          "file": "C:\\Users\\UCHE\\my-qwen-project\\PROJECTS\\ResidentCement\\backend\\shared\\kernel\\dist\\middleware.js",
+          "category": "time_based_logic",
+          "pattern": "Date\\.now\\s*\\(\\)",
+          "severity": "medium"
+        },
+        {
+          "file": "C:\\Users\\UCHE\\my-qwen-project\\PROJECTS\\ResidentCement\\backend\\shared\\kernel\\dist\\utils.js",
+          "category": "time_based_logic",
+          "pattern": "Date\\.now\\s*\\(\\)",
+          "severity": "medium"
+        },
+        {
+          "file": "C:\\Users\\UCHE\\my-qwen-project\\PROJECTS\\ResidentCement\\backend\\shared\\kernel\\dist\\utils.js",
+          "category": "time_based_logic",
+          "pattern": "new Date\\s*\\(\\)",
+          "severity": "medium"
+        },
+        {
+          "file": "C:\\Users\\UCHE\\my-qwen-project\\PROJECTS\\ResidentCement\\backend\\gateway\\dist\\lib\\kafka.js",
+          "category": "time_based_logic",
+          "pattern": "Date\\.now\\s*\\(\\)",
+          "severity": "medium"
+        },
+        {
+          "file": "C:\\Users\\UCHE\\my-qwen-project\\PROJECTS\\ResidentCement\\backend\\gateway\\dist\\lib\\kafka.js",
+          "category": "time_based_logic",
+          "pattern": "new Date\\s*\\(\\)",
+          "severity": "medium"
+        },
+        {
+          "file": "C:\\Users\\UCHE\\my-qwen-project\\PROJECTS\\ResidentCement\\backend\\gateway\\dist\\routes\\auth.js",
+          "category": "time_based_logic",
+          "pattern": "new Date\\s*\\(\\)",
+          "severity": "medium"
+        },
+        {
+          "file": "C:\\Users\\UCHE\\my-qwen-project\\PROJECTS\\ResidentCement\\backend\\gateway\\dist\\routes\\health.js",
+          "category": "time_based_logic",
+          "pattern": "new Date\\s*\\(\\)",
+          "severity": "medium"
+        },
+        {
+          "file": "C:\\Users\\UCHE\\my-qwen-project\\PROJECTS\\ResidentCement\\backend\\gateway\\dist\\routes\\order.js",
+          "category": "time_based_logic",
+          "pattern": "Date\\.now\\s*\\(\\)",
+          "severity": "medium"
+        },
+        {
+          "file": "C:\\Users\\UCHE\\my-qwen-project\\PROJECTS\\ResidentCement\\backend\\gateway\\dist\\routes\\product.js",
+          "category": "time_based_logic",
+          "pattern": "new Date\\s*\\(\\)",
+          "severity": "medium"
+        }
+      ]
+    },
+    "hallucination_scan": {
+      "total_findings": 3,
+      "findings": [
+        {
+          "file": "C:\\Users\\UCHE\\my-qwen-project\\PROJECTS\\ResidentCement\\.audit\\forensic_audit_executor.py",
+          "category": "impossible_configs",
+          "pattern": "database.*password.*none"
+        },
+        {
+          "file": "C:\\Users\\UCHE\\my-qwen-project\\PROJECTS\\ResidentCement\\.audit\\forensic_audit_executor.py",
+          "category": "impossible_configs",
+          "pattern": "auth.*disabled.*true"
+        },
+        {
+          "file": "C:\\Users\\UCHE\\my-qwen-project\\PROJECTS\\ResidentCement\\.audit\\forensic_audit_executor.py",
+          "category": "impossible_configs",
+          "pattern": "security.*bypass"
+        }
+      ]
+    }
+  },
+  "phase2": {
+    "phase": "Static Analysis",
+    "status": "completed",
+    "findings": [],
+    "risk_level": "critical",
+    "secrets_scan": {
+      "total_findings": 23,
+      "findings": [
+        {
+          "file": "C:\\Users\\UCHE\\my-qwen-project\\PROJECTS\\ResidentCement\\.audit\\forensic_audit_executor.py",
+          "line": 300,
+          "secret_type": "aws_keys",
+          "severity": "critical"
+        },
+        {
+          "file": "C:\\Users\\UCHE\\my-qwen-project\\PROJECTS\\ResidentCement\\.audit\\forensic_audit_executor.py",
+          "line": 547,
+          "secret_type": "passwords",
+          "severity": "high"
+        },
+        {
+          "file": "C:\\Users\\UCHE\\my-qwen-project\\PROJECTS\\ResidentCement\\tests\\e2e\\platform.spec.ts",
+          "line": 88,
+          "secret_type": "passwords",
+          "severity": "high"
+        },
+        {
+          "file": "C:\\Users\\UCHE\\my-qwen-project\\PROJECTS\\ResidentCement\\tests\\e2e\\platform.spec.ts",
+          "line": 107,
+          "secret_type": "passwords",
+          "severity": "high"
+        },
+        {
+          "file": "C:\\Users\\UCHE\\my-qwen-project\\PROJECTS\\ResidentCement\\tests\\e2e\\platform.spec.ts",
+          "line": 131,
+          "secret_type": "passwords",
+          "severity": "high"
+        },
+        {
+          "file": "C:\\Users\\UCHE\\my-qwen-project\\PROJECTS\\ResidentCement\\tests\\e2e\\platform.spec.ts",
+          "line": 172,
+          "secret_type": "passwords",
+          "severity": "high"
+        },
+        {
+          "file": "C:\\Users\\UCHE\\my-qwen-project\\PROJECTS\\ResidentCement\\tests\\e2e\\platform.spec.ts",
+          "line": 347,
+          "secret_type": "passwords",
+          "severity": "high"
+        },
+        {
+          "file": "C:\\Users\\UCHE\\my-qwen-project\\PROJECTS\\ResidentCement\\tests\\e2e\\src\\distributor-portal.spec.ts",
+          "line": 65,
+          "secret_type": "passwords",
+          "severity": "high"
+        },
+        {
+          "file": "C:\\Users\\UCHE\\my-qwen-project\\PROJECTS\\ResidentCement\\tests\\e2e\\src\\resident-cement.spec.ts",
+          "line": 17,
+          "secret_type": "passwords",
+          "severity": "high"
+        },
+        {
+          "file": "C:\\Users\\UCHE\\my-qwen-project\\PROJECTS\\ResidentCement\\backend\\gateway\\src\\middleware\\auth.ts",
+          "line": 16,
+          "secret_type": "jwt_secrets",
+          "severity": "high"
+        },
+        {
+          "file": "C:\\Users\\UCHE\\my-qwen-project\\PROJECTS\\ResidentCement\\backend\\gateway\\dist\\middleware\\auth.js",
+          "line": 10,
+          "secret_type": "jwt_secrets",
+          "severity": "high"
+        },
+        {
+          "file": "C:\\Users\\UCHE\\my-qwen-project\\PROJECTS\\ResidentCement\\.github\\workflows\\ci-cd.yml",
+          "line": 250,
+          "secret_type": "database_urls",
+          "severity": "high"
+        },
+        {
+          "file": "C:\\Users\\UCHE\\my-qwen-project\\PROJECTS\\ResidentCement\\.env",
+          "line": 30,
+          "secret_type": "jwt_secrets",
+          "severity": "high"
+        },
+        {
+          "file": "C:\\Users\\UCHE\\my-qwen-project\\PROJECTS\\ResidentCement\\.env.example",
+          "line": 32,
+          "secret_type": "jwt_secrets",
+          "severity": "high"
+        },
+        {
+          "file": "C:\\Users\\UCHE\\my-qwen-project\\PROJECTS\\ResidentCement\\backend\\gateway\\.env",
+          "line": 22,
+          "secret_type": "jwt_secrets",
+          "severity": "high"
+        },
+        {
+          "file": "C:\\Users\\UCHE\\my-qwen-project\\PROJECTS\\ResidentCement\\backend\\gateway\\.env.example",
+          "line": 22,
+          "secret_type": "jwt_secrets",
+          "severity": "high"
+        },
+        {
+          "file": "C:\\Users\\UCHE\\my-qwen-project\\PROJECTS\\ResidentCement\\backend\\services\\customer-service\\.env",
+          "line": 19,
+          "secret_type": "jwt_secrets",
+          "severity": "high"
+        },
+        {
+          "file": "C:\\Users\\UCHE\\my-qwen-project\\PROJECTS\\ResidentCement\\backend\\services\\customer-service\\.env.example",
+          "line": 19,
+          "secret_type": "jwt_secrets",
+          "severity": "high"
+        },
+        {
+          "file": "C:\\Users\\UCHE\\my-qwen-project\\PROJECTS\\ResidentCement\\backend\\services\\inventory-service\\.env",
+          "line": 19,
+          "secret_type": "jwt_secrets",
+          "severity": "high"
+        },
+        {
+          "file": "C:\\Users\\UCHE\\my-qwen-project\\PROJECTS\\ResidentCement\\backend\\services\\order-service\\.env",
+          "line": 19,
+          "secret_type": "jwt_secrets",
+          "severity": "high"
+        },
+        {
+          "file": "C:\\Users\\UCHE\\my-qwen-project\\PROJECTS\\ResidentCement\\backend\\services\\payment-service\\.env",
+          "line": 19,
+          "secret_type": "jwt_secrets",
+          "severity": "high"
+        },
+        {
+          "file": "C:\\Users\\UCHE\\my-qwen-project\\PROJECTS\\ResidentCement\\backend\\services\\pricing-service\\.env",
+          "line": 19,
+          "secret_type": "jwt_secrets",
+          "severity": "high"
+        },
+        {
+          "file": "C:\\Users\\UCHE\\my-qwen-project\\PROJECTS\\ResidentCement\\backend\\services\\product-service\\.env",
+          "line": 19,
+          "secret_type": "jwt_secrets",
+          "severity": "high"
+        }
+      ]
+    },
+    "security_scan": {
+      "total_findings": 42,
+      "findings": [
+        {
+          "file": "C:\\Users\\UCHE\\my-qwen-project\\PROJECTS\\ResidentCement\\backend\\shared\\kernel\\src\\logger.ts",
+          "line": 203,
+          "vulnerability_type": "weak_crypto",
+          "severity": "high"
+        },
+        {
+          "file": "C:\\Users\\UCHE\\my-qwen-project\\PROJECTS\\ResidentCement\\backend\\shared\\kernel\\src\\logger.ts",
+          "line": 415,
+          "vulnerability_type": "weak_crypto",
+          "severity": "high"
+        },
+        {
+          "file": "C:\\Users\\UCHE\\my-qwen-project\\PROJECTS\\ResidentCement\\backend\\shared\\kernel\\src\\logger.ts",
+          "line": 408,
+          "vulnerability_type": "insecure_random",
+          "severity": "high"
+        },
+        {
+          "file": "C:\\Users\\UCHE\\my-qwen-project\\PROJECTS\\ResidentCement\\backend\\shared\\kernel\\src\\middleware.ts",
+          "line": 140,
+          "vulnerability_type": "weak_crypto",
+          "severity": "high"
+        },
+        {
+          "file": "C:\\Users\\UCHE\\my-qwen-project\\PROJECTS\\ResidentCement\\backend\\shared\\kernel\\src\\middleware.ts",
+          "line": 275,
+          "vulnerability_type": "weak_crypto",
+          "severity": "high"
+        },
+        {
+          "file": "C:\\Users\\UCHE\\my-qwen-project\\PROJECTS\\ResidentCement\\backend\\shared\\kernel\\src\\middleware.ts",
+          "line": 277,
+          "vulnerability_type": "weak_crypto",
+          "severity": "high"
+        },
+        {
+          "file": "C:\\Users\\UCHE\\my-qwen-project\\PROJECTS\\ResidentCement\\backend\\shared\\kernel\\src\\middleware.ts",
+          "line": 401,
+          "vulnerability_type": "weak_crypto",
+          "severity": "high"
+        },
+        {
+          "file": "C:\\Users\\UCHE\\my-qwen-project\\PROJECTS\\ResidentCement\\backend\\shared\\kernel\\src\\middleware.ts",
+          "line": 444,
+          "vulnerability_type": "weak_crypto",
+          "severity": "high"
+        },
+        {
+          "file": "C:\\Users\\UCHE\\my-qwen-project\\PROJECTS\\ResidentCement\\backend\\shared\\kernel\\src\\middleware.ts",
+          "line": 237,
+          "vulnerability_type": "insecure_random",
+          "severity": "high"
+        },
+        {
+          "file": "C:\\Users\\UCHE\\my-qwen-project\\PROJECTS\\ResidentCement\\backend\\shared\\kernel\\src\\utils.ts",
+          "line": 25,
+          "vulnerability_type": "insecure_random",
+          "severity": "high"
+        },
+        {
+          "file": "C:\\Users\\UCHE\\my-qwen-project\\PROJECTS\\ResidentCement\\backend\\shared\\kernel\\src\\utils.ts",
+          "line": 31,
+          "vulnerability_type": "insecure_random",
+          "severity": "high"
+        },
+        {
+          "file": "C:\\Users\\UCHE\\my-qwen-project\\PROJECTS\\ResidentCement\\backend\\shared\\kernel\\src\\utils.ts",
+          "line": 37,
+          "vulnerability_type": "insecure_random",
+          "severity": "high"
+        },
+        {
+          "file": "C:\\Users\\UCHE\\my-qwen-project\\PROJECTS\\ResidentCement\\backend\\shared\\kernel\\src\\utils.ts",
+          "line": 45,
+          "vulnerability_type": "insecure_random",
+          "severity": "high"
+        },
+        {
+          "file": "C:\\Users\\UCHE\\my-qwen-project\\PROJECTS\\ResidentCement\\backend\\shared\\kernel\\src\\utils.ts",
+          "line": 308,
+          "vulnerability_type": "insecure_random",
+          "severity": "high"
+        },
+        {
+          "file": "C:\\Users\\UCHE\\my-qwen-project\\PROJECTS\\ResidentCement\\backend\\shared\\kernel\\src\\utils.ts",
+          "line": 389,
+          "vulnerability_type": "insecure_random",
+          "severity": "high"
+        },
+        {
+          "file": "C:\\Users\\UCHE\\my-qwen-project\\PROJECTS\\ResidentCement\\backend\\shared\\kernel\\src\\utils.ts",
+          "line": 398,
+          "vulnerability_type": "insecure_random",
+          "severity": "high"
+        },
+        {
+          "file": "C:\\Users\\UCHE\\my-qwen-project\\PROJECTS\\ResidentCement\\backend\\services\\pricing-service\\src\\index.ts",
+          "line": 201,
+          "vulnerability_type": "insecure_random",
+          "severity": "high"
+        },
+        {
+          "file": "C:\\Users\\UCHE\\my-qwen-project\\PROJECTS\\ResidentCement\\backend\\services\\pricing-service\\src\\index.ts",
+          "line": 270,
+          "vulnerability_type": "insecure_random",
+          "severity": "high"
+        },
+        {
+          "file": "C:\\Users\\UCHE\\my-qwen-project\\PROJECTS\\ResidentCement\\backend\\services\\payment-service\\src\\index.ts",
+          "line": 100,
+          "vulnerability_type": "insecure_random",
+          "severity": "high"
+        },
+        {
+          "file": "C:\\Users\\UCHE\\my-qwen-project\\PROJECTS\\ResidentCement\\backend\\services\\order-service\\src\\index.ts",
+          "line": 233,
+          "vulnerability_type": "weak_crypto",
+          "severity": "high"
+        },
+        {
+          "file": "C:\\Users\\UCHE\\my-qwen-project\\PROJECTS\\ResidentCement\\backend\\services\\order-service\\src\\index.ts",
+          "line": 265,
+          "vulnerability_type": "weak_crypto",
+          "severity": "high"
+        },
+        {
+          "file": "C:\\Users\\UCHE\\my-qwen-project\\PROJECTS\\ResidentCement\\backend\\services\\order-service\\src\\index.ts",
+          "line": 162,
+          "vulnerability_type": "insecure_random",
+          "severity": "high"
+        },
+        {
+          "file": "C:\\Users\\UCHE\\my-qwen-project\\PROJECTS\\ResidentCement\\backend\\gateway\\src\\lib\\kafka.ts",
+          "line": 163,
+          "vulnerability_type": "insecure_random",
+          "severity": "high"
+        },
+        {
+          "file": "C:\\Users\\UCHE\\my-qwen-project\\PROJECTS\\ResidentCement\\backend\\gateway\\src\\middleware\\auth.ts",
+          "line": 60,
+          "vulnerability_type": "weak_crypto",
+          "severity": "high"
+        },
+        {
+          "file": "C:\\Users\\UCHE\\my-qwen-project\\PROJECTS\\ResidentCement\\backend\\shared\\kernel\\dist\\logger.js",
+          "line": 139,
+          "vulnerability_type": "weak_crypto",
+          "severity": "high"
+        },
+        {
+          "file": "C:\\Users\\UCHE\\my-qwen-project\\PROJECTS\\ResidentCement\\backend\\shared\\kernel\\dist\\logger.js",
+          "line": 286,
+          "vulnerability_type": "weak_crypto",
+          "severity": "high"
+        },
+        {
+          "file": "C:\\Users\\UCHE\\my-qwen-project\\PROJECTS\\ResidentCement\\backend\\shared\\kernel\\dist\\logger.js",
+          "line": 281,
+          "vulnerability_type": "insecure_random",
+          "severity": "high"
+        },
+        {
+          "file": "C:\\Users\\UCHE\\my-qwen-project\\PROJECTS\\ResidentCement\\backend\\shared\\kernel\\dist\\middleware.js",
+          "line": 101,
+          "vulnerability_type": "weak_crypto",
+          "severity": "high"
+        },
+        {
+          "file": "C:\\Users\\UCHE\\my-qwen-project\\PROJECTS\\ResidentCement\\backend\\shared\\kernel\\dist\\middleware.js",
+          "line": 196,
+          "vulnerability_type": "weak_crypto",
+          "severity": "high"
+        },
+        {
+          "file": "C:\\Users\\UCHE\\my-qwen-project\\PROJECTS\\ResidentCement\\backend\\shared\\kernel\\dist\\middleware.js",
+          "line": 199,
+          "vulnerability_type": "weak_crypto",
+          "severity": "high"
+        },
+        {
+          "file": "C:\\Users\\UCHE\\my-qwen-project\\PROJECTS\\ResidentCement\\backend\\shared\\kernel\\dist\\middleware.js",
+          "line": 263,
+          "vulnerability_type": "weak_crypto",
+          "severity": "high"
+        },
+        {
+          "file": "C:\\Users\\UCHE\\my-qwen-project\\PROJECTS\\ResidentCement\\backend\\shared\\kernel\\dist\\middleware.js",
+          "line": 298,
+          "vulnerability_type": "weak_crypto",
+          "severity": "high"
+        },
+        {
+          "file": "C:\\Users\\UCHE\\my-qwen-project\\PROJECTS\\ResidentCement\\backend\\shared\\kernel\\dist\\middleware.js",
+          "line": 177,
+          "vulnerability_type": "insecure_random",
+          "severity": "high"
+        },
+        {
+          "file": "C:\\Users\\UCHE\\my-qwen-project\\PROJECTS\\ResidentCement\\backend\\shared\\kernel\\dist\\utils.js",
+          "line": 73,
+          "vulnerability_type": "insecure_random",
+          "severity": "high"
+        },
+        {
+          "file": "C:\\Users\\UCHE\\my-qwen-project\\PROJECTS\\ResidentCement\\backend\\shared\\kernel\\dist\\utils.js",
+          "line": 78,
+          "vulnerability_type": "insecure_random",
+          "severity": "high"
+        },
+        {
+          "file": "C:\\Users\\UCHE\\my-qwen-project\\PROJECTS\\ResidentCement\\backend\\shared\\kernel\\dist\\utils.js",
+          "line": 83,
+          "vulnerability_type": "insecure_random",
+          "severity": "high"
+        },
+        {
+          "file": "C:\\Users\\UCHE\\my-qwen-project\\PROJECTS\\ResidentCement\\backend\\shared\\kernel\\dist\\utils.js",
+          "line": 90,
+          "vulnerability_type": "insecure_random",
+          "severity": "high"
+        },
+        {
+          "file": "C:\\Users\\UCHE\\my-qwen-project\\PROJECTS\\ResidentCement\\backend\\shared\\kernel\\dist\\utils.js",
+          "line": 278,
+          "vulnerability_type": "insecure_random",
+          "severity": "high"
+        },
+        {
+          "file": "C:\\Users\\UCHE\\my-qwen-project\\PROJECTS\\ResidentCement\\backend\\shared\\kernel\\dist\\utils.js",
+          "line": 330,
+          "vulnerability_type": "insecure_random",
+          "severity": "high"
+        },
+        {
+          "file": "C:\\Users\\UCHE\\my-qwen-project\\PROJECTS\\ResidentCement\\backend\\shared\\kernel\\dist\\utils.js",
+          "line": 338,
+          "vulnerability_type": "insecure_random",
+          "severity": "high"
+        },
+        {
+          "file": "C:\\Users\\UCHE\\my-qwen-project\\PROJECTS\\ResidentCement\\backend\\gateway\\dist\\lib\\kafka.js",
+          "line": 130,
+          "vulnerability_type": "insecure_random",
+          "severity": "high"
+        },
+        {
+          "file": "C:\\Users\\UCHE\\my-qwen-project\\PROJECTS\\ResidentCement\\backend\\gateway\\dist\\middleware\\auth.js",
+          "line": 42,
+          "vulnerability_type": "weak_crypto",
+          "severity": "high"
+        }
+      ]
+    },
+    "quality_scan": {
+      "total_findings": 110,
+      "findings": [
+        {
+          "file": "C:\\Users\\UCHE\\my-qwen-project\\PROJECTS\\ResidentCement\\frontend\\apps\\distributor-portal\\src\\lib\\api.ts",
+          "line": 37,
+          "issue_type": "any_types",
+          "severity": "low"
+        },
+        {
+          "file": "C:\\Users\\UCHE\\my-qwen-project\\PROJECTS\\ResidentCement\\frontend\\apps\\distributor-portal\\src\\lib\\api.ts",
+          "line": 44,
+          "issue_type": "any_types",
+          "severity": "low"
+        },
+        {
+          "file": "C:\\Users\\UCHE\\my-qwen-project\\PROJECTS\\ResidentCement\\frontend\\apps\\distributor-portal\\src\\lib\\api.ts",
+          "line": 46,
+          "issue_type": "any_types",
+          "severity": "low"
+        },
+        {
+          "file": "C:\\Users\\UCHE\\my-qwen-project\\PROJECTS\\ResidentCement\\frontend\\apps\\distributor-portal\\src\\lib\\api.ts",
+          "line": 47,
+          "issue_type": "any_types",
+          "severity": "low"
+        },
+        {
+          "file": "C:\\Users\\UCHE\\my-qwen-project\\PROJECTS\\ResidentCement\\frontend\\apps\\distributor-portal\\src\\lib\\api.ts",
+          "line": 53,
+          "issue_type": "any_types",
+          "severity": "low"
+        },
+        {
+          "file": "C:\\Users\\UCHE\\my-qwen-project\\PROJECTS\\ResidentCement\\frontend\\apps\\distributor-portal\\src\\lib\\api.ts",
+          "line": 56,
+          "issue_type": "any_types",
+          "severity": "low"
+        },
+        {
+          "file": "C:\\Users\\UCHE\\my-qwen-project\\PROJECTS\\ResidentCement\\frontend\\apps\\distributor-portal\\src\\lib\\api.ts",
+          "line": 57,
+          "issue_type": "any_types",
+          "severity": "low"
+        },
+        {
+          "file": "C:\\Users\\UCHE\\my-qwen-project\\PROJECTS\\ResidentCement\\frontend\\apps\\distributor-portal\\src\\lib\\api.ts",
+          "line": 61,
+          "issue_type": "any_types",
+          "severity": "low"
+        },
+        {
+          "file": "C:\\Users\\UCHE\\my-qwen-project\\PROJECTS\\ResidentCement\\frontend\\apps\\distributor-portal\\src\\lib\\api.ts",
+          "line": 63,
+          "issue_type": "any_types",
+          "severity": "low"
+        },
+        {
+          "file": "C:\\Users\\UCHE\\my-qwen-project\\PROJECTS\\ResidentCement\\frontend\\apps\\distributor-portal\\src\\lib\\api.ts",
+          "line": 64,
+          "issue_type": "any_types",
+          "severity": "low"
+        },
+        {
+          "file": "C:\\Users\\UCHE\\my-qwen-project\\PROJECTS\\ResidentCement\\frontend\\apps\\distributor-portal\\src\\lib\\api.ts",
+          "line": 70,
+          "issue_type": "any_types",
+          "severity": "low"
+        },
+        {
+          "file": "C:\\Users\\UCHE\\my-qwen-project\\PROJECTS\\ResidentCement\\frontend\\apps\\distributor-portal\\src\\lib\\api.ts",
+          "line": 72,
+          "issue_type": "any_types",
+          "severity": "low"
+        },
+        {
+          "file": "C:\\Users\\UCHE\\my-qwen-project\\PROJECTS\\ResidentCement\\frontend\\apps\\distributor-portal\\src\\lib\\api.ts",
+          "line": 73,
+          "issue_type": "any_types",
+          "severity": "low"
+        },
+        {
+          "file": "C:\\Users\\UCHE\\my-qwen-project\\PROJECTS\\ResidentCement\\frontend\\apps\\distributor-portal\\src\\lib\\api.ts",
+          "line": 83,
+          "issue_type": "any_types",
+          "severity": "low"
+        },
+        {
+          "file": "C:\\Users\\UCHE\\my-qwen-project\\PROJECTS\\ResidentCement\\frontend\\apps\\distributor-portal\\src\\lib\\api.ts",
+          "line": 84,
+          "issue_type": "any_types",
+          "severity": "low"
+        },
+        {
+          "file": "C:\\Users\\UCHE\\my-qwen-project\\PROJECTS\\ResidentCement\\frontend\\apps\\distributor-portal\\src\\lib\\api.ts",
+          "line": 85,
+          "issue_type": "any_types",
+          "severity": "low"
+        },
+        {
+          "file": "C:\\Users\\UCHE\\my-qwen-project\\PROJECTS\\ResidentCement\\frontend\\apps\\distributor-portal\\src\\lib\\api.ts",
+          "line": 89,
+          "issue_type": "any_types",
+          "severity": "low"
+        },
+        {
+          "file": "C:\\Users\\UCHE\\my-qwen-project\\PROJECTS\\ResidentCement\\frontend\\apps\\distributor-portal\\src\\lib\\api.ts",
+          "line": 91,
+          "issue_type": "any_types",
+          "severity": "low"
+        },
+        {
+          "file": "C:\\Users\\UCHE\\my-qwen-project\\PROJECTS\\ResidentCement\\frontend\\apps\\distributor-portal\\src\\lib\\api.ts",
+          "line": 96,
+          "issue_type": "any_types",
+          "severity": "low"
+        },
+        {
+          "file": "C:\\Users\\UCHE\\my-qwen-project\\PROJECTS\\ResidentCement\\frontend\\apps\\distributor-portal\\src\\lib\\api.ts",
+          "line": 98,
+          "issue_type": "any_types",
+          "severity": "low"
+        },
+        {
+          "file": "C:\\Users\\UCHE\\my-qwen-project\\PROJECTS\\ResidentCement\\backend\\shared\\kernel\\dist\\logger.d.ts",
+          "line": 102,
+          "issue_type": "any_types",
+          "severity": "low"
+        },
+        {
+          "file": "C:\\Users\\UCHE\\my-qwen-project\\PROJECTS\\ResidentCement\\backend\\shared\\kernel\\dist\\logger.d.ts",
+          "line": 102,
+          "issue_type": "any_types",
+          "severity": "low"
+        },
+        {
+          "file": "C:\\Users\\UCHE\\my-qwen-project\\PROJECTS\\ResidentCement\\backend\\shared\\kernel\\dist\\logger.d.ts",
+          "line": 102,
+          "issue_type": "any_types",
+          "severity": "low"
+        },
+        {
+          "file": "C:\\Users\\UCHE\\my-qwen-project\\PROJECTS\\ResidentCement\\backend\\shared\\kernel\\dist\\middleware.d.ts",
+          "line": 21,
+          "issue_type": "any_types",
+          "severity": "low"
+        },
+        {
+          "file": "C:\\Users\\UCHE\\my-qwen-project\\PROJECTS\\ResidentCement\\backend\\shared\\kernel\\src\\logger.ts",
+          "line": 406,
+          "issue_type": "any_types",
+          "severity": "low"
+        },
+        {
+          "file": "C:\\Users\\UCHE\\my-qwen-project\\PROJECTS\\ResidentCement\\backend\\shared\\kernel\\src\\logger.ts",
+          "line": 406,
+          "issue_type": "any_types",
+          "severity": "low"
+        },
+        {
+          "file": "C:\\Users\\UCHE\\my-qwen-project\\PROJECTS\\ResidentCement\\backend\\shared\\kernel\\src\\logger.ts",
+          "line": 406,
+          "issue_type": "any_types",
+          "severity": "low"
+        },
+        {
+          "file": "C:\\Users\\UCHE\\my-qwen-project\\PROJECTS\\ResidentCement\\backend\\shared\\kernel\\src\\middleware.ts",
+          "line": 95,
+          "issue_type": "todo_fixme",
+          "severity": "low"
+        },
+        {
+          "file": "C:\\Users\\UCHE\\my-qwen-project\\PROJECTS\\ResidentCement\\backend\\shared\\kernel\\src\\middleware.ts",
+          "line": 118,
+          "issue_type": "todo_fixme",
+          "severity": "low"
+        },
+        {
+          "file": "C:\\Users\\UCHE\\my-qwen-project\\PROJECTS\\ResidentCement\\backend\\shared\\kernel\\src\\middleware.ts",
+          "line": 428,
+          "issue_type": "console_logs",
+          "severity": "low"
+        },
+        {
+          "file": "C:\\Users\\UCHE\\my-qwen-project\\PROJECTS\\ResidentCement\\backend\\shared\\kernel\\src\\middleware.ts",
+          "line": 79,
+          "issue_type": "any_types",
+          "severity": "low"
+        },
+        {
+          "file": "C:\\Users\\UCHE\\my-qwen-project\\PROJECTS\\ResidentCement\\backend\\shared\\kafka-client\\src\\index.ts",
+          "line": 67,
+          "issue_type": "console_logs",
+          "severity": "low"
+        },
+        {
+          "file": "C:\\Users\\UCHE\\my-qwen-project\\PROJECTS\\ResidentCement\\backend\\shared\\kafka-client\\src\\index.ts",
+          "line": 69,
+          "issue_type": "console_logs",
+          "severity": "low"
+        },
+        {
+          "file": "C:\\Users\\UCHE\\my-qwen-project\\PROJECTS\\ResidentCement\\backend\\shared\\kafka-client\\src\\index.ts",
+          "line": 82,
+          "issue_type": "console_logs",
+          "severity": "low"
+        },
+        {
+          "file": "C:\\Users\\UCHE\\my-qwen-project\\PROJECTS\\ResidentCement\\backend\\shared\\kafka-client\\src\\index.ts",
+          "line": 84,
+          "issue_type": "console_logs",
+          "severity": "low"
+        },
+        {
+          "file": "C:\\Users\\UCHE\\my-qwen-project\\PROJECTS\\ResidentCement\\backend\\shared\\kafka-client\\src\\index.ts",
+          "line": 124,
+          "issue_type": "console_logs",
+          "severity": "low"
+        },
+        {
+          "file": "C:\\Users\\UCHE\\my-qwen-project\\PROJECTS\\ResidentCement\\backend\\shared\\kafka-client\\src\\index.ts",
+          "line": 129,
+          "issue_type": "console_logs",
+          "severity": "low"
+        },
+        {
+          "file": "C:\\Users\\UCHE\\my-qwen-project\\PROJECTS\\ResidentCement\\backend\\shared\\kafka-client\\src\\index.ts",
+          "line": 164,
+          "issue_type": "console_logs",
+          "severity": "low"
+        },
+        {
+          "file": "C:\\Users\\UCHE\\my-qwen-project\\PROJECTS\\ResidentCement\\backend\\shared\\kafka-client\\src\\index.ts",
+          "line": 167,
+          "issue_type": "console_logs",
+          "severity": "low"
+        },
+        {
+          "file": "C:\\Users\\UCHE\\my-qwen-project\\PROJECTS\\ResidentCement\\backend\\services\\product-service\\src\\index.ts",
+          "line": 65,
+          "issue_type": "any_types",
+          "severity": "low"
+        },
+        {
+          "file": "C:\\Users\\UCHE\\my-qwen-project\\PROJECTS\\ResidentCement\\backend\\services\\pricing-service\\src\\index.ts",
+          "line": 57,
+          "issue_type": "any_types",
+          "severity": "low"
+        },
+        {
+          "file": "C:\\Users\\UCHE\\my-qwen-project\\PROJECTS\\ResidentCement\\backend\\services\\pricing-service\\src\\index.ts",
+          "line": 143,
+          "issue_type": "any_types",
+          "severity": "low"
+        },
+        {
+          "file": "C:\\Users\\UCHE\\my-qwen-project\\PROJECTS\\ResidentCement\\backend\\services\\payment-service\\src\\index.ts",
+          "line": 64,
+          "issue_type": "any_types",
+          "severity": "low"
+        },
+        {
+          "file": "C:\\Users\\UCHE\\my-qwen-project\\PROJECTS\\ResidentCement\\backend\\services\\order-service\\src\\index.ts",
+          "line": 105,
+          "issue_type": "any_types",
+          "severity": "low"
+        },
+        {
+          "file": "C:\\Users\\UCHE\\my-qwen-project\\PROJECTS\\ResidentCement\\backend\\services\\inventory-service\\src\\index.ts",
+          "line": 57,
+          "issue_type": "any_types",
+          "severity": "low"
+        },
+        {
+          "file": "C:\\Users\\UCHE\\my-qwen-project\\PROJECTS\\ResidentCement\\backend\\services\\events\\src\\consumer.ts",
+          "line": 58,
+          "issue_type": "any_types",
+          "severity": "low"
+        },
+        {
+          "file": "C:\\Users\\UCHE\\my-qwen-project\\PROJECTS\\ResidentCement\\backend\\services\\events\\src\\consumer.ts",
+          "line": 84,
+          "issue_type": "any_types",
+          "severity": "low"
+        },
+        {
+          "file": "C:\\Users\\UCHE\\my-qwen-project\\PROJECTS\\ResidentCement\\backend\\services\\events\\src\\consumer.ts",
+          "line": 119,
+          "issue_type": "any_types",
+          "severity": "low"
+        },
+        {
+          "file": "C:\\Users\\UCHE\\my-qwen-project\\PROJECTS\\ResidentCement\\backend\\services\\events\\src\\consumer.ts",
+          "line": 146,
+          "issue_type": "any_types",
+          "severity": "low"
+        },
+        {
+          "file": "C:\\Users\\UCHE\\my-qwen-project\\PROJECTS\\ResidentCement\\backend\\services\\events\\src\\consumer.ts",
+          "line": 179,
+          "issue_type": "any_types",
+          "severity": "low"
+        }
+      ]
+    }
+  },
+  "phase3": {
+    "phase": "IaC Forensics",
+    "status": "completed",
+    "findings": [],
+    "risk_level": "high",
+    "kubernetes_scan": {
+      "files_analyzed": 5,
+      "total_findings": 1,
+      "findings": [
+        {
+          "file": "C:\\Users\\UCHE\\my-qwen-project\\PROJECTS\\ResidentCement\\infrastructure\\k8s\\infrastructure.yaml",
+          "issue": "missing_image_pull_policy",
+          "severity": "medium"
+        }
+      ]
+    },
+    "docker_scan": {
+      "files_analyzed": 10,
+      "total_findings": 0,
+      "findings": []
+    },
+    "environment_scan": {
+      "files_analyzed": 21,
+      "total_findings": 12,
+      "findings": [
+        {
+          "file": "C:\\Users\\UCHE\\my-qwen-project\\PROJECTS\\ResidentCement\\.env",
+          "issue": "potential_secrets_in_env",
+          "severity": "high"
+        },
+        {
+          "file": "C:\\Users\\UCHE\\my-qwen-project\\PROJECTS\\ResidentCement\\.env.example",
+          "issue": "potential_secrets_in_env",
+          "severity": "high"
+        },
+        {
+          "file": "C:\\Users\\UCHE\\my-qwen-project\\PROJECTS\\ResidentCement\\backend\\gateway\\.env",
+          "issue": "potential_secrets_in_env",
+          "severity": "high"
+        },
+        {
+          "file": "C:\\Users\\UCHE\\my-qwen-project\\PROJECTS\\ResidentCement\\backend\\gateway\\.env.example",
+          "issue": "potential_secrets_in_env",
+          "severity": "high"
+        },
+        {
+          "file": "C:\\Users\\UCHE\\my-qwen-project\\PROJECTS\\ResidentCement\\backend\\services\\customer-service\\.env",
+          "issue": "potential_secrets_in_env",
+          "severity": "high"
+        },
+        {
+          "file": "C:\\Users\\UCHE\\my-qwen-project\\PROJECTS\\ResidentCement\\backend\\services\\customer-service\\.env.example",
+          "issue": "potential_secrets_in_env",
+          "severity": "high"
+        },
+        {
+          "file": "C:\\Users\\UCHE\\my-qwen-project\\PROJECTS\\ResidentCement\\backend\\services\\inventory-service\\.env",
+          "issue": "potential_secrets_in_env",
+          "severity": "high"
+        },
+        {
+          "file": "C:\\Users\\UCHE\\my-qwen-project\\PROJECTS\\ResidentCement\\backend\\services\\order-service\\.env",
+          "issue": "potential_secrets_in_env",
+          "severity": "high"
+        },
+        {
+          "file": "C:\\Users\\UCHE\\my-qwen-project\\PROJECTS\\ResidentCement\\backend\\services\\payment-service\\.env",
+          "issue": "potential_secrets_in_env",
+          "severity": "high"
+        },
+        {
+          "file": "C:\\Users\\UCHE\\my-qwen-project\\PROJECTS\\ResidentCement\\backend\\services\\payment-service\\.env.example",
+          "issue": "potential_secrets_in_env",
+          "severity": "high"
+        },
+        {
+          "file": "C:\\Users\\UCHE\\my-qwen-project\\PROJECTS\\ResidentCement\\backend\\services\\pricing-service\\.env",
+          "issue": "potential_secrets_in_env",
+          "severity": "high"
+        },
+        {
+          "file": "C:\\Users\\UCHE\\my-qwen-project\\PROJECTS\\ResidentCement\\backend\\services\\product-service\\.env",
+          "issue": "potential_secrets_in_env",
+          "severity": "high"
+        }
+      ]
+    }
+  },
+  "phase4": {
+    "phase": "DevOps Forensics",
+    "status": "completed",
+    "findings": [],
+    "risk_level": "low",
+    "github_actions_scan": {
+      "files_analyzed": 3,
+      "total_findings": 3,
+      "findings": [
+        {
+          "file": "C:\\Users\\UCHE\\my-qwen-project\\PROJECTS\\ResidentCement\\.github\\workflows\\cd.yml",
+          "issue": "missing_permissions_block",
+          "severity": "medium"
+        },
+        {
+          "file": "C:\\Users\\UCHE\\my-qwen-project\\PROJECTS\\ResidentCement\\.github\\workflows\\ci-cd.yml",
+          "issue": "missing_permissions_block",
+          "severity": "medium"
+        },
+        {
+          "file": "C:\\Users\\UCHE\\my-qwen-project\\PROJECTS\\ResidentCement\\.github\\workflows\\ci.yml",
+          "issue": "missing_permissions_block",
+          "severity": "medium"
+        }
+      ]
+    },
+    "package_json_scan": {
+      "files_analyzed": 15,
+      "total_findings": 0,
+      "findings": []
+    }
+  },
+  "phase5": {
+    "phase": "Compliance Validation",
+    "status": "completed",
+    "frameworks": {
+      "ISO_27001_2022": {
+        "controls_checked": {
+          "A.5.7_threat_intelligence": false,
+          "A.8.9_config_management": false,
+          "A.8.23_web_filtering": false,
+          "A.8.28_secure_coding": true,
+          "A.8.29_security_testing": true,
+          "A.8.33_logging": false
+        },
+        "compliance_percentage": 33.33333333333333
+      },
+      "SOC2_Type_II": {
+        "evidence_collected": {
+          "access_control": true,
+          "change_management": true,
+          "system_monitoring": false,
+          "incident_response": false
+        },
+        "evidence_count": 2
+      },
+      "OWASP_LLM_Top_10_2025": {
+        "controls": {
+          "LLM01_prompt_injection": "not_tested",
+          "LLM02_sensitive_info": "documented",
+          "LLM03_supply_chain": "not_tested",
+          "LLM04_data_poisoning": "not_tested",
+          "LLM05_improper_output": "not_tested",
+          "LLM06_excessive_agency": "not_tested",
+          "LLM07_system_prompt_leak": "not_tested",
+          "LLM08_vector_embedding": "not_applicable",
+          "LLM09_misinformation": "not_tested",
+          "LLM10_unbounded_consumption": "not_tested"
+        },
+        "status_summary": {
+          "implemented": 1,
+          "partial": 0,
+          "not_tested": 8
+        }
+      }
+    },
+    "risk_level": "medium"
+  },
+  "phase6": {
+    "phase": "AI Risk Assessment",
+    "status": "completed",
+    "risks": [],
+    "risk_level": "medium",
+    "prompt_injection_assessment": {
+      "checks": {
+        "user_input_sanitization": true,
+        "context_window_protection": true,
+        "system_prompt_isolation": false
+      },
+      "implementation_rate": 66.66666666666666
+    },
+    "supply_chain_assessment": {
+      "checks": {
+        "dependency_inventory": true,
+        "lock_file_present": true,
+        "vulnerability_scanning": true
+      },
+      "implementation_rate": 100.0
+    },
+    "explainability_assessment": {
+      "checks": {
+        "audit_logging": true,
+        "decision_trail": false,
+        "model_versioning": false
+      },
+      "implementation_rate": 33.33333333333333
+    }
+  }
+}

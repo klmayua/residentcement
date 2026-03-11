@@ -5,6 +5,7 @@ import prisma from "../lib/prisma";
 import { generateToken } from "../middleware/auth";
 import logger from "../utils/logger";
 
+const router = Router();
 const authLogger = logger;
 
 const loginSchema = z.object({

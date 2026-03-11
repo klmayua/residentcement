@@ -1,19 +1,125 @@
 /**
- * Swagger/OpenAPI Configuration for ResidentCement API Gateway
+ * OpenAPI/Swagger Documentation for ResidentCement API
  * 
- * Provides interactive API documentation at /api-docs
+ * Comprehensive API documentation following OpenAPI 3.0 specification
  */
 
-export const swaggerDefinition = {
-  openapi: '3.0.0',
+type OpenAPIV3Document = {
+  openapi: string;
   info: {
-    title: 'ResidentCement API Gateway',
-    version: '1.0.0',
-    description: 'Enterprise-grade digital platform for cement distribution management in Nigeria',
-    contact: {
-      name: 'API Support',
-      email: 'support@residentcement.com',
+    title: string;
+    description: string;
+    version: string;
+    contact?: { name?: string; email?: string; url?: string };
+    license?: { name: string; url?: string };
+    termsOfService?: string;
+  };
+  servers?: { url: string; description?: string }[];
+  tags?: { name: string; description?: string }[];
+  paths?: Record<string, any>;
+  components?: Record<string, any>;
+  security?: Record<string, any>[];
+};
+
+export const swaggerDefinition: OpenAPIV3Document = {
+  openapi: '3.0.3',
+  info: {
+    title: 'ResidentCement API',
+    description: `
+## ResidentCement Digital Ecosystem API
+
+Enterprise-grade API for cement distribution management in Nigeria.
+
+### Features
+
+- **Customer Management**: Complete CRM for distributor relationships
+- **Order Processing**: End-to-end order lifecycle management
+- **Inventory Management**: Real-time stock tracking across warehouses
+- **Pricing Engine**: Dynamic pricing with tier-based discounts
+- **Payment Integration**: Multiple payment methods including USSD
+- **Analytics & Reporting**: Business intelligence and insights
+
+### Authentication
+
+All API endpoints (except health checks and documentation) require authentication.
+
+**Authentication Methods:**
+
+1. **Bearer Token (JWT)**
+   \`\`\`
+   Authorization: Bearer <your_jwt_token>
+   \`\`\`
+
+2. **OAuth 2.0 via Keycloak**
+   - Authorization Code Flow for web applications
+   - Client Credentials Flow for service-to-service
+
+### Rate Limiting
+
+- **General API**: 1000 requests per 15 minutes
+- **Authentication**: 20 requests per 15 minutes
+- **Health Checks**: No limit
+
+Rate limit headers are included in all responses:
+- \`X-RateLimit-Limit\`: Maximum requests allowed
+- \`X-RateLimit-Remaining\`: Requests remaining
+- \`X-RateLimit-Reset\`: Unix timestamp when limit resets
+
+### Response Format
+
+All responses follow a consistent format:
+
+\`\`\`json
+{
+  "success": true,
+  "data": { ... },
+  "meta": {
+    "requestId": "req_abc123",
+    "timestamp": "2026-03-07T12:00:00.000Z"
+  }
+}
+\`\`\`
+
+### Error Handling
+
+Errors follow a standard format:
+
+\`\`\`json
+{
+  "success": false,
+  "error": {
+    "code": "VALIDATION_ERROR",
+    "message": "Invalid input data",
+    "details": {
+      "email": ["Invalid email format"]
     },
+    "traceId": "req_abc123"
+  }
+}
+\`\`\`
+
+### Common Error Codes
+
+| Code | HTTP Status | Description |
+|------|-------------|-------------|
+| BAD_REQUEST | 400 | Invalid request data |
+| UNAUTHORIZED | 401 | Missing or invalid authentication |
+| FORBIDDEN | 403 | Insufficient permissions |
+| NOT_FOUND | 404 | Resource not found |
+| CONFLICT | 409 | Resource conflict |
+| VALIDATION_ERROR | 400 | Validation failed |
+| TOO_MANY_REQUESTS | 429 | Rate limit exceeded |
+| INTERNAL_ERROR | 500 | Server error |
+    `,
+    version: '1.0.0',
+    contact: {
+      name: 'ResidentCement API Support',
+      email: 'api-support@residentcement.com',
+    },
+    license: {
+      name: 'Proprietary',
+    },
+    termsOfService: 'https://residentcement.com/terms',
   },
   servers: [
     {
@@ -21,8 +127,50 @@ export const swaggerDefinition = {
       description: 'Development server',
     },
     {
+      url: 'https://api-staging.residentcement.com',
+      description: 'Staging server',
+    },
+    {
       url: 'https://api.residentcement.com',
       description: 'Production server',
+    },
+  ],
+  tags: [
+    {
+      name: 'Health',
+      description: 'Health check and monitoring endpoints',
+    },
+    {
+      name: 'Authentication',
+      description: 'User authentication and authorization',
+    },
+    {
+      name: 'Customers',
+      description: 'Customer management operations',
+    },
+    {
+      name: 'Orders',
+      description: 'Order processing and management',
+    },
+    {
+      name: 'Products',
+      description: 'Product catalog management',
+    },
+    {
+      name: 'Inventory',
+      description: 'Inventory tracking and management',
+    },
+    {
+      name: 'Pricing',
+      description: 'Pricing rules and quote generation',
+    },
+    {
+      name: 'Payments',
+      description: 'Payment processing and history',
+    },
+    {
+      name: 'Analytics',
+      description: 'Business intelligence and reporting',
     },
   ],
   components: {
@@ -31,389 +179,495 @@ export const swaggerDefinition = {
         type: 'http',
         scheme: 'bearer',
         bearerFormat: 'JWT',
-        description: 'Enter your JWT token',
+        description: 'JWT token authentication',
+      },
+      oauth2: {
+        type: 'oauth2',
+        flows: {
+          authorizationCode: {
+            authorizationUrl: 'http://localhost:8180/realms/resident-cement/protocol/openid-connect/auth',
+            tokenUrl: 'http://localhost:8180/realms/resident-cement/protocol/openid-connect/token',
+            scopes: {
+              'profile': 'User profile information',
+              'email': 'User email address',
+              'api:read': 'Read access to API resources',
+              'api:write': 'Write access to API resources',
+              'api:admin': 'Administrative access',
+            },
+          },
+          clientCredentials: {
+            tokenUrl: 'http://localhost:8180/realms/resident-cement/protocol/openid-connect/token',
+            scopes: {
+              'api:read': 'Read access to API resources',
+              'api:write': 'Write access to API resources',
+            },
+          },
+        },
       },
     },
     schemas: {
-      // Customer schemas
-      Customer: {
-        type: 'object',
-        properties: {
-          id: { type: 'string', example: 'cust_001' },
-          name: { type: 'string', example: 'ABC Construction Ltd' },
-          email: { type: 'string', format: 'email', example: 'contact@abcconstruction.com' },
-          phone: { type: 'string', example: '+2348012345678' },
-          tier: { type: 'string', enum: ['STANDARD', 'SILVER', 'GOLD', 'PLATINUM', 'ENTERPRISE'] },
-          creditLimit: { type: 'number', example: 5000000 },
-          status: { type: 'string', enum: ['ACTIVE', 'INACTIVE'] },
-          createdAt: { type: 'string', format: 'date-time' },
-        },
+      // Common Schemas
+      Id: {
+        type: 'string',
+        format: 'uuid',
+        description: 'Unique identifier',
+        example: '550e8400-e29b-41d4-a716-446655440000',
+      },
+      DateTime: {
+        type: 'string',
+        format: 'date-time',
+        description: 'ISO 8601 date-time string',
+        example: '2026-03-07T12:00:00.000Z',
       },
       
-      // Product schemas
-      Product: {
+      // Response Schemas
+      ApiResponse: {
         type: 'object',
         properties: {
-          id: { type: 'string', example: 'prod_001' },
-          name: { type: 'string', example: 'Dangote Cement 42.5R' },
-          description: { type: 'string' },
-          category: { type: 'string', enum: ['ORDINARY_PORTLAND_CEMENT_42_5', 'ORDINARY_PORTLAND_CEMENT_32_5', 'POZZOLANIC_CEMENT'] },
-          basePrice: { type: 'number', example: 4500 },
-          unit: { type: 'string', example: 'bags' },
-          isActive: { type: 'boolean' },
-        },
-      },
-      
-      // Order schemas
-      Order: {
-        type: 'object',
-        properties: {
-          id: { type: 'string', example: 'ord_001' },
-          customerId: { type: 'string' },
-          status: { type: 'string', enum: ['PENDING', 'CONFIRMED', 'PROCESSING', 'READY_FOR_DELIVERY', 'IN_TRANSIT', 'DELIVERED', 'COMPLETED', 'CANCELLED'] },
-          total: { type: 'number', example: 900000 },
-          items: {
-            type: 'array',
-            items: {
-              type: 'object',
-              properties: {
-                productId: { type: 'string' },
-                quantity: { type: 'number', example: 200 },
-                unitPrice: { type: 'number', example: 4500 },
-                total: { type: 'number', example: 900000 },
-              },
+          success: { type: 'boolean', example: true },
+          data: { type: 'object', nullable: true },
+          meta: {
+            type: 'object',
+            properties: {
+              requestId: { type: 'string', format: 'uuid' },
+              timestamp: { type: 'string', format: 'date-time' },
+              duration: { type: 'number', description: 'Response time in ms' },
             },
           },
-          createdAt: { type: 'string', format: 'date-time' },
         },
       },
       
-      // Payment schemas
-      Payment: {
-        type: 'object',
-        properties: {
-          id: { type: 'string', example: 'pay_001' },
-          orderId: { type: 'string' },
-          amount: { type: 'number', example: 900000 },
-          paymentMethod: { type: 'string', enum: ['CARD', 'BANK_TRANSFER', 'USSD'] },
-          status: { type: 'string', enum: ['PENDING', 'COMPLETED', 'FAILED', 'REFUNDED'] },
-          reference: { type: 'string', example: 'RC_TXN_123456' },
-          paidAt: { type: 'string', format: 'date-time' },
-        },
-      },
-      
-      // Inventory schemas
-      InventoryItem: {
-        type: 'object',
-        properties: {
-          id: { type: 'string', example: 'inv_001' },
-          productId: { type: 'string' },
-          depotId: { type: 'string' },
-          quantity: { type: 'number', example: 5000 },
-          reservedQuantity: { type: 'number', example: 500 },
-          location: { type: 'string', example: 'Lagos Depot' },
-          lastUpdated: { type: 'string', format: 'date-time' },
-        },
-      },
-      
-      // Quote schemas
-      Quote: {
-        type: 'object',
-        properties: {
-          id: { type: 'string', example: 'quote_001' },
-          customerId: { type: 'string' },
-          items: { type: 'array', items: { type: 'object' } },
-          subtotal: { type: 'number', example: 900000 },
-          discount: { type: 'number', example: 45000 },
-          vat: { type: 'number', example: 64125 },
-          total: { type: 'number', example: 919125 },
-          status: { type: 'string', enum: ['PENDING', 'ACCEPTED', 'CONVERTED', 'CANCELLED'] },
-          validUntil: { type: 'string', format: 'date-time' },
-        },
-      },
-      
-      // Error schemas
       Error: {
         type: 'object',
         properties: {
-          error: { type: 'string' },
-          message: { type: 'string' },
-          code: { type: 'string' },
+          success: { type: 'boolean', example: false },
+          error: {
+            type: 'object',
+            properties: {
+              code: { type: 'string', example: 'VALIDATION_ERROR' },
+              message: { type: 'string', example: 'Invalid input data' },
+              details: { 
+                type: 'object',
+                additionalProperties: {
+                  type: 'array',
+                  items: { type: 'string' },
+                },
+              },
+              traceId: { type: 'string', format: 'uuid' },
+            },
+          },
         },
       },
       
-      // Health check schemas
-      Health: {
+      // Customer Schemas
+      Customer: {
         type: 'object',
         properties: {
-          status: { type: 'string', example: 'healthy' },
-          service: { type: 'string', example: 'gateway' },
-          timestamp: { type: 'string', format: 'date-time' },
-          uptime: { type: 'number', example: 3600 },
+          id: { $ref: '#/components/schemas/Id' },
+          name: { type: 'string', example: 'Dangote Cement Distributors Ltd' },
+          email: { type: 'string', format: 'email', example: 'contact@dangotedistributors.com' },
+          phone: { type: 'string', example: '+234-800-123-4567' },
+          address: { type: 'string', example: '1 Industrial Avenue, Lagos' },
+          city: { type: 'string', example: 'Lagos' },
+          state: { type: 'string', example: 'Lagos State' },
+          lga: { type: 'string', example: 'Ikeja' },
+          tier: { 
+            type: 'string', 
+            enum: ['STANDARD', 'SILVER', 'GOLD', 'PLATINUM', 'ENTERPRISE'],
+            example: 'GOLD',
+          },
+          status: {
+            type: 'string',
+            enum: ['ACTIVE', 'INACTIVE', 'SUSPENDED', 'PROSPECT'],
+            example: 'ACTIVE',
+          },
+          creditLimit: { type: 'number', example: 5000000 },
+          contactPerson: { type: 'string', example: 'John Doe' },
+          createdAt: { $ref: '#/components/schemas/DateTime' },
+          updatedAt: { $ref: '#/components/schemas/DateTime' },
+        },
+      },
+      
+      // Order Schemas
+      Order: {
+        type: 'object',
+        properties: {
+          id: { $ref: '#/components/schemas/Id' },
+          orderNumber: { type: 'string', example: 'ORD-2026-001234' },
+          customerId: { $ref: '#/components/schemas/Id' },
+          status: {
+            type: 'string',
+            enum: [
+              'DRAFT', 'PENDING', 'CONFIRMED', 'PROCESSING',
+              'IN_PRODUCTION', 'READY_FOR_SHIPMENT', 'IN_TRANSIT',
+              'DELIVERED', 'COMPLETED', 'CANCELLED', 'REFUNDED',
+            ],
+            example: 'PENDING',
+          },
+          priority: {
+            type: 'string',
+            enum: ['LOW', 'NORMAL', 'HIGH', 'URGENT'],
+            example: 'NORMAL',
+          },
+          items: {
+            type: 'array',
+            items: { $ref: '#/components/schemas/OrderItem' },
+          },
+          subtotal: { type: 'number', example: 1000000 },
+          tax: { type: 'number', example: 75000 },
+          discount: { type: 'number', example: 50000 },
+          total: { type: 'number', example: 1025000 },
+          currency: { type: 'string', example: 'NGN' },
+          deliveryDate: { $ref: '#/components/schemas/DateTime' },
+          createdAt: { $ref: '#/components/schemas/DateTime' },
+        },
+      },
+      
+      OrderItem: {
+        type: 'object',
+        properties: {
+          productId: { $ref: '#/components/schemas/Id' },
+          productName: { type: 'string', example: 'Dangote Cement 50kg' },
+          quantity: { type: 'number', example: 100 },
+          unitPrice: { type: 'number', example: 3500 },
+          discount: { type: 'number', example: 0 },
+          total: { type: 'number', example: 350000 },
+        },
+      },
+      
+      // Product Schemas
+      Product: {
+        type: 'object',
+        properties: {
+          id: { $ref: '#/components/schemas/Id' },
+          name: { type: 'string', example: 'Dangote Cement 50kg' },
+          sku: { type: 'string', example: 'DANG-CEM-50KG' },
+          description: { type: 'string', example: 'High-quality Portland cement' },
+          category: {
+            type: 'string',
+            enum: ['CEMENT', 'CONCRETE', 'AGGREGATE', 'ADDITIVE', 'EQUIPMENT'],
+            example: 'CEMENT',
+          },
+          status: {
+            type: 'string',
+            enum: ['ACTIVE', 'INACTIVE', 'DISCONTINUED', 'OUT_OF_STOCK'],
+            example: 'ACTIVE',
+          },
+          basePrice: { type: 'number', example: 3500 },
+          unitOfMeasure: { type: 'string', example: 'bag' },
+          weight: { type: 'number', example: 50, description: 'Weight in kg' },
+        },
+      },
+      
+      // Payment Schemas
+      Payment: {
+        type: 'object',
+        properties: {
+          id: { $ref: '#/components/schemas/Id' },
+          paymentReference: { type: 'string', example: 'PAY-2026-ABC123' },
+          orderId: { $ref: '#/components/schemas/Id', nullable: true },
+          customerId: { $ref: '#/components/schemas/Id' },
+          amount: { type: 'number', example: 1025000 },
+          currency: { type: 'string', example: 'NGN' },
+          method: {
+            type: 'string',
+            enum: ['CARD', 'BANK_TRANSFER', 'USSD', 'CASH', 'CHEQUE', 'CREDIT'],
+            example: 'CARD',
+          },
+          status: {
+            type: 'string',
+            enum: ['PENDING', 'PROCESSING', 'COMPLETED', 'FAILED', 'REFUNDED', 'CANCELLED'],
+            example: 'COMPLETED',
+          },
+          paidAt: { $ref: '#/components/schemas/DateTime', nullable: true },
+          createdAt: { $ref: '#/components/schemas/DateTime' },
+        },
+      },
+      
+      // Pagination
+      PaginationMeta: {
+        type: 'object',
+        properties: {
+          page: { type: 'number', example: 1 },
+          limit: { type: 'number', example: 50 },
+          total: { type: 'number', example: 250 },
+          totalPages: { type: 'number', example: 5 },
+          hasMore: { type: 'boolean', example: true },
+        },
+      },
+      
+      // Health Check
+      HealthStatus: {
+        type: 'object',
+        properties: {
+          status: {
+            type: 'string',
+            enum: ['healthy', 'degraded', 'unhealthy'],
+            example: 'healthy',
+          },
+          service: { type: 'string', example: 'api-gateway' },
+          version: { type: 'string', example: '1.0.0' },
+          timestamp: { $ref: '#/components/schemas/DateTime' },
+          uptime: { type: 'number', example: 86400.5 },
+        },
+      },
+    },
+    
+    parameters: {
+      // Common Parameters
+      IdParam: {
+        name: 'id',
+        in: 'path',
+        required: true,
+        schema: { type: 'string', format: 'uuid' },
+        description: 'Resource identifier',
+      },
+      PageParam: {
+        name: 'page',
+        in: 'query',
+        required: false,
+        schema: { type: 'integer', minimum: 1, default: 1 },
+        description: 'Page number',
+      },
+      LimitParam: {
+        name: 'limit',
+        in: 'query',
+        required: false,
+        schema: { type: 'integer', minimum: 1, maximum: 100, default: 50 },
+        description: 'Items per page',
+      },
+      SortByParam: {
+        name: 'sortBy',
+        in: 'query',
+        required: false,
+        schema: { type: 'string', default: 'createdAt' },
+        description: 'Field to sort by',
+      },
+      SortOrderParam: {
+        name: 'sortOrder',
+        in: 'query',
+        required: false,
+        schema: { type: 'string', enum: ['asc', 'desc'], default: 'desc' },
+        description: 'Sort order',
+      },
+    },
+    
+    responses: {
+      NotFound: {
+        description: 'Resource not found',
+        content: {
+          'application/json': {
+            schema: { $ref: '#/components/schemas/Error' },
+          },
+        },
+      },
+      Unauthorized: {
+        description: 'Authentication required',
+        content: {
+          'application/json': {
+            schema: { $ref: '#/components/schemas/Error' },
+          },
+        },
+      },
+      ServerError: {
+        description: 'Internal server error',
+        content: {
+          'application/json': {
+            schema: { $ref: '#/components/schemas/Error' },
+          },
         },
       },
     },
   },
+  
   security: [{ bearerAuth: [] }],
-  tags: [
-    { name: 'Authentication', description: 'User authentication and authorization' },
-    { name: 'Customers', description: 'Customer management operations' },
-    { name: 'Products', description: 'Product catalog management' },
-    { name: 'Orders', description: 'Order lifecycle management' },
-    { name: 'Inventory', description: 'Inventory and stock management' },
-    { name: 'Pricing', description: 'Pricing and quote management' },
-    { name: 'Payments', description: 'Payment processing' },
-    { name: 'Health', description: 'Health check endpoints' },
-  ],
 };
 
-// API endpoint documentation
-export const apiPaths = {
-  // Authentication
+// API Paths - will be populated with actual route definitions
+export const apiPaths: Record<string, any> = {
+  // Health endpoints
+  '/health': {
+    get: {
+      tags: ['Health'],
+      summary: 'Basic health check',
+      description: 'Returns basic health status of the API gateway',
+      security: [],
+      responses: {
+        200: {
+          description: 'Service is healthy',
+          content: {
+            'application/json': {
+              schema: {
+                allOf: [
+                  { $ref: '#/components/schemas/ApiResponse' },
+                  {
+                    properties: {
+                      data: { $ref: '#/components/schemas/HealthStatus' },
+                    },
+                  },
+                ],
+              },
+            },
+          },
+        },
+      },
+    },
+  },
+  '/health/ready': {
+    get: {
+      tags: ['Health'],
+      summary: 'Readiness probe',
+      description: 'Checks if the service is ready to accept traffic',
+      security: [],
+      responses: {
+        200: {
+          description: 'Service is ready',
+        },
+        503: {
+          description: 'Service is not ready',
+        },
+      },
+    },
+  },
+  '/health/live': {
+    get: {
+      tags: ['Health'],
+      summary: 'Liveness probe',
+      description: 'Checks if the service is alive',
+      security: [],
+      responses: {
+        200: {
+          description: 'Service is alive',
+        },
+      },
+    },
+  },
+  
+  // Authentication endpoints
   '/api/v1/auth/login': {
     post: {
       tags: ['Authentication'],
       summary: 'User login',
+      description: 'Authenticate user and receive access tokens',
+      security: [],
       requestBody: {
         required: true,
         content: {
           'application/json': {
             schema: {
               type: 'object',
+              required: ['email', 'password'],
               properties: {
                 email: { type: 'string', format: 'email' },
-                password: { type: 'string', format: 'password' },
+                password: { type: 'string' },
+                rememberMe: { type: 'boolean', default: false },
               },
             },
           },
         },
       },
       responses: {
-        '200': {
-          description: 'Successful login',
+        200: {
+          description: 'Login successful',
           content: {
             'application/json': {
               schema: {
-                type: 'object',
-                properties: {
-                  accessToken: { type: 'string' },
-                  refreshToken: { type: 'string' },
-                  user: { type: 'object' },
-                },
-              },
-            },
-          },
-        },
-      },
-    },
-  },
-  
-  // Customers
-  '/api/v1/customers': {
-    get: {
-      tags: ['Customers'],
-      summary: 'List customers',
-      parameters: [
-        { name: 'tier', in: 'query', schema: { type: 'string' } },
-        { name: 'status', in: 'query', schema: { type: 'string' } },
-        { name: 'search', in: 'query', schema: { type: 'string' } },
-        { name: 'limit', in: 'query', schema: { type: 'number', default: 50 } },
-        { name: 'offset', in: 'query', schema: { type: 'number', default: 0 } },
-      ],
-      responses: {
-        '200': {
-          description: 'List of customers',
-          content: {
-            'application/json': {
-              schema: {
-                type: 'object',
-                properties: {
-                  data: { type: 'array', items: { $ref: '#/components/schemas/Customer' } },
-                  pagination: { type: 'object' },
-                },
-              },
-            },
-          },
-        },
-      },
-    },
-  },
-  
-  // Products
-  '/api/v1/products': {
-    get: {
-      tags: ['Products'],
-      summary: 'List products',
-      parameters: [
-        { name: 'category', in: 'query', schema: { type: 'string' } },
-        { name: 'search', in: 'query', schema: { type: 'string' } },
-        { name: 'inStock', in: 'query', schema: { type: 'boolean' } },
-      ],
-      responses: {
-        '200': {
-          description: 'List of products',
-          content: {
-            'application/json': {
-              schema: {
-                type: 'object',
-                properties: {
-                  data: { type: 'array', items: { $ref: '#/components/schemas/Product' } },
-                  pagination: { type: 'object' },
-                },
-              },
-            },
-          },
-        },
-      },
-    },
-  },
-  
-  // Orders
-  '/api/v1/orders': {
-    get: {
-      tags: ['Orders'],
-      summary: 'List orders',
-      parameters: [
-        { name: 'customerId', in: 'query', schema: { type: 'string' } },
-        { name: 'status', in: 'query', schema: { type: 'string' } },
-        { name: 'limit', in: 'query', schema: { type: 'number', default: 50 } },
-      ],
-      responses: {
-        '200': {
-          description: 'List of orders',
-          content: {
-            'application/json': {
-              schema: {
-                type: 'object',
-                properties: {
-                  data: { type: 'array', items: { $ref: '#/components/schemas/Order' } },
-                  pagination: { type: 'object' },
-                },
-              },
-            },
-          },
-        },
-      },
-    },
-    post: {
-      tags: ['Orders'],
-      summary: 'Create new order',
-      requestBody: {
-        required: true,
-        content: {
-          'application/json': {
-            schema: {
-              type: 'object',
-              required: ['customerId', 'items'],
-              properties: {
-                customerId: { type: 'string' },
-                items: {
-                  type: 'array',
-                  items: {
-                    type: 'object',
-                    required: ['productId', 'quantity'],
+                allOf: [
+                  { $ref: '#/components/schemas/ApiResponse' },
+                  {
                     properties: {
-                      productId: { type: 'string' },
-                      quantity: { type: 'number', minimum: 1 },
+                      data: {
+                        type: 'object',
+                        properties: {
+                          accessToken: { type: 'string' },
+                          refreshToken: { type: 'string' },
+                          expiresIn: { type: 'number' },
+                          user: {
+                            type: 'object',
+                            properties: {
+                              id: { type: 'string' },
+                              email: { type: 'string' },
+                              name: { type: 'string' },
+                              role: { type: 'string' },
+                            },
+                          },
+                        },
+                      },
                     },
                   },
-                },
-                deliveryAddress: { type: 'string' },
+                ],
               },
             },
           },
         },
-      },
-      responses: {
-        '201': {
-          description: 'Order created',
-          content: {
-            'application/json': {
-              schema: { $ref: '#/components/schemas/Order' },
-            },
-          },
+        401: {
+          description: 'Invalid credentials',
         },
       },
     },
   },
-  
-  // Inventory
-  '/api/v1/inventory': {
-    get: {
-      tags: ['Inventory'],
-      summary: 'List inventory items',
-      parameters: [
-        { name: 'productId', in: 'query', schema: { type: 'string' } },
-        { name: 'depotId', in: 'query', schema: { type: 'string' } },
-        { name: 'lowStock', in: 'query', schema: { type: 'boolean' } },
-      ],
-      responses: {
-        '200': {
-          description: 'List of inventory items',
-          content: {
-            'application/json': {
-              schema: {
-                type: 'object',
-                properties: {
-                  data: { type: 'array', items: { $ref: '#/components/schemas/InventoryItem' } },
-                  pagination: { type: 'object' },
-                },
-              },
-            },
-          },
-        },
-      },
-    },
-  },
-  
-  // Payments
-  '/api/v1/payments/initiate': {
+  '/api/v1/auth/register': {
     post: {
-      tags: ['Payments'],
-      summary: 'Initiate payment',
+      tags: ['Authentication'],
+      summary: 'User registration',
+      description: 'Register a new user account',
+      security: [],
       requestBody: {
         required: true,
         content: {
           'application/json': {
             schema: {
               type: 'object',
-              required: ['orderId', 'amount', 'email'],
+              required: ['email', 'password', 'name'],
               properties: {
-                orderId: { type: 'string' },
-                amount: { type: 'number' },
                 email: { type: 'string', format: 'email' },
-                paymentMethod: { type: 'string', enum: ['CARD', 'BANK_TRANSFER', 'USSD'] },
+                password: { type: 'string' },
+                name: { type: 'string' },
+                phone: { type: 'string' },
               },
             },
           },
         },
       },
       responses: {
-        '201': {
-          description: 'Payment initiated',
-          content: {
-            'application/json': {
-              schema: { $ref: '#/components/schemas/Payment' },
-            },
-          },
+        201: {
+          description: 'User registered successfully',
+        },
+        400: {
+          description: 'Invalid input',
+        },
+        409: {
+          description: 'Email already exists',
         },
       },
     },
   },
-  
-  // Health
-  '/health': {
-    get: {
-      tags: ['Health'],
-      summary: 'Health check',
-      responses: {
-        '200': {
-          description: 'Service is healthy',
-          content: {
-            'application/json': {
-              schema: { $ref: '#/components/schemas/Health' },
+  '/api/v1/auth/refresh': {
+    post: {
+      tags: ['Authentication'],
+      summary: 'Refresh access token',
+      description: 'Get new access token using refresh token',
+      security: [],
+      requestBody: {
+        required: true,
+        content: {
+          'application/json': {
+            schema: {
+              type: 'object',
+              required: ['refreshToken'],
+              properties: {
+                refreshToken: { type: 'string' },
+              },
             },
           },
+        },
+      },
+      responses: {
+        200: {
+          description: 'Token refreshed successfully',
+        },
+        401: {
+          description: 'Invalid refresh token',
         },
       },
     },

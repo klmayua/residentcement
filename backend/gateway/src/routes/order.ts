@@ -1,8 +1,11 @@
-import { Router, Response, AuthRequest } from "express";
+import { Router, Response, Request, NextFunction } from "express";
 import { z } from "zod";
 import prisma from "../lib/prisma";
 import logger from "../utils/logger";
+import { v4 as uuidv4 } from "uuid";
+import { AuthRequest } from "../middleware/auth";
 
+const router = Router();
 const orderLogger = logger;
 
 const createOrderSchema = z.object({
@@ -120,7 +123,7 @@ router.get("/:id", async (req: AuthRequest, res: Response) => {
 router.post("/", async (req: AuthRequest, res: Response) => {
   try {
     const body = createOrderSchema.parse(req.body);
-    const userId = req.user?.sub || "unknown";
+    const userId = req.user?.id || "unknown";
 
     const products = await prisma.product.findMany({
       where: {

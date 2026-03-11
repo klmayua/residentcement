@@ -1,5 +1,11 @@
----
-# Microservices Deployment Template
+# =============================================================================
+# ResidentCement Microservices - Kubernetes Deployment
+# =============================================================================
+
+# -----------------------------------------------------------------------------
+# Customer Service
+# -----------------------------------------------------------------------------
+
 apiVersion: apps/v1
 kind: Deployment
 metadata:
@@ -17,45 +23,55 @@ spec:
     metadata:
       labels:
         app: customer-service
-        component: microservice
+      annotations:
+        prometheus.io/scrape: "true"
+        prometheus.io/port: "3002"
     spec:
       containers:
         - name: customer-service
-          image: residentcement/customer-service:latest
+          image: ghcr.io/resident-cement/customer-service:latest
+          imagePullPolicy: Always
           ports:
             - containerPort: 3002
-              name: http
           env:
             - name: NODE_ENV
               value: "production"
             - name: PORT
               value: "3002"
+            - name: SERVICE_NAME
+              value: "customer-service"
             - name: DATABASE_URL
               valueFrom:
                 secretKeyRef:
-                  name: resident-cement-secrets
-                  key: database-url
+                  name: database-secret
+                  key: postgres-url
+            - name: REDIS_URL
+              valueFrom:
+                secretKeyRef:
+                  name: redis-secret
+                  key: redis-url
             - name: KAFKA_BROKERS
-              value: "kafka:9092"
+              value: "kafka-headless:9092"
           resources:
             requests:
-              memory: "256Mi"
-              cpu: "200m"
+              cpu: 100m
+              memory: 256Mi
             limits:
-              memory: "512Mi"
-              cpu: "400m"
+              cpu: 500m
+              memory: 512Mi
           livenessProbe:
             httpGet:
-              path: /health
+              path: /health/live
               port: 3002
             initialDelaySeconds: 30
-            periodSeconds: 10
+            periodSeconds: 30
           readinessProbe:
             httpGet:
-              path: /health
+              path: /health/ready
               port: 3002
-            initialDelaySeconds: 5
-            periodSeconds: 5
+            initialDelaySeconds: 10
+            periodSeconds: 10
+
 ---
 # Customer Service Service
 apiVersion: v1
@@ -63,225 +79,19 @@ kind: Service
 metadata:
   name: customer-service
   namespace: resident-cement
-  labels:
-    app: customer-service
 spec:
   type: ClusterIP
   ports:
-    - port: 3002
+    - port: 80
       targetPort: 3002
-      protocol: TCP
   selector:
     app: customer-service
+
 ---
-# Inventory Service
-apiVersion: apps/v1
-kind: Deployment
-metadata:
-  name: inventory-service
-  namespace: resident-cement
-  labels:
-    app: inventory-service
-spec:
-  replicas: 2
-  selector:
-    matchLabels:
-      app: inventory-service
-  template:
-    metadata:
-      labels:
-        app: inventory-service
-    spec:
-      containers:
-        - name: inventory-service
-          image: residentcement/inventory-service:latest
-          ports:
-            - containerPort: 3003
-          env:
-            - name: DATABASE_URL
-              valueFrom:
-                secretKeyRef:
-                  name: resident-cement-secrets
-                  key: database-url
-            - name: KAFKA_BROKERS
-              value: "kafka:9092"
-          resources:
-            requests:
-              memory: "256Mi"
-              cpu: "200m"
-            limits:
-              memory: "512Mi"
-              cpu: "400m"
----
-apiVersion: v1
-kind: Service
-metadata:
-  name: inventory-service
-  namespace: resident-cement
-spec:
-  type: ClusterIP
-  ports:
-    - port: 3003
-      targetPort: 3003
-  selector:
-    app: inventory-service
----
-# Pricing Service
-apiVersion: apps/v1
-kind: Deployment
-metadata:
-  name: pricing-service
-  namespace: resident-cement
-  labels:
-    app: pricing-service
-spec:
-  replicas: 2
-  selector:
-    matchLabels:
-      app: pricing-service
-  template:
-    metadata:
-      labels:
-        app: pricing-service
-    spec:
-      containers:
-        - name: pricing-service
-          image: residentcement/pricing-service:latest
-          ports:
-            - containerPort: 3004
-          env:
-            - name: DATABASE_URL
-              valueFrom:
-                secretKeyRef:
-                  name: resident-cement-secrets
-                  key: database-url
-          resources:
-            requests:
-              memory: "256Mi"
-              cpu: "200m"
-            limits:
-              memory: "512Mi"
-              cpu: "400m"
----
-apiVersion: v1
-kind: Service
-metadata:
-  name: pricing-service
-  namespace: resident-cement
-spec:
-  type: ClusterIP
-  ports:
-    - port: 3004
-      targetPort: 3004
-  selector:
-    app: pricing-service
----
-# Payment Service
-apiVersion: apps/v1
-kind: Deployment
-metadata:
-  name: payment-service
-  namespace: resident-cement
-  labels:
-    app: payment-service
-spec:
-  replicas: 2
-  selector:
-    matchLabels:
-      app: payment-service
-  template:
-    metadata:
-      labels:
-        app: payment-service
-    spec:
-      containers:
-        - name: payment-service
-          image: residentcement/payment-service:latest
-          ports:
-            - containerPort: 3005
-          env:
-            - name: DATABASE_URL
-              valueFrom:
-                secretKeyRef:
-                  name: resident-cement-secrets
-                  key: database-url
-            - name: PAYSTACK_SECRET_KEY
-              valueFrom:
-                secretKeyRef:
-                  name: resident-cement-secrets
-                  key: paystack-secret-key
-          resources:
-            requests:
-              memory: "256Mi"
-              cpu: "200m"
-            limits:
-              memory: "512Mi"
-              cpu: "400m"
----
-apiVersion: v1
-kind: Service
-metadata:
-  name: payment-service
-  namespace: resident-cement
-spec:
-  type: ClusterIP
-  ports:
-    - port: 3005
-      targetPort: 3005
-  selector:
-    app: payment-service
----
-# Product Service
-apiVersion: apps/v1
-kind: Deployment
-metadata:
-  name: product-service
-  namespace: resident-cement
-  labels:
-    app: product-service
-spec:
-  replicas: 2
-  selector:
-    matchLabels:
-      app: product-service
-  template:
-    metadata:
-      labels:
-        app: product-service
-    spec:
-      containers:
-        - name: product-service
-          image: residentcement/product-service:latest
-          ports:
-            - containerPort: 3006
-          env:
-            - name: DATABASE_URL
-              valueFrom:
-                secretKeyRef:
-                  name: resident-cement-secrets
-                  key: database-url
-          resources:
-            requests:
-              memory: "256Mi"
-              cpu: "200m"
-            limits:
-              memory: "512Mi"
-              cpu: "400m"
----
-apiVersion: v1
-kind: Service
-metadata:
-  name: product-service
-  namespace: resident-cement
-spec:
-  type: ClusterIP
-  ports:
-    - port: 3006
-      targetPort: 3006
-  selector:
-    app: product-service
----
+# -----------------------------------------------------------------------------
 # Order Service
+# -----------------------------------------------------------------------------
+
 apiVersion: apps/v1
 kind: Deployment
 metadata:
@@ -289,6 +99,7 @@ metadata:
   namespace: resident-cement
   labels:
     app: order-service
+    component: microservice
 spec:
   replicas: 2
   selector:
@@ -298,28 +109,57 @@ spec:
     metadata:
       labels:
         app: order-service
+      annotations:
+        prometheus.io/scrape: "true"
+        prometheus.io/port: "3007"
     spec:
       containers:
         - name: order-service
-          image: residentcement/order-service:latest
+          image: ghcr.io/resident-cement/order-service:latest
+          imagePullPolicy: Always
           ports:
             - containerPort: 3007
           env:
+            - name: NODE_ENV
+              value: "production"
+            - name: PORT
+              value: "3007"
+            - name: SERVICE_NAME
+              value: "order-service"
             - name: DATABASE_URL
               valueFrom:
                 secretKeyRef:
-                  name: resident-cement-secrets
-                  key: database-url
+                  name: database-secret
+                  key: postgres-url
+            - name: REDIS_URL
+              valueFrom:
+                secretKeyRef:
+                  name: redis-secret
+                  key: redis-url
             - name: KAFKA_BROKERS
-              value: "kafka:9092"
+              value: "kafka-headless:9092"
           resources:
             requests:
-              memory: "256Mi"
-              cpu: "200m"
+              cpu: 100m
+              memory: 256Mi
             limits:
-              memory: "512Mi"
-              cpu: "400m"
+              cpu: 500m
+              memory: 512Mi
+          livenessProbe:
+            httpGet:
+              path: /health/live
+              port: 3007
+            initialDelaySeconds: 30
+            periodSeconds: 30
+          readinessProbe:
+            httpGet:
+              path: /health/ready
+              port: 3007
+            initialDelaySeconds: 10
+            periodSeconds: 10
+
 ---
+# Order Service Service
 apiVersion: v1
 kind: Service
 metadata:
@@ -328,7 +168,356 @@ metadata:
 spec:
   type: ClusterIP
   ports:
-    - port: 3007
+    - port: 80
       targetPort: 3007
   selector:
     app: order-service
+
+---
+# -----------------------------------------------------------------------------
+# Product Service
+# -----------------------------------------------------------------------------
+
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: product-service
+  namespace: resident-cement
+  labels:
+    app: product-service
+    component: microservice
+spec:
+  replicas: 2
+  selector:
+    matchLabels:
+      app: product-service
+  template:
+    metadata:
+      labels:
+        app: product-service
+      annotations:
+        prometheus.io/scrape: "true"
+        prometheus.io/port: "3006"
+    spec:
+      containers:
+        - name: product-service
+          image: ghcr.io/resident-cement/product-service:latest
+          imagePullPolicy: Always
+          ports:
+            - containerPort: 3006
+          env:
+            - name: NODE_ENV
+              value: "production"
+            - name: PORT
+              value: "3006"
+            - name: SERVICE_NAME
+              value: "product-service"
+            - name: DATABASE_URL
+              valueFrom:
+                secretKeyRef:
+                  name: database-secret
+                  key: postgres-url
+            - name: REDIS_URL
+              valueFrom:
+                secretKeyRef:
+                  name: redis-secret
+                  key: redis-url
+            - name: KAFKA_BROKERS
+              value: "kafka-headless:9092"
+          resources:
+            requests:
+              cpu: 100m
+              memory: 256Mi
+            limits:
+              cpu: 500m
+              memory: 512Mi
+          livenessProbe:
+            httpGet:
+              path: /health/live
+              port: 3006
+            initialDelaySeconds: 30
+            periodSeconds: 30
+          readinessProbe:
+            httpGet:
+              path: /health/ready
+              port: 3006
+            initialDelaySeconds: 10
+            periodSeconds: 10
+
+---
+# Product Service Service
+apiVersion: v1
+kind: Service
+metadata:
+  name: product-service
+  namespace: resident-cement
+spec:
+  type: ClusterIP
+  ports:
+    - port: 80
+      targetPort: 3006
+  selector:
+    app: product-service
+
+---
+# -----------------------------------------------------------------------------
+# Inventory Service
+# -----------------------------------------------------------------------------
+
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: inventory-service
+  namespace: resident-cement
+  labels:
+    app: inventory-service
+    component: microservice
+spec:
+  replicas: 2
+  selector:
+    matchLabels:
+      app: inventory-service
+  template:
+    metadata:
+      labels:
+        app: inventory-service
+      annotations:
+        prometheus.io/scrape: "true"
+        prometheus.io/port: "3003"
+    spec:
+      containers:
+        - name: inventory-service
+          image: ghcr.io/resident-cement/inventory-service:latest
+          imagePullPolicy: Always
+          ports:
+            - containerPort: 3003
+          env:
+            - name: NODE_ENV
+              value: "production"
+            - name: PORT
+              value: "3003"
+            - name: SERVICE_NAME
+              value: "inventory-service"
+            - name: DATABASE_URL
+              valueFrom:
+                secretKeyRef:
+                  name: database-secret
+                  key: postgres-url
+            - name: REDIS_URL
+              valueFrom:
+                secretKeyRef:
+                  name: redis-secret
+                  key: redis-url
+            - name: KAFKA_BROKERS
+              value: "kafka-headless:9092"
+          resources:
+            requests:
+              cpu: 100m
+              memory: 256Mi
+            limits:
+              cpu: 500m
+              memory: 512Mi
+          livenessProbe:
+            httpGet:
+              path: /health/live
+              port: 3003
+            initialDelaySeconds: 30
+            periodSeconds: 30
+          readinessProbe:
+            httpGet:
+              path: /health/ready
+              port: 3003
+            initialDelaySeconds: 10
+            periodSeconds: 10
+
+---
+# Inventory Service Service
+apiVersion: v1
+kind: Service
+metadata:
+  name: inventory-service
+  namespace: resident-cement
+spec:
+  type: ClusterIP
+  ports:
+    - port: 80
+      targetPort: 3003
+  selector:
+    app: inventory-service
+
+---
+# -----------------------------------------------------------------------------
+# Payment Service
+# -----------------------------------------------------------------------------
+
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: payment-service
+  namespace: resident-cement
+  labels:
+    app: payment-service
+    component: microservice
+spec:
+  replicas: 2
+  selector:
+    matchLabels:
+      app: payment-service
+  template:
+    metadata:
+      labels:
+        app: payment-service
+      annotations:
+        prometheus.io/scrape: "true"
+        prometheus.io/port: "3005"
+    spec:
+      containers:
+        - name: payment-service
+          image: ghcr.io/resident-cement/payment-service:latest
+          imagePullPolicy: Always
+          ports:
+            - containerPort: 3005
+          env:
+            - name: NODE_ENV
+              value: "production"
+            - name: PORT
+              value: "3005"
+            - name: SERVICE_NAME
+              value: "payment-service"
+            - name: DATABASE_URL
+              valueFrom:
+                secretKeyRef:
+                  name: database-secret
+                  key: postgres-url
+            - name: REDIS_URL
+              valueFrom:
+                secretKeyRef:
+                  name: redis-secret
+                  key: redis-url
+            - name: KAFKA_BROKERS
+              value: "kafka-headless:9092"
+            - name: PAYSTACK_SECRET_KEY
+              valueFrom:
+                secretKeyRef:
+                  name: payment-secret
+                  key: paystack-secret-key
+          resources:
+            requests:
+              cpu: 100m
+              memory: 256Mi
+            limits:
+              cpu: 500m
+              memory: 512Mi
+          livenessProbe:
+            httpGet:
+              path: /health/live
+              port: 3005
+            initialDelaySeconds: 30
+            periodSeconds: 30
+          readinessProbe:
+            httpGet:
+              path: /health/ready
+              port: 3005
+            initialDelaySeconds: 10
+            periodSeconds: 10
+
+---
+# Payment Service Service
+apiVersion: v1
+kind: Service
+metadata:
+  name: payment-service
+  namespace: resident-cement
+spec:
+  type: ClusterIP
+  ports:
+    - port: 80
+      targetPort: 3005
+  selector:
+    app: payment-service
+
+---
+# -----------------------------------------------------------------------------
+# Pricing Service
+# -----------------------------------------------------------------------------
+
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: pricing-service
+  namespace: resident-cement
+  labels:
+    app: pricing-service
+    component: microservice
+spec:
+  replicas: 2
+  selector:
+    matchLabels:
+      app: pricing-service
+  template:
+    metadata:
+      labels:
+        app: pricing-service
+      annotations:
+        prometheus.io/scrape: "true"
+        prometheus.io/port: "3004"
+    spec:
+      containers:
+        - name: pricing-service
+          image: ghcr.io/resident-cement/pricing-service:latest
+          imagePullPolicy: Always
+          ports:
+            - containerPort: 3004
+          env:
+            - name: NODE_ENV
+              value: "production"
+            - name: PORT
+              value: "3004"
+            - name: SERVICE_NAME
+              value: "pricing-service"
+            - name: DATABASE_URL
+              valueFrom:
+                secretKeyRef:
+                  name: database-secret
+                  key: postgres-url
+            - name: REDIS_URL
+              valueFrom:
+                secretKeyRef:
+                  name: redis-secret
+                  key: redis-url
+            - name: KAFKA_BROKERS
+              value: "kafka-headless:9092"
+          resources:
+            requests:
+              cpu: 100m
+              memory: 256Mi
+            limits:
+              cpu: 500m
+              memory: 512Mi
+          livenessProbe:
+            httpGet:
+              path: /health/live
+              port: 3004
+            initialDelaySeconds: 30
+            periodSeconds: 30
+          readinessProbe:
+            httpGet:
+              path: /health/ready
+              port: 3004
+            initialDelaySeconds: 10
+            periodSeconds: 10
+
+---
+# Pricing Service Service
+apiVersion: v1
+kind: Service
+metadata:
+  name: pricing-service
+  namespace: resident-cement
+spec:
+  type: ClusterIP
+  ports:
+    - port: 80
+      targetPort: 3004
+  selector:
+    app: pricing-service

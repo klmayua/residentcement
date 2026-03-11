@@ -1,0 +1,8 @@
+﻿"path","size_bytes","sha256","language"
+"tests/package.json","817","1afe6018358f1179c5cd4d8d1c5ea48caf945d6a221e137717af6d08608ec36e","json"
+"tests/e2e/platform.spec.ts","14364","cc3cfd0cd5b0dfcaffffa7573b1b01c9152bcf9cb561ecfcb8ca9c8c8970980b","ts"
+"tests/e2e/playwright.config.ts","1495","c38a785bbb17e7da920256811a3e2a2ea47816b4322d4d6f9466b2b55289edaa","ts"
+"tests/e2e/tsconfig.json","386","45a24b49a2f51b62aaaeb4ef2ced9602328cbea331187cbf45863e732e147e09","json"
+"tests/e2e/src/distributor-portal.spec.ts","2830","0097bb0c62e6ed38db70780487add54663bfbb038ff6588edc1669940fb995dc","ts"
+"tests/e2e/src/resident-cement.spec.ts","16182","ef603d46b628a340a1e89fcc1ee4d2c393db0fe305777509d3a253a96d7bfc23","ts"
+"tests/integration/playwright.config.ts","867","69cff20310094d01cba280ea0d99c823e678226dfea73ea429ec43f80880a469","ts"

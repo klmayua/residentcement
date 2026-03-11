@@ -1,5 +1,7 @@
----
-# ResidentCement Kubernetes Namespace
+# =============================================================================
+# ResidentCement Platform - Kubernetes Namespace
+# =============================================================================
+
 apiVersion: v1
 kind: Namespace
 metadata:
@@ -7,3 +9,6 @@ metadata:
   labels:
     name: resident-cement
     environment: production
+    team: platform
+  annotations:
+    description: "ResidentCement Digital Ecosystem Namespace"

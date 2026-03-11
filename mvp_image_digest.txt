@@ -1,0 +1,6 @@
+sha256:PENDING_BUILD_IN_PROGRESS
+# Image: residentcement-mvp:board-ready
+# Build started: 2026-03-10
+# Status: Building (timeout allowed)
+# To verify after build completes:
+#   docker images residentcement-mvp:board-ready --format "{{.Digest}}"

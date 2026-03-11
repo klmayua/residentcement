@@ -1,0 +1,258 @@
+﻿C:\Users\UCHE\my-qwen-project\PROJECTS\ResidentCement\backend\gateway\dist\routes\auth.js:28:router.post("/login", async (req, res) => {
+C:\Users\UCHE\my-qwen-project\PROJECTS\ResidentCement\backend\gateway\dist\routes\auth.js:89:router.post("/register", async (req, res) => {
+C:\Users\UCHE\my-qwen-project\PROJECTS\ResidentCement\backend\gateway\dist\routes\auth.js:145:router.post("/refresh", async (req, res) => {
+C:\Users\UCHE\my-qwen-project\PROJECTS\ResidentCement\backend\gateway\dist\routes\auth.js:179:router.post("/logout", async (req, res) => {
+C:\Users\UCHE\my-qwen-project\PROJECTS\ResidentCement\backend\gateway\dist\routes\auth.js:189:router.get("/me", async (req, res) => {
+C:\Users\UCHE\my-qwen-project\PROJECTS\ResidentCement\backend\gateway\dist\routes\customer.js:31:router.get("/", async (req, res) => {
+C:\Users\UCHE\my-qwen-project\PROJECTS\ResidentCement\backend\gateway\dist\routes\customer.js:82:router.get("/:id", async (req, res) => {
+C:\Users\UCHE\my-qwen-project\PROJECTS\ResidentCement\backend\gateway\dist\routes\customer.js:114:router.patch("/:id", async (req, res) => {
+C:\Users\UCHE\my-qwen-project\PROJECTS\ResidentCement\backend\gateway\dist\routes\health.js:17:router.get('/', async (req, res) => {
+C:\Users\UCHE\my-qwen-project\PROJECTS\ResidentCement\backend\gateway\dist\routes\health.js:40:router.get('/ready', async (req, res) => {
+C:\Users\UCHE\my-qwen-project\PROJECTS\ResidentCement\backend\gateway\dist\routes\health.js:68:router.get('/live', async (req, res) => {
+C:\Users\UCHE\my-qwen-project\PROJECTS\ResidentCement\backend\gateway\dist\routes\health.js:79:router.get('/detailed', async (req, res) => {
+C:\Users\UCHE\my-qwen-project\PROJECTS\ResidentCement\backend\gateway\dist\routes\inventory.js:13:router.use(auth_1.authenticate);
+C:\Users\UCHE\my-qwen-project\PROJECTS\ResidentCement\backend\gateway\dist\routes\inventory.js:16:router.get("/", async (req, res) => {
+C:\Users\UCHE\my-qwen-project\PROJECTS\ResidentCement\backend\gateway\dist\routes\inventory.js:44:router.get("/:id", async (req, res) => {
+C:\Users\UCHE\my-qwen-project\PROJECTS\ResidentCement\backend\gateway\dist\routes\inventory.js:61:router.post("/adjust", async (req, res) => {
+C:\Users\UCHE\my-qwen-project\PROJECTS\ResidentCement\backend\gateway\dist\routes\order.js:22:router.get("/", async (req, res) => {
+C:\Users\UCHE\my-qwen-project\PROJECTS\ResidentCement\backend\gateway\dist\routes\order.js:80:router.get("/:id", async (req, res) => {
+C:\Users\UCHE\my-qwen-project\PROJECTS\ResidentCement\backend\gateway\dist\routes\order.js:117:router.post("/", async (req, res) => {
+C:\Users\UCHE\my-qwen-project\PROJECTS\ResidentCement\backend\gateway\dist\routes\order.js:184:router.patch("/:id/cancel", async (req, res) => {
+C:\Users\UCHE\my-qwen-project\PROJECTS\ResidentCement\backend\gateway\dist\routes\payment.js:14:router.use(auth_1.authenticate);
+C:\Users\UCHE\my-qwen-project\PROJECTS\ResidentCement\backend\gateway\dist\routes\payment.js:25:router.post("/initiate", async (req, res) => {
+C:\Users\UCHE\my-qwen-project\PROJECTS\ResidentCement\backend\gateway\dist\routes\payment.js:44:router.get("/", async (req, res) => {
+C:\Users\UCHE\my-qwen-project\PROJECTS\ResidentCement\backend\gateway\dist\routes\payment.js:70:router.get("/:id", async (req, res) => {
+C:\Users\UCHE\my-qwen-project\PROJECTS\ResidentCement\backend\gateway\dist\routes\payment.js:87:router.get("/:id/status", async (req, res) => {
+C:\Users\UCHE\my-qwen-project\PROJECTS\ResidentCement\backend\gateway\dist\routes\payment.js:104:router.post("/webhook", async (req, res) => {
+C:\Users\UCHE\my-qwen-project\PROJECTS\ResidentCement\backend\gateway\dist\routes\pricing.js:14:router.use(auth_1.authenticate);
+C:\Users\UCHE\my-qwen-project\PROJECTS\ResidentCement\backend\gateway\dist\routes\pricing.js:26:router.post("/calculate", async (req, res) => {
+C:\Users\UCHE\my-qwen-project\PROJECTS\ResidentCement\backend\gateway\dist\routes\pricing.js:45:router.post("/", async (req, res) => {
+C:\Users\UCHE\my-qwen-project\PROJECTS\ResidentCement\backend\gateway\dist\routes\pricing.js:64:router.get("/", async (req, res) => {
+C:\Users\UCHE\my-qwen-project\PROJECTS\ResidentCement\backend\gateway\dist\routes\pricing.js:88:router.get("/:id", async (req, res) => {
+C:\Users\UCHE\my-qwen-project\PROJECTS\ResidentCement\backend\gateway\dist\routes\pricing.js:105:router.post("/:id/convert", async (req, res) => {
+C:\Users\UCHE\my-qwen-project\PROJECTS\ResidentCement\backend\gateway\dist\routes\product.js:24:router.get("/", async (req, res) => {
+C:\Users\UCHE\my-qwen-project\PROJECTS\ResidentCement\backend\gateway\dist\routes\product.js:66:router.get("/:id", async (req, res) => {
+C:\Users\UCHE\my-qwen-project\PROJECTS\ResidentCement\backend\gateway\dist\routes\product.js:89:router.get("/:id/availability", async (req, res) => {
+C:\Users\UCHE\my-qwen-project\PROJECTS\ResidentCement\backend\gateway\dist\routes\product.js:117:router.post("/", async (req, res) => {
+C:\Users\UCHE\my-qwen-project\PROJECTS\ResidentCement\backend\gateway\dist\routes\product.js:133:router.patch("/:id", async (req, res) => {
+C:\Users\UCHE\my-qwen-project\PROJECTS\ResidentCement\backend\gateway\dist\index.js:47:app.use((0, helmet_1.default)());
+C:\Users\UCHE\my-qwen-project\PROJECTS\ResidentCement\backend\gateway\dist\index.js:49:app.use((0, kernel_1.securityHeadersMiddleware)());
+C:\Users\UCHE\my-qwen-project\PROJECTS\ResidentCement\backend\gateway\dist\index.js:51:app.use((0, kernel_1.corsMiddleware)({
+C:\Users\UCHE\my-qwen-project\PROJECTS\ResidentCement\backend\gateway\dist\index.js:72:app.use((0, kernel_1.requestIdMiddleware)());
+C:\Users\UCHE\my-qwen-project\PROJECTS\ResidentCement\backend\gateway\dist\index.js:74:app.use((0, kernel_1.requestLoggingMiddleware)({
+C:\Users\UCHE\my-qwen-project\PROJECTS\ResidentCement\backend\gateway\dist\index.js:79:app.use(express_1.default.json({ limit: "10mb" }));
+C:\Users\UCHE\my-qwen-project\PROJECTS\ResidentCement\backend\gateway\dist\index.js:80:app.use(express_1.default.urlencoded({ extended: true, limit: "10mb" }));
+C:\Users\UCHE\my-qwen-project\PROJECTS\ResidentCement\backend\gateway\dist\index.js:82:app.use((req, res, next) => {
+C:\Users\UCHE\my-qwen-project\PROJECTS\ResidentCement\backend\gateway\dist\index.js:89:app.use((req, res, next) => {
+C:\Users\UCHE\my-qwen-project\PROJECTS\ResidentCement\backend\gateway\dist\index.js:128:app.use(generalLimiter);
+C:\Users\UCHE\my-qwen-project\PROJECTS\ResidentCement\backend\gateway\dist\index.js:133:app.use("/health", health_1.healthRouter);
+C:\Users\UCHE\my-qwen-project\PROJECTS\ResidentCement\backend\gateway\dist\index.js:135:app.use("/api-docs", swagger_ui_express_1.default.serve, swagger_ui_express_1.default.setup(swaggerSpec, {
+C:\Users\UCHE\my-qwen-project\PROJECTS\ResidentCement\backend\gateway\dist\index.js:141:app.use("/api/v1/auth", authLimiter, auth_1.authRouter);
+C:\Users\UCHE\my-qwen-project\PROJECTS\ResidentCement\backend\gateway\dist\index.js:143:app.use("/api/v1/customers", customer_1.customerRouter);
+C:\Users\UCHE\my-qwen-project\PROJECTS\ResidentCement\backend\gateway\dist\index.js:144:app.use("/api/v1/orders", order_1.orderRouter);
+C:\Users\UCHE\my-qwen-project\PROJECTS\ResidentCement\backend\gateway\dist\index.js:145:app.use("/api/v1/products", product_1.productRouter);
+C:\Users\UCHE\my-qwen-project\PROJECTS\ResidentCement\backend\gateway\dist\index.js:146:app.use("/api/v1/inventory", inventory_1.inventoryRouter);
+C:\Users\UCHE\my-qwen-project\PROJECTS\ResidentCement\backend\gateway\dist\index.js:147:app.use("/api/v1/pricing", pricing_1.pricingRouter);
+C:\Users\UCHE\my-qwen-project\PROJECTS\ResidentCement\backend\gateway\dist\index.js:148:app.use("/api/v1/quotes", pricing_1.pricingRouter);
+C:\Users\UCHE\my-qwen-project\PROJECTS\ResidentCement\backend\gateway\dist\index.js:149:app.use("/api/v1/payments", payment_1.paymentRouter);
+C:\Users\UCHE\my-qwen-project\PROJECTS\ResidentCement\backend\gateway\dist\index.js:154:app.use((req, res) => {
+C:\Users\UCHE\my-qwen-project\PROJECTS\ResidentCement\backend\gateway\dist\index.js:165:app.use(kernel_1.errorHandler);
+C:\Users\UCHE\my-qwen-project\PROJECTS\ResidentCement\backend\gateway\src\routes\auth.ts:27:router.post("/login", async (req: Request, res: Response) => {
+C:\Users\UCHE\my-qwen-project\PROJECTS\ResidentCement\backend\gateway\src\routes\auth.ts:95:router.post("/register", async (req: Request, res: Response) => {
+C:\Users\UCHE\my-qwen-project\PROJECTS\ResidentCement\backend\gateway\src\routes\auth.ts:156:router.post("/refresh", async (req: Request, res: Response) => {
+C:\Users\UCHE\my-qwen-project\PROJECTS\ResidentCement\backend\gateway\src\routes\auth.ts:194:router.post("/logout", async (req: Request, res: Response) => {
+C:\Users\UCHE\my-qwen-project\PROJECTS\ResidentCement\backend\gateway\src\routes\auth.ts:205:router.get("/me", async (req: Request, res: Response) => {
+C:\Users\UCHE\my-qwen-project\PROJECTS\ResidentCement\backend\gateway\src\routes\customer.ts:30:router.get("/", async (req: AuthRequest, res: Response) => {
+C:\Users\UCHE\my-qwen-project\PROJECTS\ResidentCement\backend\gateway\src\routes\customer.ts:86:router.get("/:id", async (req: AuthRequest, res: Response) => {
+C:\Users\UCHE\my-qwen-project\PROJECTS\ResidentCement\backend\gateway\src\routes\customer.ts:120:router.patch("/:id", async (req: AuthRequest, res: Response) => {
+C:\Users\UCHE\my-qwen-project\PROJECTS\ResidentCement\backend\gateway\src\routes\health.ts:20:router.get('/', async (req: Request, res: Response) => {
+C:\Users\UCHE\my-qwen-project\PROJECTS\ResidentCement\backend\gateway\src\routes\health.ts:44:router.get('/ready', async (req: Request, res: Response) => {
+C:\Users\UCHE\my-qwen-project\PROJECTS\ResidentCement\backend\gateway\src\routes\health.ts:74:router.get('/live', async (req: Request, res: Response) => {
+C:\Users\UCHE\my-qwen-project\PROJECTS\ResidentCement\backend\gateway\src\routes\health.ts:86:router.get('/detailed', async (req: Request, res: Response) => {
+C:\Users\UCHE\my-qwen-project\PROJECTS\ResidentCement\backend\gateway\src\routes\inventory.ts:7:router.use(authenticate);
+C:\Users\UCHE\my-qwen-project\PROJECTS\ResidentCement\backend\gateway\src\routes\inventory.ts:12:router.get("/", async (req: AuthRequest, res: Response) => {
+C:\Users\UCHE\my-qwen-project\PROJECTS\ResidentCement\backend\gateway\src\routes\inventory.ts:38:router.get("/:id", async (req: AuthRequest, res: Response) => {
+C:\Users\UCHE\my-qwen-project\PROJECTS\ResidentCement\backend\gateway\src\routes\inventory.ts:57:router.post("/adjust", async (req: AuthRequest, res: Response) => {
+C:\Users\UCHE\my-qwen-project\PROJECTS\ResidentCement\backend\gateway\src\routes\order.ts:20:router.get("/", async (req: AuthRequest, res: Response) => {
+C:\Users\UCHE\my-qwen-project\PROJECTS\ResidentCement\backend\gateway\src\routes\order.ts:81:router.get("/:id", async (req: AuthRequest, res: Response) => {
+C:\Users\UCHE\my-qwen-project\PROJECTS\ResidentCement\backend\gateway\src\routes\order.ts:120:router.post("/", async (req: AuthRequest, res: Response) => {
+C:\Users\UCHE\my-qwen-project\PROJECTS\ResidentCement\backend\gateway\src\routes\order.ts:194:router.patch("/:id/cancel", async (req: AuthRequest, res: Response) => {
+C:\Users\UCHE\my-qwen-project\PROJECTS\ResidentCement\backend\gateway\src\routes\payment.ts:8:router.use(authenticate);
+C:\Users\UCHE\my-qwen-project\PROJECTS\ResidentCement\backend\gateway\src\routes\payment.ts:22:router.post("/initiate", async (req: AuthRequest, res: Response) => {
+C:\Users\UCHE\my-qwen-project\PROJECTS\ResidentCement\backend\gateway\src\routes\payment.ts:44:router.get("/", async (req: AuthRequest, res: Response) => {
+C:\Users\UCHE\my-qwen-project\PROJECTS\ResidentCement\backend\gateway\src\routes\payment.ts:69:router.get("/:id", async (req: AuthRequest, res: Response) => {
+C:\Users\UCHE\my-qwen-project\PROJECTS\ResidentCement\backend\gateway\src\routes\payment.ts:88:router.get("/:id/status", async (req: AuthRequest, res: Response) => {
+C:\Users\UCHE\my-qwen-project\PROJECTS\ResidentCement\backend\gateway\src\routes\payment.ts:107:router.post("/webhook", async (req: AuthRequest, res: Response) => {
+C:\Users\UCHE\my-qwen-project\PROJECTS\ResidentCement\backend\gateway\src\routes\pricing.ts:8:router.use(authenticate);
+C:\Users\UCHE\my-qwen-project\PROJECTS\ResidentCement\backend\gateway\src\routes\pricing.ts:23:router.post("/calculate", async (req: AuthRequest, res: Response) => {
+C:\Users\UCHE\my-qwen-project\PROJECTS\ResidentCement\backend\gateway\src\routes\pricing.ts:45:router.post("/", async (req: AuthRequest, res: Response) => {
+C:\Users\UCHE\my-qwen-project\PROJECTS\ResidentCement\backend\gateway\src\routes\pricing.ts:67:router.get("/", async (req: AuthRequest, res: Response) => {
+C:\Users\UCHE\my-qwen-project\PROJECTS\ResidentCement\backend\gateway\src\routes\pricing.ts:91:router.get("/:id", async (req: AuthRequest, res: Response) => {
+C:\Users\UCHE\my-qwen-project\PROJECTS\ResidentCement\backend\gateway\src\routes\pricing.ts:110:router.post("/:id/convert", async (req: AuthRequest, res: Response) => {
+C:\Users\UCHE\my-qwen-project\PROJECTS\ResidentCement\backend\gateway\src\routes\product.ts:23:router.get("/", async (req: AuthRequest, res: Response) => {
+C:\Users\UCHE\my-qwen-project\PROJECTS\ResidentCement\backend\gateway\src\routes\product.ts:71:router.get("/:id", async (req: AuthRequest, res: Response) => {
+C:\Users\UCHE\my-qwen-project\PROJECTS\ResidentCement\backend\gateway\src\routes\product.ts:96:router.get("/:id/availability", async (req: AuthRequest, res: Response) => {
+C:\Users\UCHE\my-qwen-project\PROJECTS\ResidentCement\backend\gateway\src\routes\product.ts:127:router.post("/", async (req: AuthRequest, res: Response) => {
+C:\Users\UCHE\my-qwen-project\PROJECTS\ResidentCement\backend\gateway\src\routes\product.ts:145:router.patch("/:id", async (req: AuthRequest, res: Response) => {
+C:\Users\UCHE\my-qwen-project\PROJECTS\ResidentCement\backend\gateway\src\index.ts:57:app.use(helmet());
+C:\Users\UCHE\my-qwen-project\PROJECTS\ResidentCement\backend\gateway\src\index.ts:60:app.use(securityHeadersMiddleware());
+C:\Users\UCHE\my-qwen-project\PROJECTS\ResidentCement\backend\gateway\src\index.ts:63:app.use(corsMiddleware({
+C:\Users\UCHE\my-qwen-project\PROJECTS\ResidentCement\backend\gateway\src\index.ts:86:app.use(requestIdMiddleware());
+C:\Users\UCHE\my-qwen-project\PROJECTS\ResidentCement\backend\gateway\src\index.ts:89:app.use(requestLoggingMiddleware({
+C:\Users\UCHE\my-qwen-project\PROJECTS\ResidentCement\backend\gateway\src\index.ts:95:app.use(express.json({ limit: "10mb" }));
+C:\Users\UCHE\my-qwen-project\PROJECTS\ResidentCement\backend\gateway\src\index.ts:96:app.use(express.urlencoded({ extended: true, limit: "10mb" }));
+C:\Users\UCHE\my-qwen-project\PROJECTS\ResidentCement\backend\gateway\src\index.ts:99:app.use((req: Request, res: Response, next: NextFunction) => {
+C:\Users\UCHE\my-qwen-project\PROJECTS\ResidentCement\backend\gateway\src\index.ts:107:app.use((req: Request, res: Response, next: NextFunction) => {
+C:\Users\UCHE\my-qwen-project\PROJECTS\ResidentCement\backend\gateway\src\index.ts:150:app.use(generalLimiter);
+C:\Users\UCHE\my-qwen-project\PROJECTS\ResidentCement\backend\gateway\src\index.ts:157:app.use("/health", healthRouter);
+C:\Users\UCHE\my-qwen-project\PROJECTS\ResidentCement\backend\gateway\src\index.ts:160:app.use("/api-docs", swaggerUi.serve, swaggerUi.setup(swaggerSpec, {
+C:\Users\UCHE\my-qwen-project\PROJECTS\ResidentCement\backend\gateway\src\index.ts:167:app.use("/api/v1/auth", authLimiter, authRouter);
+C:\Users\UCHE\my-qwen-project\PROJECTS\ResidentCement\backend\gateway\src\index.ts:170:app.use("/api/v1/customers", customerRouter);
+C:\Users\UCHE\my-qwen-project\PROJECTS\ResidentCement\backend\gateway\src\index.ts:171:app.use("/api/v1/orders", orderRouter);
+C:\Users\UCHE\my-qwen-project\PROJECTS\ResidentCement\backend\gateway\src\index.ts:172:app.use("/api/v1/products", productRouter);
+C:\Users\UCHE\my-qwen-project\PROJECTS\ResidentCement\backend\gateway\src\index.ts:173:app.use("/api/v1/inventory", inventoryRouter);
+C:\Users\UCHE\my-qwen-project\PROJECTS\ResidentCement\backend\gateway\src\index.ts:174:app.use("/api/v1/pricing", pricingRouter);
+C:\Users\UCHE\my-qwen-project\PROJECTS\ResidentCement\backend\gateway\src\index.ts:175:app.use("/api/v1/quotes", pricingRouter);
+C:\Users\UCHE\my-qwen-project\PROJECTS\ResidentCement\backend\gateway\src\index.ts:176:app.use("/api/v1/payments", paymentRouter);
+C:\Users\UCHE\my-qwen-project\PROJECTS\ResidentCement\backend\gateway\src\index.ts:183:app.use((req: Request, res: Response) => {
+C:\Users\UCHE\my-qwen-project\PROJECTS\ResidentCement\backend\gateway\src\index.ts:195:app.use(errorHandler);
+C:\Users\UCHE\my-qwen-project\PROJECTS\ResidentCement\backend\services\customer-service\src\index.ts:91:app.use(helmet());
+C:\Users\UCHE\my-qwen-project\PROJECTS\ResidentCement\backend\services\customer-service\src\index.ts:92:app.use(cors({
+C:\Users\UCHE\my-qwen-project\PROJECTS\ResidentCement\backend\services\customer-service\src\index.ts:96:app.use(requestIdMiddleware());
+C:\Users\UCHE\my-qwen-project\PROJECTS\ResidentCement\backend\services\customer-service\src\index.ts:97:app.use(requestLoggingMiddleware({ skipPaths: ['/health'] }));
+C:\Users\UCHE\my-qwen-project\PROJECTS\ResidentCement\backend\services\customer-service\src\index.ts:98:app.use(express.json());
+C:\Users\UCHE\my-qwen-project\PROJECTS\ResidentCement\backend\services\customer-service\src\index.ts:99:app.use(express.urlencoded({ extended: true }));
+C:\Users\UCHE\my-qwen-project\PROJECTS\ResidentCement\backend\services\customer-service\src\index.ts:109:app.use(limiter);
+C:\Users\UCHE\my-qwen-project\PROJECTS\ResidentCement\backend\services\customer-service\src\index.ts:112:app.use((req: Request, res: Response, next: NextFunction) => {
+C:\Users\UCHE\my-qwen-project\PROJECTS\ResidentCement\backend\services\customer-service\src\index.ts:124:healthRouter.get('/', async (req: Request, res: Response) => {
+C:\Users\UCHE\my-qwen-project\PROJECTS\ResidentCement\backend\services\customer-service\src\index.ts:135:healthRouter.get('/ready', async (req: Request, res: Response) => {
+C:\Users\UCHE\my-qwen-project\PROJECTS\ResidentCement\backend\services\customer-service\src\index.ts:143:healthRouter.get('/live', async (req: Request, res: Response) => {
+C:\Users\UCHE\my-qwen-project\PROJECTS\ResidentCement\backend\services\customer-service\src\index.ts:147:app.use('/health', healthRouter);
+C:\Users\UCHE\my-qwen-project\PROJECTS\ResidentCement\backend\services\customer-service\src\index.ts:159:customerRouter.get('/', async (req: Request, res: Response, next: NextFunction) => {
+C:\Users\UCHE\my-qwen-project\PROJECTS\ResidentCement\backend\services\customer-service\src\index.ts:226:customerRouter.get('/:id', async (req: Request, res: Response, next: NextFunction) => {
+C:\Users\UCHE\my-qwen-project\PROJECTS\ResidentCement\backend\services\customer-service\src\index.ts:297:customerRouter.post('/', async (req: Request, res: Response, next: NextFunction) => {
+C:\Users\UCHE\my-qwen-project\PROJECTS\ResidentCement\backend\services\customer-service\src\index.ts:359:customerRouter.patch('/:id', async (req: Request, res: Response, next: NextFunction) => {
+C:\Users\UCHE\my-qwen-project\PROJECTS\ResidentCement\backend\services\customer-service\src\index.ts:429:customerRouter.delete('/:id', async (req: Request, res: Response, next: NextFunction) => {
+C:\Users\UCHE\my-qwen-project\PROJECTS\ResidentCement\backend\services\customer-service\src\index.ts:504:customerRouter.get('/:id/credit-status', async (req: Request, res: Response, next: NextFunction) => {
+C:\Users\UCHE\my-qwen-project\PROJECTS\ResidentCement\backend\services\customer-service\src\index.ts:573:app.use('/api/v1/customers', customerRouter);
+C:\Users\UCHE\my-qwen-project\PROJECTS\ResidentCement\backend\services\customer-service\src\index.ts:579:app.use(errorHandler);
+C:\Users\UCHE\my-qwen-project\PROJECTS\ResidentCement\backend\services\customer-service\src\index.ts:582:app.use((req: Request, res: Response) => {
+C:\Users\UCHE\my-qwen-project\PROJECTS\ResidentCement\backend\services\inventory-service\src\index.ts:34:app.use(helmet());
+C:\Users\UCHE\my-qwen-project\PROJECTS\ResidentCement\backend\services\inventory-service\src\index.ts:35:app.use(cors({ origin: process.env.CORS_ORIGIN || '*' }));
+C:\Users\UCHE\my-qwen-project\PROJECTS\ResidentCement\backend\services\inventory-service\src\index.ts:36:app.use(requestIdMiddleware());
+C:\Users\UCHE\my-qwen-project\PROJECTS\ResidentCement\backend\services\inventory-service\src\index.ts:37:app.use(requestLoggingMiddleware({ skipPaths: ['/health'] }));
+C:\Users\UCHE\my-qwen-project\PROJECTS\ResidentCement\backend\services\inventory-service\src\index.ts:38:app.use(express.json());
+C:\Users\UCHE\my-qwen-project\PROJECTS\ResidentCement\backend\services\inventory-service\src\index.ts:39:app.use(express.urlencoded({ extended: true }));
+C:\Users\UCHE\my-qwen-project\PROJECTS\ResidentCement\backend\services\inventory-service\src\index.ts:40:app.use(rateLimit({ windowMs: 15 * 60 * 1000, max: 1000 }));
+C:\Users\UCHE\my-qwen-project\PROJECTS\ResidentCement\backend\services\inventory-service\src\index.ts:41:app.use((req: Request, res: Response, next: NextFunction) => { (req as any).logger = logger.child({ requestId: req.id }); next(); });
+C:\Users\UCHE\my-qwen-project\PROJECTS\ResidentCement\backend\services\inventory-service\src\index.ts:44:healthRouter.get('/', async (req: Request, res: Response) => { const h = await healthService.getHealthStatus(); res.json({ status: h.status, service: h.service, uptime: h.uptime }); });
+C:\Users\UCHE\my-qwen-project\PROJECTS\ResidentCement\backend\services\inventory-service\src\index.ts:45:healthRouter.get('/ready', async (req: Request, res: Response) => { const h = await healthService.getHealthStatus(); if (h.status === 'unhealthy') return res.status(503).json({ ready: false }); res.json({ ready: true }); });
+C:\Users\UCHE\my-qwen-project\PROJECTS\ResidentCement\backend\services\inventory-service\src\index.ts:46:healthRouter.get('/live', async (req: Request, res: Response) => { res.json({ alive: true, uptime: process.uptime() }); });
+C:\Users\UCHE\my-qwen-project\PROJECTS\ResidentCement\backend\services\inventory-service\src\index.ts:47:app.use('/health', healthRouter);
+C:\Users\UCHE\my-qwen-project\PROJECTS\ResidentCement\backend\services\inventory-service\src\index.ts:52:inventoryRouter.get('/', async (req: Request, res: Response, next: NextFunction) => {
+C:\Users\UCHE\my-qwen-project\PROJECTS\ResidentCement\backend\services\inventory-service\src\index.ts:72:inventoryRouter.get('/:id', async (req: Request, res: Response, next: NextFunction) => {
+C:\Users\UCHE\my-qwen-project\PROJECTS\ResidentCement\backend\services\inventory-service\src\index.ts:82:inventoryRouter.patch('/:id', async (req: Request, res: Response, next: NextFunction) => {
+C:\Users\UCHE\my-qwen-project\PROJECTS\ResidentCement\backend\services\inventory-service\src\index.ts:100:inventoryRouter.post('/reserve', async (req: Request, res: Response, next: NextFunction) => {
+C:\Users\UCHE\my-qwen-project\PROJECTS\ResidentCement\backend\services\inventory-service\src\index.ts:145:inventoryRouter.post('/release', async (req: Request, res: Response, next: NextFunction) => {
+C:\Users\UCHE\my-qwen-project\PROJECTS\ResidentCement\backend\services\inventory-service\src\index.ts:170:inventoryRouter.get('/low-stock', async (req: Request, res: Response, next: NextFunction) => {
+C:\Users\UCHE\my-qwen-project\PROJECTS\ResidentCement\backend\services\inventory-service\src\index.ts:186:warehouseRouter.get('/', async (req: Request, res: Response, next: NextFunction) => {
+C:\Users\UCHE\my-qwen-project\PROJECTS\ResidentCement\backend\services\inventory-service\src\index.ts:193:warehouseRouter.get('/:id', async (req: Request, res: Response, next: NextFunction) => {
+C:\Users\UCHE\my-qwen-project\PROJECTS\ResidentCement\backend\services\inventory-service\src\index.ts:202:app.use('/api/v1/inventory', inventoryRouter);
+C:\Users\UCHE\my-qwen-project\PROJECTS\ResidentCement\backend\services\inventory-service\src\index.ts:203:app.use('/api/v1/warehouses', warehouseRouter);
+C:\Users\UCHE\my-qwen-project\PROJECTS\ResidentCement\backend\services\inventory-service\src\index.ts:204:app.use(errorHandler);
+C:\Users\UCHE\my-qwen-project\PROJECTS\ResidentCement\backend\services\inventory-service\src\index.ts:205:app.use((req: Request, res: Response) => { res.status(404).json({ success: false, error: { code: 'NOT_FOUND', message: `Route ${req.method} ${req.path} not found`, traceId: req.id } }); });
+C:\Users\UCHE\my-qwen-project\PROJECTS\ResidentCement\backend\services\order-service\src\index.ts:66:app.use(helmet());
+C:\Users\UCHE\my-qwen-project\PROJECTS\ResidentCement\backend\services\order-service\src\index.ts:67:app.use(cors({ origin: process.env.CORS_ORIGIN || '*' }));
+C:\Users\UCHE\my-qwen-project\PROJECTS\ResidentCement\backend\services\order-service\src\index.ts:68:app.use(requestIdMiddleware());
+C:\Users\UCHE\my-qwen-project\PROJECTS\ResidentCement\backend\services\order-service\src\index.ts:69:app.use(requestLoggingMiddleware({ skipPaths: ['/health'] }));
+C:\Users\UCHE\my-qwen-project\PROJECTS\ResidentCement\backend\services\order-service\src\index.ts:70:app.use(express.json());
+C:\Users\UCHE\my-qwen-project\PROJECTS\ResidentCement\backend\services\order-service\src\index.ts:71:app.use(express.urlencoded({ extended: true }));
+C:\Users\UCHE\my-qwen-project\PROJECTS\ResidentCement\backend\services\order-service\src\index.ts:72:app.use(rateLimit({ windowMs: 15 * 60 * 1000, max: 1000 }));
+C:\Users\UCHE\my-qwen-project\PROJECTS\ResidentCement\backend\services\order-service\src\index.ts:74:app.use((req: Request, res: Response, next: NextFunction) => {
+C:\Users\UCHE\my-qwen-project\PROJECTS\ResidentCement\backend\services\order-service\src\index.ts:81:healthRouter.get('/', async (req: Request, res: Response) => {
+C:\Users\UCHE\my-qwen-project\PROJECTS\ResidentCement\backend\services\order-service\src\index.ts:85:healthRouter.get('/ready', async (req: Request, res: Response) => {
+C:\Users\UCHE\my-qwen-project\PROJECTS\ResidentCement\backend\services\order-service\src\index.ts:90:healthRouter.get('/live', async (req: Request, res: Response) => {
+C:\Users\UCHE\my-qwen-project\PROJECTS\ResidentCement\backend\services\order-service\src\index.ts:93:app.use('/health', healthRouter);
+C:\Users\UCHE\my-qwen-project\PROJECTS\ResidentCement\backend\services\order-service\src\index.ts:99:orderRouter.get('/', async (req: Request, res: Response, next: NextFunction) => {
+C:\Users\UCHE\my-qwen-project\PROJECTS\ResidentCement\backend\services\order-service\src\index.ts:133:orderRouter.get('/:id', async (req: Request, res: Response, next: NextFunction) => {
+C:\Users\UCHE\my-qwen-project\PROJECTS\ResidentCement\backend\services\order-service\src\index.ts:152:orderRouter.post('/', async (req: Request, res: Response, next: NextFunction) => {
+C:\Users\UCHE\my-qwen-project\PROJECTS\ResidentCement\backend\services\order-service\src\index.ts:224:orderRouter.patch('/:id', async (req: Request, res: Response, next: NextFunction) => {
+C:\Users\UCHE\my-qwen-project\PROJECTS\ResidentCement\backend\services\order-service\src\index.ts:257:orderRouter.patch('/:id/cancel', async (req: Request, res: Response, next: NextFunction) => {
+C:\Users\UCHE\my-qwen-project\PROJECTS\ResidentCement\backend\services\order-service\src\index.ts:289:orderRouter.patch('/:id/status', async (req: Request, res: Response, next: NextFunction) => {
+C:\Users\UCHE\my-qwen-project\PROJECTS\ResidentCement\backend\services\order-service\src\index.ts:314:app.use('/api/v1/orders', orderRouter);
+C:\Users\UCHE\my-qwen-project\PROJECTS\ResidentCement\backend\services\order-service\src\index.ts:315:app.use(errorHandler);
+C:\Users\UCHE\my-qwen-project\PROJECTS\ResidentCement\backend\services\order-service\src\index.ts:316:app.use((req: Request, res: Response) => {
+C:\Users\UCHE\my-qwen-project\PROJECTS\ResidentCement\backend\services\payment-service\src\index.ts:38:app.use(helmet());
+C:\Users\UCHE\my-qwen-project\PROJECTS\ResidentCement\backend\services\payment-service\src\index.ts:39:app.use(cors({ origin: process.env.CORS_ORIGIN || '*' }));
+C:\Users\UCHE\my-qwen-project\PROJECTS\ResidentCement\backend\services\payment-service\src\index.ts:40:app.use(requestIdMiddleware());
+C:\Users\UCHE\my-qwen-project\PROJECTS\ResidentCement\backend\services\payment-service\src\index.ts:41:app.use(requestLoggingMiddleware({ skipPaths: ['/health'] }));
+C:\Users\UCHE\my-qwen-project\PROJECTS\ResidentCement\backend\services\payment-service\src\index.ts:42:app.use(express.json());
+C:\Users\UCHE\my-qwen-project\PROJECTS\ResidentCement\backend\services\payment-service\src\index.ts:43:app.use(express.urlencoded({ extended: true }));
+C:\Users\UCHE\my-qwen-project\PROJECTS\ResidentCement\backend\services\payment-service\src\index.ts:44:app.use(rateLimit({ windowMs: 15 * 60 * 1000, max: 500 }));
+C:\Users\UCHE\my-qwen-project\PROJECTS\ResidentCement\backend\services\payment-service\src\index.ts:45:app.use((req: Request, res: Response, next: NextFunction) => { (req as any).logger = logger.child({ requestId: req.id }); next(); });
+C:\Users\UCHE\my-qwen-project\PROJECTS\ResidentCement\backend\services\payment-service\src\index.ts:48:healthRouter.get('/', async (req: Request, res: Response) => { const h = await healthService.getHealthStatus(); res.json({ status: h.status, service: h.service, uptime: h.uptime }); });
+C:\Users\UCHE\my-qwen-project\PROJECTS\ResidentCement\backend\services\payment-service\src\index.ts:49:healthRouter.get('/ready', async (req: Request, res: Response) => { const h = await healthService.getHealthStatus(); if (h.status === 'unhealthy') return res.status(503).json({ ready: false }); res.json({ ready: true }); });
+C:\Users\UCHE\my-qwen-project\PROJECTS\ResidentCement\backend\services\payment-service\src\index.ts:50:healthRouter.get('/live', async (req: Request, res: Response) => { res.json({ alive: true, uptime: process.uptime() }); });
+C:\Users\UCHE\my-qwen-project\PROJECTS\ResidentCement\backend\services\payment-service\src\index.ts:51:app.use('/health', healthRouter);
+C:\Users\UCHE\my-qwen-project\PROJECTS\ResidentCement\backend\services\payment-service\src\index.ts:56:paymentRouter.get('/', async (req: Request, res: Response, next: NextFunction) => {
+C:\Users\UCHE\my-qwen-project\PROJECTS\ResidentCement\backend\services\payment-service\src\index.ts:77:paymentRouter.get('/:id', async (req: Request, res: Response, next: NextFunction) => {
+C:\Users\UCHE\my-qwen-project\PROJECTS\ResidentCement\backend\services\payment-service\src\index.ts:87:paymentRouter.post('/initiate', async (req: Request, res: Response, next: NextFunction) => {
+C:\Users\UCHE\my-qwen-project\PROJECTS\ResidentCement\backend\services\payment-service\src\index.ts:154:paymentRouter.post('/verify/:reference', async (req: Request, res: Response, next: NextFunction) => {
+C:\Users\UCHE\my-qwen-project\PROJECTS\ResidentCement\backend\services\payment-service\src\index.ts:199:paymentRouter.post('/webhook', async (req: Request, res: Response, next: NextFunction) => {
+C:\Users\UCHE\my-qwen-project\PROJECTS\ResidentCement\backend\services\payment-service\src\index.ts:243:paymentRouter.get('/:id/refund', async (req: Request, res: Response, next: NextFunction) => {
+C:\Users\UCHE\my-qwen-project\PROJECTS\ResidentCement\backend\services\payment-service\src\index.ts:263:app.use('/api/v1/payments', paymentRouter);
+C:\Users\UCHE\my-qwen-project\PROJECTS\ResidentCement\backend\services\payment-service\src\index.ts:264:app.use(errorHandler);
+C:\Users\UCHE\my-qwen-project\PROJECTS\ResidentCement\backend\services\payment-service\src\index.ts:265:app.use((req: Request, res: Response) => { res.status(404).json({ success: false, error: { code: 'NOT_FOUND', message: `Route ${req.method} ${req.path} not found`, traceId: req.id } }); });
+C:\Users\UCHE\my-qwen-project\PROJECTS\ResidentCement\backend\services\pricing-service\src\index.ts:34:app.use(helmet());
+C:\Users\UCHE\my-qwen-project\PROJECTS\ResidentCement\backend\services\pricing-service\src\index.ts:35:app.use(cors({ origin: process.env.CORS_ORIGIN || '*' }));
+C:\Users\UCHE\my-qwen-project\PROJECTS\ResidentCement\backend\services\pricing-service\src\index.ts:36:app.use(requestIdMiddleware());
+C:\Users\UCHE\my-qwen-project\PROJECTS\ResidentCement\backend\services\pricing-service\src\index.ts:37:app.use(requestLoggingMiddleware({ skipPaths: ['/health'] }));
+C:\Users\UCHE\my-qwen-project\PROJECTS\ResidentCement\backend\services\pricing-service\src\index.ts:38:app.use(express.json());
+C:\Users\UCHE\my-qwen-project\PROJECTS\ResidentCement\backend\services\pricing-service\src\index.ts:39:app.use(express.urlencoded({ extended: true }));
+C:\Users\UCHE\my-qwen-project\PROJECTS\ResidentCement\backend\services\pricing-service\src\index.ts:40:app.use(rateLimit({ windowMs: 15 * 60 * 1000, max: 1000 }));
+C:\Users\UCHE\my-qwen-project\PROJECTS\ResidentCement\backend\services\pricing-service\src\index.ts:41:app.use((req: Request, res: Response, next: NextFunction) => { (req as any).logger = logger.child({ requestId: req.id }); next(); });
+C:\Users\UCHE\my-qwen-project\PROJECTS\ResidentCement\backend\services\pricing-service\src\index.ts:44:healthRouter.get('/', async (req: Request, res: Response) => { const h = await healthService.getHealthStatus(); res.json({ status: h.status, service: h.service, uptime: h.uptime }); });
+C:\Users\UCHE\my-qwen-project\PROJECTS\ResidentCement\backend\services\pricing-service\src\index.ts:45:healthRouter.get('/ready', async (req: Request, res: Response) => { const h = await healthService.getHealthStatus(); if (h.status === 'unhealthy') return res.status(503).json({ ready: false }); res.json({ ready: true }); });
+C:\Users\UCHE\my-qwen-project\PROJECTS\ResidentCement\backend\services\pricing-service\src\index.ts:46:healthRouter.get('/live', async (req: Request, res: Response) => { res.json({ alive: true, uptime: process.uptime() }); });
+C:\Users\UCHE\my-qwen-project\PROJECTS\ResidentCement\backend\services\pricing-service\src\index.ts:47:app.use('/health', healthRouter);
+C:\Users\UCHE\my-qwen-project\PROJECTS\ResidentCement\backend\services\pricing-service\src\index.ts:52:pricingRouter.get('/rules', async (req: Request, res: Response, next: NextFunction) => {
+C:\Users\UCHE\my-qwen-project\PROJECTS\ResidentCement\backend\services\pricing-service\src\index.ts:73:pricingRouter.get('/rules/:id', async (req: Request, res: Response, next: NextFunction) => {
+C:\Users\UCHE\my-qwen-project\PROJECTS\ResidentCement\backend\services\pricing-service\src\index.ts:83:pricingRouter.post('/rules', async (req: Request, res: Response, next: NextFunction) => {
+C:\Users\UCHE\my-qwen-project\PROJECTS\ResidentCement\backend\services\pricing-service\src\index.ts:94:pricingRouter.patch('/rules/:id', async (req: Request, res: Response, next: NextFunction) => {
+C:\Users\UCHE\my-qwen-project\PROJECTS\ResidentCement\backend\services\pricing-service\src\index.ts:107:pricingRouter.delete('/rules/:id', async (req: Request, res: Response, next: NextFunction) => {
+C:\Users\UCHE\my-qwen-project\PROJECTS\ResidentCement\backend\services\pricing-service\src\index.ts:118:pricingRouter.post('/calculate', async (req: Request, res: Response, next: NextFunction) => {
+C:\Users\UCHE\my-qwen-project\PROJECTS\ResidentCement\backend\services\pricing-service\src\index.ts:191:pricingRouter.post('/quotes', async (req: Request, res: Response, next: NextFunction) => {
+C:\Users\UCHE\my-qwen-project\PROJECTS\ResidentCement\backend\services\pricing-service\src\index.ts:258:pricingRouter.post('/quotes/:id/convert', async (req: Request, res: Response, next: NextFunction) => {
+C:\Users\UCHE\my-qwen-project\PROJECTS\ResidentCement\backend\services\pricing-service\src\index.ts:320:app.use('/api/v1/pricing', pricingRouter);
+C:\Users\UCHE\my-qwen-project\PROJECTS\ResidentCement\backend\services\pricing-service\src\index.ts:321:app.use('/api/v1/quotes', pricingRouter);
+C:\Users\UCHE\my-qwen-project\PROJECTS\ResidentCement\backend\services\pricing-service\src\index.ts:322:app.use(errorHandler);
+C:\Users\UCHE\my-qwen-project\PROJECTS\ResidentCement\backend\services\pricing-service\src\index.ts:323:app.use((req: Request, res: Response) => { res.status(404).json({ success: false, error: { code: 'NOT_FOUND', message: `Route ${req.method} ${req.path} not found`, traceId: req.id } }); });
+C:\Users\UCHE\my-qwen-project\PROJECTS\ResidentCement\backend\services\product-service\src\index.ts:40:app.use(helmet());
+C:\Users\UCHE\my-qwen-project\PROJECTS\ResidentCement\backend\services\product-service\src\index.ts:41:app.use(cors({ origin: process.env.CORS_ORIGIN || '*' }));
+C:\Users\UCHE\my-qwen-project\PROJECTS\ResidentCement\backend\services\product-service\src\index.ts:42:app.use(requestIdMiddleware());
+C:\Users\UCHE\my-qwen-project\PROJECTS\ResidentCement\backend\services\product-service\src\index.ts:43:app.use(requestLoggingMiddleware({ skipPaths: ['/health'] }));
+C:\Users\UCHE\my-qwen-project\PROJECTS\ResidentCement\backend\services\product-service\src\index.ts:44:app.use(express.json());
+C:\Users\UCHE\my-qwen-project\PROJECTS\ResidentCement\backend\services\product-service\src\index.ts:45:app.use(express.urlencoded({ extended: true }));
+C:\Users\UCHE\my-qwen-project\PROJECTS\ResidentCement\backend\services\product-service\src\index.ts:46:app.use(rateLimit({ windowMs: 15 * 60 * 1000, max: 1000 }));
+C:\Users\UCHE\my-qwen-project\PROJECTS\ResidentCement\backend\services\product-service\src\index.ts:47:app.use((req: Request, res: Response, next: NextFunction) => { (req as any).logger = logger.child({ requestId: req.id }); next(); });
+C:\Users\UCHE\my-qwen-project\PROJECTS\ResidentCement\backend\services\product-service\src\index.ts:51:healthRouter.get('/', async (req: Request, res: Response) => { const h = await healthService.getHealthStatus(); res.json({ status: h.status, service: h.service, version: h.version, uptime: h.uptime }); });
+C:\Users\UCHE\my-qwen-project\PROJECTS\ResidentCement\backend\services\product-service\src\index.ts:52:healthRouter.get('/ready', async (req: Request, res: Response) => { const h = await healthService.getHealthStatus(); if (h.status === 'unhealthy') return res.status(503).json({ ready: false }); res.json({ ready: true }); });
+C:\Users\UCHE\my-qwen-project\PROJECTS\ResidentCement\backend\services\product-service\src\index.ts:53:healthRouter.get('/live', async (req: Request, res: Response) => { res.json({ alive: true, uptime: process.uptime() }); });
+C:\Users\UCHE\my-qwen-project\PROJECTS\ResidentCement\backend\services\product-service\src\index.ts:54:app.use('/health', healthRouter);
+C:\Users\UCHE\my-qwen-project\PROJECTS\ResidentCement\backend\services\product-service\src\index.ts:60:productRouter.get('/', async (req: Request, res: Response, next: NextFunction) => {
+C:\Users\UCHE\my-qwen-project\PROJECTS\ResidentCement\backend\services\product-service\src\index.ts:80:productRouter.get('/:id', async (req: Request, res: Response, next: NextFunction) => {
+C:\Users\UCHE\my-qwen-project\PROJECTS\ResidentCement\backend\services\product-service\src\index.ts:90:productRouter.post('/', async (req: Request, res: Response, next: NextFunction) => {
+C:\Users\UCHE\my-qwen-project\PROJECTS\ResidentCement\backend\services\product-service\src\index.ts:108:productRouter.patch('/:id', async (req: Request, res: Response, next: NextFunction) => {
+C:\Users\UCHE\my-qwen-project\PROJECTS\ResidentCement\backend\services\product-service\src\index.ts:128:productRouter.delete('/:id', async (req: Request, res: Response, next: NextFunction) => {
+C:\Users\UCHE\my-qwen-project\PROJECTS\ResidentCement\backend\services\product-service\src\index.ts:142:productRouter.get('/:id/availability', async (req: Request, res: Response, next: NextFunction) => {
+C:\Users\UCHE\my-qwen-project\PROJECTS\ResidentCement\backend\services\product-service\src\index.ts:159:app.use('/api/v1/products', productRouter);
+C:\Users\UCHE\my-qwen-project\PROJECTS\ResidentCement\backend\services\product-service\src\index.ts:160:app.use(errorHandler);
+C:\Users\UCHE\my-qwen-project\PROJECTS\ResidentCement\backend\services\product-service\src\index.ts:161:app.use((req: Request, res: Response) => { res.status(404).json({ success: false, error: { code: 'NOT_FOUND', message: `Route ${req.method} ${req.path} not found`, traceId: req.id } }); });
+C:\Users\UCHE\my-qwen-project\PROJECTS\ResidentCement\backend\shared\kernel\dist\health.js:272:router.get('/', async (req, res) => {
+C:\Users\UCHE\my-qwen-project\PROJECTS\ResidentCement\backend\shared\kernel\dist\health.js:296:router.get('/ready', async (req, res) => {
+C:\Users\UCHE\my-qwen-project\PROJECTS\ResidentCement\backend\shared\kernel\dist\health.js:324:router.get('/live', async (req, res) => {
+C:\Users\UCHE\my-qwen-project\PROJECTS\ResidentCement\backend\shared\kernel\dist\health.js:344:router.get('/detailed', async (req, res) => {
+C:\Users\UCHE\my-qwen-project\PROJECTS\ResidentCement\backend\shared\kernel\src\health.ts:358:router.get('/', async (req: Request, res: Response) => {
+C:\Users\UCHE\my-qwen-project\PROJECTS\ResidentCement\backend\shared\kernel\src\health.ts:385:router.get('/ready', async (req: Request, res: Response) => {
+C:\Users\UCHE\my-qwen-project\PROJECTS\ResidentCement\backend\shared\kernel\src\health.ts:416:router.get('/live', async (req: Request, res: Response) => {
+C:\Users\UCHE\my-qwen-project\PROJECTS\ResidentCement\backend\shared\kernel\src\health.ts:438:router.get('/detailed', async (req: Request, res: Response) => {

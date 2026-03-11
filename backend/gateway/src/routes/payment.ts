@@ -1,13 +1,13 @@
-import { Router, Response, AuthRequest } from "express";
+import { Router, Response, Request, NextFunction } from "express";
 import { z } from "zod";
-import { authenticate } from "../middleware/auth";
+import { authenticate, AuthRequest } from "../middleware/auth";
 import fetch from "node-fetch";
 import { createLogger } from "../utils/logger";
 
 const router = Router();
 router.use(authenticate);
 
-const logger = createLogger("payment-router");
+const logger = createLogger({ service: "payment-router" });
 const PAYMENT_SERVICE_URL = process.env.PAYMENT_SERVICE_URL || "http://localhost:3005";
 
 const initiatePaymentSchema = z.object({

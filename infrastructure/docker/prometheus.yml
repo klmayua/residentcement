@@ -1,0 +1,168 @@
+# =============================================================================
+# Prometheus Configuration for ResidentCement Platform
+# =============================================================================
+
+global:
+  scrape_interval: 15s
+  evaluation_interval: 15s
+  scrape_timeout: 10s
+  external_labels:
+    environment: 'development'
+    cluster: 'resident-cement'
+    monitor: 'resident-cement-monitor'
+
+# Alertmanager configuration
+alerting:
+  alertmanagers:
+    - static_configs:
+        - targets:
+            - alertmanager:9093
+      scheme: http
+      timeout: 10s
+      api_version: v2
+
+# Load rules files
+rule_files:
+  - /etc/prometheus/rules/*.yml
+
+# Scrape configurations
+scrape_configs:
+  # ---------------------------------------------------------------------------
+  # Prometheus Self-Monitoring
+  # ---------------------------------------------------------------------------
+  - job_name: 'prometheus'
+    static_configs:
+      - targets: ['localhost:9090']
+        labels:
+          service: 'prometheus'
+          env: 'development'
+
+  # ---------------------------------------------------------------------------
+  # API Gateway
+  # ---------------------------------------------------------------------------
+  - job_name: 'api-gateway'
+    static_configs:
+      - targets: ['host.docker.internal:3001']
+        labels:
+          service: 'api-gateway'
+          env: 'development'
+    metrics_path: '/metrics'
+    scrape_interval: 10s
+
+  # ---------------------------------------------------------------------------
+  # Microservices
+  # ---------------------------------------------------------------------------
+  - job_name: 'microservices'
+    static_configs:
+      - targets:
+          - 'host.docker.internal:3002'  # customer-service
+          - 'host.docker.internal:3003'  # inventory-service
+          - 'host.docker.internal:3004'  # pricing-service
+          - 'host.docker.internal:3005'  # payment-service
+          - 'host.docker.internal:3006'  # product-service
+          - 'host.docker.internal:3007'  # order-service
+        labels:
+          env: 'development'
+    metrics_path: '/metrics'
+    scrape_interval: 15s
+
+  # ---------------------------------------------------------------------------
+  # Node Exporter - Host Metrics
+  # ---------------------------------------------------------------------------
+  - job_name: 'node-exporter'
+    static_configs:
+      - targets: ['node-exporter:9100']
+        labels:
+          service: 'node-exporter'
+          env: 'development'
+
+  # ---------------------------------------------------------------------------
+  # cAdvisor - Container Metrics
+  # ---------------------------------------------------------------------------
+  - job_name: 'cadvisor'
+    static_configs:
+      - targets: ['cadvisor:8080']
+        labels:
+          service: 'cadvisor'
+          env: 'development'
+    metric_relabel_configs:
+      - source_labels: [container_label_com_docker_compose_service]
+        target_label: service
+        replacement: '${1}'
+
+  # ---------------------------------------------------------------------------
+  # Infrastructure Services
+  # ---------------------------------------------------------------------------
+  - job_name: 'postgres'
+    static_configs:
+      - targets: ['host.docker.internal:9187']
+        labels:
+          service: 'postgres'
+          env: 'development'
+
+  - job_name: 'redis'
+    static_configs:
+      - targets: ['host.docker.internal:9121']
+        labels:
+          service: 'redis'
+          env: 'development'
+
+  - job_name: 'kafka'
+    static_configs:
+      - targets: ['host.docker.internal:9308']
+        labels:
+          service: 'kafka'
+          env: 'development'
+
+  - job_name: 'mongodb'
+    static_configs:
+      - targets: ['host.docker.internal:9216']
+        labels:
+          service: 'mongodb'
+          env: 'development'
+
+  # ---------------------------------------------------------------------------
+  # Blackbox Exporter - Endpoint Probing
+  # ---------------------------------------------------------------------------
+  - job_name: 'blackbox-http'
+    metrics_path: /probe
+    params:
+      module: [http_2xx]
+    static_configs:
+      - targets:
+          - http://host.docker.internal:3001/health
+          - http://host.docker.internal:3001/health/ready
+        labels:
+          service: 'api-gateway-health'
+          env: 'development'
+    relabel_configs:
+      - source_labels: [__address__]
+        target_label: __param_target
+      - source_labels: [__param_target]
+        target_label: instance
+      - target_label: __address__
+        replacement: blackbox-exporter:9115
+
+  # ---------------------------------------------------------------------------
+  # Docker Daemon Metrics
+  # ---------------------------------------------------------------------------
+  - job_name: 'docker'
+    static_configs:
+      - targets: ['host.docker.internal:9323']
+        labels:
+          service: 'docker'
+          env: 'development'
+
+# Remote write configuration (optional - for long-term storage)
+# remote_write:
+#   - url: 'http://cortex:9009/api/v1/push'
+#     remote_timeout: 30s
+#     queue_config:
+#       capacity: 10000
+#       max_shards: 50
+#       max_samples_per_send: 5000
+
+# Remote read configuration (optional)
+# remote_read:
+#   - url: 'http://cortex:9009/api/v1/read'
+#     read_recent: true

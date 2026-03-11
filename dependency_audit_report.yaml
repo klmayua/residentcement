@@ -1,0 +1,30 @@
+﻿dependency_audit:
+  dependency_audit_complete: true
+  install_operations_performed: false
+  runtime_detection:
+    node: 'v24.12.0'
+    python: 'No installed Python found!'
+    cargo: 'cargo_missing'
+    go: 'go_missing'
+  package_manager_indicators:
+    package_json: true
+    package_lock_json: true
+    yarn_lock: false
+    pnpm_lock_yaml: false
+    requirements_txt: false
+    pyproject_toml: false
+    poetry_lock: false
+    cargo_toml: false
+    go_mod: false
+  detected_installed_state:
+    node_modules: present
+    node_modules_top_level_count: 44
+    npm_list_root:
+      - 'resident-cement@2030.1.0'
+      - 'concurrently@8.2.2'
+  classification_counts:
+    installed_matching_lockfile: 215
+    installed_version_conflict: 0
+    missing: 15
+    unknown: 0
+  inventory_file: 'installed_dependency_inventory.yaml'

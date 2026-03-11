@@ -1,0 +1,217 @@
+{
+  "audit_session": "forensics_20260311_221530",
+  "generated_at": "2026-03-11T22:15:30Z",
+  "project": {
+    "name": "ResidentCement Digital Ecosystem",
+    "version": "2030.1.0",
+    "root_path": "C:\\Users\\UCHE\\my-qwen-project\\PROJECTS\\ResidentCement"
+  },
+  "dependency_tree": {
+    "root": {
+      "name": "resident-cement",
+      "version": "2030.1.0",
+      "dependencies": {
+        "concurrently": "^8.2.2"
+      }
+    },
+    "workspaces": [
+      {
+        "path": "backend/gateway",
+        "name": "@resident-cement/gateway",
+        "version": "1.0.0",
+        "production_dependencies": [
+          {"name": "@resident-cement/kernel", "version": "file:../shared/kernel", "type": "local"},
+          {"name": "@prisma/client", "version": "^5.9.0", "type": "npm"},
+          {"name": "bcryptjs", "version": "^2.4.3", "type": "npm", "security_flag": "abandoned"},
+          {"name": "cors", "version": "^2.8.5", "type": "npm"},
+          {"name": "dotenv", "version": "^16.3.1", "type": "npm"},
+          {"name": "express", "version": "^4.18.2", "type": "npm", "security_flag": "known_vulnerabilities"},
+          {"name": "express-rate-limit", "version": "^7.1.5", "type": "npm"},
+          {"name": "helmet", "version": "^7.1.0", "type": "npm"},
+          {"name": "ioredis", "version": "^5.3.2", "type": "npm"},
+          {"name": "jose", "version": "^5.2.0", "type": "npm"},
+          {"name": "jsonwebtoken", "version": "^9.0.2", "type": "npm"},
+          {"name": "kafkajs", "version": "^2.2.4", "type": "npm"},
+          {"name": "node-fetch", "version": "^2.7.0", "type": "npm", "security_flag": "maintenance_mode"},
+          {"name": "pg", "version": "^8.11.3", "type": "npm"},
+          {"name": "swagger-jsdoc", "version": "^6.2.8", "type": "npm"},
+          {"name": "swagger-ui-express", "version": "^5.0.0", "type": "npm"},
+          {"name": "uuid", "version": "^9.0.1", "type": "npm"},
+          {"name": "winston", "version": "^3.11.0", "type": "npm"},
+          {"name": "zod", "version": "^3.22.4", "type": "npm"}
+        ],
+        "dev_dependencies": [
+          {"name": "@types/*", "version": "various", "type": "npm"},
+          {"name": "@typescript-eslint/eslint-plugin", "version": "^6.19.0", "type": "npm"},
+          {"name": "@typescript-eslint/parser", "version": "^6.19.0", "type": "npm"},
+          {"name": "eslint", "version": "^8.56.0", "type": "npm"},
+          {"name": "jest", "version": "^29.7.0", "type": "npm"},
+          {"name": "prisma", "version": "^5.9.0", "type": "npm"},
+          {"name": "ts-jest", "version": "^29.1.1", "type": "npm"},
+          {"name": "tsx", "version": "^4.7.0", "type": "npm"},
+          {"name": "typescript", "version": "^5.3.3", "type": "npm"}
+        ]
+      },
+      {
+        "path": "backend/shared/kernel",
+        "name": "@resident-cement/kernel",
+        "version": "1.0.0",
+        "production_dependencies": [
+          {"name": "uuid", "version": "^9.0.1", "type": "npm"},
+          {"name": "winston", "version": "^3.11.0", "type": "npm"},
+          {"name": "winston-transport", "version": "^4.7.0", "type": "npm"},
+          {"name": "zod", "version": "^3.22.4", "type": "npm"}
+        ],
+        "peer_dependencies": [
+          {"name": "express", "version": "^4.18.2", "type": "npm"}
+        ]
+      },
+      {
+        "path": "backend/services/customer-service",
+        "name": "@resident-cement/customer-service",
+        "version": "1.0.0",
+        "production_dependencies": [
+          {"name": "@resident-cement/kernel", "version": "file:../../shared/kernel", "type": "local"},
+          {"name": "@prisma/client", "version": "^5.9.0", "type": "npm"},
+          {"name": "cors", "version": "^2.8.5", "type": "npm"},
+          {"name": "dotenv", "version": "^16.3.1", "type": "npm"},
+          {"name": "express", "version": "^4.18.2", "type": "npm"},
+          {"name": "express-rate-limit", "version": "^7.1.5", "type": "npm"},
+          {"name": "helmet", "version": "^7.1.0", "type": "npm"},
+          {"name": "ioredis", "version": "^5.3.2", "type": "npm"},
+          {"name": "kafkajs", "version": "^2.2.4", "type": "npm"},
+          {"name": "uuid", "version": "^9.0.1", "type": "npm"},
+          {"name": "winston", "version": "^3.11.0", "type": "npm"},
+          {"name": "zod", "version": "^3.22.4", "type": "npm"}
+        ]
+      },
+      {
+        "path": "frontend/apps/distributor-portal",
+        "name": "@resident-cement/distributor-portal",
+        "version": "1.0.0",
+        "production_dependencies": [
+          {"name": "next", "version": "15.1.0", "type": "npm"},
+          {"name": "react", "version": "^18.2.0", "type": "npm"},
+          {"name": "react-dom", "version": "^18.2.0", "type": "npm"},
+          {"name": "@radix-ui/react-dialog", "version": "^1.0.5", "type": "npm"},
+          {"name": "@radix-ui/react-dropdown-menu", "version": "^2.0.6", "type": "npm"},
+          {"name": "@radix-ui/react-label", "version": "^2.0.2", "type": "npm"},
+          {"name": "@radix-ui/react-select", "version": "^2.0.0", "type": "npm"},
+          {"name": "@radix-ui/react-slot", "version": "^1.0.2", "type": "npm"},
+          {"name": "@radix-ui/react-tabs", "version": "^1.0.4", "type": "npm"},
+          {"name": "@radix-ui/react-toast", "version": "^1.1.5", "type": "npm"},
+          {"name": "@tanstack/react-query", "version": "^5.17.0", "type": "npm"},
+          {"name": "@tanstack/react-table", "version": "^8.11.0", "type": "npm"},
+          {"name": "axios", "version": "^1.6.5", "type": "npm"},
+          {"name": "class-variance-authority", "version": "^0.7.0", "type": "npm"},
+          {"name": "clsx", "version": "^2.1.0", "type": "npm"},
+          {"name": "date-fns", "version": "^3.0.0", "type": "npm"},
+          {"name": "lucide-react", "version": "^0.312.0", "type": "npm"},
+          {"name": "next-themes", "version": "^0.2.1", "type": "npm"},
+          {"name": "react-hook-form", "version": "^7.49.0", "type": "npm"},
+          {"name": "recharts", "version": "^2.10.0", "type": "npm"},
+          {"name": "tailwind-merge", "version": "^2.2.0", "type": "npm"},
+          {"name": "tailwindcss", "version": "^3.4.1", "type": "npm"},
+          {"name": "tailwindcss-animate", "version": "^1.0.7", "type": "npm"},
+          {"name": "zod", "version": "^3.22.4", "type": "npm"},
+          {"name": "zustand", "version": "^4.5.0", "type": "npm"}
+        ]
+      }
+    ]
+  },
+  "docker_images": [
+    {"name": "node", "tag": "20-alpine", "used_by": "API Gateway", "risk": "low"},
+    {"name": "postgres", "tag": "16-alpine", "used_by": "Database", "risk": "low"},
+    {"name": "mongo", "tag": "7.0", "used_by": "Document Store", "risk": "low"},
+    {"name": "redis", "tag": "7-alpine", "used_by": "Cache", "risk": "low"},
+    {"name": "confluentinc/cp-kafka", "tag": "7.5.0", "used_by": "Message Bus", "risk": "low"},
+    {"name": "confluentinc/cp-zookeeper", "tag": "7.5.0", "used_by": "Kafka Coordination", "risk": "low"},
+    {"name": "quay.io/keycloak/keycloak", "tag": "23.0", "used_by": "Identity Provider", "risk": "low"},
+    {"name": "minio/minio", "tag": "latest", "used_by": "Object Storage", "risk": "medium", "flag": "floating_tag"},
+    {"name": "provectuslabs/kafka-ui", "tag": "latest", "used_by": "Kafka Management", "risk": "medium", "flag": "floating_tag"},
+    {"name": "prom/prometheus", "tag": "v2.48.0", "used_by": "Metrics", "risk": "low"},
+    {"name": "grafana/grafana", "tag": "10.2.0", "used_by": "Dashboards", "risk": "low"},
+    {"name": "grafana/loki", "tag": "2.9.3", "used_by": "Logs", "risk": "low"},
+    {"name": "grafana/tempo", "tag": "2.3.1", "used_by": "Tracing", "risk": "low"}
+  ],
+  "security_findings": {
+    "critical": [],
+    "high": [
+      {
+        "id": "DEP-001",
+        "title": "Prisma Version Mismatch",
+        "severity": "high",
+        "location": "backend/gateway/prisma/package.json",
+        "description": "Prisma CLI v7.4.2 conflicts with @prisma/client v5.9.0",
+        "remediation": "Align versions to ^5.9.0 in prisma folder"
+      },
+      {
+        "id": "DEP-002",
+        "title": "Floating Docker Image Tags",
+        "severity": "high",
+        "location": "docker-compose.yml",
+        "description": "minio/minio:latest and kafka-ui:latest are non-deterministic",
+        "remediation": "Pin to specific version tags"
+      }
+    ],
+    "medium": [
+      {
+        "id": "DEP-003",
+        "title": "Express.js Known Vulnerabilities",
+        "severity": "medium",
+        "package": "express@4.18.2",
+        "cves": ["CVE-2024-29041", "CVE-2024-43796"],
+        "remediation": "Upgrade to express@^4.19.2"
+      },
+      {
+        "id": "DEP-004",
+        "title": "node-fetch Maintenance Mode",
+        "severity": "medium",
+        "package": "node-fetch@2.7.0",
+        "remediation": "Migrate to native fetch or undici"
+      },
+      {
+        "id": "DEP-005",
+        "title": "bcryptjs Abandoned Package",
+        "severity": "medium",
+        "package": "bcryptjs@2.4.3",
+        "last_update": "2020",
+        "remediation": "Switch to bcrypt or argon2"
+      }
+    ],
+    "low": [
+      {
+        "id": "DEP-006",
+        "title": "Kafka Auto-Create Topics",
+        "severity": "low",
+        "location": "docker-compose.yml",
+        "remediation": "Set KAFKA_AUTO_CREATE_TOPICS_ENABLE=false"
+      },
+      {
+        "id": "DEP-007",
+        "title": "Exposed Database Ports",
+        "severity": "low",
+        "location": "docker-compose.yml",
+        "remediation": "Bind to localhost or remove port mappings"
+      }
+    ]
+  },
+  "statistics": {
+    "total_npm_packages": 6200,
+    "production_dependencies": 62,
+    "dev_dependencies": 38,
+    "local_dependencies": 7,
+    "docker_images": 13,
+    "single_maintainer_packages": 2,
+    "abandoned_packages": 1,
+    "known_vulnerabilities": 2
+  },
+  "health_score": {
+    "overall": 76,
+    "version_freshness": 75,
+    "security": 70,
+    "maintenance": 80,
+    "license_compliance": 95,
+    "version_consistency": 60
+  }
+}
