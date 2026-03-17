@@ -1,0 +1,185 @@
+{{- if .Values.gateway.enabled }}
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: {{ include "resident-cement.gateway.fullname" . }}
+  labels:
+    {{- include "resident-cement.labels" . | nindent 4 }}
+    app.kubernetes.io/component: gateway
+spec:
+  {{- if not .Values.gateway.autoscaling.enabled }}
+  replicas: {{ .Values.gateway.replicaCount }}
+  {{- end }}
+  selector:
+    matchLabels:
+      {{- include "resident-cement.selectorLabels" . | nindent 6 }}
+      app.kubernetes.io/component: gateway
+  template:
+    metadata:
+      labels:
+        {{- include "resident-cement.selectorLabels" . | nindent 8 }}
+        app.kubernetes.io/component: gateway
+    spec:
+      serviceAccountName: {{ include "resident-cement.serviceAccountName" . }}
+      securityContext:
+        {{- toYaml .Values.microservices.podSecurityContext | nindent 8 }}
+      containers:
+        - name: gateway
+          securityContext:
+            {{- toYaml .Values.microservices.securityContext | nindent 12 }}
+          image: "{{ include "resident-cement.image.repository" (list .Values.gateway.image .) }}:{{ include "resident-cement.image.tag" (list .Values.gateway.image .) }}"
+          imagePullPolicy: {{ .Values.microservices.image.pullPolicy }}
+          ports:
+            - name: http
+              containerPort: {{ .Values.gateway.service.targetPort }}
+              protocol: TCP
+          env:
+            - name: NODE_ENV
+              value: {{ .Values.gateway.env.NODE_ENV | quote }}
+            - name: PORT
+              value: {{ .Values.gateway.env.PORT | quote }}
+            - name: LOG_LEVEL
+              value: {{ .Values.gateway.env.LOG_LEVEL | quote }}
+            - name: DATABASE_URL
+              value: {{ include "resident-cement.database.url" . | quote }}
+            - name: MONGODB_URI
+              value: {{ include "resident-cement.mongodb.uri" . | quote }}
+            - name: REDIS_URL
+              value: {{ include "resident-cement.redis.url" . | quote }}
+            - name: KAFKA_BROKERS
+              value: {{ include "resident-cement.kafka.brokers" . | quote }}
+            - name: JWT_SECRET
+              valueFrom:
+                secretKeyRef:
+                  name: {{ include "resident-cement.secrets.name" . }}
+                  key: jwt-secret
+            - name: API_KEY
+              valueFrom:
+                secretKeyRef:
+                  name: {{ include "resident-cement.secrets.name" . }}
+                  key: api-key
+            - name: CORS_ORIGIN
+              value: {{ .Values.gateway.env.CORS_ORIGIN | quote }}
+            - name: CUSTOMER_SERVICE_URL
+              value: "http://{{ include "resident-cement.service.fullname" (list "customer" .) }}:3002"
+            - name: INVENTORY_SERVICE_URL
+              value: "http://{{ include "resident-cement.service.fullname" (list "inventory" .) }}:3003"
+            - name: PRICING_SERVICE_URL
+              value: "http://{{ include "resident-cement.service.fullname" (list "pricing" .) }}:3004"
+            - name: PAYMENT_SERVICE_URL
+              value: "http://{{ include "resident-cement.service.fullname" (list "payment" .) }}:3005"
+            - name: PRODUCT_SERVICE_URL
+              value: "http://{{ include "resident-cement.service.fullname" (list "product" .) }}:3006"
+            - name: ORDER_SERVICE_URL
+              value: "http://{{ include "resident-cement.service.fullname" (list "order" .) }}:3007"
+            - name: PLANT_MES_SERVICE_URL
+              value: "http://{{ include "resident-cement.service.fullname" (list "plant-mes" .) }}:3008"
+            - name: QUALITY_SERVICE_URL
+              value: "http://{{ include "resident-cement.service.fullname" (list "quality" .) }}:3009"
+            - name: LOGISTICS_SERVICE_URL
+              value: "http://{{ include "resident-cement.service.fullname" (list "logistics" .) }}:3010"
+          livenessProbe:
+            httpGet:
+              path: /health/live
+              port: http
+            initialDelaySeconds: 30
+            periodSeconds: 10
+          readinessProbe:
+            httpGet:
+              path: /health/ready
+              port: http
+            initialDelaySeconds: 5
+            periodSeconds: 5
+          resources:
+            {{- toYaml .Values.gateway.resources | nindent 12 }}
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: {{ include "resident-cement.gateway.fullname" . }}
+  labels:
+    {{- include "resident-cement.labels" . | nindent 4 }}
+    app.kubernetes.io/component: gateway
+spec:
+  type: {{ .Values.gateway.service.type }}
+  ports:
+    - port: {{ .Values.gateway.service.port }}
+      targetPort: {{ .Values.gateway.service.targetPort }}
+      protocol: TCP
+      name: http
+  selector:
+    {{- include "resident-cement.selectorLabels" . | nindent 4 }}
+    app.kubernetes.io/component: gateway
+---
+{{- if .Values.gateway.ingress.enabled }}
+apiVersion: networking.k8s.io/v1
+kind: Ingress
+metadata:
+  name: {{ include "resident-cement.gateway.fullname" . }}
+  labels:
+    {{- include "resident-cement.labels" . | nindent 4 }}
+    app.kubernetes.io/component: gateway
+  {{- with .Values.gateway.ingress.annotations }}
+  annotations:
+    {{- toYaml . | nindent 4 }}
+  {{- end }}
+spec:
+  ingressClassName: {{ .Values.gateway.ingress.className }}
+  {{- if .Values.gateway.ingress.tls }}
+  tls:
+    {{- range .Values.gateway.ingress.tls }}
+    - hosts:
+        {{- range .hosts }}
+        - {{ . | quote }}
+        {{- end }}
+      secretName: {{ .secretName }}
+    {{- end }}
+  {{- end }}
+  rules:
+    {{- range .Values.gateway.ingress.hosts }}
+    - host: {{ .host | quote }}
+      http:
+        paths:
+          {{- range .paths }}
+          - path: {{ .path }}
+            pathType: {{ .pathType }}
+            backend:
+              service:
+                name: {{ include "resident-cement.gateway.fullname" $ }}
+                port:
+                  number: {{ $.Values.gateway.service.port }}
+          {{- end }}
+    {{- end }}
+{{- end }}
+---
+{{- if .Values.gateway.autoscaling.enabled }}
+apiVersion: autoscaling/v2
+kind: HorizontalPodAutoscaler
+metadata:
+  name: {{ include "resident-cement.gateway.fullname" . }}
+  labels:
+    {{- include "resident-cement.labels" . | nindent 4 }}
+    app.kubernetes.io/component: gateway
+spec:
+  scaleTargetRef:
+    apiVersion: apps/v1
+    kind: Deployment
+    name: {{ include "resident-cement.gateway.fullname" . }}
+  minReplicas: {{ .Values.gateway.autoscaling.minReplicas }}
+  maxReplicas: {{ .Values.gateway.autoscaling.maxReplicas }}
+  metrics:
+    - type: Resource
+      resource:
+        name: cpu
+        target:
+          type: Utilization
+          averageUtilization: {{ .Values.gateway.autoscaling.targetCPUUtilizationPercentage }}
+    - type: Resource
+      resource:
+        name: memory
+        target:
+          type: Utilization
+          averageUtilization: {{ .Values.gateway.autoscaling.targetMemoryUtilizationPercentage }}
+{{- end }}
+{{- end }}

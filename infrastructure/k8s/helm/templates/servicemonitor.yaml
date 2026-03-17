@@ -1,0 +1,155 @@
+{{/*
+ResidentCement ServiceMonitor Resources for Prometheus
+Scrapes metrics from all services
+*/}}
+{{- if .Values.monitoring.prometheus.serviceMonitor.enabled }}
+---
+# Gateway ServiceMonitor
+apiVersion: monitoring.coreos.com/v1
+kind: ServiceMonitor
+metadata:
+  name: {{ include "resident-cement.gateway.fullname" . }}
+  labels:
+    {{- include "resident-cement.labels" . | nindent 4 }}
+    app.kubernetes.io/component: gateway
+spec:
+  selector:
+    matchLabels:
+      {{- include "resident-cement.selectorLabels" . | nindent 6 }}
+      app.kubernetes.io/component: gateway
+  endpoints:
+    - port: http
+      path: /metrics
+      interval: {{ .Values.monitoring.prometheus.serviceMonitor.interval }}
+      scrapeTimeout: 10s
+      honorLabels: true
+  namespaceSelector:
+    matchNames:
+      - {{ .Release.Namespace }}
+---
+# Frontend ServiceMonitor
+apiVersion: monitoring.coreos.com/v1
+kind: ServiceMonitor
+metadata:
+  name: {{ include "resident-cement.frontend.fullname" . }}
+  labels:
+    {{- include "resident-cement.labels" . | nindent 4 }}
+    app.kubernetes.io/component: frontend
+spec:
+  selector:
+    matchLabels:
+      {{- include "resident-cement.selectorLabels" . | nindent 6 }}
+      app.kubernetes.io/component: frontend
+  endpoints:
+    - port: http
+      path: /metrics
+      interval: {{ .Values.monitoring.prometheus.serviceMonitor.interval }}
+      scrapeTimeout: 10s
+  namespaceSelector:
+    matchNames:
+      - {{ .Release.Namespace }}
+---
+# Admin Dashboard ServiceMonitor
+apiVersion: monitoring.coreos.com/v1
+kind: ServiceMonitor
+metadata:
+  name: {{ include "resident-cement.admin-dashboard.fullname" . }}
+  labels:
+    {{- include "resident-cement.labels" . | nindent 4 }}
+    app.kubernetes.io/component: admin-dashboard
+spec:
+  selector:
+    matchLabels:
+      {{- include "resident-cement.selectorLabels" . | nindent 6 }}
+      app.kubernetes.io/component: admin-dashboard
+  endpoints:
+    - port: http
+      path: /metrics
+      interval: {{ .Values.monitoring.prometheus.serviceMonitor.interval }}
+      scrapeTimeout: 10s
+  namespaceSelector:
+    matchNames:
+      - {{ .Release.Namespace }}
+---
+# Backend Microservices ServiceMonitor
+apiVersion: monitoring.coreos.com/v1
+kind: ServiceMonitor
+metadata:
+  name: {{ include "resident-cement.fullname" . }}-microservices
+  labels:
+    {{- include "resident-cement.labels" . | nindent 4 }}
+spec:
+  selector:
+    matchLabels:
+      {{- include "resident-cement.selectorLabels" . | nindent 6 }}
+  endpoints:
+    - port: http
+      path: /metrics
+      interval: {{ .Values.monitoring.prometheus.serviceMonitor.interval }}
+      scrapeTimeout: 10s
+      honorLabels: true
+  namespaceSelector:
+    matchNames:
+      - {{ .Release.Namespace }}
+---
+# Prometheus Rules for Alerting
+apiVersion: monitoring.coreos.com/v1
+kind: PrometheusRule
+metadata:
+  name: {{ include "resident-cement.fullname" . }}-alerts
+  labels:
+    {{- include "resident-cement.labels" . | nindent 4 }}
+spec:
+  groups:
+    - name: resident-cement
+      rules:
+        # High error rate alert
+        - alert: HighErrorRate
+          expr: rate(http_requests_total{status=~"5.."}[5m]) > 0.1
+          for: 5m
+          labels:
+            severity: critical
+          annotations:
+            summary: "High error rate detected"
+            description: "Error rate is above 10% for {{`{{ $labels.service }}`}}"
+
+        # Service down alert
+        - alert: ServiceDown
+          expr: up == 0
+          for: 1m
+          labels:
+            severity: critical
+          annotations:
+            summary: "Service is down"
+            description: "{{`{{ $labels.job }}`}} has been down for more than 1 minute"
+
+        # High latency alert
+        - alert: HighLatency
+          expr: histogram_quantile(0.95, rate(http_request_duration_seconds_bucket[5m])) > 1
+          for: 5m
+          labels:
+            severity: warning
+          annotations:
+            summary: "High latency detected"
+            description: "95th percentile latency is above 1s for {{`{{ $labels.service }}`}}"
+
+        # Database connection pool alert
+        - alert: DatabaseConnectionPoolExhausted
+          expr: prisma_pool_connections_open / prisma_pool_connections_limit > 0.8
+          for: 5m
+          labels:
+            severity: warning
+          annotations:
+            summary: "Database connection pool near limit"
+            description: "Connection pool is above 80% for {{`{{ $labels.service }}`}}"
+
+        # Kafka lag alert
+        - alert: KafkaConsumerLag
+          expr: kafka_consumer_group_lag > 1000
+          for: 5m
+          labels:
+            severity: warning
+          annotations:
+            summary: "High Kafka consumer lag"
+            description: "Consumer lag is above 1000 for {{`{{ $labels.group }}`}}"
+{{- end }}

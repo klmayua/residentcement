@@ -1,0 +1,277 @@
+{{/*
+ResidentCement Network Policies
+Restricts traffic flow between services following zero-trust principles
+*/}}
+{{- if .Values.networkPolicy.enabled }}
+---
+# Default deny all ingress/egress for the namespace
+apiVersion: networking.k8s.io/v1
+kind: NetworkPolicy
+metadata:
+  name: {{ include "resident-cement.fullname" . }}-default-deny
+  labels:
+    {{- include "resident-cement.labels" . | nindent 4 }}
+spec:
+  podSelector: {}
+  policyTypes:
+    - Ingress
+    - Egress
+---
+# Allow DNS resolution (required by all pods)
+apiVersion: networking.k8s.io/v1
+kind: NetworkPolicy
+metadata:
+  name: {{ include "resident-cement.fullname" . }}-allow-dns
+  labels:
+    {{- include "resident-cement.labels" . | nindent 4 }}
+spec:
+  podSelector: {}
+  policyTypes:
+    - Egress
+  egress:
+    - to:
+        - namespaceSelector: {}
+      ports:
+        - protocol: UDP
+          port: 53
+        - protocol: TCP
+          port: 53
+---
+# Gateway ingress policy - allow external traffic
+apiVersion: networking.k8s.io/v1
+kind: NetworkPolicy
+metadata:
+  name: {{ include "resident-cement.gateway.fullname" . }}-ingress
+  labels:
+    {{- include "resident-cement.labels" . | nindent 4 }}
+spec:
+  podSelector:
+    matchLabels:
+      {{- include "resident-cement.selectorLabels" . | nindent 6 }}
+      app.kubernetes.io/component: gateway
+  policyTypes:
+    - Ingress
+    - Egress
+  ingress:
+    # Allow from ingress controller
+    - from:
+        - namespaceSelector:
+            matchLabels:
+              app.kubernetes.io/name: ingress-nginx
+        - namespaceSelector:
+            matchLabels:
+              kubernetes.io/metadata.name: ingress-nginx
+      ports:
+        - protocol: TCP
+          port: {{ .Values.gateway.service.targetPort }}
+    # Allow from monitoring
+    - from:
+        - namespaceSelector:
+            matchLabels:
+              kubernetes.io/metadata.name: monitoring
+      ports:
+        - protocol: TCP
+          port: {{ .Values.gateway.service.targetPort }}
+  egress:
+    # Allow to all backend services
+    - to:
+        - podSelector:
+            matchLabels:
+              {{- include "resident-cement.selectorLabels" . | nindent 14 }}
+      ports:
+        - protocol: TCP
+          port: 3002
+        - protocol: TCP
+          port: 3003
+        - protocol: TCP
+          port: 3004
+        - protocol: TCP
+          port: 3005
+        - protocol: TCP
+          port: 3006
+        - protocol: TCP
+          port: 3007
+        - protocol: TCP
+          port: 3008
+        - protocol: TCP
+          port: 3009
+        - protocol: TCP
+          port: 3010
+    # Allow to infrastructure
+    - to:
+        - podSelector:
+            matchLabels:
+              app.kubernetes.io/name: postgresql
+      ports:
+        - protocol: TCP
+          port: 5432
+    - to:
+        - podSelector:
+            matchLabels:
+              app.kubernetes.io/name: redis
+      ports:
+        - protocol: TCP
+          port: 6379
+    - to:
+        - podSelector:
+            matchLabels:
+              app.kubernetes.io/name: mongodb
+      ports:
+        - protocol: TCP
+          port: 27017
+    - to:
+        - podSelector:
+            matchLabels:
+              app.kubernetes.io/name: kafka
+      ports:
+        - protocol: TCP
+          port: 9092
+---
+# Frontend ingress policy
+apiVersion: networking.k8s.io/v1
+kind: NetworkPolicy
+metadata:
+  name: {{ include "resident-cement.frontend.fullname" . }}-ingress
+  labels:
+    {{- include "resident-cement.labels" . | nindent 4 }}
+spec:
+  podSelector:
+    matchLabels:
+      {{- include "resident-cement.selectorLabels" . | nindent 6 }}
+      app.kubernetes.io/component: frontend
+  policyTypes:
+    - Ingress
+    - Egress
+  ingress:
+    - from:
+        - namespaceSelector:
+            matchLabels:
+              app.kubernetes.io/name: ingress-nginx
+        - namespaceSelector:
+            matchLabels:
+              kubernetes.io/metadata.name: ingress-nginx
+      ports:
+        - protocol: TCP
+          port: {{ .Values.frontend.service.targetPort }}
+  egress:
+    # Only allow egress to gateway
+    - to:
+        - podSelector:
+            matchLabels:
+              {{- include "resident-cement.selectorLabels" . | nindent 14 }}
+              app.kubernetes.io/component: gateway
+      ports:
+        - protocol: TCP
+          port: {{ .Values.gateway.service.targetPort }}
+---
+# Admin Dashboard ingress policy
+apiVersion: networking.k8s.io/v1
+kind: NetworkPolicy
+metadata:
+  name: {{ include "resident-cement.admin-dashboard.fullname" . }}-ingress
+  labels:
+    {{- include "resident-cement.labels" . | nindent 4 }}
+spec:
+  podSelector:
+    matchLabels:
+      {{- include "resident-cement.selectorLabels" . | nindent 6 }}
+      app.kubernetes.io/component: admin-dashboard
+  policyTypes:
+    - Ingress
+    - Egress
+  ingress:
+    - from:
+        - namespaceSelector:
+            matchLabels:
+              app.kubernetes.io/name: ingress-nginx
+        - namespaceSelector:
+            matchLabels:
+              kubernetes.io/metadata.name: ingress-nginx
+      ports:
+        - protocol: TCP
+          port: {{ .Values.adminDashboard.service.targetPort }}
+  egress:
+    # Only allow egress to gateway
+    - to:
+        - podSelector:
+            matchLabels:
+              {{- include "resident-cement.selectorLabels" . | nindent 14 }}
+              app.kubernetes.io/component: gateway
+      ports:
+        - protocol: TCP
+          port: {{ .Values.gateway.service.targetPort }}
+---
+# Backend microservices policy
+apiVersion: networking.k8s.io/v1
+kind: NetworkPolicy
+metadata:
+  name: {{ include "resident-cement.fullname" . }}-microservices
+  labels:
+    {{- include "resident-cement.labels" . | nindent 4 }}
+spec:
+  podSelector:
+    matchLabels:
+      {{- include "resident-cement.selectorLabels" . | nindent 6 }}
+  policyTypes:
+    - Ingress
+    - Egress
+  ingress:
+    # Allow from gateway
+    - from:
+        - podSelector:
+            matchLabels:
+              {{- include "resident-cement.selectorLabels" . | nindent 14 }}
+              app.kubernetes.io/component: gateway
+    # Allow from other microservices in same namespace
+    - from:
+        - podSelector:
+            matchLabels:
+              {{- include "resident-cement.selectorLabels" . | nindent 14 }}
+    # Allow from monitoring
+    - from:
+        - namespaceSelector:
+            matchLabels:
+              kubernetes.io/metadata.name: monitoring
+  egress:
+    # Allow to infrastructure services
+    - to:
+        - podSelector:
+            matchLabels:
+              app.kubernetes.io/name: postgresql
+      ports:
+        - protocol: TCP
+          port: 5432
+    - to:
+        - podSelector:
+            matchLabels:
+              app.kubernetes.io/name: redis
+      ports:
+        - protocol: TCP
+          port: 6379
+    - to:
+        - podSelector:
+            matchLabels:
+              app.kubernetes.io/name: mongodb
+      ports:
+        - protocol: TCP
+          port: 27017
+    - to:
+        - podSelector:
+            matchLabels:
+              app.kubernetes.io/name: kafka
+      ports:
+        - protocol: TCP
+          port: 9092
+    - to:
+        - podSelector:
+            matchLabels:
+              app.kubernetes.io/name: minio
+      ports:
+        - protocol: TCP
+          port: 9000
+    # Allow inter-service communication
+    - to:
+        - podSelector:
+            matchLabels:
+              {{- include "resident-cement.selectorLabels" . | nindent 14 }}
+{{- end }}

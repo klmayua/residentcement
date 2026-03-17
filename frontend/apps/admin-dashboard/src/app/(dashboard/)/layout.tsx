@@ -9,20 +9,30 @@ import { useQuery } from "@tanstack/react-query";
 
 const navigation = [
   { name: "Overview", href: "/", icon: "BarChart3" },
+  { name: "Production", href: "/production", icon: "Factory" },
+  { name: "Quality", href: "/quality", icon: "ShieldCheck" },
+  { name: "Logistics", href: "/logistics", icon: "Truck" },
   { name: "Customers", href: "/customers", icon: "Users" },
   { name: "Orders", href: "/orders", icon: "ShoppingCart" },
   { name: "Products", href: "/products", icon: "Package" },
   { name: "Inventory", href: "/inventory", icon: "Warehouse" },
   { name: "Payments", href: "/payments", icon: "DollarSign" },
+  { name: "Users", href: "/users", icon: "UserCog" },
+  { name: "Settings", href: "/settings", icon: "Settings" },
 ];
 
 const icons: Record<string, any> = {
   BarChart3: require("lucide-react").BarChart3,
+  Factory: require("lucide-react").Factory,
+  ShieldCheck: require("lucide-react").ShieldCheck,
+  Truck: require("lucide-react").Truck,
   Users: require("lucide-react").Users,
   ShoppingCart: require("lucide-react").ShoppingCart,
   Package: require("lucide-react").Package,
   Warehouse: require("lucide-react").Warehouse,
   DollarSign: require("lucide-react").DollarSign,
+  UserCog: require("lucide-react").UserCog,
+  Settings: require("lucide-react").Settings,
 };
 
 function Sidebar() {

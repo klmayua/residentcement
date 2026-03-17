@@ -1,0 +1,81 @@
+{{/*
+ResidentCement Helm Chart - Post-Installation Notes
+*/}}
+Thank you for installing {{ .Chart.Name }} v{{ .Chart.Version }}!
+
+==> Application Version: {{ .Chart.AppVersion }}
+==> Environment: {{ .Values.global.environment }}
+
+{{- if .Values.gateway.ingress.enabled }}
+
+==> Access Points:
+
+  API Gateway:     http{{ if .Values.gateway.ingress.tls }}s{{ end }}://{{ (index .Values.gateway.ingress.hosts 0).host }}
+{{- end }}
+{{- if .Values.frontend.ingress.enabled }}
+  Distributor Portal: http{{ if .Values.frontend.ingress.tls }}s{{ end }}://{{ (index .Values.frontend.ingress.hosts 0).host }}
+{{- end }}
+{{- if .Values.adminDashboard.ingress.enabled }}
+  Admin Dashboard: http{{ if .Values.adminDashboard.ingress.tls }}s{{ end }}://{{ (index .Values.adminDashboard.ingress.hosts 0).host }}
+{{- end }}
+
+==> Services Deployed:
+
+  Gateway:         {{ if .Values.gateway.enabled }}✓{{ else }}✗{{ end }} ({{ .Values.gateway.replicaCount }} replicas)
+  Frontend:        {{ if .Values.frontend.enabled }}✓{{ else }}✗{{ end }} ({{ .Values.frontend.replicaCount }} replicas)
+  Admin Dashboard: {{ if .Values.adminDashboard.enabled }}✓{{ else }}✗{{ end }} ({{ .Values.adminDashboard.replicaCount }} replicas)
+
+  Backend Services:
+  {{- range $name, $service := .Values.services }}
+    - {{ $name }}: {{ if $service.enabled }}✓{{ else }}✗{{ end }} ({{ $service.replicaCount }} replicas)
+  {{- end }}
+
+  Infrastructure:
+    - PostgreSQL: {{ if .Values.postgresql.enabled }}✓{{ else }}✗{{ end }}
+    - MongoDB:    {{ if .Values.mongodb.enabled }}✓{{ else }}✗{{ end }}
+    - Redis:      {{ if .Values.redis.enabled }}✓{{ else }}✗{{ end }}
+    - Kafka:      {{ if .Values.kafka.enabled }}✓{{ else }}✗{{ end }}
+    - MinIO:      {{ if .Values.minio.enabled }}✓{{ else }}✗{{ end }}
+
+==> Useful Commands:
+
+  Check pod status:
+    kubectl get pods -l app.kubernetes.io/name={{ include "resident-cement.name" . }}
+
+  View gateway logs:
+    kubectl logs -l app.kubernetes.io/component=gateway
+
+  Port-forward gateway for local access:
+    kubectl port-forward svc/{{ include "resident-cement.gateway.fullname" . }} {{ .Values.gateway.service.port }}:{{ .Values.gateway.service.port }}
+
+  Access the API locally:
+    curl http://localhost:{{ .Values.gateway.service.port }}/health
+
+{{- if .Values.monitoring.enabled }}
+
+==> Monitoring:
+
+  Prometheus: {{ if .Values.monitoring.prometheus.enabled }}Enabled{{ else }}Disabled{{ end }}
+  Grafana:    {{ if .Values.monitoring.grafana.enabled }}Enabled{{ else }}Disabled{{ end }}
+{{- end }}
+
+==> Security Notes:
+
+  ⚠️  Default secrets are auto-generated on first install.
+     For production, set explicit values in values.yaml or use external secret management.
+
+  ⚠️  Review and configure NetworkPolicies for production use.
+
+==> Next Steps:
+
+  1. Verify all pods are running:
+     kubectl get pods -n {{ .Release.Namespace }}
+
+  2. Check service health:
+     kubectl logs deployment/{{ include "resident-cement.gateway.fullname" . }}
+
+  3. Configure DNS to point to your ingress controller.
+
+  4. For production, configure TLS certificates and external secret management.
+
+For more information, visit: {{ .Chart.Home }}

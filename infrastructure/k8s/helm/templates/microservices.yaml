@@ -1,0 +1,136 @@
+{{/* Microservices Deployment Template */}}
+{{- range $serviceName, $service := .Values.services }}
+{{- if $service.enabled }}
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: {{ include "resident-cement.service.fullname" (list $serviceName $) }}
+  labels:
+    {{- include "resident-cement.labels" $ | nindent 4 }}
+    app.kubernetes.io/component: {{ $serviceName }}
+spec:
+  {{- if not $service.autoscaling.enabled }}
+  replicas: {{ $service.replicaCount }}
+  {{- end }}
+  selector:
+    matchLabels:
+      {{- include "resident-cement.selectorLabels" $ | nindent 6 }}
+      app.kubernetes.io/component: {{ $serviceName }}
+  template:
+    metadata:
+      labels:
+        {{- include "resident-cement.selectorLabels" $ | nindent 8 }}
+        app.kubernetes.io/component: {{ $serviceName }}
+    spec:
+      serviceAccountName: {{ include "resident-cement.serviceAccountName" $ }}
+      securityContext:
+        {{- toYaml $.Values.microservices.podSecurityContext | nindent 8 }}
+      containers:
+        - name: {{ $serviceName }}
+          securityContext:
+            {{- toYaml $.Values.microservices.securityContext | nindent 12 }}
+          image: "{{ include "resident-cement.image.repository" (list $service.image $) }}:{{ include "resident-cement.image.tag" (list $service.image $) }}"
+          imagePullPolicy: {{ $.Values.microservices.image.pullPolicy }}
+          ports:
+            - name: http
+              containerPort: {{ $service.service.targetPort }}
+              protocol: TCP
+          env:
+            - name: NODE_ENV
+              value: {{ $.Values.global.environment | quote }}
+            - name: PORT
+              value: {{ $service.service.targetPort | quote }}
+            - name: DATABASE_URL
+              value: {{ include "resident-cement.database.url" $ | quote }}
+            - name: MONGODB_URI
+              value: {{ include "resident-cement.mongodb.uri" $ | quote }}
+            - name: REDIS_URL
+              value: {{ include "resident-cement.redis.url" $ | quote }}
+            - name: KAFKA_BROKERS
+              value: {{ include "resident-cement.kafka.brokers" $ | quote }}
+            - name: JWT_SECRET
+              valueFrom:
+                secretKeyRef:
+                  name: {{ include "resident-cement.secrets.name" $ }}
+                  key: jwt-secret
+            - name: API_KEY
+              valueFrom:
+                secretKeyRef:
+                  name: {{ include "resident-cement.secrets.name" $ }}
+                  key: api-key
+            {{- if eq $serviceName "payment" }}
+            - name: PAYSTACK_SECRET_KEY
+              valueFrom:
+                secretKeyRef:
+                  name: {{ include "resident-cement.secrets.name" $ }}
+                  key: paystack-secret-key
+            {{- end }}
+            {{- if eq $serviceName "events" }}
+            - name: KAFKA_GROUP_ID
+              value: "{{ $serviceName }}-group"
+            {{- end }}
+          livenessProbe:
+            httpGet:
+              path: /health
+              port: http
+            initialDelaySeconds: 30
+            periodSeconds: 10
+          readinessProbe:
+            httpGet:
+              path: /health
+              port: http
+            initialDelaySeconds: 5
+            periodSeconds: 5
+          resources:
+            {{- toYaml $service.resources | nindent 12 }}
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: {{ include "resident-cement.service.fullname" (list $serviceName $) }}
+  labels:
+    {{- include "resident-cement.labels" $ | nindent 4 }}
+    app.kubernetes.io/component: {{ $serviceName }}
+spec:
+  type: ClusterIP
+  ports:
+    - port: {{ $service.service.port }}
+      targetPort: {{ $service.service.targetPort }}
+      protocol: TCP
+      name: http
+  selector:
+    {{- include "resident-cement.selectorLabels" $ | nindent 4 }}
+    app.kubernetes.io/component: {{ $serviceName }}
+---
+{{- if $service.autoscaling.enabled }}
+apiVersion: autoscaling/v2
+kind: HorizontalPodAutoscaler
+metadata:
+  name: {{ include "resident-cement.service.fullname" (list $serviceName $) }}
+  labels:
+    {{- include "resident-cement.labels" $ | nindent 4 }}
+    app.kubernetes.io/component: {{ $serviceName }}
+spec:
+  scaleTargetRef:
+    apiVersion: apps/v1
+    kind: Deployment
+    name: {{ include "resident-cement.service.fullname" (list $serviceName $) }}
+  minReplicas: {{ $service.autoscaling.minReplicas }}
+  maxReplicas: {{ $service.autoscaling.maxReplicas }}
+  metrics:
+    - type: Resource
+      resource:
+        name: cpu
+        target:
+          type: Utilization
+          averageUtilization: {{ $service.autoscaling.targetCPUUtilizationPercentage }}
+    - type: Resource
+      resource:
+        name: memory
+        target:
+          type: Utilization
+          averageUtilization: {{ $service.autoscaling.targetMemoryUtilizationPercentage }}
+{{- end }}
+{{- end }}
+{{- end }}

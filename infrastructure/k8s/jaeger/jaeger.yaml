@@ -1,0 +1,46 @@
+# ResidentCement Jaeger Configuration
+# Distributed tracing for microservices observability
+
+apiVersion: jaegertracing.io/v1
+kind: Jaeger
+metadata:
+  name: resident-cement
+  namespace: observability
+spec:
+  strategy: production  # Use 'allInOne' for development
+  storage:
+    type: elasticsearch
+    options:
+      es:
+        server-urls: http://elasticsearch:9200
+  ingress:
+    enabled: true
+    annotations:
+      kubernetes.io/ingress.class: nginx
+    hosts:
+      - jaeger.residentcement.com
+  agent:
+    sidecar:
+      injection: true
+  collector:
+    maxReplicas: 5
+    resources:
+      limits:
+        cpu: "2"
+        memory: 2Gi
+      requests:
+        cpu: 500m
+        memory: 512Mi
+  query:
+    resources:
+      limits:
+        cpu: "1"
+        memory: 1Gi
+      requests:
+        cpu: 250m
+        memory: 256Mi
+  sampling:
+    options:
+      default_strategy:
+        type: probabilistic
+        param: 0.1  # Sample 10% of traces

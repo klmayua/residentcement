@@ -1,25 +1,28 @@
 {
-    "name":  "resident-cement",
-    "version":  "1.0.0",
-    "description":  "ResidentCement Digital Ecosystem",
-    "private":  true,
-    "scripts":  {
-                    "infra:up":  "cd infrastructure/docker && docker-compose -f docker-compose.yml up -d",
-                    "infra:down":  "cd infrastructure/docker && docker-compose down",
-                    "infra:logs":  "cd infrastructure/docker && docker-compose logs -f",
-                    "dev":  "concurrently \"npm run dev:gateway\" \"npm run dev:services\" \"npm run dev:frontend\"",
-                    "dev:frontend":  "cd frontend/apps/distributor-portal && npm run dev",
-                    "dev:gateway":  "cd backend/gateway && npm run dev",
-                    "dev:services":  "concurrently \"cd backend/services/customer-service && npm run dev\" \"cd backend/services/order-service && npm run dev\" \"cd backend/services/product-service && npm run dev\" \"cd backend/services/inventory-service && npm run dev\" \"cd backend/services/payment-service && npm run dev\" \"cd backend/services/pricing-service && npm run dev\"",
-                    "build:kernel":  "cd backend/shared/kernel && npm install && npm run build",
-                    "install:all":  "npm install && cd backend/shared/kernel && npm install && cd ../../gateway && npm install && cd ../services/customer-service && npm install && cd ../order-service && npm install && cd ../product-service && npm install && cd ../inventory-service && npm install && cd ../payment-service && npm install && cd ../pricing-service && npm install && cd ../../../frontend/apps/distributor-portal && npm install",
-                    "db:seed":  "cd backend/gateway && npx prisma db seed",
-                    "db:migrate":  "cd backend/gateway && npx prisma migrate dev",
-                    "architecture:verify":  "powershell -ExecutionPolicy Bypass -File scripts/architecture/verify-boundaries.ps1",
-                    "forensic:status":  "type forensic_report.md",
-                    "forensic:verify":  "powershell -ExecutionPolicy Bypass -File scripts/forensics/check-required-outputs.ps1"
-                },
-    "devDependencies":  {
-                            "concurrently":  "^8.2.2"
-                        }
+    "name": "resident-cement",
+    "version": "1.0.0",
+    "description": "ResidentCement Digital Ecosystem",
+    "private": true,
+    "scripts": {
+        "infra:up": "cd infrastructure/docker && docker-compose -f docker-compose.yml up -d",
+        "infra:down": "cd infrastructure/docker && docker-compose down",
+        "infra:logs": "cd infrastructure/docker && docker-compose logs -f",
+        "dev": "concurrently \"npm run dev:gateway\" \"npm run dev:services\" \"npm run dev:frontend\"",
+        "dev:frontend": "cd frontend/apps/distributor-portal && npm run dev",
+        "dev:gateway": "cd backend/gateway && npm run dev",
+        "dev:services": "concurrently \"cd backend/services/customer-service && npm run dev\" \"cd backend/services/order-service && npm run dev\" \"cd backend/services/product-service && npm run dev\" \"cd backend/services/inventory-service && npm run dev\" \"cd backend/services/payment-service && npm run dev\" \"cd backend/services/pricing-service && npm run dev\" \"cd backend/services/plant-mes-service && npm run dev\" \"cd backend/services/quality-service && npm run dev\" \"cd backend/services/logistics-service && npm run dev\" \"cd backend/services/events && npm run dev\" ",
+        "build:kernel": "cd backend/shared/kernel && npm install && npm run build",
+        "install:all": "npm install && cd backend/shared/kernel && npm install && cd ../../gateway && npm install && cd ../services/customer-service && npm install && cd ../order-service && npm install && cd ../product-service && npm install && cd ../inventory-service && npm install && cd ../payment-service && npm install && cd ../pricing-service && npm install && cd ../plant-mes-service && npm install && cd ../quality-service && npm install && cd ../logistics-service && npm install && cd ../events && npm install && cd ../../../frontend/apps/distributor-portal && npm install && cd ../admin-dashboard && npm install && cd ../../../tests && npm install && npm run setup",
+        "setup": "cd tests && npx playwright install chromium firefox webkit",
+        "db:seed": "cd backend/gateway && npx prisma db seed",
+        "db:migrate": "cd backend/gateway && npx prisma migrate dev",
+        "test:e2e": "cd tests && npm run test:e2e",
+        "test:e2e:ui": "cd tests && npm run test:e2e:ui",
+        "architecture:verify": "powershell -ExecutionPolicy Bypass -File scripts/architecture/verify-boundaries.ps1",
+        "forensic:status": "type forensic_report.md",
+        "forensic:verify": "powershell -ExecutionPolicy Bypass -File scripts/forensics/check-required-outputs.ps1"
+    },
+    "devDependencies": {
+        "concurrently": "^8.2.2"
+    }
 }

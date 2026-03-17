@@ -1,0 +1,259 @@
+{{/*
+ResidentCement Grafana Dashboards
+Provides pre-configured dashboards for monitoring the platform
+*/}}
+{{- if .Values.monitoring.grafana.dashboards.enabled }}
+---
+# API Gateway Dashboard
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: {{ include "resident-cement.fullname" . }}-grafana-dashboards
+  labels:
+    {{- include "resident-cement.labels" . | nindent 4 }}
+    grafana_dashboard: "1"
+data:
+  resident-cement-gateway.json: |
+    {
+      "dashboard": {
+        "id": null,
+        "title": "ResidentCement - API Gateway",
+        "tags": ["resident-cement", "gateway"],
+        "timezone": "browser",
+        "schemaVersion": 36,
+        "refresh": "30s",
+        "panels": [
+          {
+            "id": 1,
+            "title": "Request Rate",
+            "type": "graph",
+            "targets": [
+              {
+                "expr": "rate(http_requests_total{job=~\".*gateway.*\"}[5m])",
+                "legendFormat": "{{method}} {{status}}"
+              }
+            ],
+            "gridPos": {"h": 8, "w": 12, "x": 0, "y": 0}
+          },
+          {
+            "id": 2,
+            "title": "Response Time (95th percentile)",
+            "type": "graph",
+            "targets": [
+              {
+                "expr": "histogram_quantile(0.95, rate(http_request_duration_seconds_bucket{job=~\".*gateway.*\"}[5m]))",
+                "legendFormat": "95th percentile"
+              }
+            ],
+            "gridPos": {"h": 8, "w": 12, "x": 12, "y": 0}
+          },
+          {
+            "id": 3,
+            "title": "Error Rate",
+            "type": "stat",
+            "targets": [
+              {
+                "expr": "rate(http_requests_total{job=~\".*gateway.*\",status=~\"5..\"}[5m]) / rate(http_requests_total{job=~\".*gateway.*\"}[5m])",
+                "legendFormat": "Error %"
+              }
+            ],
+            "gridPos": {"h": 4, "w": 6, "x": 0, "y": 8}
+          },
+          {
+            "id": 4,
+            "title": "Active Connections",
+            "type": "stat",
+            "targets": [
+              {
+                "expr": "nodejs_active_connections{job=~\".*gateway.*\"}",
+                "legendFormat": "Connections"
+              }
+            ],
+            "gridPos": {"h": 4, "w": 6, "x": 6, "y": 8}
+          },
+          {
+            "id": 5,
+            "title": "Memory Usage",
+            "type": "graph",
+            "targets": [
+              {
+                "expr": "nodejs_heap_size_used_bytes{job=~\".*gateway.*\"}",
+                "legendFormat": "Heap Used"
+              }
+            ],
+            "gridPos": {"h": 8, "w": 12, "x": 0, "y": 12}
+          },
+          {
+            "id": 6,
+            "title": "CPU Usage",
+            "type": "graph",
+            "targets": [
+              {
+                "expr": "rate(process_cpu_user_seconds_total{job=~\".*gateway.*\"}[5m])",
+                "legendFormat": "CPU Usage"
+              }
+            ],
+            "gridPos": {"h": 8, "w": 12, "x": 12, "y": 12}
+          }
+        ]
+      }
+    }
+
+  resident-cement-services.json: |
+    {
+      "dashboard": {
+        "id": null,
+        "title": "ResidentCement - Microservices Overview",
+        "tags": ["resident-cement", "microservices"],
+        "timezone": "browser",
+        "schemaVersion": 36,
+        "refresh": "30s",
+        "panels": [
+          {
+            "id": 1,
+            "title": "Service Health",
+            "type": "table",
+            "targets": [
+              {
+                "expr": "up{namespace=\"{{ .Release.Namespace }}\"}",
+                "format": "table",
+                "instant": true
+              }
+            ],
+            "gridPos": {"h": 8, "w": 24, "x": 0, "y": 0}
+          },
+          {
+            "id": 2,
+            "title": "Request Rate by Service",
+            "type": "graph",
+            "targets": [
+              {
+                "expr": "sum by (service) (rate(http_requests_total[5m]))",
+                "legendFormat": "{{service}}"
+              }
+            ],
+            "gridPos": {"h": 8, "w": 12, "x": 0, "y": 8}
+          },
+          {
+            "id": 3,
+            "title": "Error Rate by Service",
+            "type": "graph",
+            "targets": [
+              {
+                "expr": "sum by (service) (rate(http_requests_total{status=~\"5..\"}[5m]))",
+                "legendFormat": "{{service}}"
+              }
+            ],
+            "gridPos": {"h": 8, "w": 12, "x": 12, "y": 8}
+          },
+          {
+            "id": 4,
+            "title": "Database Connection Pool",
+            "type": "graph",
+            "targets": [
+              {
+                "expr": "prisma_pool_connections_open",
+                "legendFormat": "{{service}} - Open"
+              },
+              {
+                "expr": "prisma_pool_connections_limit",
+                "legendFormat": "{{service}} - Limit"
+              }
+            ],
+            "gridPos": {"h": 8, "w": 12, "x": 0, "y": 16}
+          },
+          {
+            "id": 5,
+            "title": "Kafka Consumer Lag",
+            "type": "graph",
+            "targets": [
+              {
+                "expr": "kafka_consumer_group_lag",
+                "legendFormat": "{{group}} - {{topic}}"
+              }
+            ],
+            "gridPos": {"h": 8, "w": 12, "x": 12, "y": 16}
+          }
+        ]
+      }
+    }
+
+  resident-cement-infrastructure.json: |
+    {
+      "dashboard": {
+        "id": null,
+        "title": "ResidentCement - Infrastructure",
+        "tags": ["resident-cement", "infrastructure"],
+        "timezone": "browser",
+        "schemaVersion": 36,
+        "refresh": "30s",
+        "panels": [
+          {
+            "id": 1,
+            "title": "PostgreSQL Connections",
+            "type": "graph",
+            "targets": [
+              {
+                "expr": "pg_stat_activity_count",
+                "legendFormat": "Active Connections"
+              }
+            ],
+            "gridPos": {"h": 8, "w": 12, "x": 0, "y": 0}
+          },
+          {
+            "id": 2,
+            "title": "Redis Memory Usage",
+            "type": "graph",
+            "targets": [
+              {
+                "expr": "redis_memory_used_bytes",
+                "legendFormat": "Used Memory"
+              }
+            ],
+            "gridPos": {"h": 8, "w": 12, "x": 12, "y": 0}
+          },
+          {
+            "id": 3,
+            "title": "Kafka Topics",
+            "type": "table",
+            "targets": [
+              {
+                "expr": "kafka_topic_partition_current_offset",
+                "format": "table",
+                "instant": true
+              }
+            ],
+            "gridPos": {"h": 8, "w": 24, "x": 0, "y": 8}
+          },
+          {
+            "id": 4,
+            "title": "MongoDB Operations",
+            "type": "graph",
+            "targets": [
+              {
+                "expr": "rate(mongodb_op_latencies_reads_ops[5m])",
+                "legendFormat": "Read Ops/sec"
+              },
+              {
+                "expr": "rate(mongodb_op_latencies_writes_ops[5m])",
+                "legendFormat": "Write Ops/sec"
+              }
+            ],
+            "gridPos": {"h": 8, "w": 12, "x": 0, "y": 16}
+          },
+          {
+            "id": 5,
+            "title": "Pod CPU Usage",
+            "type": "graph",
+            "targets": [
+              {
+                "expr": "rate(container_cpu_usage_seconds_total{namespace=\"{{ .Release.Namespace }}\"}[5m])",
+                "legendFormat": "{{pod}}"
+              }
+            ],
+            "gridPos": {"h": 8, "w": 12, "x": 12, "y": 16}
+          }
+        ]
+      }
+    }
+{{- end }}

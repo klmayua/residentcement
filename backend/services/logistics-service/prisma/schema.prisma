@@ -1,0 +1,227 @@
+// Logistics Service Database Schema
+// Manages vehicles, drivers, trips, and delivery tracking
+
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+// Vehicle Types
+enum VehicleType {
+  TRUCK_SMALL    // 3-5 tons
+  TRUCK_MEDIUM   // 5-10 tons
+  TRUCK_LARGE    // 10-20 tons
+  TRUCK_HEAVY    // 20+ tons
+  VAN
+  BIKE           // For small deliveries
+}
+
+// Vehicle Status
+enum VehicleStatus {
+  AVAILABLE
+  IN_USE
+  UNDER_MAINTENANCE
+  OUT_OF_SERVICE
+}
+
+// Driver Status
+enum DriverStatus {
+  ACTIVE
+  OFF_DUTY
+  ON_LEAVE
+  SUSPENDED
+}
+
+// Trip Status
+enum TripStatus {
+  SCHEDULED
+  IN_PROGRESS
+  COMPLETED
+  CANCELLED
+  DELAYED
+}
+
+// Delivery Status
+enum DeliveryStatus {
+  PENDING
+  PICKED_UP
+  IN_TRANSIT
+  OUT_FOR_DELIVERY
+  DELIVERED
+  FAILED
+  RETURNED
+}
+
+// Vehicle Model
+model Vehicle {
+  id              String         @id @default(uuid())
+  registration    String         @unique
+  type            VehicleType
+  make            String
+  model           String
+  year            Int
+  capacityKg      Int
+  capacityVolume  Float?         // cubic meters
+  fuelType        String         @default("DIESEL")
+  status          VehicleStatus  @default(AVAILABLE)
+
+  // Location tracking
+  currentLatitude  Float?
+  currentLongitude Float?
+  lastLocationAt   DateTime?
+
+  // Relationships
+  driver   Driver?  @relation(fields: [driverId], references: [id])
+  driverId String?  @unique
+  trips    Trip[]
+
+  // Maintenance records
+  maintenanceRecords MaintenanceRecord[]
+
+  // Metadata
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  @@index([status])
+  @@index([type])
+  @@index([driverId])
+  @@map("vehicles")
+}
+
+// Driver Model
+model Driver {
+  id              String       @id @default(uuid())
+  name            String
+  phone           String
+  email           String?
+  licenseNumber   String       @unique
+  licenseType     String       // e.g., "Class C", "Heavy Duty"
+  licenseExpiry   DateTime
+  idNumber        String?      @unique // National ID
+  address         String?
+  emergencyContact String?
+  status          DriverStatus @default(ACTIVE)
+  rating          Float        @default(5.0)
+
+  // Relationships
+  vehicle  Vehicle?
+  trips    Trip[]
+
+  // Metadata
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  @@index([status])
+  @@index([licenseNumber])
+  @@map("drivers")
+}
+
+// Trip Model - Represents a delivery route
+model Trip {
+  id              String      @id @default(uuid())
+  tripNumber      String      @unique // e.g., "TRIP-20240317-001"
+
+  // Relationships
+  vehicleId       String
+  vehicle         Vehicle     @relation(fields: [vehicleId], references: [id])
+  driverId        String
+  driver          Driver      @relation(fields: [driverId], references: [id])
+
+  // Trip details
+  status          TripStatus  @default(SCHEDULED)
+  scheduledDate   DateTime
+  startedAt       DateTime?
+  completedAt     DateTime?
+  estimatedDuration Int?      // minutes
+  actualDuration  Int?
+
+  // Route information
+  startLocation   Json        // { address, lat, lng }
+  endLocation     Json        // { address, lat, lng }
+  route           Json?       // Array of waypoints
+  distanceKm      Float?
+
+  // Related orders
+  orderIds        String[]    // References to order-service orders
+  deliveries      Delivery[]
+
+  // Notes
+  notes           String?
+  cancellationReason String?
+
+  // Metadata
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  @@index([status])
+  @@index([vehicleId])
+  @@index([driverId])
+  @@index([scheduledDate])
+  @@map("trips")
+}
+
+// Delivery Model - Individual delivery within a trip
+model Delivery {
+  id              String         @id @default(uuid())
+  deliveryNumber  String         @unique
+
+  // Relationships
+  tripId          String
+  trip            Trip           @relation(fields: [tripId], references: [id])
+  orderId         String         // Reference to order-service
+
+  // Delivery details
+  status          DeliveryStatus @default(PENDING)
+  customerName    String
+  customerPhone   String
+  customerEmail   String?
+  deliveryAddress String
+  latitude        Float
+  longitude       Float
+
+  // Scheduling
+  scheduledTime   DateTime?
+  arrivedAt       DateTime?
+  deliveredAt     DateTime?
+
+  // Proof of delivery
+  proofOfDelivery Json?          // { signatureUrl, photoUrls[], notes }
+  deliveredBy     String?        // Driver who confirmed delivery
+
+  // Failure/Delay tracking
+  failureReason   String?
+  retryCount      Int            @default(0)
+
+  // Metadata
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  @@index([status])
+  @@index([tripId])
+  @@index([orderId])
+  @@map("deliveries")
+}
+
+// Maintenance Record Model
+model MaintenanceRecord {
+  id              String    @id @default(uuid())
+  vehicleId       String
+  vehicle         Vehicle   @relation(fields: [vehicleId], references: [id])
+
+  maintenanceType String    // e.g., "ROUTINE", "REPAIR", "INSPECTION"
+  description     String
+  cost            Float?
+  performedAt     DateTime
+  performedBy     String?
+  nextDueAt       DateTime?
+
+  // Metadata
+  createdAt DateTime @default(now())
+
+  @@index([vehicleId])
+  @@map("maintenance_records")
+}

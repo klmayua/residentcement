@@ -1,0 +1,87 @@
+{{/*
+ResidentCement Pod Disruption Budgets
+Ensures minimum availability during node maintenance and upgrades
+*/}}
+{{- if .Values.pdb.enabled }}
+---
+# Gateway PDB
+apiVersion: policy/v1
+kind: PodDisruptionBudget
+metadata:
+  name: {{ include "resident-cement.gateway.fullname" . }}
+  labels:
+    {{- include "resident-cement.labels" . | nindent 4 }}
+    app.kubernetes.io/component: gateway
+spec:
+  {{- if .Values.pdb.minAvailable }}
+  minAvailable: {{ .Values.pdb.minAvailable }}
+  {{- else if .Values.pdb.maxUnavailable }}
+  maxUnavailable: {{ .Values.pdb.maxUnavailable }}
+  {{- else }}
+  minAvailable: 1
+  {{- end }}
+  selector:
+    matchLabels:
+      {{- include "resident-cement.selectorLabels" . | nindent 6 }}
+      app.kubernetes.io/component: gateway
+---
+# Frontend PDB
+apiVersion: policy/v1
+kind: PodDisruptionBudget
+metadata:
+  name: {{ include "resident-cement.frontend.fullname" . }}
+  labels:
+    {{- include "resident-cement.labels" . | nindent 4 }}
+    app.kubernetes.io/component: frontend
+spec:
+  minAvailable: 1
+  selector:
+    matchLabels:
+      {{- include "resident-cement.selectorLabels" . | nindent 6 }}
+      app.kubernetes.io/component: frontend
+---
+# Admin Dashboard PDB
+apiVersion: policy/v1
+kind: PodDisruptionBudget
+metadata:
+  name: {{ include "resident-cement.admin-dashboard.fullname" . }}
+  labels:
+    {{- include "resident-cement.labels" . | nindent 4 }}
+    app.kubernetes.io/component: admin-dashboard
+spec:
+  minAvailable: 1
+  selector:
+    matchLabels:
+      {{- include "resident-cement.selectorLabels" . | nindent 6 }}
+      app.kubernetes.io/component: admin-dashboard
+---
+# Microservices PDB
+{{- range $serviceName, $service := .Values.services }}
+{{- if $service.enabled }}
+apiVersion: policy/v1
+kind: PodDisruptionBudget
+metadata:
+  name: {{ include "resident-cement.service.fullname" (list $serviceName $) }}
+  labels:
+    {{- include "resident-cement.labels" $ | nindent 4 }}
+    app.kubernetes.io/component: {{ $serviceName }}
+spec:
+  {{- if $service.pdb }}
+  {{- if $service.pdb.minAvailable }}
+  minAvailable: {{ $service.pdb.minAvailable }}
+  {{- else if $service.pdb.maxUnavailable }}
+  maxUnavailable: {{ $service.pdb.maxUnavailable }}
+  {{- else }}
+  minAvailable: 1
+  {{- end }}
+  {{- else }}
+  minAvailable: 1
+  {{- end }}
+  selector:
+    matchLabels:
+      {{- include "resident-cement.selectorLabels" $ | nindent 6 }}
+      app.kubernetes.io/component: {{ $serviceName }}
+---
+{{- end }}
+{{- end }}
+{{- end }}

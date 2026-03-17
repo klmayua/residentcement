@@ -1,0 +1,25 @@
+{{/*
+ResidentCement ConfigMap for non-sensitive configuration
+*/}}
+---
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: {{ include "resident-cement.fullname" . }}-config
+  labels:
+    {{- include "resident-cement.labels" . | nindent 4 }}
+data:
+  environment: {{ .Values.global.environment | quote }}
+  log-level: {{ .Values.gateway.env.LOG_LEVEL | default "info" | quote }}
+  cors-origin: {{ .Values.gateway.env.CORS_ORIGIN | quote }}
+  service-ports: |
+    gateway: {{ .Values.gateway.service.port }}
+    customer: {{ .Values.services.customer.service.port }}
+    inventory: {{ .Values.services.inventory.service.port }}
+    pricing: {{ .Values.services.pricing.service.port }}
+    payment: {{ .Values.services.payment.service.port }}
+    product: {{ .Values.services.product.service.port }}
+    order: {{ .Values.services.order.service.port }}
+    plant-mes: {{ .Values.services.plantMes.service.port }}
+    quality: {{ .Values.services.quality.service.port }}
+    logistics: {{ .Values.services.logistics.service.port }}

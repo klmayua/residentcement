@@ -1,0 +1,33 @@
+apiVersion: v2
+name: resident-cement
+description: ResidentCement Digital Ecosystem - Helm Chart for Kubernetes Deployment
+type: application
+version: 1.0.0
+appVersion: "2030.1.0"
+home: https://residentcement.com
+sources:
+  - https://github.com/residentcement/resident-cement
+maintainers:
+  - name: ResidentCement Team
+    email: devops@residentcement.com
+dependencies:
+  - name: postgresql
+    version: 13.2.0
+    repository: https://charts.bitnami.com/bitnami
+    condition: postgresql.enabled
+  - name: redis
+    version: 18.5.0
+    repository: https://charts.bitnami.com/bitnami
+    condition: redis.enabled
+  - name: kafka
+    version: 26.4.0
+    repository: https://charts.bitnami.com/bitnami
+    condition: kafka.enabled
+  - name: mongodb
+    version: 14.3.0
+    repository: https://charts.bitnami.com/bitnami
+    condition: mongodb.enabled
+  - name: minio
+    version: 12.10.0
+    repository: https://charts.bitnami.com/bitnami
+    condition: minio.enabled
