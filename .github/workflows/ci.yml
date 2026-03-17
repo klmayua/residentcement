@@ -89,35 +89,91 @@ jobs:
         continue-on-error: true
 
   # ============================================
-  # BACKEND SERVICES BUILD
+  # SHARED PACKAGES BUILD
   # ============================================
-  backend-services:
-    name: Backend Services
+  shared-packages:
+    name: Build Shared Packages
     runs-on: ubuntu-latest
-    strategy:
-      matrix:
-        service: [customer-service, inventory-service, pricing-service, payment-service, product-service, order-service]
-    
     steps:
       - name: Checkout code
         uses: actions/checkout@v4
-      
+
       - name: Setup Node.js
         uses: actions/setup-node@v4
         with:
           node-version: '20'
           cache: 'npm'
-          cache-dependency-path: backend/services/${{ matrix.service }}/package-lock.json
-      
-      - name: Install dependencies
+
+      - name: Build Kernel Package
+        working-directory: ./backend/shared/kernel
+        run: |
+          npm ci
+          npm run build
+
+      - name: Build Kafka Client Package
+        working-directory: ./backend/shared/kafka-client
+        run: |
+          npm ci
+          npm run build
+
+      - name: Upload Kernel Artifact
+        uses: actions/upload-artifact@v4
+        with:
+          name: kernel-dist
+          path: backend/shared/kernel/dist
+          retention-days: 1
+
+      - name: Upload Kafka Client Artifact
+        uses: actions/upload-artifact@v4
+        with:
+          name: kafka-client-dist
+          path: backend/shared/kafka-client/dist
+          retention-days: 1
+
+  # ============================================
+  # BACKEND SERVICES BUILD
+  # ============================================
+  backend-services:
+    name: Backend Services
+    runs-on: ubuntu-latest
+    needs: shared-packages
+    strategy:
+      matrix:
+        service: [customer-service, inventory-service, pricing-service, payment-service, product-service, order-service, plant-mes-service, quality-service]
+
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: '20'
+          cache: 'npm'
+
+      - name: Download Shared Artifacts
+        uses: actions/download-artifact@v4
+        with:
+          path: artifacts
+
+      - name: Restore Shared Packages
+        run: |
+          mkdir -p backend/shared/kernel/dist backend/shared/kafka-client/dist
+          cp -r artifacts/kernel-dist/* backend/shared/kernel/dist/ || true
+          cp -r artifacts/kafka-client-dist/* backend/shared/kafka-client/dist/ || true
+
+      - name: Install Shared Dependencies
+        run: |
+          cd backend/shared/kernel && npm ci
+          cd ../kafka-client && npm ci
+
+      - name: Install Service Dependencies
         working-directory: ./backend/services/${{ matrix.service }}
         run: npm ci
-        continue-on-error: true
-      
+
       - name: Build TypeScript
         working-directory: ./backend/services/${{ matrix.service }}
         run: npm run build
-        continue-on-error: true
 
   # ============================================
   # FRONTEND BUILD
@@ -128,27 +184,28 @@ jobs:
     strategy:
       matrix:
         app: [distributor-portal, admin-dashboard]
-    
+
     steps:
       - name: Checkout code
         uses: actions/checkout@v4
-      
+
       - name: Setup Node.js
         uses: actions/setup-node@v4
         with:
           node-version: '20'
           cache: 'npm'
           cache-dependency-path: frontend/apps/${{ matrix.app }}/package-lock.json
-      
+
       - name: Install dependencies
         working-directory: ./frontend/apps/${{ matrix.app }}
         run: npm ci
-        continue-on-error: true
-      
+
       - name: Build Next.js
         working-directory: ./frontend/apps/${{ matrix.app }}
         run: npm run build
-        continue-on-error: true
+        env:
+          NEXT_PUBLIC_API_URL: http://localhost:3001
+          NEXT_TELEMETRY_DISABLED: 1
 
   # ============================================
   # E2E TESTS
@@ -189,12 +246,40 @@ jobs:
   docker-validation:
     name: Docker Validation
     runs-on: ubuntu-latest
-    
+
     steps:
       - name: Checkout code
         uses: actions/checkout@v4
-      
+
       - name: Validate docker-compose
         working-directory: ./infrastructure/docker
         run: docker-compose config
-        continue-on-error: true
+
+  # ============================================
+  # CI SUMMARY
+  # ============================================
+  ci-summary:
+    name: CI Summary
+    runs-on: ubuntu-latest
+    needs: [lint, backend-gateway, shared-packages, backend-services, frontend, docker-validation]
+    if: always()
+
+    steps:
+      - name: Build Summary
+        run: |
+          echo "=========================================="
+          echo "CI/CD Pipeline Summary"
+          echo "=========================================="
+          echo "Lint:                  ${{ needs.lint.result }}"
+          echo "Backend Gateway:       ${{ needs.backend-gateway.result }}"
+          echo "Shared Packages:       ${{ needs.shared-packages.result }}"
+          echo "Backend Services:      ${{ needs.backend-services.result }}"
+          echo "Frontend:              ${{ needs.frontend.result }}"
+          echo "Docker Validation:     ${{ needs.docker-validation.result }}"
+          echo "=========================================="
+
+      - name: Check All Passed
+        if: contains(needs.*.result, 'failure')
+        run: |
+          echo "One or more jobs failed!"
+          exit 1

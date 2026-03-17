@@ -9,7 +9,7 @@ import {
   Minus,
   ArrowLeft,
   CreditCard,
-  BankTransfer,
+  Building2,
 } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
@@ -265,7 +265,7 @@ export default function CartPage() {
                 <SelectContent>
                   <SelectItem value="bank_transfer">
                     <div className="flex items-center gap-2">
-                      <BankTransfer className="w-4 h-4" />
+                      <Building2 className="w-4 h-4" />
                       Bank Transfer
                     </div>
                   </SelectItem>

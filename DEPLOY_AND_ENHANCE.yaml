@@ -1,0 +1,792 @@
+# =============================================================================
+# ResidentCement — Atomic Deployment & Enhancement Spec for OpenCode
+# Project: C:/Users/UCHE/my-qwen-project/PROJECTS/ResidentCement
+# Generated: 2026-03-14
+# Constraint: All work scoped to THIS project directory only
+# =============================================================================
+
+project:
+  name: ResidentCement
+  root: C:/Users/UCHE/my-qwen-project/PROJECTS/ResidentCement
+  tech: TypeScript + Node.js 20 + Next.js 15 + PostgreSQL 16 + Kafka + Redis
+  target: Docker Compose full-stack deployment
+  logo:
+    source: docs/imanges/resident_cementlogo.png
+    deployed_to: frontend/apps/distributor-portal/public/images/logo.png  # ALREADY COPIED
+    web_path: /images/logo.png   # how to reference in Next.js components
+    size: 21KB
+    description: Gold metallic camel above "RESIDENT" in dark serif, "CEMENT LIMITED" below
+
+# Brand colors extracted from logo (gold camel + dark charcoal text)
+brand:
+  gold: "#C5A55A"
+  gold_light: "#D4C08A"
+  gold_dark: "#A88B3D"
+  charcoal: "#1C1917"
+  charcoal_light: "#44403C"
+  warm_white: "#FAFAF8"
+  cement_mid: "#78716C"
+  # Current primary is green (#2d5a27) — WRONG, does not match logo
+  # Current secondary (#c4a35a) — close to gold, keep/adjust
+
+# =============================================================================
+# PHASE 0 — BUG FIXES (must complete before deployment)
+# =============================================================================
+
+fixes:
+
+  - id: FIX-01
+    title: Missing inventoryApi import in dashboard
+    severity: BLOCKER
+    file: frontend/apps/distributor-portal/src/app/page.tsx
+    problem: |
+      Line 38 calls `inventoryApi.getLowStock()` but inventoryApi is not in the
+      import statement on line 4. Build will fail.
+    fix: |
+      Add `inventoryApi` to the import on line 4:
+        import { customersApi, ordersApi, productsApi, paymentsApi, inventoryApi } from '@/lib/api';
+    verify: Build succeeds with `npm run build` in frontend/apps/distributor-portal
+
+  - id: FIX-02
+    title: Customer service Dockerfile addgroup syntax error
+    severity: BLOCKER
+    file: backend/services/customer-service/Dockerfile
+    problem: |
+      Line 24: `addgroup -system -gid 1001 nodejs` — Alpine uses double-dash flags.
+      Should be `--system` and `--gid`. Same for adduser on same line.
+    fix: |
+      Replace line 24-25 with:
+        RUN addgroup --system --gid 1001 nodejs && \
+            adduser --system --uid 1001 nodejs
+    verify: docker build succeeds for customer-service
+    note: Check ALL service Dockerfiles for the same error (order, product, inventory, payment, pricing)
+
+  - id: FIX-03
+    title: Frontend Dockerfile assumes wrong build context
+    severity: HIGH
+    file: frontend/apps/distributor-portal/Dockerfile
+    problem: |
+      The Dockerfile runs `npm run build` at /app root but copies individual
+      package.json. When docker-compose builds with context=project_root, the
+      `npm ci` at root level may not install frontend deps correctly. Also,
+      lines 23-25 copy from /app/public and /app/.next but build output is
+      actually in frontend/apps/distributor-portal/.next.
+    fix: |
+      Rewrite Dockerfile for correct monorepo build:
+
+      FROM node:20-alpine AS base
+      RUN apk add --no-cache libc6-compat
+
+      FROM base AS deps
+      WORKDIR /app/frontend/apps/distributor-portal
+      COPY frontend/apps/distributor-portal/package*.json ./
+      RUN npm ci
+
+      FROM base AS builder
+      WORKDIR /app/frontend/apps/distributor-portal
+      COPY --from=deps /app/frontend/apps/distributor-portal/node_modules ./node_modules
+      COPY frontend/apps/distributor-portal/ ./
+      ENV NEXT_TELEMETRY_DISABLED=1
+      RUN npm run build
+
+      FROM base AS runner
+      WORKDIR /app
+      ENV NODE_ENV=production
+      ENV NEXT_TELEMETRY_DISABLED=1
+      RUN addgroup --system --gid 1001 nodejs && \
+          adduser --system --uid 1001 nextjs
+      COPY --from=builder /app/frontend/apps/distributor-portal/public ./public
+      COPY --from=builder --chown=nextjs:nodejs /app/frontend/apps/distributor-portal/.next/standalone ./
+      COPY --from=builder --chown=nextjs:nodejs /app/frontend/apps/distributor-portal/.next/static ./.next/static
+      USER nextjs
+      EXPOSE 3000
+      ENV PORT=3000
+      ENV HOSTNAME="0.0.0.0"
+      CMD ["node", "server.js"]
+
+    verify: |
+      1. next.config must have `output: "standalone"` for standalone mode
+      2. docker build succeeds
+      3. Container serves pages on :3000
+
+  - id: FIX-04
+    title: Ensure next.config has standalone output
+    severity: HIGH
+    file: frontend/apps/distributor-portal/next.config.ts
+    problem: |
+      The frontend Dockerfile copies .next/standalone, but Next.js only
+      generates this when output is set to "standalone" in next.config.
+    fix: |
+      In next.config.ts (or .js), ensure:
+        const nextConfig = {
+          output: "standalone",
+          // ... other config
+        };
+    verify: npm run build produces .next/standalone/
+
+  - id: FIX-05
+    title: ".env" with real secrets committed to git
+    severity: CRITICAL-SECURITY
+    file: .env
+    problem: |
+      Root .env contains real DB passwords, JWT secrets, API keys and is
+      tracked by git. Anyone with repo access has full credentials.
+    fix: |
+      1. Add .env to .gitignore (verify it's not already excluded by a
+         pattern that's being overridden)
+      2. Run: git rm --cached .env
+      3. Also check: backend/services/*/  for any tracked .env or .env.bak
+      4. Rotate ALL secrets in .env after removal (they are now compromised)
+      5. Leave .env.example as-is (safe template)
+    verify: |
+      git ls-files | grep '\.env' should return ONLY .env.example files
+    note: Do NOT delete .env — just untrack it. The file is needed for local dev.
+
+# =============================================================================
+# PHASE 1 — BRAND THEME (align frontend with logo)
+# =============================================================================
+
+branding:
+
+  - id: BRAND-01
+    title: Update Tailwind brand colors to match logo
+    file: frontend/apps/distributor-portal/tailwind.config.ts
+    problem: |
+      Current primary is #2d5a27 (forest green). The logo uses gold camel +
+      dark charcoal text. No green anywhere in the brand identity.
+    fix: |
+      Replace the `brand` object in theme.extend.colors:
+        brand: {
+          primary: "#1C1917",       // charcoal from logo text
+          primaryLight: "#44403C",
+          primaryDark: "#0C0A09",
+          secondary: "#C5A55A",     // gold from camel
+          secondaryLight: "#D4C08A",
+          secondaryDark: "#A88B3D",
+          accent: "#B8963E",        // deep gold accent
+          gold: "#C5A55A",          // explicit gold alias
+          success: "#22c55e",
+          warning: "#f59e0b",
+          error: "#ef4444",
+          info: "#3b82f6",
+        },
+
+  - id: BRAND-02
+    title: Update CSS custom properties to gold/charcoal theme
+    file: frontend/apps/distributor-portal/src/app/globals.css
+    problem: |
+      CSS vars use default shadcn blue theme (#221.2 83.2% 53.3%). Does not
+      match brand.
+    fix: |
+      Replace :root CSS variables:
+        :root {
+          --background: 40 20% 99%;          /* warm white */
+          --foreground: 24 10% 10%;           /* charcoal */
+          --card: 0 0% 100%;
+          --card-foreground: 24 10% 10%;
+          --popover: 0 0% 100%;
+          --popover-foreground: 24 10% 10%;
+          --primary: 40 38% 56%;              /* gold #C5A55A */
+          --primary-foreground: 0 0% 100%;    /* white on gold */
+          --secondary: 24 6% 96%;
+          --secondary-foreground: 24 10% 10%;
+          --muted: 24 6% 96%;
+          --muted-foreground: 24 5% 45%;
+          --accent: 40 48% 48%;               /* deep gold */
+          --accent-foreground: 0 0% 100%;
+          --destructive: 0 84% 60%;
+          --destructive-foreground: 0 0% 100%;
+          --border: 24 6% 90%;
+          --input: 24 6% 90%;
+          --ring: 40 38% 56%;                 /* gold ring */
+          --radius: 0.5rem;
+        }
+      Also update .dark variant with darker gold/charcoal tones.
+
+  - id: BRAND-03
+    title: Update layout metadata and add logo as favicon
+    file: frontend/apps/distributor-portal/src/app/layout.tsx
+    logo_file: frontend/apps/distributor-portal/public/images/logo.png  # ALREADY IN PLACE
+    fix: |
+      1. Update metadata:
+           export const metadata: Metadata = {
+             title: 'Resident Cement Limited — Distributor Portal',
+             description: 'Nigeria\'s trusted cement distribution and management platform',
+             keywords: ['cement', 'distribution', 'enterprise', 'Nigeria', 'Resident Cement'],
+             icons: { icon: '/images/logo.png' },
+           };
+      2. Add Playfair Display font for headings (serif, matches logo style):
+           import { Inter, Playfair_Display } from 'next/font/google';
+           const playfair = Playfair_Display({ subsets: ['latin'], variable: '--font-playfair' });
+         Update body class: `${inter.className} ${playfair.variable}`
+      3. The logo is already at public/images/logo.png — Next.js serves it at /images/logo.png
+
+  - id: BRAND-04
+    title: Update dashboard header with logo image
+    file: frontend/apps/distributor-portal/src/app/page.tsx
+    logo_file: frontend/apps/distributor-portal/public/images/logo.png  # ALREADY IN PLACE
+    fix: |
+      1. Replace the plain text header (line 50):
+           OLD:  <h1 className="text-2xl font-bold text-foreground">ResidentCement</h1>
+                 <p className="text-sm text-muted-foreground">Distributor Portal</p>
+           NEW:  <div className="flex items-center gap-3">
+                   <img src="/images/logo.png" alt="Resident Cement Limited" className="h-10 w-auto" />
+                   <div>
+                     <h1 className="text-xl font-bold text-brand-primary font-display">Distributor Portal</h1>
+                   </div>
+                 </div>
+      2. Gold-accented header border:
+           <header className="border-b-2 border-brand-gold/40 bg-white shadow-sm">
+      3. Gold hover on nav links:
+           className="text-sm font-medium text-cement-600 hover:text-brand-gold transition-colors"
+      4. Also add the logo to the login page (app/login/page.tsx) and
+         register page (app/register/page.tsx) as the primary branding element:
+           <img src="/images/logo.png" alt="Resident Cement Limited" className="h-16 mx-auto mb-6" />
+
+# =============================================================================
+# PHASE 2 — DOCKER DEPLOYMENT (full stack)
+# =============================================================================
+
+docker:
+
+  - id: DOCKER-01
+    title: Create production docker-compose.prod.yml
+    file: docker-compose.prod.yml (NEW)
+    problem: |
+      The existing docker-compose.yml only runs the gateway + infrastructure.
+      Missing: frontend, all 6 microservices, Nginx reverse proxy,
+      Prisma migration init step.
+    fix: |
+      Create docker-compose.prod.yml with ALL services. Structure:
+
+      services:
+        # --- REVERSE PROXY ---
+        nginx:
+          image: nginx:1.25-alpine
+          container_name: rc-nginx
+          ports:
+            - "80:80"
+            - "443:443"
+          volumes:
+            - ./infrastructure/docker/nginx/nginx.conf:/etc/nginx/nginx.conf:ro
+            - ./infrastructure/docker/nginx/conf.d:/etc/nginx/conf.d:ro
+          depends_on:
+            - frontend
+            - gateway
+          networks:
+            - resident-cement-network
+          restart: unless-stopped
+
+        # --- FRONTEND ---
+        frontend:
+          build:
+            context: .
+            dockerfile: frontend/apps/distributor-portal/Dockerfile
+          container_name: rc-frontend
+          environment:
+            NEXT_PUBLIC_API_URL: http://gateway:3001
+          depends_on:
+            gateway:
+              condition: service_healthy
+          networks:
+            - resident-cement-network
+          restart: unless-stopped
+
+        # --- API GATEWAY ---
+        gateway:
+          build:
+            context: .
+            dockerfile: Dockerfile
+          container_name: rc-gateway
+          environment:
+            NODE_ENV: production
+            PORT: "3001"
+            DATABASE_URL: postgresql://${DB_USER}:${DB_PASSWORD}@postgres:5432/${DB_NAME}
+            MONGODB_URI: mongodb://${MONGO_USER}:${MONGO_PASSWORD}@mongodb:27017/${MONGO_DB}?authSource=admin
+            REDIS_URL: redis://:${REDIS_PASSWORD}@redis:6379
+            KAFKA_BROKERS: kafka:29092
+            JWT_SECRET: ${JWT_SECRET}
+            CORS_ORIGIN: http://localhost,http://frontend:3000
+          depends_on:
+            postgres:
+              condition: service_healthy
+            redis:
+              condition: service_healthy
+            kafka:
+              condition: service_healthy
+            db-migrate:
+              condition: service_completed_successfully
+          networks:
+            - resident-cement-network
+          restart: unless-stopped
+          healthcheck:
+            test: ["CMD", "curl", "-sf", "http://localhost:3001/health"]
+            interval: 30s
+            timeout: 5s
+            retries: 5
+            start_period: 30s
+
+        # --- DATABASE MIGRATION (init container) ---
+        db-migrate:
+          build:
+            context: .
+            dockerfile: Dockerfile
+          container_name: rc-db-migrate
+          command: >
+            sh -c "npx prisma migrate deploy && npx prisma db seed || true"
+          environment:
+            DATABASE_URL: postgresql://${DB_USER}:${DB_PASSWORD}@postgres:5432/${DB_NAME}
+          depends_on:
+            postgres:
+              condition: service_healthy
+          networks:
+            - resident-cement-network
+          restart: "no"
+
+        # --- MICROSERVICES ---
+        # (customer-service, order-service, product-service,
+        #  inventory-service, payment-service, pricing-service)
+        # Each builds from its own Dockerfile, connects to same DB + Kafka.
+        # Port mapping: only internal Docker network, not exposed to host.
+        customer-service:
+          build:
+            context: backend/services/customer-service
+          container_name: rc-customer-svc
+          environment:
+            NODE_ENV: production
+            PORT: "3002"
+            DATABASE_URL: postgresql://${DB_USER}:${DB_PASSWORD}@postgres:5432/${DB_NAME}
+            KAFKA_BROKERS: kafka:29092
+            REDIS_URL: redis://:${REDIS_PASSWORD}@redis:6379
+          depends_on:
+            db-migrate:
+              condition: service_completed_successfully
+          networks:
+            - resident-cement-network
+          restart: unless-stopped
+
+        order-service:
+          build:
+            context: backend/services/order-service
+          container_name: rc-order-svc
+          environment:
+            NODE_ENV: production
+            PORT: "3007"
+            DATABASE_URL: postgresql://${DB_USER}:${DB_PASSWORD}@postgres:5432/${DB_NAME}
+            KAFKA_BROKERS: kafka:29092
+            REDIS_URL: redis://:${REDIS_PASSWORD}@redis:6379
+          depends_on:
+            db-migrate:
+              condition: service_completed_successfully
+          networks:
+            - resident-cement-network
+          restart: unless-stopped
+
+        product-service:
+          build:
+            context: backend/services/product-service
+          container_name: rc-product-svc
+          environment:
+            NODE_ENV: production
+            PORT: "3006"
+            DATABASE_URL: postgresql://${DB_USER}:${DB_PASSWORD}@postgres:5432/${DB_NAME}
+            KAFKA_BROKERS: kafka:29092
+          depends_on:
+            db-migrate:
+              condition: service_completed_successfully
+          networks:
+            - resident-cement-network
+          restart: unless-stopped
+
+        inventory-service:
+          build:
+            context: backend/services/inventory-service
+          container_name: rc-inventory-svc
+          environment:
+            NODE_ENV: production
+            PORT: "3003"
+            DATABASE_URL: postgresql://${DB_USER}:${DB_PASSWORD}@postgres:5432/${DB_NAME}
+            KAFKA_BROKERS: kafka:29092
+            REDIS_URL: redis://:${REDIS_PASSWORD}@redis:6379
+          depends_on:
+            db-migrate:
+              condition: service_completed_successfully
+          networks:
+            - resident-cement-network
+          restart: unless-stopped
+
+        payment-service:
+          build:
+            context: backend/services/payment-service
+          container_name: rc-payment-svc
+          environment:
+            NODE_ENV: production
+            PORT: "3005"
+            DATABASE_URL: postgresql://${DB_USER}:${DB_PASSWORD}@postgres:5432/${DB_NAME}
+            KAFKA_BROKERS: kafka:29092
+            PAYSTACK_SECRET_KEY: ${PAYSTACK_SECRET_KEY:-}
+          depends_on:
+            db-migrate:
+              condition: service_completed_successfully
+          networks:
+            - resident-cement-network
+          restart: unless-stopped
+
+        pricing-service:
+          build:
+            context: backend/services/pricing-service
+          container_name: rc-pricing-svc
+          environment:
+            NODE_ENV: production
+            PORT: "3004"
+            DATABASE_URL: postgresql://${DB_USER}:${DB_PASSWORD}@postgres:5432/${DB_NAME}
+            KAFKA_BROKERS: kafka:29092
+            REDIS_URL: redis://:${REDIS_PASSWORD}@redis:6379
+          depends_on:
+            db-migrate:
+              condition: service_completed_successfully
+          networks:
+            - resident-cement-network
+          restart: unless-stopped
+
+        # --- INFRASTRUCTURE (same as existing, keep as-is) ---
+        postgres:    # (copy from existing docker-compose.yml)
+        mongodb:     # (copy from existing)
+        redis:       # (copy from existing)
+        zookeeper:   # (copy from existing)
+        kafka:       # (copy from existing)
+        minio:       # (copy from existing)
+
+      networks:
+        resident-cement-network:
+          driver: bridge
+
+      volumes:
+        postgres_data:
+        mongodb_data:
+        redis_data:
+        kafka_data:
+        minio_data:
+
+  - id: DOCKER-02
+    title: Create Nginx reverse proxy config
+    file: infrastructure/docker/nginx/conf.d/default.conf (NEW)
+    fix: |
+      Create Nginx config that:
+      - Routes / to frontend:3000 (Next.js app)
+      - Routes /api/ to gateway:3001 (API Gateway)
+      - Routes /api-docs to gateway:3001 (Swagger)
+      - Routes /health to gateway:3001
+      - Serves static assets with cache headers
+      - Sets proxy headers (X-Real-IP, X-Forwarded-For, Host)
+      - WebSocket upgrade support for real-time features
+
+      server {
+          listen 80;
+          server_name _;
+
+          # API Gateway
+          location /api/ {
+              proxy_pass http://gateway:3001;
+              proxy_set_header Host $host;
+              proxy_set_header X-Real-IP $remote_addr;
+              proxy_set_header X-Forwarded-For $proxy_add_x_forwarded_for;
+              proxy_set_header X-Forwarded-Proto $scheme;
+          }
+
+          location /api-docs {
+              proxy_pass http://gateway:3001;
+              proxy_set_header Host $host;
+          }
+
+          location /health {
+              proxy_pass http://gateway:3001;
+          }
+
+          # WebSocket support
+          location /ws {
+              proxy_pass http://gateway:3001;
+              proxy_http_version 1.1;
+              proxy_set_header Upgrade $http_upgrade;
+              proxy_set_header Connection "upgrade";
+          }
+
+          # Frontend (Next.js)
+          location / {
+              proxy_pass http://frontend:3000;
+              proxy_set_header Host $host;
+              proxy_set_header X-Real-IP $remote_addr;
+              proxy_set_header X-Forwarded-For $proxy_add_x_forwarded_for;
+              proxy_http_version 1.1;
+              proxy_set_header Upgrade $http_upgrade;
+              proxy_set_header Connection "upgrade";
+          }
+      }
+
+  - id: DOCKER-03
+    title: Create Nginx main config
+    file: infrastructure/docker/nginx/nginx.conf (NEW)
+    fix: |
+      Create minimal nginx.conf:
+        worker_processes auto;
+        events { worker_connections 1024; }
+        http {
+            include /etc/nginx/mime.types;
+            default_type application/octet-stream;
+            sendfile on;
+            keepalive_timeout 65;
+            client_max_body_size 50M;
+            gzip on;
+            gzip_types text/plain text/css application/json application/javascript;
+            include /etc/nginx/conf.d/*.conf;
+        }
+
+  - id: DOCKER-04
+    title: Create .env.docker template
+    file: .env.docker (NEW)
+    problem: |
+      Need a clean env file for Docker deployment without exposing the
+      development secrets.
+    fix: |
+      Create .env.docker with placeholder values and instructions:
+        # ResidentCement Docker Deployment Environment
+        # Copy to .env and fill in real values before running docker compose
+
+        # PostgreSQL
+        DB_USER=resident_cement
+        DB_PASSWORD=CHANGE_ME_STRONG_PASSWORD
+        DB_NAME=resident_cement
+
+        # MongoDB
+        MONGO_USER=resident_cement
+        MONGO_PASSWORD=CHANGE_ME_STRONG_PASSWORD
+        MONGO_DB=resident_cement
+
+        # Redis
+        REDIS_PASSWORD=CHANGE_ME_STRONG_PASSWORD
+
+        # JWT (generate with: openssl rand -base64 48)
+        JWT_SECRET=CHANGE_ME_GENERATE_WITH_OPENSSL
+
+        # API Key
+        API_KEY=CHANGE_ME_GENERATE_WITH_OPENSSL
+
+        # Keycloak
+        KEYCLOAK_ADMIN=admin
+        KEYCLOAK_PASSWORD=CHANGE_ME
+
+        # MinIO
+        MINIO_USER=minio_admin
+        MINIO_PASSWORD=CHANGE_ME
+
+        # Payment (optional)
+        PAYSTACK_SECRET_KEY=
+
+# =============================================================================
+# PHASE 3 — ENHANCEMENTS
+# =============================================================================
+
+enhancements:
+
+  - id: ENH-01
+    title: Real-time order status via WebSocket
+    priority: P1
+    problem: |
+      Dashboard shows order data via polling (React Query refetch). For a
+      cement distribution platform, real-time order tracking is critical —
+      distributors need instant updates when orders move through
+      PENDING -> CONFIRMED -> PROCESSING -> DISPATCHED -> DELIVERED.
+    files:
+      - backend/gateway/src/index.ts
+      - frontend/apps/distributor-portal/src/app/page.tsx
+      - frontend/apps/distributor-portal/src/lib/websocket.ts (NEW)
+    fix: |
+      1. Add WebSocket support to the gateway using `ws` package:
+         - Install: npm i ws @types/ws
+         - In index.ts, after creating the HTTP server:
+           const wss = new WebSocketServer({ server, path: '/ws' });
+         - On Kafka consumer events (ORDER_STATUS_CHANGED, INVENTORY_LOW),
+           broadcast to connected WebSocket clients
+         - Authenticate WS connections via JWT in query param
+
+      2. Create frontend/src/lib/websocket.ts:
+         - Connect to ws://gateway/ws?token=JWT
+         - Export useOrderUpdates() hook that listens for order events
+         - Export useLowStockAlerts() hook for inventory alerts
+         - Auto-reconnect on disconnect
+
+      3. Update dashboard page.tsx:
+         - Use useOrderUpdates() to show live order status changes
+         - Use useLowStockAlerts() for real-time low stock notifications
+         - Show a live indicator dot in the header when WS is connected
+    acceptance: |
+      When an order status changes via API, the dashboard updates within 1s
+      without manual page refresh.
+
+  - id: ENH-02
+    title: Kafka consumer in gateway for event-driven updates
+    priority: P1
+    problem: |
+      Gateway has Kafka producer (publishes events) but no consumer.
+      Microservices publish events (CUSTOMER_CREATED, ORDER_UPDATED, etc.)
+      but nothing aggregates them for the frontend.
+    files:
+      - backend/gateway/src/lib/kafka.ts
+      - backend/gateway/src/index.ts
+    fix: |
+      1. In kafka.ts, add a consumer that subscribes to topics:
+         - resident-cement.orders (order lifecycle events)
+         - resident-cement.inventory (stock changes, low stock alerts)
+         - resident-cement.payments (payment confirmations)
+      2. On consuming an event, broadcast via WebSocket (from ENH-01)
+      3. Optionally cache latest state in Redis for fast dashboard loads
+    acceptance: |
+      Kafka consumer connects on startup, processes events, and forwards
+      to WebSocket clients.
+
+  - id: ENH-03
+    title: Add health checks for all microservices in docker-compose
+    priority: P1
+    problem: |
+      Only gateway and infrastructure services have health checks in
+      docker-compose. Microservices don't, so Docker can't determine
+      if they're truly ready.
+    fix: |
+      Add to each microservice in docker-compose.prod.yml:
+        healthcheck:
+          test: ["CMD", "curl", "-sf", "http://localhost:${PORT}/health"]
+          interval: 30s
+          timeout: 5s
+          retries: 3
+          start_period: 20s
+      Also add `curl` to each service Dockerfile:
+        RUN apk add --no-cache curl
+    acceptance: |
+      `docker compose ps` shows all services as "healthy"
+
+  - id: ENH-04
+    title: Logo asset placement (DONE) + additional logo usage
+    priority: P2
+    status: LOGO ALREADY COPIED
+    files:
+      - docs/imanges/resident_cementlogo.png               # source (21KB)
+      - frontend/apps/distributor-portal/public/images/logo.png  # destination (ALREADY IN PLACE)
+    fix: |
+      Logo is already copied to public/images/logo.png. Remaining work:
+      1. Reference in all page headers, login, register screens (see BRAND-04)
+      2. Add to Swagger/API docs page title if applicable
+      3. Add as Open Graph image in layout.tsx metadata:
+           openGraph: {
+             title: 'Resident Cement Limited',
+             description: 'Enterprise cement distribution platform',
+             images: [{ url: '/images/logo.png', width: 400, height: 200 }],
+           }
+      4. If a favicon.ico is needed, generate one from the logo PNG using
+         any PNG-to-ICO tool (32x32 crop of the camel portion).
+    note: The source folder is misspelled "imanges" — do NOT rename it.
+
+  - id: ENH-05
+    title: Add Prisma migration to gateway Dockerfile
+    priority: P1
+    file: Dockerfile
+    problem: |
+      The Dockerfile builds the gateway but doesn't include Prisma migration
+      files needed by the db-migrate init container.
+    fix: |
+      Ensure the Prisma migrations directory is copied in the runtime stage:
+        COPY --from=gateway-build --chown=nodejs:nodejs /build/backend/gateway/prisma ./prisma
+      This is already done (line 60), but verify that `prisma/migrations/`
+      is included and not excluded by .dockerignore.
+    verify: |
+      Check .dockerignore does NOT exclude prisma/migrations
+
+  - id: ENH-06
+    title: Frontend API URL for Docker networking
+    priority: P1
+    file: frontend/apps/distributor-portal/src/lib/api.ts
+    problem: |
+      API_URL defaults to http://localhost:3001 which won't work inside Docker.
+      In Docker, the browser still makes requests from the user's machine, so
+      the URL needs to be the Nginx-proxied /api path, not a direct container URL.
+    fix: |
+      Change the API base URL logic:
+        const API_URL = process.env.NEXT_PUBLIC_API_URL || '/api/v1';
+      And update the api.create baseURL accordingly:
+        const api = axios.create({
+          baseURL: process.env.NEXT_PUBLIC_API_URL || '',
+        });
+      This way, in production behind Nginx, requests go to /api/v1/*
+      which Nginx proxies to the gateway. In development, set
+      NEXT_PUBLIC_API_URL=http://localhost:3001 in .env.local.
+    acceptance: |
+      Frontend makes API calls to relative /api/v1/* paths in production,
+      which Nginx correctly proxies to the gateway.
+
+# =============================================================================
+# DEPLOYMENT SEQUENCE (run in this exact order)
+# =============================================================================
+
+deployment_sequence:
+  step_1:
+    name: Apply all PHASE 0 fixes
+    commands:
+      - "# Fix FIX-01 through FIX-05 as described above"
+      - "# Verify each fix individually"
+
+  step_2:
+    name: Apply PHASE 1 brand theme
+    commands:
+      - "# Apply BRAND-01 through BRAND-04"
+      - "cd frontend/apps/distributor-portal && npm run build"
+
+  step_3:
+    name: Create Docker deployment files
+    commands:
+      - "# Create docker-compose.prod.yml (DOCKER-01)"
+      - "# Create Nginx configs (DOCKER-02, DOCKER-03)"
+      - "# Create .env.docker (DOCKER-04)"
+
+  step_4:
+    name: Apply enhancements
+    commands:
+      - "# Apply ENH-01 through ENH-06"
+      - "# Test locally first"
+
+  step_5:
+    name: Build and deploy
+    commands:
+      - "cp .env.docker .env  # then fill in real values"
+      - "docker compose -f docker-compose.prod.yml build --no-cache"
+      - "docker compose -f docker-compose.prod.yml up -d postgres redis zookeeper kafka mongodb minio"
+      - "# Wait 30s for infra to be healthy"
+      - "docker compose -f docker-compose.prod.yml up -d db-migrate"
+      - "# Wait for migration to complete"
+      - "docker compose -f docker-compose.prod.yml up -d"
+      - "docker compose -f docker-compose.prod.yml ps"
+      - "# Verify: curl http://localhost/health"
+      - "# Verify: open http://localhost in browser"
+
+  step_6:
+    name: Post-deployment verification
+    commands:
+      - "docker compose -f docker-compose.prod.yml ps  # all healthy"
+      - "curl -s http://localhost/health | jq ."
+      - "curl -s http://localhost/api/v1/products | jq ."
+      - "# Open http://localhost — should show branded portal with gold theme"
+      - "docker compose -f docker-compose.prod.yml logs --tail=50 gateway"
+
+# =============================================================================
+# CONSTRAINTS
+# =============================================================================
+
+constraints:
+  - All work scoped to C:/Users/UCHE/my-qwen-project/PROJECTS/ResidentCement
+  - Do NOT modify any other project (MagaBetOS, FarawaAgents, politica, etc.)
+  - Use `py` not `python3` for any Python commands (Windows)
+  - Zero external API keys required for deployment
+  - Keep existing docker-compose.yml intact (development env) — create new prod file
+  - Do not delete .env — only untrack from git
+  - Brand theme must use gold (#C5A55A) + charcoal (#1C1917) from logo
+  - All Docker images must use node:20-alpine base
+  - All containers must run as non-root user
+  - All services must have health checks

@@ -1,0 +1,228 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Resident Cement - Login</title>
+    <style>
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, sans-serif;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            min-height: 100vh;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            padding: 20px;
+        }
+        .login-container {
+            background: white;
+            border-radius: 16px;
+            box-shadow: 0 20px 60px rgba(0,0,0,0.3);
+            padding: 40px;
+            width: 100%;
+            max-width: 400px;
+        }
+        .logo {
+            text-align: center;
+            margin-bottom: 30px;
+        }
+        .logo h1 {
+            color: #1a1a2e;
+            font-size: 28px;
+            font-weight: 700;
+            margin-top: 10px;
+        }
+        .logo-icon {
+            width: 60px;
+            height: 60px;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            border-radius: 12px;
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            color: white;
+            font-size: 24px;
+            font-weight: bold;
+        }
+        .subtitle {
+            color: #666;
+            text-align: center;
+            margin-bottom: 30px;
+        }
+        .form-group {
+            margin-bottom: 20px;
+        }
+        label {
+            display: block;
+            margin-bottom: 8px;
+            color: #333;
+            font-weight: 500;
+        }
+        input {
+            width: 100%;
+            padding: 14px 16px;
+            border: 2px solid #e1e1e1;
+            border-radius: 8px;
+            font-size: 16px;
+            transition: border-color 0.3s;
+        }
+        input:focus {
+            outline: none;
+            border-color: #667eea;
+        }
+        .btn {
+            width: 100%;
+            padding: 14px;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            border: none;
+            border-radius: 8px;
+            font-size: 16px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: transform 0.2s, box-shadow 0.2s;
+        }
+        .btn:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 10px 30px rgba(102, 126, 234, 0.4);
+        }
+        .btn:disabled {
+            opacity: 0.7;
+            cursor: not-allowed;
+            transform: none;
+        }
+        .alert {
+            padding: 12px 16px;
+            border-radius: 8px;
+            margin-bottom: 20px;
+            display: none;
+        }
+        .alert-error {
+            background: #fee;
+            color: #c00;
+            border: 1px solid #fcc;
+        }
+        .alert-success {
+            background: #efe;
+            color: #060;
+            border: 1px solid #cfc;
+        }
+        .links {
+            margin-top: 20px;
+            text-align: center;
+        }
+        .links a {
+            color: #667eea;
+            text-decoration: none;
+        }
+        .links a:hover {
+            text-decoration: underline;
+        }
+        .system-status {
+            margin-top: 30px;
+            padding: 15px;
+            background: #f8f9fa;
+            border-radius: 8px;
+            font-size: 14px;
+        }
+        .status-item {
+            display: flex;
+            justify-content: space-between;
+            padding: 5px 0;
+        }
+        .status-ok { color: #060; }
+        .status-error { color: #c00; }
+    </style>
+</head>
+<body>
+    <div class="login-container">
+        <div class="logo">
+            <div class="logo-icon">RC</div>
+            <h1>Resident Cement</h1>
+        </div>
+        <p class="subtitle">Sign in to your distributor account</p>
+        
+        <div id="alert" class="alert"></div>
+        
+        <form id="loginForm">
+            <div class="form-group">
+                <label for="email">Email Address</label>
+                <input type="email" id="email" name="email" placeholder="name@company.com" required>
+            </div>
+            <div class="form-group">
+                <label for="password">Password</label>
+                <input type="password" id="password" name="password" placeholder="Enter your password" required>
+            </div>
+            <button type="submit" class="btn" id="submitBtn">Sign In</button>
+        </form>
+        
+        <div class="links">
+            <a href="/forgot-password">Forgot password?</a>
+        </div>
+        
+        <div class="system-status">
+            <strong>System Status:</strong>
+            <div class="status-item">
+                <span>API Gateway</span>
+                <span id="gateway-status" class="status-ok">● Online</span>
+            </div>
+            <div class="status-item">
+                <span>Database</span>
+                <span id="db-status" class="status-ok">● Connected</span>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        // Check API health on load
+        async function checkHealth() {
+            try {
+                const response = await fetch('http://localhost:8080/health');
+                const data = await response.json();
+                document.getElementById('gateway-status').textContent = data.status === 'healthy' ? '● Online' : '● ' + data.status;
+                document.getElementById('gateway-status').className = data.status === 'healthy' ? 'status-ok' : 'status-error';
+            } catch (e) {
+                document.getElementById('gateway-status').textContent = '● Offline';
+                document.getElementById('gateway-status').className = 'status-error';
+            }
+        }
+        checkHealth();
+
+        // Handle form submission
+        document.getElementById('loginForm').addEventListener('submit', async function(e) {
+            e.preventDefault();
+            const btn = document.getElementById('submitBtn');
+            const alert = document.getElementById('alert');
+            const email = document.getElementById('email').value;
+            const password = document.getElementById('password').value;
+            
+            btn.disabled = true;
+            btn.textContent = 'Signing in...';
+            
+            try {
+                // Demo login - in production this would call the API
+                await new Promise(resolve => setTimeout(resolve, 1000));
+                
+                // Store auth token (demo)
+                localStorage.setItem('auth_token', 'demo_token_' + Date.now());
+                localStorage.setItem('user_email', email);
+                
+                alert.className = 'alert alert-success';
+                alert.textContent = 'Login successful! Redirecting...';
+                alert.style.display = 'block';
+                
+                setTimeout(() => {
+                    window.location.href = '/dashboard';
+                }, 1000);
+            } catch (error) {
+                alert.className = 'alert alert-error';
+                alert.textContent = 'Invalid email or password. Please try again.';
+                alert.style.display = 'block';
+                btn.disabled = false;
+                btn.textContent = 'Sign In';
+            }
+        });
+    </script>
+</body>
+</html>

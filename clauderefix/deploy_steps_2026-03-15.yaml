@@ -1,0 +1,714 @@
+# =============================================================================
+# ResidentCement — Atomic Deployment Fix Steps for OpenCode/Qwen
+# Project: C:/Users/UCHE/my-qwen-project/PROJECTS/ResidentCement
+# Generated: 2026-03-15
+# Constraint: All work scoped to THIS project directory only
+# Rule: ONE task per step. NO compound commands.
+# =============================================================================
+
+project:
+  name: ResidentCement
+  root: C:/Users/UCHE/my-qwen-project/PROJECTS/ResidentCement
+  tech: TypeScript + Node.js 20 + Express + Prisma + Next.js 15
+  infrastructure: PostgreSQL 16 + MongoDB 7 + Redis 7 + Kafka + MinIO + Keycloak
+  target: docker-compose.prod.yml full-stack deployment
+  current_state: |
+    Infrastructure containers (postgres, mongo, redis, kafka, zookeeper, keycloak, minio, kafka-ui)
+    are already running via dev docker-compose.yml. Gateway code is built. Frontend code exists.
+    6 microservices implemented. But docker-compose.prod.yml has multiple blockers preventing
+    the full stack from starting.
+
+# =============================================================================
+# FINDINGS SUMMARY
+# =============================================================================
+
+findings:
+  critical:
+    - "Microservice build contexts in docker-compose.prod.yml are WRONG — services use local context but Dockerfiles need root context"
+    - "Nginx conf.d/ directory is EMPTY — no routing rules, Nginx serves nothing"
+    - "Gateway missing INVENTORY_SERVICE_URL, PAYMENT_SERVICE_URL, PRICING_SERVICE_URL env vars in compose"
+  high:
+    - "Microservice health checks use curl but alpine/bullseye-slim images don't have curl installed"
+    - ".dockerignore excludes backend/services/*/package-lock.json (minor — npm install used, not npm ci)"
+    - "customer-service has no package-lock.json (uses npm install, so not blocked)"
+    - "Multiple Dockerfile variants per service (Dockerfile, Dockerfile.prod, Dockerfile.fixed) — confusing"
+  medium:
+    - "Gateway handles customer/order/product routes directly via Prisma — separate microservice containers for those are unused"
+    - "events/ service has no Dockerfile and is not in docker-compose"
+    - ".env has real secrets (already flagged in DEPLOY_AND_ENHANCE.yaml)"
+    - "Duplicate next.config.js AND next.config.ts in frontend (both have standalone output)"
+  info:
+    - "Prisma migrations exist (20260311092506_init) — db-migrate container should work"
+    - "Frontend api.ts already uses relative /api/v1/* paths — correct for Nginx proxy"
+    - "next.config already has output: standalone — correct for Docker"
+    - "inventoryApi import already fixed in frontend page.tsx"
+    - "DEPLOY_AND_ENHANCE.yaml already documents many of these fixes — some were applied, some not"
+
+# =============================================================================
+# BLOCK A — FIX MICROSERVICE BUILD CONTEXTS IN DOCKER-COMPOSE.PROD.YML
+# Severity: CRITICAL — All 6 microservice containers will fail to build
+# =============================================================================
+
+block_a_build_contexts:
+
+  - id: A1
+    title: "Change customer-service build to use root context + Dockerfile.prod"
+    severity: CRITICAL
+    file: docker-compose.prod.yml
+    action: |
+      Find the customer-service build block:
+        customer-service:
+          build:
+            context: backend/services/customer-service
+      Replace with:
+        customer-service:
+          build:
+            context: .
+            dockerfile: backend/services/customer-service/Dockerfile.prod
+    reason: |
+      Dockerfile.prod copies from backend/shared/kernel which only exists
+      relative to project root, not relative to the service directory.
+
+  - id: A2
+    title: "Change order-service build to use root context + Dockerfile.prod"
+    severity: CRITICAL
+    file: docker-compose.prod.yml
+    action: |
+      Find the order-service build block:
+        order-service:
+          build:
+            context: backend/services/order-service
+      Replace with:
+        order-service:
+          build:
+            context: .
+            dockerfile: backend/services/order-service/Dockerfile.prod
+    reason: Same as A1.
+
+  - id: A3
+    title: "Change product-service build to use root context + Dockerfile.prod"
+    severity: CRITICAL
+    file: docker-compose.prod.yml
+    action: |
+      Find the product-service build block:
+        product-service:
+          build:
+            context: backend/services/product-service
+      Replace with:
+        product-service:
+          build:
+            context: .
+            dockerfile: backend/services/product-service/Dockerfile.prod
+    reason: Same as A1.
+
+  - id: A4
+    title: "Change inventory-service build to use root context + Dockerfile.prod"
+    severity: CRITICAL
+    file: docker-compose.prod.yml
+    action: |
+      Find the inventory-service build block:
+        inventory-service:
+          build:
+            context: backend/services/inventory-service
+      Replace with:
+        inventory-service:
+          build:
+            context: .
+            dockerfile: backend/services/inventory-service/Dockerfile.prod
+    reason: |
+      The current local-context Dockerfile does NOT include the shared kernel.
+      If any service code imports from @resident-cement/kernel, it will fail
+      at runtime. The .prod Dockerfile handles this correctly.
+
+  - id: A5
+    title: "Change payment-service build to use root context + Dockerfile.prod"
+    severity: CRITICAL
+    file: docker-compose.prod.yml
+    action: |
+      Find the payment-service build block:
+        payment-service:
+          build:
+            context: backend/services/payment-service
+      Replace with:
+        payment-service:
+          build:
+            context: .
+            dockerfile: backend/services/payment-service/Dockerfile.prod
+    reason: Same as A4.
+
+  - id: A6
+    title: "Change pricing-service build to use root context + Dockerfile.prod"
+    severity: CRITICAL
+    file: docker-compose.prod.yml
+    action: |
+      Find the pricing-service build block:
+        pricing-service:
+          build:
+            context: backend/services/pricing-service
+      Replace with:
+        pricing-service:
+          build:
+            context: .
+            dockerfile: backend/services/pricing-service/Dockerfile.prod
+    reason: Same as A4.
+
+# =============================================================================
+# BLOCK B — CREATE NGINX REVERSE PROXY CONFIG
+# Severity: CRITICAL — Nginx starts but serves nothing
+# =============================================================================
+
+block_b_nginx:
+
+  - id: B1
+    title: "Create nginx conf.d directory"
+    severity: CRITICAL
+    action: |
+      Create directory:
+        infrastructure/docker/nginx/conf.d/
+    note: The parent directory infrastructure/docker/nginx/ already exists (has nginx.conf).
+
+  - id: B2
+    title: "Create nginx default.conf with routing rules"
+    severity: CRITICAL
+    file: infrastructure/docker/nginx/conf.d/default.conf
+    action: |
+      Create NEW file with this exact content:
+
+      server {
+          listen 80;
+          server_name _;
+
+          # API Gateway — all /api/ requests
+          location /api/ {
+              proxy_pass http://gateway:3001;
+              proxy_set_header Host $host;
+              proxy_set_header X-Real-IP $remote_addr;
+              proxy_set_header X-Forwarded-For $proxy_add_x_forwarded_for;
+              proxy_set_header X-Forwarded-Proto $scheme;
+              proxy_read_timeout 60s;
+              proxy_send_timeout 60s;
+          }
+
+          # Swagger docs
+          location /api-docs {
+              proxy_pass http://gateway:3001;
+              proxy_set_header Host $host;
+          }
+
+          # Health check passthrough
+          location /health {
+              proxy_pass http://gateway:3001;
+          }
+
+          # WebSocket support
+          location /ws {
+              proxy_pass http://gateway:3001;
+              proxy_http_version 1.1;
+              proxy_set_header Upgrade $http_upgrade;
+              proxy_set_header Connection "upgrade";
+              proxy_set_header Host $host;
+          }
+
+          # Frontend (Next.js) — everything else
+          location / {
+              proxy_pass http://frontend:3000;
+              proxy_set_header Host $host;
+              proxy_set_header X-Real-IP $remote_addr;
+              proxy_set_header X-Forwarded-For $proxy_add_x_forwarded_for;
+              proxy_http_version 1.1;
+              proxy_set_header Upgrade $http_upgrade;
+              proxy_set_header Connection "upgrade";
+          }
+      }
+    reason: |
+      docker-compose.prod.yml mounts this directory into nginx but it's empty.
+      Without routing rules, nginx returns default page or 404.
+
+# =============================================================================
+# BLOCK C — ADD MISSING GATEWAY ENVIRONMENT VARIABLES
+# Severity: CRITICAL — Gateway cannot reach microservices in Docker
+# =============================================================================
+
+block_c_gateway_env:
+
+  - id: C1
+    title: "Add INVENTORY_SERVICE_URL to gateway in docker-compose.prod.yml"
+    severity: CRITICAL
+    file: docker-compose.prod.yml
+    action: |
+      In the gateway service environment block, add this line:
+        INVENTORY_SERVICE_URL: http://inventory-service:3003
+    reason: |
+      backend/gateway/src/routes/inventory.ts defaults to http://localhost:3003
+      which is unreachable in Docker networking. Must use Docker service name.
+
+  - id: C2
+    title: "Add PAYMENT_SERVICE_URL to gateway in docker-compose.prod.yml"
+    severity: CRITICAL
+    file: docker-compose.prod.yml
+    action: |
+      In the gateway service environment block, add this line:
+        PAYMENT_SERVICE_URL: http://payment-service:3005
+    reason: |
+      backend/gateway/src/routes/payment.ts defaults to http://localhost:3005.
+
+  - id: C3
+    title: "Add PRICING_SERVICE_URL to gateway in docker-compose.prod.yml"
+    severity: CRITICAL
+    file: docker-compose.prod.yml
+    action: |
+      In the gateway service environment block, add this line:
+        PRICING_SERVICE_URL: http://pricing-service:3004
+    reason: |
+      backend/gateway/src/routes/pricing.ts defaults to http://localhost:3004.
+
+# =============================================================================
+# BLOCK D — INSTALL CURL IN MICROSERVICE DOCKERFILES FOR HEALTH CHECKS
+# Severity: HIGH — Health checks will fail, containers marked unhealthy
+# =============================================================================
+
+block_d_health_curl:
+
+  - id: D1
+    title: "Add curl to customer-service Dockerfile.prod"
+    severity: HIGH
+    file: backend/services/customer-service/Dockerfile.prod
+    action: |
+      Change line 3 from:
+        RUN apt-get update && apt-get install -y --no-install-recommends libssl1.1 && rm -rf /var/lib/apt/lists/*
+      To:
+        RUN apt-get update && apt-get install -y --no-install-recommends libssl1.1 curl && rm -rf /var/lib/apt/lists/*
+    reason: docker-compose.prod.yml health check uses curl.
+
+  - id: D2
+    title: "Add curl to order-service Dockerfile.prod"
+    severity: HIGH
+    file: backend/services/order-service/Dockerfile.prod
+    action: |
+      Change line 3 from:
+        RUN apt-get update && apt-get install -y --no-install-recommends libssl1.1 && rm -rf /var/lib/apt/lists/*
+      To:
+        RUN apt-get update && apt-get install -y --no-install-recommends libssl1.1 curl && rm -rf /var/lib/apt/lists/*
+
+  - id: D3
+    title: "Add curl to product-service Dockerfile.prod"
+    severity: HIGH
+    file: backend/services/product-service/Dockerfile.prod
+    action: |
+      Change line 3 from:
+        RUN apt-get update && apt-get install -y --no-install-recommends libssl1.1 && rm -rf /var/lib/apt/lists/*
+      To:
+        RUN apt-get update && apt-get install -y --no-install-recommends libssl1.1 curl && rm -rf /var/lib/apt/lists/*
+
+  - id: D4
+    title: "Add curl to inventory-service Dockerfile.prod"
+    severity: HIGH
+    file: backend/services/inventory-service/Dockerfile.prod
+    action: |
+      Change line 3 from:
+        RUN apt-get update && apt-get install -y --no-install-recommends libssl1.1 && rm -rf /var/lib/apt/lists/*
+      To:
+        RUN apt-get update && apt-get install -y --no-install-recommends libssl1.1 curl && rm -rf /var/lib/apt/lists/*
+
+  - id: D5
+    title: "Add curl to payment-service Dockerfile.prod"
+    severity: HIGH
+    file: backend/services/payment-service/Dockerfile.prod
+    action: |
+      Change line 3 from:
+        RUN apt-get update && apt-get install -y --no-install-recommends libssl1.1 && rm -rf /var/lib/apt/lists/*
+      To:
+        RUN apt-get update && apt-get install -y --no-install-recommends libssl1.1 curl && rm -rf /var/lib/apt/lists/*
+
+  - id: D6
+    title: "Add curl to pricing-service Dockerfile.prod"
+    severity: HIGH
+    file: backend/services/pricing-service/Dockerfile.prod
+    action: |
+      Change line 3 from:
+        RUN apt-get update && apt-get install -y --no-install-recommends libssl1.1 && rm -rf /var/lib/apt/lists/*
+      To:
+        RUN apt-get update && apt-get install -y --no-install-recommends libssl1.1 curl && rm -rf /var/lib/apt/lists/*
+
+# =============================================================================
+# BLOCK E — FIX .DOCKERIGNORE FOR ROOT-CONTEXT BUILDS
+# Severity: HIGH — Service lockfiles excluded (minor), but ensure correctness
+# =============================================================================
+
+block_e_dockerignore:
+
+  - id: E1
+    title: "Add package-lock.json whitelist for microservices to .dockerignore"
+    severity: HIGH
+    file: .dockerignore
+    action: |
+      After the line:
+        !backend/services/*/package.json
+      Add this new line:
+        !backend/services/*/package-lock.json
+    reason: |
+      When building microservices with root context (Dockerfile.prod),
+      npm install works without lockfile but having it ensures reproducible builds.
+
+  - id: E2
+    title: "Add Prisma seed files whitelist to .dockerignore"
+    severity: MEDIUM
+    file: .dockerignore
+    action: |
+      After the line:
+        !backend/gateway/tsconfig.json
+      Add these two lines:
+        !backend/gateway/prisma/seed.ts
+        !backend/gateway/prisma/seed.js
+    reason: |
+      The db-migrate container runs `npx prisma db seed || true`.
+      Without the seed files, seeding silently fails (acceptable but not ideal).
+
+# =============================================================================
+# BLOCK F — FIX DB-MIGRATE COMMAND
+# Severity: HIGH — Migration may fail silently
+# =============================================================================
+
+block_f_db_migrate:
+
+  - id: F1
+    title: "Update db-migrate command to use correct working directory"
+    severity: HIGH
+    file: docker-compose.prod.yml
+    action: |
+      The db-migrate service builds from the root Dockerfile (gateway).
+      That image sets WORKDIR /app. Prisma files are at /app/prisma.
+      Verify the command references the right path:
+        command: >
+          sh -c "npx prisma migrate deploy && npx prisma db seed || true"
+      This should work because the gateway Dockerfile copies prisma/ to /app/prisma.
+      No change needed — just verify by reading the gateway Dockerfile.
+    verify: |
+      The root Dockerfile line 60: COPY --from=gateway-build ... /build/backend/gateway/prisma ./prisma
+      Confirms prisma dir is at /app/prisma. Prisma CLI auto-detects it.
+    note: This is a VERIFY step, not a change. If prisma is not at /app/prisma, fix the Dockerfile.
+
+# =============================================================================
+# BLOCK G — ALSO ADD GATEWAY ENV VARS TO DEV DOCKER-COMPOSE.YML
+# Severity: MEDIUM — Dev compose gateway can't reach services either
+# =============================================================================
+
+block_g_dev_compose:
+
+  - id: G1
+    title: "Add INVENTORY_SERVICE_URL to gateway in docker-compose.yml (dev)"
+    severity: MEDIUM
+    file: docker-compose.yml
+    action: |
+      In the gateway service environment block, add:
+        INVENTORY_SERVICE_URL: http://inventory-service:3003
+    note: |
+      Dev compose currently only runs gateway + infra. Once microservices
+      are added (or tested separately), this will be needed.
+
+  - id: G2
+    title: "Add PAYMENT_SERVICE_URL to gateway in docker-compose.yml (dev)"
+    severity: MEDIUM
+    file: docker-compose.yml
+    action: |
+      In the gateway service environment block, add:
+        PAYMENT_SERVICE_URL: http://payment-service:3005
+
+  - id: G3
+    title: "Add PRICING_SERVICE_URL to gateway in docker-compose.yml (dev)"
+    severity: MEDIUM
+    file: docker-compose.yml
+    action: |
+      In the gateway service environment block, add:
+        PRICING_SERVICE_URL: http://pricing-service:3004
+
+# =============================================================================
+# BLOCK H — CLEANUP DUPLICATE/CONFLICTING FILES
+# Severity: LOW — Not blocking but reduces confusion
+# =============================================================================
+
+block_h_cleanup:
+
+  - id: H1
+    title: "Remove duplicate next.config.js (next.config.ts takes precedence)"
+    severity: LOW
+    file: frontend/apps/distributor-portal/next.config.js
+    action: |
+      Delete this file:
+        frontend/apps/distributor-portal/next.config.js
+    reason: |
+      Both next.config.js and next.config.ts exist with output: "standalone".
+      Next.js uses .ts if both exist, but having both is confusing.
+      Verify next.config.ts has all needed config before deleting .js.
+
+  - id: H2
+    title: "Remove duplicate tailwind.config.js (tailwind.config.ts takes precedence)"
+    severity: LOW
+    file: frontend/apps/distributor-portal/tailwind.config.js
+    action: |
+      Delete this file:
+        frontend/apps/distributor-portal/tailwind.config.js
+    reason: Same as H1 — TypeScript version takes precedence.
+
+  - id: H3
+    title: "Remove customer-service/Dockerfile.fixed (use Dockerfile.prod)"
+    severity: LOW
+    file: backend/services/customer-service/Dockerfile.fixed
+    action: |
+      Delete this file:
+        backend/services/customer-service/Dockerfile.fixed
+    reason: |
+      There are now THREE Dockerfiles for customer-service:
+      Dockerfile, Dockerfile.fixed, Dockerfile.prod.
+      After this fix plan, only Dockerfile.prod is used for deployment.
+
+  - id: H4
+    title: "Remove .env.bak files from all services"
+    severity: LOW
+    action: |
+      Delete these files:
+        backend/services/customer-service/.env.bak
+        backend/services/inventory-service/.env.bak
+        backend/services/pricing-service/.env.bak
+        backend/services/payment-service/.env.bak
+        backend/services/product-service/.env.bak
+        backend/services/order-service/.env.bak
+        backend/gateway/.env.bak
+        backend/gateway/.env.example.bak
+      Also delete these .env.example.bak files:
+        backend/services/customer-service/.env.example.bak
+        backend/services/product-service/.env.example.bak
+        backend/services/order-service/.env.example.bak
+        backend/services/payment-service/.env.example.bak
+        backend/services/inventory-service/.env.example.bak
+        backend/services/pricing-service/.env.example.bak
+    reason: Backup files that add noise.
+    note: Delete ONE file at a time.
+
+# =============================================================================
+# BLOCK I — FRONTEND BUILD VERIFICATION
+# Severity: MEDIUM — May already work, needs verification
+# =============================================================================
+
+block_i_frontend:
+
+  - id: I1
+    title: "Verify next.config.ts has output: standalone"
+    severity: MEDIUM
+    file: frontend/apps/distributor-portal/next.config.ts
+    action: |
+      Read the file and confirm it contains:
+        output: "standalone",
+      If missing, add it to the nextConfig object.
+    status: ALREADY_DONE (confirmed via grep)
+
+  - id: I2
+    title: "Verify frontend Dockerfile uses correct multi-stage build"
+    severity: MEDIUM
+    file: frontend/apps/distributor-portal/Dockerfile
+    action: |
+      Read the file and confirm it:
+        1. Uses root build context (COPY frontend/apps/distributor-portal/...)
+        2. Runs npm ci (not npm install) for reproducible builds
+        3. Copies .next/standalone in the runner stage
+        4. Sets HOSTNAME="0.0.0.0"
+        5. Runs node server.js (not next start)
+    status: ALREADY_DONE (confirmed — Dockerfile is correct)
+
+  - id: I3
+    title: "Verify frontend API calls use relative paths"
+    severity: MEDIUM
+    file: frontend/apps/distributor-portal/src/lib/api.ts
+    action: |
+      Read the file and confirm:
+        const API_URL = process.env.NEXT_PUBLIC_API_URL || '';
+      API calls like api.post('/api/v1/auth/login') use relative paths.
+      Behind Nginx, these resolve to http://nginx/api/v1/auth/login
+      which proxies to http://gateway:3001/api/v1/auth/login.
+    status: ALREADY_DONE (confirmed)
+
+# =============================================================================
+# DEPLOYMENT SEQUENCE — Run AFTER all fixes above are applied
+# =============================================================================
+
+deployment:
+
+  - id: DEPLOY-01
+    title: "Stop any existing containers from dev compose"
+    command: |
+      cd C:/Users/UCHE/my-qwen-project/PROJECTS/ResidentCement
+      docker compose down
+
+  - id: DEPLOY-02
+    title: "Verify .env file exists at project root with real values"
+    command: |
+      cd C:/Users/UCHE/my-qwen-project/PROJECTS/ResidentCement
+      cat .env | head -5
+    expected: Should show DB_USER, DB_PASSWORD etc. with real values (not CHANGE_ME).
+    note: .env already has real values from development. No change needed.
+
+  - id: DEPLOY-03
+    title: "Build all images using production compose"
+    command: |
+      cd C:/Users/UCHE/my-qwen-project/PROJECTS/ResidentCement
+      docker compose -f docker-compose.prod.yml build --no-cache
+    timeout: 15 minutes (builds 9 images)
+
+  - id: DEPLOY-04
+    title: "Start infrastructure services first"
+    command: |
+      cd C:/Users/UCHE/my-qwen-project/PROJECTS/ResidentCement
+      docker compose -f docker-compose.prod.yml up -d postgres redis zookeeper mongodb minio
+
+  - id: DEPLOY-05
+    title: "Wait for postgres to be healthy"
+    command: |
+      cd C:/Users/UCHE/my-qwen-project/PROJECTS/ResidentCement
+      docker compose -f docker-compose.prod.yml ps postgres
+    expected: "healthy" in output. Retry after 10 seconds if not ready.
+
+  - id: DEPLOY-06
+    title: "Start Kafka (depends on zookeeper being healthy)"
+    command: |
+      cd C:/Users/UCHE/my-qwen-project/PROJECTS/ResidentCement
+      docker compose -f docker-compose.prod.yml up -d kafka
+
+  - id: DEPLOY-07
+    title: "Wait for Kafka to be healthy"
+    command: |
+      cd C:/Users/UCHE/my-qwen-project/PROJECTS/ResidentCement
+      docker compose -f docker-compose.prod.yml ps kafka
+    expected: "healthy" in output. May take 40+ seconds.
+
+  - id: DEPLOY-08
+    title: "Run database migrations"
+    command: |
+      cd C:/Users/UCHE/my-qwen-project/PROJECTS/ResidentCement
+      docker compose -f docker-compose.prod.yml up db-migrate
+    expected: |
+      Should show prisma migrate deploy output:
+        "1 migration found in prisma/migrations"
+        "1 migration applied"
+      Then seed script runs (may show "|| true" if no seed data).
+
+  - id: DEPLOY-09
+    title: "Start the gateway"
+    command: |
+      cd C:/Users/UCHE/my-qwen-project/PROJECTS/ResidentCement
+      docker compose -f docker-compose.prod.yml up -d gateway
+
+  - id: DEPLOY-10
+    title: "Wait for gateway health check"
+    command: |
+      cd C:/Users/UCHE/my-qwen-project/PROJECTS/ResidentCement
+      docker compose -f docker-compose.prod.yml ps gateway
+    expected: "healthy" in output. start_period is 30s.
+
+  - id: DEPLOY-11
+    title: "Start all microservices"
+    command: |
+      cd C:/Users/UCHE/my-qwen-project/PROJECTS/ResidentCement
+      docker compose -f docker-compose.prod.yml up -d customer-service order-service product-service inventory-service payment-service pricing-service
+
+  - id: DEPLOY-12
+    title: "Start the frontend"
+    command: |
+      cd C:/Users/UCHE/my-qwen-project/PROJECTS/ResidentCement
+      docker compose -f docker-compose.prod.yml up -d frontend
+
+  - id: DEPLOY-13
+    title: "Wait for frontend health check"
+    command: |
+      cd C:/Users/UCHE/my-qwen-project/PROJECTS/ResidentCement
+      docker compose -f docker-compose.prod.yml ps frontend
+    expected: "healthy" in output.
+
+  - id: DEPLOY-14
+    title: "Start Nginx reverse proxy"
+    command: |
+      cd C:/Users/UCHE/my-qwen-project/PROJECTS/ResidentCement
+      docker compose -f docker-compose.prod.yml up -d nginx
+
+  - id: DEPLOY-15
+    title: "Verify all containers are running"
+    command: |
+      cd C:/Users/UCHE/my-qwen-project/PROJECTS/ResidentCement
+      docker compose -f docker-compose.prod.yml ps
+    expected: All services show "Up" or "healthy".
+
+  - id: DEPLOY-16
+    title: "Test gateway health endpoint through Nginx"
+    command: |
+      curl -s http://localhost/health
+    expected: JSON response with status "ok" or similar.
+
+  - id: DEPLOY-17
+    title: "Test API endpoint through Nginx"
+    command: |
+      curl -s http://localhost/api/v1/products
+    expected: JSON response (may be empty array if no seed data).
+
+  - id: DEPLOY-18
+    title: "Open frontend in browser"
+    command: |
+      Open http://localhost in browser
+    expected: |
+      Should show the ResidentCement Distributor Portal with gold/charcoal branding
+      (if BRAND changes from DEPLOY_AND_ENHANCE.yaml were applied) or default theme.
+
+# =============================================================================
+# ARCHITECTURE NOTE — Gateway vs Microservices
+# =============================================================================
+
+architecture_note: |
+  IMPORTANT: The gateway handles customer, order, and product routes DIRECTLY
+  via Prisma (not proxying to microservices). The separate customer-service,
+  order-service, and product-service containers exist as independent REST APIs
+  but the gateway does NOT route to them.
+
+  Only these microservices are actually called by the gateway:
+    - inventory-service (via INVENTORY_SERVICE_URL)
+    - payment-service (via PAYMENT_SERVICE_URL)
+    - pricing-service (via PRICING_SERVICE_URL)
+
+  The customer, order, and product microservice containers will start and listen
+  on their ports, but receive no traffic from the gateway. This is not a bug — it's
+  an architectural pattern where the gateway owns some domains directly and delegates
+  others to microservices. In a future iteration, you may want to migrate all direct
+  Prisma routes to their respective microservices.
+
+# =============================================================================
+# QUICK REFERENCE — FULL docker-compose.prod.yml AFTER ALL FIXES
+# =============================================================================
+
+reference_compose_changes: |
+  After applying blocks A-G, the key changes to docker-compose.prod.yml are:
+
+  1. gateway.environment gains 3 new lines:
+       INVENTORY_SERVICE_URL: http://inventory-service:3003
+       PAYMENT_SERVICE_URL: http://payment-service:3005
+       PRICING_SERVICE_URL: http://pricing-service:3004
+
+  2. ALL 6 microservices change from:
+       build:
+         context: backend/services/<name>
+     To:
+       build:
+         context: .
+         dockerfile: backend/services/<name>/Dockerfile.prod
+
+  That's it. Two types of changes. Everything else was already correct.
+
+# =============================================================================
+# CONSTRAINTS
+# =============================================================================
+
+constraints:
+  - All work scoped to C:/Users/UCHE/my-qwen-project/PROJECTS/ResidentCement
+  - Do NOT modify any other project directory
+  - Use `py` not `python3` for any Python commands (Windows)
+  - ONE task per step — no compound commands
+  - Test after each block before moving to the next
+  - The .env file has real secrets — do not log or print them
+  - Keep existing docker-compose.yml (dev) intact
+  - All production deployment uses docker-compose.prod.yml

@@ -1,58 +1,71 @@
-version: '3.9'
-
-# ResidentCement - Board Ready MVP
-# Audit Session: forensics1032026
-# Security Hardened Configuration
+# ResidentCement - Docker Compose (Development)
+# Usage: docker compose up --build -d
 
 services:
-  # ============================================================================
-  # RESIDENTCEMENT APPLICATION (MVP)
-  # ============================================================================
-  residentcement:
-    image: residentcement:board-ready
-    container_name: residentcement
+  # === APPLICATION ===
+  gateway:
     build:
       context: .
       dockerfile: Dockerfile
+    container_name: residentcement-gateway
     ports:
       - "8080:3001"
     environment:
-      - NODE_ENV=production
-      - ENV=board-demo
-      - DEMO_MODE=true
-      # Database connections (use existing infrastructure)
-      - DATABASE_URL=postgresql://resident_cement:${DB_PASSWORD:-REDACTED_MVP}@postgres:5432/resident_cement
-      - MONGODB_URI=mongodb://resident_cement:${MONGO_PASSWORD:-REDACTED_MVP}@mongodb:27017/resident_cement
-      - REDIS_URL=redis://redis:6379
-      # Security (redacted for board demo)
-      - JWT_SECRET=${JWT_SECRET:-REDACTED_MVP}
-      - API_KEY=${API_KEY:-REDACTED_MVP}
+      NODE_ENV: production
+      PORT: "3001"
+      LOG_LEVEL: ${LOG_LEVEL:-info}
+      # Database
+      DATABASE_URL: postgresql://${DB_USER:-resident_cement}:${DB_PASSWORD}@postgres:5432/${DB_NAME:-resident_cement}
+      # MongoDB
+      MONGODB_URI: mongodb://${MONGO_USER:-resident_cement}:${MONGO_PASSWORD}@mongodb:27017/${MONGO_DB:-resident_cement}?authSource=admin
+      # Redis
+      REDIS_HOST: redis
+      REDIS_PORT: "6379"
+      REDIS_PASSWORD: ${REDIS_PASSWORD:-}
+      REDIS_URL: redis://:${REDIS_PASSWORD:-}@redis:6379
+      # Kafka
+      KAFKA_BROKERS: kafka:29092
+      # Security
+      JWT_SECRET: ${JWT_SECRET}
+      API_KEY: ${API_KEY:-}
+      # Microservice URLs
+      INVENTORY_SERVICE_URL: http://inventory-service:3003
+      PAYMENT_SERVICE_URL: http://payment-service:3005
+      PRICING_SERVICE_URL: http://pricing-service:3004
+      # CORS
+      CORS_ORIGIN: http://localhost:3000
+      # Keycloak
+      KEYCLOAK_URL: http://keycloak:8080
+      # MinIO
+      MINIO_ENDPOINT: minio
+      MINIO_PORT: "9000"
     depends_on:
-      - postgres
-      - mongodb
-      - redis
-    networks:
-      - resident-cement-network
+      postgres:
+        condition: service_healthy
+      mongodb:
+        condition: service_started
+      redis:
+        condition: service_healthy
+      kafka:
+        condition: service_healthy
     restart: unless-stopped
     healthcheck:
-      test: ["CMD", "wget", "--no-verbose", "--tries=1", "--spider", "http://localhost:3001/health"]
+      test: ["CMD", "curl", "-sf", "http://localhost:3001/health"]
       interval: 30s
-      timeout: 3s
-      retries: 3
-      start_period: 10s
+      timeout: 5s
+      retries: 5
+      start_period: 30s
+    networks:
+      - resident-cement-network
 
-  # ============================================================================
-  # INFRASTRUCTURE SERVICES
-  # ============================================================================
-  
-  # PostgreSQL (Primary Database)
+  # === INFRASTRUCTURE ===
   postgres:
     image: postgres:16-alpine
-    container_name: resident-cement-postgres
+    container_name: residentcement-postgres
     environment:
-      POSTGRES_USER: resident_cement
-      POSTGRES_PASSWORD: ${DB_PASSWORD:-REDACTED_MVP}
-      POSTGRES_DB: resident_cement
+      POSTGRES_USER: ${DB_USER:-resident_cement}
+      POSTGRES_PASSWORD: ${DB_PASSWORD}
+      POSTGRES_DB: ${DB_NAME:-resident_cement}
     ports:
       - "5432:5432"
     volumes:
@@ -61,18 +74,18 @@ services:
       - resident-cement-network
     restart: unless-stopped
     healthcheck:
-      test: ["CMD-SHELL", "pg_isready -U resident_cement"]
+      test: ["CMD-SHELL", "pg_isready -U ${DB_USER:-resident_cement}"]
       interval: 10s
       timeout: 5s
       retries: 5
 
-  # MongoDB (Document Store)
   mongodb:
     image: mongo:7.0
-    container_name: resident-cement-mongo
+    container_name: residentcement-mongo
     environment:
-      MONGO_INITDB_ROOT_USERNAME: resident_cement
-      MONGO_INITDB_ROOT_PASSWORD: ${MONGO_PASSWORD:-REDACTED_MVP}
+      MONGO_INITDB_ROOT_USERNAME: ${MONGO_USER:-resident_cement}
+      MONGO_INITDB_ROOT_PASSWORD: ${MONGO_PASSWORD}
+      MONGO_INITDB_DATABASE: ${MONGO_DB:-resident_cement}
     ports:
       - "27017:27017"
     volumes:
@@ -80,75 +93,81 @@ services:
     networks:
       - resident-cement-network
     restart: unless-stopped
+    healthcheck:
+      test: ["CMD", "mongosh", "--eval", "db.adminCommand('ping')"]
+      interval: 10s
+      timeout: 5s
+      retries: 5
 
-  # Redis (Cache & Session Store)
   redis:
     image: redis:7-alpine
-    container_name: resident-cement-redis
+    container_name: residentcement-redis
+    command: redis-server --appendonly yes --requirepass ${REDIS_PASSWORD:-changeme}
     ports:
       - "6379:6379"
     volumes:
       - redis_data:/data
-    command: redis-server --appendonly yes
     networks:
       - resident-cement-network
     restart: unless-stopped
+    healthcheck:
+      test: ["CMD", "redis-cli", "-a", "${REDIS_PASSWORD:-changeme}", "ping"]
+      interval: 10s
+      timeout: 3s
+      retries: 3
 
-  # Kafka & Zookeeper (Event Bus)
   zookeeper:
     image: confluentinc/cp-zookeeper:7.5.0
-    container_name: resident-cement-zookeeper
+    container_name: residentcement-zookeeper
     environment:
-      ZOOKEEPER_CLIENT_PORT: 2181
-      ZOOKEEPER_TICK_TIME: 2000
+      ZOOKEEPER_CLIENT_PORT: "2181"
+      ZOOKEEPER_TICK_TIME: "2000"
     networks:
       - resident-cement-network
     restart: unless-stopped
+    healthcheck:
+      test: ["CMD-SHELL", "curl -sf http://localhost:8080/commands/ruok || exit 1"]
+      interval: 10s
+      timeout: 5s
+      retries: 5
+      start_period: 30s
 
   kafka:
     image: confluentinc/cp-kafka:7.5.0
-    container_name: resident-cement-kafka
+    container_name: residentcement-kafka
     depends_on:
-      - zookeeper
+      zookeeper:
+        condition: service_healthy
     ports:
       - "9092:9092"
       - "29092:29092"
     environment:
-      KAFKA_BROKER_ID: 1
+      KAFKA_BROKER_ID: "1"
       KAFKA_ZOOKEEPER_CONNECT: zookeeper:2181
       KAFKA_ADVERTISED_LISTENERS: PLAINTEXT://kafka:29092,PLAINTEXT_HOST://localhost:9092
       KAFKA_LISTENER_SECURITY_PROTOCOL_MAP: PLAINTEXT:PLAINTEXT,PLAINTEXT_HOST:PLAINTEXT
       KAFKA_INTER_BROKER_LISTENER_NAME: PLAINTEXT
       KAFKA_AUTO_CREATE_TOPICS_ENABLE: "true"
+      KAFKA_OFFSETS_TOPIC_REPLICATION_FACTOR: "1"
     volumes:
       - kafka_data:/var/lib/kafka/data
     networks:
       - resident-cement-network
     restart: unless-stopped
+    healthcheck:
+      test: ["CMD-SHELL", "kafka-broker-api-versions --bootstrap-server kafka:29092"]
+      interval: 30s
+      timeout: 10s
+      retries: 5
+      start_period: 40s
 
-  # Kafka UI
-  kafka-ui:
-    image: provectuslabs/kafka-ui:latest
-    container_name: resident-cement-kafka-ui
-    depends_on:
-      - kafka
-    ports:
-      - "8085:8080"
-    environment:
-      KAFKA_CLUSTERS_0_NAME: resident-cement
-      KAFKA_CLUSTERS_0_BOOTSTRAPSERVERS: kafka:29092
-    networks:
-      - resident-cement-network
-    restart: unless-stopped
-
-  # Keycloak (Identity Provider)
   keycloak:
     image: quay.io/keycloak/keycloak:23.0
-    container_name: resident-cement-keycloak
+    container_name: residentcement-keycloak
     command: start-dev
     environment:
-      KEYCLOAK_ADMIN: admin
-      KEYCLOAK_ADMIN_PASSWORD: admin_password_2026
+      KEYCLOAK_ADMIN: ${KEYCLOAK_ADMIN:-admin}
+      KEYCLOAK_ADMIN_PASSWORD: ${KEYCLOAK_PASSWORD}
       KC_DB: dev-file
     ports:
       - "8180:8080"
@@ -156,19 +175,32 @@ services:
       - resident-cement-network
     restart: unless-stopped
 
-  # MinIO (S3-compatible Object Storage)
   minio:
     image: minio/minio:latest
-    container_name: resident-cement-minio
+    container_name: residentcement-minio
     environment:
-      MINIO_ROOT_USER: minio_admin
-      MINIO_ROOT_PASSWORD: minio_password_2026
+      MINIO_ROOT_USER: ${MINIO_USER:-minio_admin}
+      MINIO_ROOT_PASSWORD: ${MINIO_PASSWORD}
     ports:
       - "9000:9000"
       - "9002:9001"
     command: server /data --console-address ":9001"
     volumes:
       - minio_data:/data
+    networks:
+      - resident-cement-network
+    restart: unless-stopped
+
+  kafka-ui:
+    image: provectuslabs/kafka-ui:latest
+    container_name: residentcement-kafka-ui
+    depends_on:
+      - kafka
+    ports:
+      - "8085:8080"
+    environment:
+      KAFKA_CLUSTERS_0_NAME: resident-cement
+      KAFKA_CLUSTERS_0_BOOTSTRAPSERVERS: kafka:29092
     networks:
       - resident-cement-network
     restart: unless-stopped

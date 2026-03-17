@@ -1,6 +1,6 @@
 {
     "name":  "resident-cement",
-    "version":  "2030.1.0",
+    "version":  "1.0.0",
     "description":  "ResidentCement Digital Ecosystem",
     "private":  true,
     "scripts":  {

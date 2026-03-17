@@ -1,0 +1,128 @@
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+model ProductionOrder {
+  id                  String   @id @default(uuid())
+  orderNumber         String   @unique
+  productId           String
+  quantity            Float
+  status              ProductionStatus @default(SCHEDULED)
+  priority            Priority @default(NORMAL)
+  scheduledDate       DateTime
+  estimatedCompletion DateTime?
+  actualCompletion    DateTime?
+  notes               String?
+  createdBy           String   @default("system")
+  createdAt           DateTime @default(now())
+  updatedAt           DateTime @updatedAt
+
+  batches Batch[]
+
+  @@index([status])
+  @@index([productId])
+  @@index([scheduledDate])
+}
+
+model Batch {
+  id              String   @id @default(uuid())
+  batchNumber     String   @unique
+  productionOrderId String
+  quantity        Float
+  actualQuantity  Float?
+  status          BatchStatus @default(IN_PROGRESS)
+  startTime       DateTime @default(now())
+  endTime         DateTime?
+  notes           String?
+  createdAt       DateTime @default(now())
+  updatedAt       DateTime @updatedAt
+
+  productionOrder ProductionOrder @relation(fields: [productionOrderId], references: [id])
+  qualityChecks   QualityCheck[]
+
+  @@index([status])
+  @@index([productionOrderId])
+}
+
+model Equipment {
+  id              String   @id @default(uuid())
+  code            String   @unique
+  name            String
+  type            EquipmentType @default(PRODUCTION)
+  status          EquipmentStatus @default(OPERATIONAL)
+  location        String?
+  capacity        Float?
+  specifications  Json?    @default("{}")
+  lastMaintenance DateTime?
+  createdAt       DateTime @default(now())
+  updatedAt       DateTime @updatedAt
+
+  @@index([status])
+  @@index([type])
+}
+
+model QualityCheck {
+  id          String   @id @default(uuid())
+  batchId     String
+  checkType   String
+  result      QualityResult @default(PENDING)
+  measurements Json?   @default("{}")
+  notes       String?
+  checkedBy   String   @default("system")
+  createdAt   DateTime @default(now())
+  updatedAt   DateTime @updatedAt
+
+  batch Batch @relation(fields: [batchId], references: [id])
+
+  @@index([batchId])
+  @@index([result])
+}
+
+enum ProductionStatus {
+  SCHEDULED
+  IN_PROGRESS
+  COMPLETED
+  CANCELLED
+  ON_HOLD
+}
+
+enum BatchStatus {
+  IN_PROGRESS
+  COMPLETED
+  QUARANTINE
+  REJECTED
+}
+
+enum Priority {
+  LOW
+  NORMAL
+  HIGH
+  URGENT
+}
+
+enum EquipmentType {
+  PRODUCTION
+  PACKAGING
+  QUALITY
+  MIXING
+  GRINDING
+}
+
+enum EquipmentStatus {
+  OPERATIONAL
+  MAINTENANCE
+  OFFLINE
+  DECOMMISSIONED
+}
+
+enum QualityResult {
+  PENDING
+  PASSED
+  FAILED
+  INCONCLUSIVE
+}

@@ -6,14 +6,11 @@ WORKDIR /app
 # Copy package files
 COPY package*.json ./
 
-# Install dependencies
-RUN npm ci
+# Install dependencies including tsx for runtime
+RUN npm install --legacy-peer-deps
 
 # Copy source code
 COPY . .
-
-# Build the service
-RUN npm run build
 
 # Production stage
 FROM node:20-alpine
@@ -21,13 +18,11 @@ FROM node:20-alpine
 WORKDIR /app
 
 # Create non-root user
-RUN addgroup -system -gid 1001 nodejs && \
-    adduser -system -uid 1001 nodejs
+RUN addgroup --system --gid 1001 nodejs && \
+    adduser --system --uid 1001 nodejs
 
-# Copy built artifacts
-COPY --from=builder /app/dist ./dist
-COPY --from=builder /app/node_modules ./node_modules
-COPY --from=builder /app/package*.json ./
+# Copy all from builder (including source for tsx)
+COPY --from=builder /app ./
 
 # Set ownership
 RUN chown -R nodejs:nodejs /app
@@ -39,4 +34,4 @@ EXPOSE 3005
 ENV NODE_ENV=production
 ENV PORT=3005
 
-CMD ["node", "dist/index.js"]
+CMD ["npx", "tsx", "src/index.ts"]

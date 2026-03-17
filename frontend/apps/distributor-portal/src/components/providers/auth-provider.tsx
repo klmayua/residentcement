@@ -47,8 +47,8 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
 
     api.setToken(token);
     try {
-      const userData = await authApi.me();
-      setUser(userData as User);
+      const response = await authApi.me();
+      setUser(response.data as User);
     } catch {
       localStorage.removeItem("auth_token");
       api.setToken(null);
@@ -63,7 +63,7 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
 
   const login = async (email: string, password: string) => {
     const response = await authApi.login(email, password);
-    api.setToken(response.token);
+    api.setToken(response.data.token);
     await fetchUser();
   };
 

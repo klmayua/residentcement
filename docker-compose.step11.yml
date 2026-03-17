@@ -1,0 +1,21 @@
+# Step 11: Pricing Service only
+services:
+  pricing-service:
+    image: residentcement-pricing-service:latest
+    container_name: residentcement-pricing-service
+    ports:
+      - "3004:3004"
+    environment:
+      NODE_ENV: production
+      PORT: "3004"
+      DATABASE_URL: postgresql://resident_cement:xMX2yhYTeTHpvTlkirvDxRKgR-YGJIXU@residentcement-postgres:5432/resident_cement
+      KAFKA_BROKERS: residentcement-kafka:29092
+      REDIS_URL: redis://:DJ4_8RisfviydJqplAX35g@residentcement-redis:6379
+    networks:
+      - resident-cement-network
+    restart: unless-stopped
+
+networks:
+  resident-cement-network:
+    external: true
+    name: residentcement_resident-cement-network

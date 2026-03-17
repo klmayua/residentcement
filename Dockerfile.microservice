@@ -1,0 +1,32 @@
+# Universal Microservice Dockerfile - ResidentCement
+# Usage: docker build --build-arg SERVICE_NAME=customer-service -f Dockerfile.microservice .
+
+FROM node:20-bullseye-slim
+
+ARG SERVICE_NAME=customer-service
+WORKDIR /app
+
+# Install OpenSSL 1.1 (available in bullseye)
+RUN apt-get update && apt-get install -y --no-install-recommends \
+    libssl1.1 \
+    ca-certificates \
+    && rm -rf /var/lib/apt/lists/*
+
+# Copy and build kernel
+COPY backend/shared/kernel ./kernel
+WORKDIR /app/kernel
+RUN npm install --legacy-peer-deps && npm run build
+
+# Copy and setup service
+WORKDIR /app
+COPY backend/services/${SERVICE_NAME} ./service
+WORKDIR /app/service
+RUN npm install --legacy-peer-deps
+RUN mkdir -p node_modules/@resident-cement && ln -sf /app/kernel node_modules/@resident-cement/kernel
+
+# Generate Prisma client (if prisma folder exists)
+RUN if [ -d "prisma" ]; then npx prisma generate; else echo "No Prisma schema"; fi
+
+EXPOSE 3002
+ENV NODE_ENV=production PORT=3002
+CMD ["npx", "tsx", "src/index.ts"]

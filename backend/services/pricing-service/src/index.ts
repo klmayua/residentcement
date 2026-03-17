@@ -10,12 +10,12 @@ import helmet from 'helmet';
 import rateLimit from 'express-rate-limit';
 import { config } from 'dotenv';
 import { v4 as uuidv4 } from 'uuid';
-import { 
+import {
   createLogger, requestIdMiddleware, requestLoggingMiddleware, errorHandler,
-  createHealthCheckService, checkMemory, NotFoundError,
+  createHealthCheckService, checkMemory, NotFoundError, ValidationError,
   createPricingRuleSchema, updatePricingRuleSchema, pricingQuerySchema,
 } from '@resident-cement/kernel';
-import { PrismaClient, PricingRuleType, PricingScope, PricingValueType } from '@prisma/client';
+import { PrismaClient } from '@prisma/client';
 import { createKafkaClient } from '@resident-cement/kafka-client';
 
 config();
@@ -133,7 +133,7 @@ pricingRouter.post('/calculate', async (req: Request, res: Response, next: NextF
           customerId ? { scope: 'CUSTOMER', scopeValue: customerId } : {},
         ].filter(Boolean),
         startDate: { lte: new Date() },
-        OR: [{ endDate: null }, { endDate: { gte: new Date() } }],
+        endDate: { gte: new Date() },
       },
       orderBy: { priority: 'desc' },
     });
@@ -203,15 +203,15 @@ pricingRouter.post('/quotes', async (req: Request, res: Response, next: NextFunc
     let subtotal = 0;
     const quoteItems = [];
 
-    for (const item of items) {
+    for (const item of items as any[]) {
       // Calculate price for each item
       const calcResponse = await fetch(`http://localhost:${PORT}/api/v1/pricing/calculate`, {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({ productId: item.productId, quantity: item.quantity, basePrice: item.unitPrice }),
       });
-      const calcData = await calcResponse.json();
-      const itemTotal = calcData.data?.finalPrice * item.quantity;
+      const calcData = await calcResponse.json() as any;
+      const itemTotal = (calcData.data?.finalPrice || 0) * item.quantity;
       subtotal += itemTotal;
 
       quoteItems.push({
@@ -250,7 +250,7 @@ pricingRouter.post('/quotes', async (req: Request, res: Response, next: NextFunc
     try { await kafkaClient.publish('quote.events', 'QUOTE_CREATED', { quoteId: quote.id, quoteNumber, total }); } catch {}
 
     requestLogger.info('Quote created', { quoteId: quote.id, quoteNumber });
-    res.status(201).json({ success: true, data: quote, meta: { requestId: req.id, timestamp: new Date().toISOString() } });
+    res.status(201).json({ success: true, data: quote, meta: { requestId: (req as any).id, timestamp: new Date().toISOString() } });
   } catch (error) { next(error); }
 });
 
@@ -289,7 +289,7 @@ pricingRouter.post('/quotes/:id/convert', async (req: Request, res: Response, ne
         shippingLga: '',
         notes: quote.notes,
         items: {
-          create: quote.items.map(item => ({
+          create: quote.items.map((item: any) => ({
             id: uuidv4(),
             productId: item.productId,
             productName: item.productName,
@@ -313,19 +313,19 @@ pricingRouter.post('/quotes/:id/convert', async (req: Request, res: Response, ne
     try { await kafkaClient.publish('quote.events', 'QUOTE_CONVERTED', { quoteId: quote.id, orderId: order.id }); } catch {}
 
     requestLogger.info('Quote converted to order', { quoteId: quote.id, orderId: order.id });
-    res.json({ success: true, data: { quote, order }, meta: { requestId: req.id, timestamp: new Date().toISOString() } });
+    res.json({ success: true, data: { quote, order }, meta: { requestId: (req as any).id, timestamp: new Date().toISOString() } });
   } catch (error) { next(error); }
 });
 
 app.use('/api/v1/pricing', pricingRouter);
 app.use('/api/v1/quotes', pricingRouter);
 app.use(errorHandler);
-app.use((req: Request, res: Response) => { res.status(404).json({ success: false, error: { code: 'NOT_FOUND', message: `Route ${req.method} ${req.path} not found`, traceId: req.id } }); });
+app.use((req: Request, res: Response) => { res.status(404).json({ success: false, error: { code: 'NOT_FOUND', message: `Route ${req.method} ${req.path} not found`, traceId: (req as any).id } }); });
 
-const gracefulShutdown = async (signal: string) => { await prisma.$disconnect(); await kafkaClient.disconnect(); process.exit(0); };
+const gracefulShutdown = async (_signal: string) => { await prisma.$disconnect(); await kafkaClient.disconnect(); process.exit(0); };
 process.on('SIGTERM', () => gracefulShutdown('SIGTERM'));
 process.on('SIGINT', () => gracefulShutdown('SIGINT'));
 
-const server = app.listen(PORT, () => { logger.info(`Pricing Service running on port ${PORT}`); logger.info(`Health: http://localhost:${PORT}/health`); });
+app.listen(PORT, () => { logger.info(`Pricing Service running on port ${PORT}`); logger.info(`Health: http://localhost:${PORT}/health`); });
 
 export default app;

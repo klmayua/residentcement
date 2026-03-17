@@ -1,0 +1,23 @@
+# Step 2: MongoDB only
+services:
+  mongodb:
+    image: mongo:7.0
+    container_name: residentcement-mongo
+    environment:
+      MONGO_INITDB_ROOT_USERNAME: resident_cement
+      MONGO_INITDB_ROOT_PASSWORD: aNIoOURofwn7khpg0r9Dgkf7TV3nf6fG
+      MONGO_INITDB_DATABASE: resident_cement
+    ports:
+      - "27017:27017"
+    volumes:
+      - mongodb_data:/data/db
+    networks:
+      - resident-cement-network
+    restart: unless-stopped
+
+networks:
+  resident-cement-network:
+    driver: bridge
+
+volumes:
+  mongodb_data:

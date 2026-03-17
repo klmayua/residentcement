@@ -41,11 +41,7 @@ export default function LoginPage() {
 
       <div className="w-full max-w-md">
         <div className="text-center mb-8">
-          <Link href="/" className="inline-flex items-center gap-3">
-            <div className="w-12 h-12 bg-brand-primary rounded-xl flex items-center justify-center">
-              <Building2 className="w-7 h-7 text-white" />
-            </div>
-          </Link>
+          <img src="/images/logo.png" alt="Resident Cement Limited" className="h-16 mx-auto mb-6" />
           <h1 className="font-display text-2xl font-bold text-cement-900 mt-6">
             Welcome Back
           </h1>

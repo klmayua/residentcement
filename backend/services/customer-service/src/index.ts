@@ -307,7 +307,7 @@ customerRouter.post('/', async (req: Request, res: Response, next: NextFunction)
 
     if (existing) {
       requestLogger.warn('Duplicate email', { email: data.email });
-      throw new ConflictError('Customer', 'email', data.email);
+      throw new ConflictError(`Customer with email ${data.email} already exists`);
     }
 
     const customer = await prisma.customer.create({
@@ -333,8 +333,8 @@ customerRouter.post('/', async (req: Request, res: Response, next: NextFunction)
         tier: customer.tier,
         createdAt: customer.createdAt,
       });
-    } catch (kafkaError) {
-      requestLogger.warn('Failed to publish CUSTOMER_CREATED event', kafkaError);
+    } catch (kafkaError: any) {
+      requestLogger.warn('Failed to publish CUSTOMER_CREATED event', { error: kafkaError.message });
     }
 
     requestLogger.info('Customer created', { customerId: customer.id, email: customer.email });
@@ -381,7 +381,7 @@ customerRouter.patch('/:id', async (req: Request, res: Response, next: NextFunct
 
       if (duplicate) {
         requestLogger.warn('Duplicate email on update', { email: data.email });
-        throw new ConflictError('Customer', 'email', data.email);
+        throw new ConflictError(`Customer with email ${data.email} already exists`);
       }
     }
 
@@ -403,8 +403,8 @@ customerRouter.patch('/:id', async (req: Request, res: Response, next: NextFunct
         updatedAt: customer.updatedAt,
         changes: Object.keys(data),
       });
-    } catch (kafkaError) {
-      requestLogger.warn('Failed to publish CUSTOMER_UPDATED event', kafkaError);
+    } catch (kafkaError: any) {
+      requestLogger.warn('Failed to publish CUSTOMER_UPDATED event', { error: kafkaError.message });
     }
 
     requestLogger.info('Customer updated', { customerId: customer.id });
@@ -478,8 +478,8 @@ customerRouter.delete('/:id', async (req: Request, res: Response, next: NextFunc
         name: customer.name,
         deactivatedAt: customer.deactivatedAt,
       });
-    } catch (kafkaError) {
-      requestLogger.warn('Failed to publish CUSTOMER_DELETED event', kafkaError);
+    } catch (kafkaError: any) {
+      requestLogger.warn('Failed to publish CUSTOMER_DELETED event', { error: kafkaError.message });
     }
 
     requestLogger.info('Customer deactivated', { customerId: customer.id });
@@ -533,12 +533,12 @@ customerRouter.get('/:id/credit-status', async (req: Request, res: Response, nex
     });
 
     const totalOrders = orders
-      .filter(o => o.status !== 'CANCELLED')
-      .reduce((sum, o) => sum + o.total.toNumber(), 0);
+      .filter((o: any) => o.status !== 'CANCELLED')
+      .reduce((sum: number, o: any) => sum + o.total.toNumber(), 0);
 
     const totalPayments = payments
-      .filter(p => p.status === 'COMPLETED')
-      .reduce((sum, p) => sum + p.amount.toNumber(), 0);
+      .filter((p: any) => p.status === 'COMPLETED')
+      .reduce((sum: number, p: any) => sum + p.amount.toNumber(), 0);
 
     const outstandingBalance = totalOrders - totalPayments;
     const availableCredit = customer.creditLimit.toNumber() - outstandingBalance;

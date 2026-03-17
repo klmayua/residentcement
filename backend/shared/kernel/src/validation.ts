@@ -119,9 +119,11 @@ export const createCustomerSchema = z.object({
   city: z.string().max(100).optional().nullable(),
   state: z.string().max(100).optional().nullable(),
   lga: z.string().max(100).optional().nullable(),
+  country: z.string().max(100).optional().default('Nigeria'),
   tier: customerTierSchema.optional().default('STANDARD'),
   creditLimit: z.number().nonnegative().optional().default(0),
   contactPerson: z.string().max(200).optional().nullable(),
+  status: customerStatusSchema.optional().default('PROSPECT'),
 });
 
 export const updateCustomerSchema = createCustomerSchema.partial();
@@ -287,6 +289,7 @@ export const paymentStatusSchema = z.enum([
 ]);
 
 export const initiatePaymentSchema = z.object({
+  customerId: uuidSchema,
   orderId: uuidSchema.optional(),
   amount: z.number().positive(),
   currency: z.string().length(3).default('NGN'),
@@ -323,6 +326,7 @@ export const updateInventorySchema = z.object({
 
 export const reserveInventorySchema = z.object({
   productId: uuidSchema,
+  warehouseId: uuidSchema,
   quantity: z.number().int().positive(),
   orderId: uuidSchema.optional(),
 });

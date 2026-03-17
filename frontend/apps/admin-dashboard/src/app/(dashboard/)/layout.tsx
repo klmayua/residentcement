@@ -12,6 +12,7 @@ const navigation = [
   { name: "Customers", href: "/customers", icon: "Users" },
   { name: "Orders", href: "/orders", icon: "ShoppingCart" },
   { name: "Products", href: "/products", icon: "Package" },
+  { name: "Inventory", href: "/inventory", icon: "Warehouse" },
   { name: "Payments", href: "/payments", icon: "DollarSign" },
 ];
 
@@ -20,6 +21,7 @@ const icons: Record<string, any> = {
   Users: require("lucide-react").Users,
   ShoppingCart: require("lucide-react").ShoppingCart,
   Package: require("lucide-react").Package,
+  Warehouse: require("lucide-react").Warehouse,
   DollarSign: require("lucide-react").DollarSign,
 };
 

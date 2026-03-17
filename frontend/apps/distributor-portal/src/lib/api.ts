@@ -1,17 +1,28 @@
-import axios from 'axios';
+import axios, { AxiosInstance } from 'axios';
 
-const API_URL = process.env.NEXT_PUBLIC_API_URL || 'http://localhost:3001';
+// In production (Docker), API calls go to relative /api/v1/* which Nginx proxies to gateway
+// In development, set NEXT_PUBLIC_API_URL=http://localhost:3001 in .env.local
+const API_URL = process.env.NEXT_PUBLIC_API_URL || '';
 
-export const api = axios.create({
+export const api: AxiosInstance & { setToken: (token: string | null) => void } = axios.create({
   baseURL: API_URL,
   headers: {
     'Content-Type': 'application/json',
   },
-});
+}) as any;
+
+// Add setToken method
+api.setToken = (token: string | null) => {
+  if (token) {
+    localStorage.setItem('auth_token', token);
+  } else {
+    localStorage.removeItem('auth_token');
+  }
+};
 
 // Request interceptor for auth
 api.interceptors.request.use((config) => {
-  const token = localStorage.getItem('access_token');
+  const token = localStorage.getItem('auth_token');
   if (token) {
     config.headers.Authorization = `Bearer ${token}`;
   }
@@ -23,7 +34,7 @@ api.interceptors.response.use(
   (response) => response,
   (error) => {
     if (error.response?.status === 401) {
-      localStorage.removeItem('access_token');
+      localStorage.removeItem('auth_token');
       window.location.href = '/login';
     }
     return Promise.reject(error);
@@ -32,12 +43,14 @@ api.interceptors.response.use(
 
 // API Services
 export const authApi = {
-  login: (email: string, password: string) => 
+  login: (email: string, password: string) =>
     api.post('/api/v1/auth/login', { email, password }),
-  register: (data: any) => 
+  register: (data: any) =>
     api.post('/api/v1/auth/register', data),
-  refreshToken: (refreshToken: string) => 
+  refreshToken: (refreshToken: string) =>
     api.post('/api/v1/auth/refresh', { refreshToken }),
+  me: () =>
+    api.get('/api/v1/auth/me'),
 };
 
 export const customersApi = {

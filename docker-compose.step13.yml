@@ -1,0 +1,20 @@
+# Step 13: Product Service only
+services:
+  product-service:
+    image: residentcement-product-service:latest
+    container_name: residentcement-product-service
+    ports:
+      - "3006:3006"
+    environment:
+      NODE_ENV: production
+      PORT: "3006"
+      DATABASE_URL: postgresql://resident_cement:xMX2yhYTeTHpvTlkirvDxRKgR-YGJIXU@residentcement-postgres:5432/resident_cement
+      KAFKA_BROKERS: residentcement-kafka:29092
+    networks:
+      - resident-cement-network
+    restart: unless-stopped
+
+networks:
+  resident-cement-network:
+    external: true
+    name: residentcement_resident-cement-network

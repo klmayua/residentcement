@@ -1,0 +1,21 @@
+# Step 10: Inventory Service only
+services:
+  inventory-service:
+    image: residentcement-inventory-service:latest
+    container_name: residentcement-inventory-service
+    ports:
+      - "3003:3003"
+    environment:
+      NODE_ENV: production
+      PORT: "3003"
+      DATABASE_URL: postgresql://resident_cement:xMX2yhYTeTHpvTlkirvDxRKgR-YGJIXU@residentcement-postgres:5432/resident_cement
+      KAFKA_BROKERS: residentcement-kafka:29092
+      REDIS_URL: redis://:DJ4_8RisfviydJqplAX35g@residentcement-redis:6379
+    networks:
+      - resident-cement-network
+    restart: unless-stopped
+
+networks:
+  resident-cement-network:
+    external: true
+    name: residentcement_resident-cement-network

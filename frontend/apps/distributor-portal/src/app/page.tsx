@@ -1,9 +1,10 @@
 'use client';
 
 import { useQuery } from '@tanstack/react-query';
-import { customersApi, ordersApi, productsApi, paymentsApi } from '@/lib/api';
+import { customersApi, ordersApi, productsApi, paymentsApi, inventoryApi } from '@/lib/api';
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card';
-import { Package, Users, ShoppingCart, DollarSign, TrendingUp, AlertTriangle, CheckCircle, Clock } from 'lucide-react';
+import { Package, Users, ShoppingCart, DollarSign, TrendingUp, AlertTriangle, CheckCircle, Clock, Wifi, WifiOff } from 'lucide-react';
+import { useOrderUpdates, useLowStockAlerts, useWebSocketStatus } from '@/lib/websocket';
 
 export default function Dashboard() {
   const { data: stats } = useQuery({
@@ -40,22 +41,50 @@ export default function Dashboard() {
     },
   });
 
+  // Real-time updates via WebSocket
+  const orderUpdates = useOrderUpdates();
+  const lowStockAlerts = useLowStockAlerts();
+  const wsStatus = useWebSocketStatus();
+
   return (
     <div className="min-h-screen bg-background">
       {/* Header */}
-      <header className="border-b bg-white">
+      <header className="border-b-2 border-brand-secondary/40 bg-white shadow-sm">
         <div className="container mx-auto px-4 py-4">
           <div className="flex items-center justify-between">
-            <div>
-              <h1 className="text-2xl font-bold text-foreground">ResidentCement</h1>
-              <p className="text-sm text-muted-foreground">Distributor Portal</p>
+            <div className="flex items-center gap-3">
+              <img src="/images/logo.png" alt="Resident Cement Limited" className="h-10 w-auto" />
+              <div>
+                <h1 className="text-xl font-bold text-brand-primary font-display">Distributor Portal</h1>
+              </div>
             </div>
-            <nav className="flex items-center gap-4">
-              <a href="/orders" className="text-sm font-medium hover:text-primary">Orders</a>
-              <a href="/products" className="text-sm font-medium hover:text-primary">Products</a>
-              <a href="/customers" className="text-sm font-medium hover:text-primary">Customers</a>
-              <a href="/inventory" className="text-sm font-medium hover:text-primary">Inventory</a>
-            </nav>
+            <div className="flex items-center gap-4">
+              {/* WebSocket Status Indicator */}
+              <div className="flex items-center gap-2 text-xs">
+                {wsStatus === 'connected' ? (
+                  <>
+                    <Wifi className="h-4 w-4 text-green-500" />
+                    <span className="text-muted-foreground">Live</span>
+                  </>
+                ) : wsStatus === 'connecting' ? (
+                  <>
+                    <Clock className="h-4 w-4 text-yellow-500 animate-pulse" />
+                    <span className="text-muted-foreground">Connecting...</span>
+                  </>
+                ) : (
+                  <>
+                    <WifiOff className="h-4 w-4 text-gray-400" />
+                    <span className="text-muted-foreground">Offline</span>
+                  </>
+                )}
+              </div>
+              <nav className="flex items-center gap-4">
+                <a href="/orders" className="text-sm font-medium text-cement-600 hover:text-brand-secondary transition-colors">Orders</a>
+                <a href="/products" className="text-sm font-medium text-cement-600 hover:text-brand-secondary transition-colors">Products</a>
+                <a href="/customers" className="text-sm font-medium text-cement-600 hover:text-brand-secondary transition-colors">Customers</a>
+                <a href="/inventory" className="text-sm font-medium text-cement-600 hover:text-brand-secondary transition-colors">Inventory</a>
+              </nav>
+            </div>
           </div>
         </div>
       </header>

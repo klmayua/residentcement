@@ -15,7 +15,7 @@ import {
   createHealthCheckService, checkMemory, NotFoundError, PaymentError,
   initiatePaymentSchema, paymentQuerySchema,
 } from '@resident-cement/kernel';
-import { PrismaClient, PaymentStatus, PaymentMethod } from '@prisma/client';
+import { PrismaClient } from '@prisma/client';
 import { createKafkaClient } from '@resident-cement/kafka-client';
 import crypto from 'crypto';
 
@@ -82,7 +82,7 @@ paymentRouter.get('/:id', async (req: Request, res: Response, next: NextFunction
   try {
     const payment = await prisma.payment.findUnique({ where: { id }, include: { customer: true, order: true } });
     if (!payment) throw new NotFoundError('Payment', id);
-    res.json({ success: true, data: payment, meta: { requestId: req.id, timestamp: new Date().toISOString() } });
+    res.json({ success: true, data: payment, meta: { requestId: (req as any).id, timestamp: new Date().toISOString() } });
   } catch (error) { next(error); }
 });
 
@@ -100,6 +100,7 @@ paymentRouter.post('/initiate', async (req: Request, res: Response, next: NextFu
     const paymentReference = `PAY-${Date.now().toString(36).toUpperCase()}-${Math.random().toString(36).substring(2, 10).toUpperCase()}`;
 
     // Initialize Paystack payment
+    if (!data.amount) throw new PaymentError('Amount is required');
     const paystackResponse = await fetch(`${PAYSTACK_BASE_URL}/transaction/initialize`, {
       method: 'POST',
       headers: {
@@ -108,14 +109,14 @@ paymentRouter.post('/initiate', async (req: Request, res: Response, next: NextFu
       },
       body: JSON.stringify({
         email: customer.email,
-        amount: Math.round(data.amount.toNumber() * 100), // Convert to kobo
+        amount: Math.round(data.amount * 100), // Convert to kobo
         currency: data.currency || 'NGN',
         reference: paymentReference,
         metadata: { ...data.metadata, customerId: data.customerId, orderId: data.orderId },
       }),
     });
 
-    const paystackData = await paystackResponse.json();
+    const paystackData = await paystackResponse.json() as any;
     if (!paystackData.status) {
       throw new PaymentError('Failed to initialize payment', 'Paystack', paystackData.message);
     }
@@ -163,7 +164,7 @@ paymentRouter.post('/verify/:reference', async (req: Request, res: Response, nex
     const response = await fetch(`${PAYSTACK_BASE_URL}/transaction/verify/${reference}`, {
       headers: { 'Authorization': `Bearer ${PAYSTACK_SECRET_KEY}` },
     });
-    const data = await response.json();
+    const data = await response.json() as any;
 
     if (!data.status) {
       throw new PaymentError('Payment verification failed', 'Paystack', data.message);
@@ -176,7 +177,7 @@ paymentRouter.post('/verify/:reference', async (req: Request, res: Response, nex
     const payment = await prisma.payment.updateMany({
       where: { paymentReference: reference },
       data: {
-        status: status as PaymentStatus,
+        status: status as any,
         paidAt: status === 'COMPLETED' ? new Date() : null,
         failedAt: status === 'FAILED' ? new Date() : null,
         providerResponse: paymentData,
@@ -194,7 +195,7 @@ paymentRouter.post('/verify/:reference', async (req: Request, res: Response, nex
     }
 
     requestLogger.info('Payment verified', { reference, status });
-    res.json({ success: true, data: updatedPayment, meta: { requestId: req.id, timestamp: new Date().toISOString() } });
+    res.json({ success: true, data: updatedPayment, meta: { requestId: (req as any).id, timestamp: new Date().toISOString() } });
   } catch (error) { next(error); }
 });
 
@@ -265,12 +266,12 @@ paymentRouter.get('/:id/refund', async (req: Request, res: Response, next: NextF
 
 app.use('/api/v1/payments', paymentRouter);
 app.use(errorHandler);
-app.use((req: Request, res: Response) => { res.status(404).json({ success: false, error: { code: 'NOT_FOUND', message: `Route ${req.method} ${req.path} not found`, traceId: req.id } }); });
+app.use((req: Request, res: Response) => { res.status(404).json({ success: false, error: { code: 'NOT_FOUND', message: `Route ${req.method} ${req.path} not found`, traceId: (req as any).id } }); });
 
-const gracefulShutdown = async (signal: string) => { await prisma.$disconnect(); await kafkaClient.disconnect(); process.exit(0); };
+const gracefulShutdown = async (_signal: string) => { await prisma.$disconnect(); await kafkaClient.disconnect(); process.exit(0); };
 process.on('SIGTERM', () => gracefulShutdown('SIGTERM'));
 process.on('SIGINT', () => gracefulShutdown('SIGINT'));
 
-const server = app.listen(PORT, () => { logger.info(`Payment Service running on port ${PORT}`); logger.info(`Health: http://localhost:${PORT}/health`); });
+app.listen(PORT, () => { logger.info(`Payment Service running on port ${PORT}`); logger.info(`Health: http://localhost:${PORT}/health`); });
 
 export default app;

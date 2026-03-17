@@ -1,0 +1,20 @@
+# Step 7: Keycloak only
+services:
+  keycloak:
+    image: quay.io/keycloak/keycloak:23.0
+    container_name: residentcement-keycloak
+    command: start-dev
+    environment:
+      KEYCLOAK_ADMIN: admin
+      KEYCLOAK_ADMIN_PASSWORD: p_hbuckd6l-025Ne_UcJow
+      KC_DB: dev-file
+    ports:
+      - "8180:8080"
+    networks:
+      - resident-cement-network
+    restart: unless-stopped
+
+networks:
+  resident-cement-network:
+    external: true
+    name: residentcement_resident-cement-network

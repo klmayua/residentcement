@@ -1,0 +1,14 @@
+FROM node:20-bullseye-slim
+WORKDIR /app
+RUN apt-get update && apt-get install -y --no-install-recommends libssl1.1 curl && rm -rf /var/lib/apt/lists/*
+COPY backend/shared/kernel ./kernel
+WORKDIR /app/kernel
+RUN npm install --legacy-peer-deps && npm run build
+WORKDIR /app
+COPY backend/services/payment-service ./service
+WORKDIR /app/service
+RUN npm install --legacy-peer-deps && mkdir -p node_modules/@resident-cement && ln -sf /app/kernel node_modules/@resident-cement/kernel
+RUN if [ -d "prisma" ]; then npx prisma generate; else echo "No Prisma"; fi
+EXPOSE 3005
+ENV NODE_ENV=production PORT=3005
+CMD ["npx", "tsx", "src/index.ts"]

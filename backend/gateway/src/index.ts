@@ -29,6 +29,8 @@ import { inventoryRouter } from "./routes/inventory";
 import { pricingRouter } from "./routes/pricing";
 import { paymentRouter } from "./routes/payment";
 import { healthRouter } from "./routes/health";
+import { createWebSocketServer, closeAllConnections } from "./lib/websocket";
+import { initConsumer } from "./lib/kafka";
 
 config();
 
@@ -200,33 +202,42 @@ app.use(errorHandler);
 
 const gracefulShutdown = (signal: string) => {
   logger.info(`${signal} received, shutting down gracefully`);
-  
-  process.on("SIGTERM", () => {
-    logger.info("SIGTERM received, shutting down gracefully");
-    server.close(() => {
-      logger.info("Process terminated");
-      process.exit(0);
-    });
+  server.close(() => {
+    // Close WebSocket connections
+    closeAllConnections();
+    logger.info("Process terminated");
+    process.exit(0);
   });
 
-  process.on("SIGINT", () => {
-    logger.info("SIGINT received, shutting down gracefully");
-    server.close(() => {
-      logger.info("Process terminated");
-      process.exit(0);
-    });
-  });
+  // Force shutdown after 10 seconds
+  setTimeout(() => {
+    logger.error("Forced shutdown after timeout");
+    process.exit(1);
+  }, 10000);
 };
 
 // -----------------------------------------------------------------------------
 // Start Server
 // -----------------------------------------------------------------------------
 
-const server = app.listen(PORT, () => {
+const server = app.listen(PORT, async () => {
   logger.info(`API Gateway running on port ${PORT}`);
   logger.info(`Environment: ${process.env.NODE_ENV || "development"}`);
   logger.info(`Health check: http://localhost:${PORT}/health`);
   logger.info(`API Documentation: http://localhost:${PORT}/api-docs`);
+  
+  // Initialize WebSocket server
+  createWebSocketServer(server);
+  
+  // Initialize Kafka consumer for real-time events (production only)
+  if (process.env.NODE_ENV === 'production' && process.env.KAFKA_BROKERS) {
+    try {
+      await initConsumer();
+      logger.info('Kafka consumer initialized for real-time events');
+    } catch (error: any) {
+      logger.error('Failed to initialize Kafka consumer', { error: error.message });
+    }
+  }
 });
 
 // Handle server errors
@@ -257,7 +268,7 @@ process.on("unhandledRejection", (reason: unknown, promise: Promise<unknown>) =>
   });
 });
 
-gracefulShutdown("SIGTERM");
-gracefulShutdown("SIGINT");
+process.on("SIGTERM", () => gracefulShutdown("SIGTERM"));
+process.on("SIGINT", () => gracefulShutdown("SIGINT"));
 
 export default app;

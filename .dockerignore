@@ -1,14 +1,69 @@
-# Dependencies that should be excluded
+# Exclude everything not needed for backend build
 node_modules
-frontend
+**/node_modules
+infrastructure
 docs
 scripts
 tests
-.git
-*.md
-*.log
-infrastructure
 forensics
 reports
-backend/gateway/src
-backend/shared/kernel/src
+.audit
+.git
+.github
+ClaudeFix
+project_completion_reports
+middleware
+
+# Exclude build artifacts and temp files
+*.md
+*.log
+*.zip
+*.yaml
+!docker-compose.yml
+!docker-compose.prod.yml
+!DEPLOY_AND_ENHANCE.yaml
+*.json
+!backend/gateway/package.json
+!backend/gateway/package-lock.json
+!backend/gateway/tsconfig.json
+!backend/shared/kernel/package.json
+!backend/shared/kernel/package-lock.json
+!backend/shared/kernel/tsconfig.json
+!backend/gateway/prisma/seed.ts
+!backend/gateway/prisma/seed.js
+!frontend/apps/distributor-portal/package.json
+!frontend/apps/distributor-portal/package-lock.json
+!frontend/apps/distributor-portal/tsconfig.json
+!frontend/apps/distributor-portal/next.config.ts
+
+# Exclude old Dockerfiles
+Dockerfile.mvp
+Dockerfile.simple
+
+# Exclude env files (secrets come from compose environment)
+.env*
+backend/gateway/.env*
+backend/shared/kernel/.env*
+# Allow service source files for building
+!backend/services/*/src
+!backend/services/*/prisma
+!backend/services/*/tsconfig.json
+!backend/services/*/package.json
+!backend/services/*/package-lock.json
+!backend/services/*/Dockerfile
+
+# Exclude one-off scripts
+task_*.py
+create_forensics_dirs.py
+test-db.js
+demo_board.*
+start-docker-and-deploy.bat
+
+# Exclude host-compiled artifacts (rebuilt in container)
+backend/gateway/dist
+backend/shared/kernel/dist
+backend/gateway/node_modules
+backend/shared/kernel/node_modules
+frontend/apps/distributor-portal/node_modules
+frontend/apps/distributor-portal/.next
+backend/gateway/prisma/node_modules

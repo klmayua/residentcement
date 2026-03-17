@@ -1,0 +1,28 @@
+# Step 1: PostgreSQL only
+services:
+  postgres:
+    image: postgres:16-alpine
+    container_name: residentcement-postgres
+    environment:
+      POSTGRES_USER: resident_cement
+      POSTGRES_PASSWORD: xMX2yhYTeTHpvTlkirvDxRKgR-YGJIXU
+      POSTGRES_DB: resident_cement
+    ports:
+      - "5432:5432"
+    volumes:
+      - postgres_data:/var/lib/postgresql/data
+    networks:
+      - resident-cement-network
+    restart: unless-stopped
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U resident_cement"]
+      interval: 10s
+      timeout: 5s
+      retries: 5
+
+networks:
+  resident-cement-network:
+    driver: bridge
+
+volumes:
+  postgres_data:

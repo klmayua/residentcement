@@ -1,0 +1,21 @@
+# Step 9: Customer Service only
+services:
+  customer-service:
+    image: residentcement-customer-service:latest
+    container_name: residentcement-customer-service
+    ports:
+      - "3002:3002"
+    environment:
+      NODE_ENV: production
+      PORT: "3002"
+      DATABASE_URL: postgresql://resident_cement:xMX2yhYTeTHpvTlkirvDxRKgR-YGJIXU@residentcement-postgres:5432/resident_cement
+      KAFKA_BROKERS: residentcement-kafka:29092
+      REDIS_URL: redis://:DJ4_8RisfviydJqplAX35g@residentcement-redis:6379
+    networks:
+      - resident-cement-network
+    restart: unless-stopped
+
+networks:
+  resident-cement-network:
+    external: true
+    name: residentcement_resident-cement-network

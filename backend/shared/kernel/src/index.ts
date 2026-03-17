@@ -31,3 +31,6 @@ export * from './middleware';
 
 // Health Check
 export * from './health';
+
+// HTTP Client
+export * from './http-client';

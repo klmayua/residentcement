@@ -10,9 +10,9 @@ import helmet from 'helmet';
 import rateLimit from 'express-rate-limit';
 import { config } from 'dotenv';
 import { v4 as uuidv4 } from 'uuid';
-import { 
+import {
   createLogger, requestIdMiddleware, requestLoggingMiddleware, errorHandler,
-  createHealthCheckService, checkMemory, NotFoundError, InventoryError,
+  createHealthCheckService, checkMemory, NotFoundError, InventoryError, ValidationError,
   updateInventorySchema, reserveInventorySchema, inventoryQuerySchema,
 } from '@resident-cement/kernel';
 import { PrismaClient } from '@prisma/client';
@@ -38,7 +38,7 @@ app.use(requestLoggingMiddleware({ skipPaths: ['/health'] }));
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 app.use(rateLimit({ windowMs: 15 * 60 * 1000, max: 1000 }));
-app.use((req: Request, res: Response, next: NextFunction) => { (req as any).logger = logger.child({ requestId: req.id }); next(); });
+app.use((req: Request, res: Response, next: NextFunction) => { (req as any).logger = logger.child({ requestId: (req as any).id }); next(); });
 
 const healthRouter = express.Router();
 healthRouter.get('/', async (req: Request, res: Response) => { const h = await healthService.getHealthStatus(); res.json({ status: h.status, service: h.service, uptime: h.uptime }); });
@@ -64,7 +64,7 @@ inventoryRouter.get('/', async (req: Request, res: Response, next: NextFunction)
       prisma.inventory.count({ where }),
     ]);
 
-    res.json({ success: true, data: inventory, meta: { requestId: req.id, timestamp: new Date().toISOString(), pagination: { page, limit, total, totalPages: Math.ceil(total / limit), hasMore: offset + limit < total } } });
+    res.json({ success: true, data: inventory, meta: { requestId: (req as any).id, timestamp: new Date().toISOString(), pagination: { page, limit, total, totalPages: Math.ceil(total / limit), hasMore: offset + limit < total } } });
   } catch (error) { next(error); }
 });
 
@@ -74,7 +74,7 @@ inventoryRouter.get('/:id', async (req: Request, res: Response, next: NextFuncti
   try {
     const inventory = await prisma.inventory.findUnique({ where: { id }, include: { product: true, warehouse: true } });
     if (!inventory) throw new NotFoundError('Inventory', id);
-    res.json({ success: true, data: inventory, meta: { requestId: req.id, timestamp: new Date().toISOString() } });
+    res.json({ success: true, data: inventory, meta: { requestId: (req as any).id, timestamp: new Date().toISOString() } });
   } catch (error) { next(error); }
 });
 
@@ -88,11 +88,11 @@ inventoryRouter.patch('/:id', async (req: Request, res: Response, next: NextFunc
 
     const inventory = await prisma.inventory.update({
       where: { id },
-      data: { ...data, availableQuantity: data.quantity - (existing.reservedQuantity || 0), updatedAt: new Date() },
+      data: { ...data, availableQuantity: (data.quantity || 0) - (existing.reservedQuantity || 0), updatedAt: new Date() },
       include: { product: { select: { name: true, sku: true } }, warehouse: true },
     });
 
-    res.json({ success: true, data: inventory, meta: { requestId: req.id, timestamp: new Date().toISOString() } });
+    res.json({ success: true, data: inventory, meta: { requestId: (req as any).id, timestamp: new Date().toISOString() } });
   } catch (error) { next(error); }
 });
 
@@ -107,7 +107,7 @@ inventoryRouter.post('/reserve', async (req: Request, res: Response, next: NextF
     });
 
     if (!inventory) throw new InventoryError('Inventory not found');
-    if (inventory.availableQuantity < quantity) {
+    if (!quantity || inventory.availableQuantity < quantity) {
       throw new InventoryError('Insufficient inventory', { requested: quantity, available: inventory.availableQuantity });
     }
 
@@ -128,7 +128,7 @@ inventoryRouter.post('/reserve', async (req: Request, res: Response, next: NextF
         inventoryId: inventory.id,
         warehouseId,
         type: 'RESERVATION',
-        quantity: -quantity,
+        quantity: quantity ? -quantity : 0,
         referenceType: 'ORDER',
         referenceId: orderId,
       },
@@ -137,7 +137,7 @@ inventoryRouter.post('/reserve', async (req: Request, res: Response, next: NextF
     try { await kafkaClient.publish('inventory.events', 'INVENTORY_RESERVED', { inventoryId: inventory.id, productId, warehouseId, quantity, orderId }); } catch {}
 
     requestLogger.info('Inventory reserved', { inventoryId: inventory.id, quantity });
-    res.json({ success: true, data: updated, meta: { requestId: req.id, timestamp: new Date().toISOString() } });
+    res.json({ success: true, data: updated, meta: { requestId: (req as any).id, timestamp: new Date().toISOString() } });
   } catch (error) { next(error); }
 });
 
@@ -162,7 +162,7 @@ inventoryRouter.post('/release', async (req: Request, res: Response, next: NextF
 
     try { await kafkaClient.publish('inventory.events', 'INVENTORY_RELEASED', { inventoryId, quantity }); } catch {}
 
-    res.json({ success: true, data: updated, meta: { requestId: req.id, timestamp: new Date().toISOString() } });
+    res.json({ success: true, data: updated, meta: { requestId: (req as any).id, timestamp: new Date().toISOString() } });
   } catch (error) { next(error); }
 });
 
@@ -176,7 +176,7 @@ inventoryRouter.get('/low-stock', async (req: Request, res: Response, next: Next
       orderBy: { availableQuantity: 'asc' },
     });
 
-    res.json({ success: true, data: inventory, meta: { requestId: req.id, timestamp: new Date().toISOString() } });
+    res.json({ success: true, data: inventory, meta: { requestId: (req as any).id, timestamp: new Date().toISOString() } });
   } catch (error) { next(error); }
 });
 
@@ -186,7 +186,7 @@ const warehouseRouter = express.Router();
 warehouseRouter.get('/', async (req: Request, res: Response, next: NextFunction) => {
   try {
     const warehouses = await prisma.warehouse.findMany({ where: { isActive: true }, include: { _count: { select: { inventory: true } } } });
-    res.json({ success: true, data: warehouses, meta: { requestId: req.id, timestamp: new Date().toISOString() } });
+    res.json({ success: true, data: warehouses, meta: { requestId: (req as any).id, timestamp: new Date().toISOString() } });
   } catch (error) { next(error); }
 });
 
@@ -195,19 +195,19 @@ warehouseRouter.get('/:id', async (req: Request, res: Response, next: NextFuncti
   try {
     const warehouse = await prisma.warehouse.findUnique({ where: { id }, include: { inventory: { include: { product: { select: { name: true, sku: true } } } } } });
     if (!warehouse) throw new NotFoundError('Warehouse', id);
-    res.json({ success: true, data: warehouse, meta: { requestId: req.id, timestamp: new Date().toISOString() } });
+    res.json({ success: true, data: warehouse, meta: { requestId: (req as any).id, timestamp: new Date().toISOString() } });
   } catch (error) { next(error); }
 });
 
 app.use('/api/v1/inventory', inventoryRouter);
 app.use('/api/v1/warehouses', warehouseRouter);
 app.use(errorHandler);
-app.use((req: Request, res: Response) => { res.status(404).json({ success: false, error: { code: 'NOT_FOUND', message: `Route ${req.method} ${req.path} not found`, traceId: req.id } }); });
+app.use((req: Request, res: Response) => { res.status(404).json({ success: false, error: { code: 'NOT_FOUND', message: `Route ${req.method} ${req.path} not found`, traceId: (req as any).id } }); });
 
-const gracefulShutdown = async (signal: string) => { await prisma.$disconnect(); await kafkaClient.disconnect(); process.exit(0); };
+const gracefulShutdown = async (_signal: string) => { await prisma.$disconnect(); await kafkaClient.disconnect(); process.exit(0); };
 process.on('SIGTERM', () => gracefulShutdown('SIGTERM'));
 process.on('SIGINT', () => gracefulShutdown('SIGINT'));
 
-const server = app.listen(PORT, () => { logger.info(`Inventory Service running on port ${PORT}`); logger.info(`Health: http://localhost:${PORT}/health`); });
+app.listen(PORT, () => { logger.info(`Inventory Service running on port ${PORT}`); logger.info(`Health: http://localhost:${PORT}/health`); });
 
 export default app;

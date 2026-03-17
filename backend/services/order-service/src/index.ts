@@ -11,8 +11,8 @@ import helmet from 'helmet';
 import rateLimit from 'express-rate-limit';
 import { config } from 'dotenv';
 import { v4 as uuidv4 } from 'uuid';
-import { 
-  createLogger, 
+import {
+  createLogger,
   requestIdMiddleware,
   requestLoggingMiddleware,
   errorHandler,
@@ -25,8 +25,9 @@ import {
   updateOrderSchema,
   cancelOrderSchema,
   orderQuerySchema,
+  createHttpClient,
 } from '@resident-cement/kernel';
-import { PrismaClient, OrderStatus, OrderPriority, OrderSource } from '@prisma/client';
+import { PrismaClient } from '@prisma/client';
 import { createKafkaClient } from '@resident-cement/kafka-client';
 
 config();
@@ -48,6 +49,11 @@ const prisma = new PrismaClient({
 
 const kafkaClient = createKafkaClient('order-service');
 kafkaClient.connect().catch(err => logger.warn('Failed to connect to Kafka', err));
+
+// HTTP clients for inter-service communication
+const customerClient = createHttpClient('order-service', 'customerService', logger);
+const productClient = createHttpClient('order-service', 'productService', logger);
+const inventoryClient = createHttpClient('order-service', 'inventoryService', logger);
 
 // Health check
 const healthService = createHealthCheckService('order-service', '1.0.0');
@@ -113,18 +119,34 @@ orderRouter.get('/', async (req: Request, res: Response, next: NextFunction) => 
         skip: offset,
         orderBy: { [sortBy]: sortOrder },
         include: {
-          items: { take: 5, include: { product: { select: { name: true, sku: true } } } },
-          customer: { select: { name: true, email: true } },
+          items: { take: 5 },
           _count: { select: { payments: true } },
         },
       }),
       prisma.order.count({ where }),
     ]);
 
+    // Fetch customer data via HTTP for each order
+    const customerIds = [...new Set(orders.map((o: any) => o.customerId))];
+    const customerMap: Record<string, any> = {};
+
+    await Promise.all(customerIds.map(async (id: any) => {
+      try {
+        const response: any = await customerClient.get(`/api/v1/customers/${id}`);
+        if (response.data) customerMap[id] = response.data;
+      } catch { /* ignore - customer may not exist */ }
+    }));
+
+    // Enrich orders with customer data
+    const enrichedOrders = orders.map((order: any) => ({
+      ...order,
+      customer: customerMap[order.customerId] || { name: 'Unknown', email: '' },
+    }));
+
     res.json({
       success: true,
-      data: orders,
-      meta: { requestId: req.id, timestamp: new Date().toISOString(), pagination: { page, limit, total, totalPages: Math.ceil(total / limit), hasMore: offset + limit < total } },
+      data: enrichedOrders,
+      meta: { requestId: (req as any).id, timestamp: new Date().toISOString(), pagination: { page, limit, total, totalPages: Math.ceil(total / limit), hasMore: offset + limit < total } },
     });
   } catch (error) { next(error); }
 });
@@ -135,16 +157,42 @@ orderRouter.get('/:id', async (req: Request, res: Response, next: NextFunction) 
   try {
     const order = await prisma.order.findUnique({
       where: { id },
-      include: {
-        items: { include: { product: true } },
-        customer: true,
-        payments: true,
-      },
+      include: { items: true, payments: true },
     });
 
     if (!order) throw new NotFoundError('Order', id);
 
-    res.json({ success: true, data: order, meta: { requestId: req.id, timestamp: new Date().toISOString() } });
+    // Fetch customer data via HTTP
+    let customer = null;
+    try {
+      const customerResponse: any = await customerClient.get(`/api/v1/customers/${order.customerId}`);
+      customer = customerResponse.data || null;
+    } catch { /* ignore */ }
+
+    // Fetch product details for items via HTTP
+    const productIds = order.items.map((item: any) => item.productId);
+    const productMap: Record<string, any> = {};
+
+    await Promise.all(productIds.map(async (pid: string) => {
+      try {
+        const productResponse: any = await productClient.get(`/api/v1/products/${pid}`);
+        if (productResponse.data) productMap[pid] = productResponse.data;
+      } catch { /* ignore */ }
+    }));
+
+    // Enrich items with product data
+    const enrichedItems = order.items.map((item: any) => ({
+      ...item,
+      product: productMap[item.productId] || null,
+    }));
+
+    const enrichedOrder = {
+      ...order,
+      customer: customer || { name: 'Unknown', email: '' },
+      items: enrichedItems,
+    };
+
+    res.json({ success: true, data: enrichedOrder, meta: { requestId: (req as any).id, timestamp: new Date().toISOString() } });
   } catch (error) { next(error); }
 });
 
@@ -154,17 +202,64 @@ orderRouter.post('/', async (req: Request, res: Response, next: NextFunction) =>
   try {
     const data = createOrderSchema.parse(req.body);
 
-    // Verify customer exists
-    const customer = await prisma.customer.findUnique({ where: { id: data.customerId } });
-    if (!customer) throw new NotFoundError('Customer', data.customerId);
+    // Verify customer exists via HTTP call to customer-service
+    let customer: any;
+    try {
+      customer = await customerClient.get(`/api/v1/customers/${data.customerId}`);
+      if (!customer.data) throw new NotFoundError('Customer', data.customerId);
+      customer = customer.data;
+    } catch (error: any) {
+      if (error.statusCode === 404) throw new NotFoundError('Customer', data.customerId);
+      throw new BusinessRuleError(`Failed to verify customer: ${error.message}`);
+    }
+
+    // Verify products and get product details via HTTP call to product-service
+    const items = data.items || [];
+    const productIds = items.map((item: any) => item.productId);
+    const productDetails: Record<string, any> = {};
+
+    for (const productId of productIds) {
+      try {
+        const productResponse: any = await productClient.get(`/api/v1/products/${productId}`);
+        if (!productResponse.data) throw new NotFoundError('Product', productId);
+        productDetails[productId] = productResponse.data;
+      } catch (error: any) {
+        if (error.statusCode === 404) throw new NotFoundError('Product', productId);
+        throw new BusinessRuleError(`Failed to verify product ${productId}: ${error.message}`);
+      }
+    }
 
     // Generate order number
     const orderNumber = `ORD-${Date.now().toString(36).toUpperCase()}-${Math.random().toString(36).substring(2, 8).toUpperCase()}`;
 
-    // Calculate totals
-    const subtotal = data.items.reduce((sum, item) => sum + (item.quantity * item.unitPrice), 0);
+    // Calculate totals with actual product data
+    const subtotal = items.reduce((sum: number, item: any) => {
+      const product = productDetails[item.productId];
+      const price = item.unitPrice || product?.price || 0;
+      return sum + ((item.quantity || 0) * price);
+    }, 0);
     const tax = subtotal * 0.075; // 7.5% VAT
-    const total = subtotal + tax + (data.shippingCost || 0) - (data.discount || 0);
+    const shippingCost = (data as any).shippingCost || 0;
+    const discount = (data as any).discount || 0;
+    const total = subtotal + tax + shippingCost - discount;
+
+    // Create order items with product details
+    const orderItems = items.map((item: any) => {
+      const product = productDetails[item.productId];
+      const unitPrice = item.unitPrice || product?.price || 0;
+      const itemSubtotal = (item.quantity || 0) * unitPrice;
+      return {
+        id: uuidv4(),
+        productId: item.productId,
+        productName: product?.name || '',
+        sku: product?.sku || '',
+        quantity: item.quantity || 0,
+        unitPrice,
+        discount: item.discount || 0,
+        tax: itemSubtotal * 0.075,
+        total: itemSubtotal * 1.075,
+      };
+    });
 
     const order = await prisma.order.create({
       data: {
@@ -176,8 +271,8 @@ orderRouter.post('/', async (req: Request, res: Response, next: NextFunction) =>
         source: 'WEB',
         subtotal,
         tax,
-        discount: data.discount || 0,
-        shippingCost: data.shippingCost || 0,
+        discount: discount,
+        shippingCost: shippingCost,
         total,
         currency: 'NGN',
         shippingAddress: data.shippingAddress || '',
@@ -186,22 +281,27 @@ orderRouter.post('/', async (req: Request, res: Response, next: NextFunction) =>
         shippingLga: '',
         deliveryDate: data.deliveryDate ? new Date(data.deliveryDate) : null,
         notes: data.notes,
-        items: {
-          create: data.items.map(item => ({
-            id: uuidv4(),
-            productId: item.productId,
-            productName: '',
-            sku: '',
-            quantity: item.quantity,
-            unitPrice: item.unitPrice,
-            discount: item.discount || 0,
-            tax: (item.quantity * item.unitPrice) * 0.075,
-            total: (item.quantity * item.unitPrice) * 1.075,
-          })),
-        },
+        items: { create: orderItems },
       },
       include: { items: true, customer: { select: { name: true, email: true } } },
     });
+
+    // Reserve inventory via HTTP call to inventory-service
+    try {
+      const warehouseId = (data as any).warehouseId || 'default';
+      for (const item of orderItems) {
+        await inventoryClient.post('/api/v1/inventory/reserve', {
+          productId: item.productId,
+          quantity: item.quantity,
+          orderId: order.id,
+          warehouseId: warehouseId,
+        });
+      }
+      requestLogger.info('Inventory reserved for order', { orderId: order.id });
+    } catch (inventoryError: any) {
+      requestLogger.warn('Failed to reserve inventory', { orderId: order.id, error: inventoryError.message });
+      // Continue - inventory reservation failure shouldn't block order creation
+    }
 
     // Publish event
     try {
@@ -216,7 +316,7 @@ orderRouter.post('/', async (req: Request, res: Response, next: NextFunction) =>
     } catch (kafkaError) { requestLogger.warn('Failed to publish ORDER_CREATED event', kafkaError); }
 
     requestLogger.info('Order created', { orderId: order.id, orderNumber: order.orderNumber });
-    res.status(201).json({ success: true, data: order, meta: { requestId: req.id, timestamp: new Date().toISOString() } });
+    res.status(201).json({ success: true, data: order, meta: { requestId: (req as any).id, timestamp: new Date().toISOString() } });
   } catch (error) { next(error); }
 });
 

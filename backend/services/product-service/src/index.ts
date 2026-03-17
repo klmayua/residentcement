@@ -44,7 +44,7 @@ app.use(requestLoggingMiddleware({ skipPaths: ['/health'] }));
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 app.use(rateLimit({ windowMs: 15 * 60 * 1000, max: 1000 }));
-app.use((req: Request, res: Response, next: NextFunction) => { (req as any).logger = logger.child({ requestId: req.id }); next(); });
+app.use((req: Request, _res: Response, next: NextFunction) => { (req as any).logger = logger.child({ requestId: (req as any).id }); next(); });
 
 // Health routes
 const healthRouter = express.Router();
@@ -91,10 +91,10 @@ productRouter.post('/', async (req: Request, res: Response, next: NextFunction) 
   try {
     const data = createProductSchema.parse(req.body);
     const existing = await prisma.product.findUnique({ where: { sku: data.sku } });
-    if (existing) throw new ConflictError('Product', 'sku', data.sku);
+    if (existing) throw new ConflictError(`Product with SKU ${data.sku} already exists`);
 
     const product = await prisma.product.create({
-      data: { ...data, id: uuidv4(), status: data.status || 'ACTIVE' },
+      data: { ...data, id: uuidv4(), status: 'ACTIVE' },
       include: { _count: { select: { inventory: true } } },
     });
 
@@ -114,7 +114,7 @@ productRouter.patch('/:id', async (req: Request, res: Response, next: NextFuncti
 
     if (data.sku && data.sku !== existing.sku) {
       const duplicate = await prisma.product.findUnique({ where: { sku: data.sku } });
-      if (duplicate) throw new ConflictError('Product', 'sku', data.sku);
+      if (duplicate) throw new ConflictError(`Product with SKU ${data.sku} already exists`);
     }
 
     const product = await prisma.product.update({ where: { id }, data: { ...data, updatedAt: new Date() } });
@@ -145,25 +145,25 @@ productRouter.get('/:id/availability', async (req: Request, res: Response, next:
     const product = await prisma.product.findUnique({ where: { id }, include: { inventory: { where: { status: 'AVAILABLE' } } } });
     if (!product) throw new NotFoundError('Product', id);
 
-    const totalAvailable = product.inventory.reduce((sum, inv) => sum + inv.availableQuantity, 0);
-    const totalQuantity = product.inventory.reduce((sum, inv) => sum + inv.quantity, 0);
+    const totalAvailable = product.inventory.reduce((sum: number, inv: any) => sum + (inv.availableQuantity || 0), 0);
+    const totalQuantity = product.inventory.reduce((sum: number, inv: any) => sum + (inv.quantity || 0), 0);
 
     res.json({
       success: true,
-      data: { productId: id, sku: product.sku, name: product.name, totalAvailable, totalQuantity, warehouses: product.inventory.map(i => ({ warehouse: i.warehouseId, available: i.availableQuantity, quantity: i.quantity })) },
-      meta: { requestId: req.id, timestamp: new Date().toISOString() },
+      data: { productId: id, sku: product.sku, name: product.name, totalAvailable, totalQuantity, warehouses: product.inventory.map((i: any) => ({ warehouse: i.warehouseId, available: i.availableQuantity, quantity: i.quantity })) },
+      meta: { requestId: (req as any).id, timestamp: new Date().toISOString() },
     });
   } catch (error) { next(error); }
 });
 
 app.use('/api/v1/products', productRouter);
 app.use(errorHandler);
-app.use((req: Request, res: Response) => { res.status(404).json({ success: false, error: { code: 'NOT_FOUND', message: `Route ${req.method} ${req.path} not found`, traceId: req.id } }); });
+app.use((req: Request, res: Response) => { res.status(404).json({ success: false, error: { code: 'NOT_FOUND', message: `Route ${req.method} ${req.path} not found`, traceId: (req as any).id } }); });
 
 const gracefulShutdown = async (signal: string) => { logger.info(`${signal} received`); await prisma.$disconnect(); await kafkaClient.disconnect(); process.exit(0); };
 process.on('SIGTERM', () => gracefulShutdown('SIGTERM'));
 process.on('SIGINT', () => gracefulShutdown('SIGINT'));
 
-const server = app.listen(PORT, () => { logger.info(`Product Service running on port ${PORT}`); logger.info(`Health: http://localhost:${PORT}/health`); });
+app.listen(PORT, () => { logger.info(`Product Service running on port ${PORT}`); logger.info(`Health: http://localhost:${PORT}/health`); });
 
 export default app;

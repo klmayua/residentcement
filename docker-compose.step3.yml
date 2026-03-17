@@ -1,0 +1,20 @@
+# Step 3: Redis only
+services:
+  redis:
+    image: redis:7-alpine
+    container_name: residentcement-redis
+    command: redis-server --appendonly yes --requirepass DJ4_8RisfviydJqplAX35g
+    ports:
+      - "6379:6379"
+    volumes:
+      - redis_data:/data
+    networks:
+      - resident-cement-network
+    restart: unless-stopped
+
+networks:
+  resident-cement-network:
+    driver: bridge
+
+volumes:
+  redis_data:

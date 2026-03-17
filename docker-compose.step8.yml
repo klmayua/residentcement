@@ -1,0 +1,32 @@
+# Step 8: Gateway only
+services:
+  gateway:
+    image: residentcement-gateway:latest
+    container_name: residentcement-gateway
+    ports:
+      - "8080:3001"
+    environment:
+      NODE_ENV: production
+      PORT: "3001"
+      LOG_LEVEL: info
+      DATABASE_URL: postgresql://resident_cement:xMX2yhYTeTHpvTlkirvDxRKgR-YGJIXU@residentcement-postgres:5432/resident_cement
+      MONGODB_URI: mongodb://resident_cement:aNIoOURofwn7khpg0r9Dgkf7TV3nf6fG@residentcement-mongo:27017/resident_cement?authSource=admin
+      REDIS_HOST: residentcement-redis
+      REDIS_PORT: "6379"
+      REDIS_PASSWORD: DJ4_8RisfviydJqplAX35g
+      REDIS_URL: redis://:DJ4_8RisfviydJqplAX35g@residentcement-redis:6379
+      KAFKA_BROKERS: residentcement-kafka:29092
+      JWT_SECRET: naezH1ElifV9UCL7kxjVhi3lPQsg0sDLNizbPGfo7FDWPVMFA2uTo42k7mbiCco-
+      API_KEY: 02b1397e0eaa09b02a855790e5a5991f97fc5d3cd03383e2f14de46319c63e88
+      CORS_ORIGIN: http://localhost:3000
+      KEYCLOAK_URL: http://residentcement-keycloak:8080
+      MINIO_ENDPOINT: residentcement-minio
+      MINIO_PORT: "9000"
+    networks:
+      - resident-cement-network
+    restart: unless-stopped
+
+networks:
+  resident-cement-network:
+    external: true
+    name: residentcement_resident-cement-network

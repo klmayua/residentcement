@@ -9,6 +9,39 @@ const config: Config = {
   theme: {
     extend: {
       colors: {
+        border: "hsl(var(--border))",
+        input: "hsl(var(--input))",
+        ring: "hsl(var(--ring))",
+        background: "hsl(var(--background))",
+        foreground: "hsl(var(--foreground))",
+        primary: {
+          DEFAULT: "hsl(var(--primary))",
+          foreground: "hsl(var(--primary-foreground))",
+        },
+        secondary: {
+          DEFAULT: "hsl(var(--secondary))",
+          foreground: "hsl(var(--secondary-foreground))",
+        },
+        destructive: {
+          DEFAULT: "hsl(var(--destructive))",
+          foreground: "hsl(var(--destructive-foreground))",
+        },
+        muted: {
+          DEFAULT: "hsl(var(--muted))",
+          foreground: "hsl(var(--muted-foreground))",
+        },
+        accent: {
+          DEFAULT: "hsl(var(--accent))",
+          foreground: "hsl(var(--accent-foreground))",
+        },
+        popover: {
+          DEFAULT: "hsl(var(--popover))",
+          foreground: "hsl(var(--popover-foreground))",
+        },
+        card: {
+          DEFAULT: "hsl(var(--card))",
+          foreground: "hsl(var(--card-foreground))",
+        },
         cement: {
           50: "#fafaf9",
           100: "#f5f5f4",
@@ -22,12 +55,14 @@ const config: Config = {
           900: "#1c1917",
         },
         brand: {
-          primary: "#2d5a27",
-          primaryLight: "#4a7c43",
-          primaryDark: "#1e3d1a",
-          secondary: "#c4a35a",
-          secondaryLight: "#d4b97a",
-          accent: "#e07c3c",
+          primary: "#1C1917",
+          primaryLight: "#44403C",
+          primaryDark: "#0C0A09",
+          secondary: "#C5A55A",
+          secondaryLight: "#D4C08A",
+          secondaryDark: "#A88B3D",
+          accent: "#B8963E",
+          gold: "#C5A55A",
           success: "#22c55e",
           warning: "#f59e0b",
           error: "#ef4444",

@@ -45,8 +45,14 @@ out/
 .env.test.local
 .env.production.local
 .env.docker
+.env.bak
+.env.example.bak
 *.env
 !.env.example
+backend/**/.env
+backend/**/.env.bak
+backend/**/.env.example.bak
+!backend/**/.env.example
 
 # -----------------------------------------------------------------------------
 # Logs

@@ -1,13 +1,14 @@
 /**
- * Kafka Event Publisher Utility
- * 
- * Publishes domain events to Kafka for inter-service communication
+ * Kafka Event Publisher & Consumer Utility
+ *
+ * Publishes domain events to Kafka and consumes events for real-time updates
  */
 
-import { Kafka, Producer, logLevel } from 'kafkajs';
+import { Kafka, Producer, Consumer, logLevel, EachMessagePayload } from 'kafkajs';
 import { createLogger } from '../utils/logger';
+import { broadcastToAll, WSEvent, WSEventType } from './websocket';
 
-const logger = createLogger({ service: 'event-publisher' });
+const logger = createLogger({ service: 'kafka-events' });
 
 const kafka = new Kafka({
   clientId: 'resident-cement-events',
@@ -20,6 +21,7 @@ const kafka = new Kafka({
 });
 
 let producer: Producer;
+let consumer: Consumer;
 
 export const getProducer = async (): Promise<Producer> => {
   if (!producer) {
@@ -28,6 +30,93 @@ export const getProducer = async (): Promise<Producer> => {
     logger.info('Kafka producer connected');
   }
   return producer;
+};
+
+/**
+ * Initialize Kafka consumer for real-time events
+ */
+export const initConsumer = async (): Promise<void> => {
+  if (consumer) {
+    logger.info('Kafka consumer already initialized');
+    return;
+  }
+
+  consumer = kafka.consumer({
+    groupId: 'gateway-websocket-consumer',
+    retry: {
+      initialRetryTime: 100,
+      retries: 8,
+    },
+  });
+
+  await consumer.connect();
+  logger.info('Kafka consumer connected');
+
+  // Subscribe to relevant topics
+  const topics = [
+    'order.events',
+    'inventory.events',
+    'inventory.alerts',
+    'payment.events',
+  ];
+
+  for (const topic of topics) {
+    await consumer.subscribe({ topic, fromBeginning: false });
+    logger.info(`Subscribed to topic: ${topic}`);
+  }
+
+  // Process messages
+  await consumer.run({
+    eachMessage: async ({ topic, partition, message }: EachMessagePayload) => {
+      try {
+        const event = JSON.parse(message.value?.toString() || '{}');
+        logger.debug('Kafka event received', { topic, partition, event });
+
+        // Convert Kafka event to WebSocket event
+        const wsEvent = convertToWSEvent(topic, event);
+        if (wsEvent) {
+          broadcastToAll(wsEvent);
+        }
+      } catch (error: any) {
+        logger.error('Failed to process Kafka message', {
+          topic,
+          partition,
+          error: error.message,
+        });
+      }
+    },
+  });
+
+  logger.info('Kafka consumer running');
+};
+
+/**
+ * Convert Kafka event to WebSocket event format
+ */
+const convertToWSEvent = (topic: string, event: any): WSEvent | null => {
+  const eventType = event.eventType;
+
+  const mapping: Record<string, WSEventType> = {
+    'OrderPlaced': WSEventType.ORDER_CREATED,
+    'OrderConfirmed': WSEventType.ORDER_STATUS_CHANGED,
+    'OrderCancelled': WSEventType.ORDER_CANCELLED,
+    'OrderFulfilled': WSEventType.ORDER_STATUS_CHANGED,
+    'LowStockAlert': WSEventType.INVENTORY_LOW,
+    'InventoryAdjusted': WSEventType.INVENTORY_UPDATED,
+    'InventoryReserved': WSEventType.INVENTORY_UPDATED,
+    'InventoryReleased': WSEventType.INVENTORY_UPDATED,
+    'PaymentCompleted': WSEventType.PAYMENT_COMPLETED,
+    'PaymentFailed': WSEventType.PAYMENT_FAILED,
+  };
+
+  const wsType = mapping[eventType];
+  if (!wsType) return null;
+
+  return {
+    type: wsType,
+    payload: event.data || event,
+    timestamp: event.timestamp || new Date().toISOString(),
+  };
 };
 
 // Event types

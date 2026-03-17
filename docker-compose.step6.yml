@@ -1,0 +1,25 @@
+# Step 6: MinIO only
+services:
+  minio:
+    image: minio/minio:latest
+    container_name: residentcement-minio
+    environment:
+      MINIO_ROOT_USER: minio_admin
+      MINIO_ROOT_PASSWORD: Ec-fz2m23HkunwFW86MmSQ
+    ports:
+      - "9000:9000"
+      - "9002:9001"
+    command: server /data --console-address ":9001"
+    volumes:
+      - minio_data:/data
+    networks:
+      - resident-cement-network
+    restart: unless-stopped
+
+networks:
+  resident-cement-network:
+    external: true
+    name: residentcement_resident-cement-network
+
+volumes:
+  minio_data:
