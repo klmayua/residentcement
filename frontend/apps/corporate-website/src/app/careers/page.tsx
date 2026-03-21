@@ -9,10 +9,16 @@ const benefits = [
 ];
 
 const openings = [
-  { title: "Sales Manager", department: "Sales", location: "Lagos", type: "Full-time" },
-  { title: "Logistics Coordinator", department: "Operations", location: "Abuja", type: "Full-time" },
-  { title: "Customer Service Rep", department: "Support", location: "Remote", type: "Full-time" },
-  { title: "Warehouse Supervisor", department: "Operations", location: "Port Harcourt", type: "Full-time" },
+  { title: "Plant Manager", department: "Operations", location: "Bauchi", type: "Full-time" },
+  { title: "Production Engineer", department: "Manufacturing", location: "Bauchi", type: "Full-time" },
+  { title: "Quality Control Manager", department: "Quality", location: "Bauchi", type: "Full-time" },
+  { title: "Head of Sales", department: "Sales", location: "Abuja", type: "Full-time" },
+  { title: "Logistics Manager", department: "Supply Chain", location: "Bauchi", type: "Full-time" },
+  { title: "Safety Officer", department: "HSE", location: "Bauchi", type: "Full-time" },
+  { title: "Electrical Engineer", department: "Maintenance", location: "Bauchi", type: "Full-time" },
+  { title: "Human Resources Manager", department: "HR", location: "Abuja", type: "Full-time" },
+  { title: "Financial Controller", department: "Finance", location: "Abuja", type: "Full-time" },
+  { title: "IT Systems Administrator", department: "Technology", location: "Bauchi", type: "Full-time" },
 ];
 
 export default function CareersPage() {
@@ -22,7 +28,8 @@ export default function CareersPage() {
         <div className="container mx-auto px-4 sm:px-6 lg:px-8 text-center">
           <h1 className="text-4xl md:text-5xl font-bold mb-4">Join Our Team</h1>
           <p className="text-xl text-cement-200 max-w-2xl mx-auto">
-            Build your career with Nigeria's leading cement distribution platform
+            Join Nigeria's emerging cement manufacturing giant. Be part of building
+            our $500 million world-class cement plant in Bauchi State.
           </p>
         </div>
       </section>

@@ -22,67 +22,67 @@ const features = [
   },
   {
     icon: Truck,
-    title: "Fast Delivery",
-    description: "Nationwide delivery within 48 hours",
+    title: "Nationwide Distribution",
+    description: "Serving all 36 states across Nigeria",
   },
   {
     icon: Shield,
-    title: "Secure Payment",
-    description: "Multiple payment options with bank-grade security",
+    title: "Sustainable Production",
+    description: "Eco-friendly manufacturing with 100-150MW captive power plant",
   },
   {
     icon: Clock,
-    title: "24/7 Support",
-    description: "Round-the-clock customer service",
+    title: "Global Partnership",
+    description: "Strategic alliance with Sinoma Nigeria Company",
   },
 ];
 
 const stats = [
-  { value: "50,000+", label: "Tons Delivered", icon: Package },
-  { value: "1,200+", label: "Happy Clients", icon: Users },
-  { value: "15+", label: "Years Experience", icon: Award },
-  { value: "98%", label: "Satisfaction Rate", icon: TrendingUp },
+  { value: "$500M", label: "Investment", icon: Package },
+  { value: "10M", label: "Tons/Year Capacity", icon: Users },
+  { value: "2025", label: "Production Start", icon: Award },
+  { value: "36", label: "States Coverage", icon: TrendingUp },
 ];
 
 const products = [
   {
-    name: "Dangote Cement 42.5R",
+    name: "Resident Cement 42.5R",
     grade: "Premium",
-    description: "High-strength cement for structural applications",
-    price: "₦4,500",
+    description: "High-strength cement for structural applications and major construction projects",
+    price: "Coming Soon",
     unit: "per bag",
   },
   {
-    name: "Dangote Cement 32.5R",
+    name: "Resident Cement 32.5R",
     grade: "Standard",
-    description: "General purpose cement for plastering and masonry",
-    price: "₦4,200",
+    description: "General purpose cement for plastering, masonry, and residential construction",
+    price: "Coming Soon",
     unit: "per bag",
   },
   {
-    name: "Dangote Cement 52.5R",
+    name: "Resident Cement 52.5R",
     grade: "High Strength",
-    description: "Ultra-high strength for demanding projects",
-    price: "₦5,200",
+    description: "Ultra-high strength for infrastructure, bridges, and demanding industrial projects",
+    price: "Coming Soon",
     unit: "per bag",
   },
 ];
 
 const testimonials = [
   {
-    quote: "ResidentCement transformed our supply chain. Reliable delivery and excellent quality.",
-    author: "Engr. Adebayo Johnson",
-    role: "CEO, Johnson Construction Ltd",
+    quote: "The Bauchi cement plant represents a major milestone for Nigeria's infrastructure development. Resident Cement is positioned to transform the industry.",
+    author: "Industry Analyst",
+    role: "Global Cement Review",
   },
   {
-    quote: "The best cement distributor we've worked with. Professional service every time.",
-    author: "Mrs. Nkechi Okafor",
-    role: "Director, Okafor Estates",
+    quote: "The strategic partnership with Sinoma Nigeria Company brings world-class technology and expertise to cement production in Nigeria.",
+    author: "Construction Expert",
+    role: "Nigeria Infrastructure Summit",
   },
   {
-    quote: "Their platform makes ordering so easy. Real-time tracking is a game-changer.",
-    author: "Mr. Ibrahim Musa",
-    role: "Procurement Manager, Musa Builders",
+    quote: "Resident Cement's commitment to sustainable energy with their captive power plant sets a new standard for the industry.",
+    author: "Energy Consultant",
+    role: "West African Power Initiative",
   },
 ];
 
@@ -101,12 +101,13 @@ export default function HomePage() {
 
             <h1 className="text-4xl md:text-5xl lg:text-6xl font-bold mb-6 leading-tight">
               Building Nigeria's Future with
-              <span className="text-brand-accent"> Premium Cement</span>
+              <span className="text-brand-accent"> World-Class Cement</span>
             </h1>
 
             <p className="text-lg md:text-xl text-cement-200 mb-8 max-w-2xl mx-auto">
-              Nigeria's premier cement distribution platform. Quality products,
-              reliable delivery, and innovative solutions for construction professionals.
+              Resident Cement Company Limited — Nigeria's emerging cement manufacturing giant.
+              Our $500 million Bauchi plant will produce 10 million tonnes annually,
+              powered by sustainable energy and cutting-edge technology.
             </p>
 
             <div className="flex flex-col sm:flex-row gap-4 justify-center">
@@ -179,8 +180,8 @@ export default function HomePage() {
                 Our Products
               </h2>
               <p className="text-cement-600">
-                Premium cement grades suitable for all construction needs,
-                from residential buildings to major infrastructure projects.
+                Premium cement grades manufactured at our state-of-the-art Bauchi plant,
+                suitable for all construction needs — from residential buildings to major infrastructure projects.
               </p>
             </div>
             <Link href="/products/" className="mt-4 md:mt-0">

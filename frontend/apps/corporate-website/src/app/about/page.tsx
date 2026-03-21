@@ -3,32 +3,32 @@ import { Building2, Users, Award, Globe } from "lucide-react";
 const values = [
   {
     icon: Award,
-    title: "Quality First",
+    title: "Quality",
     description: "We never compromise on product quality, ensuring every bag meets international standards.",
   },
   {
     icon: Users,
-    title: "Customer Focus",
-    description: "Our customers are at the heart of everything we do, from order to delivery.",
+    title: "Empowerment",
+    description: "Creating jobs and empowering local communities through sustainable industrial development.",
   },
   {
     icon: Globe,
     title: "Sustainability",
-    description: "Committed to environmentally responsible practices across our operations.",
+    description: "Committed to environmentally responsible manufacturing with clean energy solutions.",
   },
   {
     icon: Building2,
     title: "Innovation",
-    description: "Continuously improving our platform and services through technology.",
+    description: "Pioneering advanced cement technology through strategic global partnerships.",
   },
 ];
 
 const milestones = [
-  { year: "2020", title: "Founded", description: "ResidentCement established in Lagos" },
-  { year: "2021", title: "Platform Launch", description: "Digital distribution platform goes live" },
-  { year: "2022", title: "Expansion", description: "Coverage extended to all 36 states" },
-  { year: "2023", title: "Partnerships", description: "Strategic partnerships with major suppliers" },
-  { year: "2024", title: "Innovation", description: "Mobile app and USSD channels launched" },
+  { year: "2023", title: "Company Founded", description: "Resident Cement Company Limited registered under Corporate Affairs Commission" },
+  { year: "2024", title: "Mining Licenses Acquired", description: "Secured mining licenses throughout Nigeria" },
+  { year: "2024", title: "Sinoma Partnership", description: "Strategic partnership with Sinoma Nigeria Company for technology transfer" },
+  { year: "2025", title: "Bauchi Plant Construction", description: "Groundbreaking of $500M cement plant in Gwana District, Alkaleri LGA" },
+  { year: "2026", title: "Production Launch", description: "Commercial production begins with 10 million tonnes annual capacity" },
 ];
 
 export default function AboutPage() {
@@ -38,10 +38,11 @@ export default function AboutPage() {
       <section className="py-20 bg-gradient-to-br from-brand-dark via-brand-secondary to-brand-primary text-white">
         <div className="container mx-auto px-4 sm:px-6 lg:px-8">
           <div className="max-w-3xl">
-            <h1 className="text-4xl md:text-5xl font-bold mb-6">About ResidentCement</h1>
+            <h1 className="text-4xl md:text-5xl font-bold mb-6">About Resident Cement</h1>
             <p className="text-xl text-cement-200">
-              Building Nigeria's future through reliable cement distribution,
-              innovative technology, and unwavering commitment to quality.
+              Nigeria's emerging cement manufacturing giant — building a $500 million
+              world-class cement plant in Bauchi State to power the nation's
+              infrastructure transformation.
             </p>
           </div>
         </div>
@@ -54,26 +55,26 @@ export default function AboutPage() {
             <div>
               <h2 className="text-3xl font-bold text-cement-900 mb-4">Our Mission</h2>
               <p className="text-cement-600 mb-6">
-                To revolutionize cement distribution in Nigeria by providing
-                seamless access to quality products through innovative technology,
-                reliable logistics, and exceptional customer service.
+                To produce high-quality, affordable cement while contributing to Nigeria's
+                economic development through job creation, sustainable industrial growth,
+                and infrastructure advancement.
               </p>
 
               <h2 className="text-3xl font-bold text-cement-900 mb-4">Our Vision</h2>
               <p className="text-cement-600">
-                To become Africa's leading digital cement distribution platform,
-                empowering construction professionals with efficient procurement
-                solutions and contributing to the continent's infrastructure development.
+                To become a global leader in cement production, setting benchmarks for
+                quality, innovation, and sustainability while powering Nigeria's
+                infrastructure transformation.
               </p>
             </div>
 
             <div className="bg-cement-50 rounded-2xl p-8">
               <div className="grid grid-cols-2 gap-6">
                 {[
-                  { value: "50,000+", label: "Tons Delivered" },
-                  { value: "1,200+", label: "Clients Served" },
-                  { value: "36", label: "States Covered" },
-                  { value: "99%", label: "On-Time Delivery" },
+                  { value: "$500M", label: "Investment" },
+                  { value: "10M", label: "Tons/Year" },
+                  { value: "100-150MW", label: "Power Plant" },
+                  { value: "36", label: "States" },
                 ].map((stat) => (
                   <div key={stat.label} className="text-center">
                     <div className="text-3xl font-bold text-brand-primary">{stat.value}</div>

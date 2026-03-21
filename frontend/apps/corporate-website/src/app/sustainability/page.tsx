@@ -2,24 +2,24 @@ import { Leaf, Droplets, Sun, Recycle, TreePine } from "lucide-react";
 
 const initiatives = [
   {
+    icon: Sun,
+    title: "Clean Energy Power Plant",
+    description: "100-150MW captive power station using coal and gas to power our plant and supply regional grid.",
+  },
+  {
     icon: Leaf,
     title: "Carbon Reduction",
-    description: "Committed to reducing our carbon footprint through efficient logistics and operations.",
+    description: "Advanced manufacturing technology from Sinoma reduces emissions per ton of cement produced.",
   },
   {
     icon: Droplets,
     title: "Water Conservation",
-    description: "Implementing water recycling systems in our warehousing facilities.",
-  },
-  {
-    icon: Sun,
-    title: "Solar Energy",
-    description: "Transitioning to solar power for our operations where feasible.",
+    description: "Closed-loop water recycling systems in our manufacturing process minimize freshwater usage.",
   },
   {
     icon: Recycle,
-    title: "Waste Reduction",
-    description: "Minimizing packaging waste through optimized distribution processes.",
+    title: "Sustainable Materials",
+    description: "Exploring alternative fuels and raw materials to reduce environmental impact.",
   },
 ];
 
@@ -41,11 +41,12 @@ export default function SustainabilityPage() {
           <div className="text-center max-w-3xl mx-auto mb-12">
             <h2 className="text-3xl font-bold text-cement-900 mb-4">Our Commitment</h2>
             <p className="text-cement-600">
-              At ResidentCement, we believe sustainable business practices are not just
-              good for the environment—they're good for business. We're committed to
-              reducing our environmental impact while delivering exceptional service.
-            </p>
-          </div>
+              At Resident Cement Company Limited, sustainability is at the core of our operations.
+              Our $500 million Bauchi plant incorporates the latest eco-friendly technology,
+              including a 100-150MW captive power plant and advanced emission control systems.
+              We are committed to producing high-quality cement while protecting Nigeria's environment
+              for future generations.
+            </p>          </div>
 
           <div className="grid md:grid-cols-2 lg:grid-cols-4 gap-6">
             {initiatives.map((initiative) => (

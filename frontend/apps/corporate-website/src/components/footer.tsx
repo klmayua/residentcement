@@ -37,8 +37,9 @@ export function Footer() {
               </span>
             </div>
             <p className="text-cement-400 text-sm">
-              Nigeria's premier cement distribution platform, delivering quality
-              building materials nationwide since 2020.
+              Resident Cement Company Limited — Building Nigeria's future with our
+              $500 million world-class cement plant in Bauchi State. 10 million tonnes
+              annual capacity coming 2026.
             </p>
             <div className="flex gap-4">
               <a href="#" className="text-cement-400 hover:text-white transition-colors">
@@ -97,9 +98,9 @@ export function Footer() {
               <li className="flex items-start gap-3">
                 <MapPin className="h-5 w-5 text-brand-accent shrink-0" />
                 <span className="text-cement-400 text-sm">
-                  123 Cement Road, Industrial District,
+                  Gwana District, Alkaleri LGA,
                   <br />
-                  Lagos, Nigeria
+                  Bauchi State, Nigeria
                 </span>
               </li>
               <li className="flex items-center gap-3">
@@ -120,7 +121,7 @@ export function Footer() {
 
         <div className="border-t border-cement-700 mt-12 pt-8 flex flex-col md:flex-row justify-between items-center gap-4">
           <p className="text-cement-400 text-sm">
-            © {new Date().getFullYear()} ResidentCement. All rights reserved.
+            © {new Date().getFullYear()} Resident Cement Company Limited. All rights reserved.
           </p>
           <div className="flex gap-6">
             <Link href="/privacy/" className="text-cement-400 hover:text-white text-sm">

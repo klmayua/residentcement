@@ -29,9 +29,27 @@ export default function ContactPage() {
                   <div>
                     <h3 className="font-semibold text-cement-900">Head Office</h3>
                     <p className="text-cement-600">
-                      123 Cement Road, Industrial District
+                      Resident Cement Company Limited
                       <br />
-                      Lagos, Nigeria
+                      Corporate Headquarters, Abuja FCT
+                      <br />
+                      Nigeria
+                    </p>
+                  </div>
+                </div>
+
+                <div className="flex items-start gap-4">
+                  <div className="w-12 h-12 rounded-lg bg-brand-primary/10 flex items-center justify-center shrink-0">
+                    <MapPin className="h-6 w-6 text-brand-primary" />
+                  </div>
+                  <div>
+                    <h3 className="font-semibold text-cement-900">Bauchi Plant</h3>
+                    <p className="text-cement-600">
+                      Gwana District, Alkaleri LGA
+                      <br />
+                      Bauchi State, Nigeria
+                      <br />
+                      <span className="text-brand-primary font-medium">10 Million Tonnes/Year Capacity</span>
                     </p>
                   </div>
                 </div>
@@ -43,9 +61,9 @@ export default function ContactPage() {
                   <div>
                     <h3 className="font-semibold text-cement-900">Phone</h3>
                     <p className="text-cement-600">
-                      Sales: +234 123 456 7890
+                      Corporate: +234 800 RESIDENT
                       <br />
-                      Support: +234 123 456 7891
+                      Sales: +234 800 737 4683
                     </p>
                   </div>
                 </div>
@@ -57,9 +75,11 @@ export default function ContactPage() {
                   <div>
                     <h3 className="font-semibold text-cement-900">Email</h3>
                     <p className="text-cement-600">
+                      General: info@residentcement.com
+                      <br />
                       Sales: sales@residentcement.com
                       <br />
-                      Support: support@residentcement.com
+                      Careers: careers@residentcement.com
                     </p>
                   </div>
                 </div>
@@ -136,9 +156,11 @@ export default function ContactPage() {
                   </label>
                   <select className="w-full px-4 py-2 rounded-lg border border-cement-300 focus:border-brand-primary focus:ring-2 focus:ring-brand-primary/20 outline-none">
                     <option>General Inquiry</option>
-                    <option>Sales Quote</option>
-                    <option>Distributor Application</option>
-                    <option>Support</option>
+                    <option>Sales / Distribution</option>
+                    <option>Distributor Partnership</option>
+                    <option>Careers / Recruitment</option>
+                    <option>Media / Press</option>
+                    <option>Investor Relations</option>
                   </select>
                 </div>
 
