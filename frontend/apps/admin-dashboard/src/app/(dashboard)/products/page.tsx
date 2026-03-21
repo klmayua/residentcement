@@ -1,48 +1,75 @@
 "use client";
 
 import { useState } from "react";
-import { Search, Filter, Plus, Download, MoreVertical, Package, Edit, Trash2 } from "lucide-react";
-import { api, formatCurrency } from "@/lib/api";
-
-const mockProducts = [
-  { id: "PROD-001", name: "Dangote Cement 42.5R", sku: "DGC-42.5R-50", category: "Portland Cement", basePrice: 4500, stock: 5000, unit: "bag", minOrder: 50, isActive: true, description: "Premium grade cement for general construction" },
-  { id: "PROD-002", name: "Dangote Cement 32.5R", sku: "DGC-32.5R-50", category: "Portland Cement", basePrice: 4200, stock: 8000, unit: "bag", minOrder: 50, isActive: true, description: "Standard grade cement for masonry works" },
-  { id: "PROD-003", name: "Ashaka Cement 42.5R", sku: "ASH-42.5R-50", category: "Portland Cement", basePrice: 4600, stock: 3000, unit: "bag", minOrder: 50, isActive: true, description: "High strength cement for structural works" },
-  { id: "PROD-004", name: "Ashaka Cement 32.5R", sku: "ASH-32.5R-50", category: "Portland Cement", basePrice: 4300, stock: 0, unit: "bag", minOrder: 50, isActive: false, description: "General purpose cement" },
-  { id: "PROD-005", name: "Bamburi Cement 42.5R", sku: "BAM-42.5R-50", category: "Portland Cement", basePrice: 4800, stock: 2500, unit: "bag", minOrder: 50, isActive: true, description: "Premium cement from Bamburi" },
-  { id: "PROD-006", name: "WAPCO Cement 42.5R", sku: "WAP-42.5R-50", category: "Portland Cement", basePrice: 4400, stock: 6000, unit: "bag", minOrder: 50, isActive: true, description: "Quality cement for construction" },
-  { id: "PROD-007", name: "Bulk Cement (Per Ton)", sku: "BULK-TON", category: "Bulk Cement", basePrice: 85000, stock: 500, unit: "ton", minOrder: 1, isActive: true, description: "Bulk cement for large projects" },
-  { id: "PROD-008", name: "Cement Bag Empty", sku: "BAG-EMPTY", category: "Packaging", basePrice: 50, stock: 25000, unit: "piece", minOrder: 100, isActive: true, description: "Empty 50kg cement bag" },
-];
+import { Search, Plus, Download, MoreVertical, Edit, Trash2, Loader2 } from "lucide-react";
+import { useProducts, useDeleteProduct } from "@/hooks/useProducts";
+import { formatCurrency } from "@/lib/api";
 
 const categoryConfig: Record<string, { color: string }> = {
-  "Portland Cement": { color: "bg-blue-100 text-blue-800 dark:bg-blue-900 dark:text-blue-200" },
-  "Bulk Cement": { color: "bg-purple-100 text-purple-800 dark:bg-purple-900 dark:text-purple-200" },
-  "Packaging": { color: "bg-green-100 text-green-800 dark:bg-green-900 dark:text-green-200" },
+  CEMENT: { color: "bg-blue-100 text-blue-800 dark:bg-blue-900 dark:text-blue-200" },
+  CONCRETE: { color: "bg-purple-100 text-purple-800 dark:bg-purple-900 dark:text-purple-200" },
+  AGGREGATE: { color: "bg-green-100 text-green-800 dark:bg-green-900 dark:text-green-200" },
+  ADDITIVE: { color: "bg-yellow-100 text-yellow-800 dark:bg-yellow-900 dark:text-yellow-200" },
+  EQUIPMENT: { color: "bg-gray-100 text-gray-800 dark:bg-gray-700 dark:text-gray-200" },
 };
 
 export default function ProductsPage() {
   const [searchQuery, setSearchQuery] = useState("");
   const [categoryFilter, setCategoryFilter] = useState("all");
   const [stockFilter, setStockFilter] = useState("all");
+  const [page, setPage] = useState(1);
 
-  const categories = [...new Set(mockProducts.map(p => p.category))];
-
-  const filteredProducts = mockProducts.filter((product) => {
-    const matchesSearch = product.name.toLowerCase().includes(searchQuery.toLowerCase()) ||
-      product.sku.toLowerCase().includes(searchQuery.toLowerCase());
-    const matchesCategory = categoryFilter === "all" || product.category === categoryFilter;
-    const matchesStock = stockFilter === "all" || 
-      (stockFilter === "in_stock" && product.stock > 0) ||
-      (stockFilter === "out_of_stock" && product.stock === 0) ||
-      (stockFilter === "low_stock" && product.stock > 0 && product.stock < 500);
-    return matchesSearch && matchesCategory && matchesStock;
+  // Fetch products from API
+  const { data: productsData, isLoading, error, refetch } = useProducts({
+    page,
+    limit: 10,
+    category: categoryFilter !== "all" ? categoryFilter : undefined,
   });
 
-  const totalProducts = mockProducts.length;
-  const inStockProducts = mockProducts.filter(p => p.stock > 0).length;
-  const lowStockProducts = mockProducts.filter(p => p.stock > 0 && p.stock < 500).length;
-  const outOfStockProducts = mockProducts.filter(p => p.stock === 0).length;
+  const deleteProduct = useDeleteProduct();
+
+  const products = productsData?.data || [];
+  const pagination = productsData?.meta?.pagination;
+
+  // Get unique categories
+  const categories = [...new Set(products.map((p) => p.category))];
+
+  // Filter products client-side for search and stock
+  const filteredProducts = products.filter((product) => {
+    const matchesSearch =
+      product.name.toLowerCase().includes(searchQuery.toLowerCase()) ||
+      product.sku.toLowerCase().includes(searchQuery.toLowerCase());
+    // Note: Stock filtering would need inventory data - simplified here
+    return matchesSearch;
+  });
+
+  const handleDelete = async (id: string) => {
+    if (window.confirm("Are you sure you want to delete this product?")) {
+      try {
+        await deleteProduct.mutateAsync(id);
+      } catch (error) {
+        console.error("Failed to delete product:", error);
+      }
+    }
+  };
+
+  // Calculate stats from API data
+  const totalProducts = pagination?.total || 0;
+  const inStockProducts = products.filter((p) => p.status === "ACTIVE").length;
+
+  if (error) {
+    return (
+      <div className="flex flex-col items-center justify-center py-12">
+        <p className="text-red-500">Failed to load products</p>
+        <button
+          onClick={() => refetch()}
+          className="mt-4 rounded-lg bg-primary px-4 py-2 text-white"
+        >
+          Retry
+        </button>
+      </div>
+    );
+  }
 
   return (
     <div className="space-y-6">
@@ -70,34 +97,42 @@ export default function ProductsPage() {
               <p className="text-sm text-gray-500 dark:text-gray-400">Total Products</p>
               <p className="text-2xl font-bold text-gray-900 dark:text-white">{totalProducts}</p>
             </div>
-            <Package className="h-8 w-8 text-blue-500" />
+            <div className="flex h-12 w-12 items-center justify-center rounded-lg bg-blue-100 dark:bg-blue-900">
+              <span className="text-2xl">📦</span>
+            </div>
           </div>
         </div>
         <div className="rounded-xl border bg-white p-4 shadow-sm dark:bg-gray-800">
           <div className="flex items-center justify-between">
             <div>
-              <p className="text-sm text-gray-500 dark:text-gray-400">In Stock</p>
+              <p className="text-sm text-gray-500 dark:text-gray-400">Active</p>
               <p className="text-2xl font-bold text-green-600">{inStockProducts}</p>
             </div>
-            <Package className="h-8 w-8 text-green-500" />
+            <div className="flex h-12 w-12 items-center justify-center rounded-lg bg-green-100 dark:bg-green-900">
+              <span className="text-2xl">✅</span>
+            </div>
           </div>
         </div>
         <div className="rounded-xl border bg-white p-4 shadow-sm dark:bg-gray-800">
           <div className="flex items-center justify-between">
             <div>
-              <p className="text-sm text-gray-500 dark:text-gray-400">Low Stock</p>
-              <p className="text-2xl font-bold text-yellow-600">{lowStockProducts}</p>
+              <p className="text-sm text-gray-500 dark:text-gray-400">Categories</p>
+              <p className="text-2xl font-bold text-yellow-600">{categories.length}</p>
             </div>
-            <Package className="h-8 w-8 text-yellow-500" />
+            <div className="flex h-12 w-12 items-center justify-center rounded-lg bg-yellow-100 dark:bg-yellow-900">
+              <span className="text-2xl">🏷️</span>
+            </div>
           </div>
         </div>
         <div className="rounded-xl border bg-white p-4 shadow-sm dark:bg-gray-800">
           <div className="flex items-center justify-between">
             <div>
-              <p className="text-sm text-gray-500 dark:text-gray-400">Out of Stock</p>
-              <p className="text-2xl font-bold text-red-600">{outOfStockProducts}</p>
+              <p className="text-sm text-gray-500 dark:text-gray-400">Inactive</p>
+              <p className="text-2xl font-bold text-gray-600">{totalProducts - inStockProducts}</p>
             </div>
-            <Package className="h-8 w-8 text-red-500" />
+            <div className="flex h-12 w-12 items-center justify-center rounded-lg bg-gray-100 dark:bg-gray-700">
+              <span className="text-2xl">⏸️</span>
+            </div>
           </div>
         </div>
       </div>
@@ -120,7 +155,7 @@ export default function ProductsPage() {
             className="rounded-lg border border-gray-300 px-3 py-2 text-sm focus:border-primary focus:outline-none dark:border-gray-700 dark:bg-gray-800"
           >
             <option value="all">All Categories</option>
-            {categories.map(cat => (
+            {categories.map((cat) => (
               <option key={cat} value={cat}>{cat}</option>
             ))}
           </select>
@@ -129,10 +164,10 @@ export default function ProductsPage() {
             onChange={(e) => setStockFilter(e.target.value)}
             className="rounded-lg border border-gray-300 px-3 py-2 text-sm focus:border-primary focus:outline-none dark:border-gray-700 dark:bg-gray-800"
           >
-            <option value="all">All Stock</option>
-            <option value="in_stock">In Stock</option>
-            <option value="low_stock">Low Stock</option>
-            <option value="out_of_stock">Out of Stock</option>
+            <option value="all">All Status</option>
+            <option value="active">Active</option>
+            <option value="inactive">Inactive</option>
+            <option value="discontinued">Discontinued</option>
           </select>
         </div>
       </div>
@@ -146,72 +181,113 @@ export default function ProductsPage() {
                 <th className="px-6 py-3 text-left text-xs font-medium uppercase tracking-wider text-gray-500 dark:text-gray-400">SKU</th>
                 <th className="px-6 py-3 text-left text-xs font-medium uppercase tracking-wider text-gray-500 dark:text-gray-400">Category</th>
                 <th className="px-6 py-3 text-left text-xs font-medium uppercase tracking-wider text-gray-500 dark:text-gray-400">Price</th>
-                <th className="px-6 py-3 text-left text-xs font-medium uppercase tracking-wider text-gray-500 dark:text-gray-400">Stock</th>
-                <th className="px-6 py-3 text-left text-xs font-medium uppercase tracking-wider text-gray-500 dark:text-gray-400">Min Order</th>
+                <th className="px-6 py-3 text-left text-xs font-medium uppercase tracking-wider text-gray-500 dark:text-gray-400">Unit</th>
                 <th className="px-6 py-3 text-left text-xs font-medium uppercase tracking-wider text-gray-500 dark:text-gray-400">Status</th>
                 <th className="px-6 py-3 text-left text-xs font-medium uppercase tracking-wider text-gray-500 dark:text-gray-400">Actions</th>
               </tr>
             </thead>
             <tbody className="divide-y divide-gray-200 dark:divide-gray-700">
-              {filteredProducts.map((product) => (
-                <tr key={product.id} className="hover:bg-gray-50 dark:hover:bg-gray-900">
-                  <td className="whitespace-nowrap px-6 py-4">
-                    <div>
-                      <div className="font-medium text-gray-900 dark:text-white">{product.name}</div>
-                      <div className="text-xs text-gray-500 dark:text-gray-400">{product.description}</div>
-                    </div>
-                  </td>
-                  <td className="whitespace-nowrap px-6 py-4 text-sm text-gray-600 dark:text-gray-300">
-                    {product.sku}
-                  </td>
-                  <td className="whitespace-nowrap px-6 py-4">
-                    <span className={`inline-flex rounded-full px-2.5 py-0.5 text-xs font-medium ${categoryConfig[product.category]?.color}`}>
-                      {product.category}
-                    </span>
-                  </td>
-                  <td className="whitespace-nowrap px-6 py-4 text-sm font-medium text-gray-900 dark:text-white">
-                    {formatCurrency(product.basePrice)}/{product.unit}
-                  </td>
-                  <td className="whitespace-nowrap px-6 py-4">
-                    <div className="flex items-center">
-                      <span className={`text-sm ${product.stock === 0 ? 'text-red-600' : product.stock < 500 ? 'text-yellow-600' : 'text-green-600'}`}>
-                        {product.stock.toLocaleString()}
-                      </span>
-                      <span className="ml-1 text-xs text-gray-500">{product.unit}s</span>
-                    </div>
-                  </td>
-                  <td className="whitespace-nowrap px-6 py-4 text-sm text-gray-600 dark:text-gray-300">
-                    {product.minOrder} {product.unit}s
-                  </td>
-                  <td className="whitespace-nowrap px-6 py-4">
-                    <span className={`inline-flex rounded-full px-2.5 py-0.5 text-xs font-medium ${product.isActive ? 'bg-green-100 text-green-800 dark:bg-green-900 dark:text-green-200' : 'bg-gray-100 text-gray-800 dark:bg-gray-700 dark:text-gray-200'}`}>
-                      {product.isActive ? "Active" : "Inactive"}
-                    </span>
-                  </td>
-                  <td className="whitespace-nowrap px-6 py-4">
-                    <div className="flex space-x-1">
-                      <button className="rounded p-1 hover:bg-gray-100 dark:hover:bg-gray-700" title="Edit">
-                        <Edit className="h-4 w-4 text-gray-500" />
-                      </button>
-                      <button className="rounded p-1 hover:bg-gray-100 dark:hover:bg-gray-700" title="Delete">
-                        <Trash2 className="h-4 w-4 text-red-500" />
-                      </button>
-                    </div>
+              {isLoading ? (
+                <tr>
+                  <td colSpan={7} className="px-6 py-12 text-center">
+                    <Loader2 className="mx-auto h-8 w-8 animate-spin text-primary" />
                   </td>
                 </tr>
-              ))}
+              ) : filteredProducts.length === 0 ? (
+                <tr>
+                  <td colSpan={7} className="px-6 py-12 text-center text-gray-500">
+                    No products found
+                  </td>
+                </tr>
+              ) : (
+                filteredProducts.map((product) => (
+                  <tr key={product.id} className="hover:bg-gray-50 dark:hover:bg-gray-900">
+                    <td className="whitespace-nowrap px-6 py-4">
+                      <div>
+                        <div className="font-medium text-gray-900 dark:text-white">{product.name}</div>
+                        {product.description && (
+                          <div className="text-xs text-gray-500 dark:text-gray-400 truncate max-w-xs">{product.description}</div>
+                        )}
+                      </div>
+                    </td>
+                    <td className="whitespace-nowrap px-6 py-4 text-sm text-gray-600 dark:text-gray-300">
+                      {product.sku}
+                    </td>
+                    <td className="whitespace-nowrap px-6 py-4">
+                      <span
+                        className={`inline-flex rounded-full px-2.5 py-0.5 text-xs font-medium ${
+                          categoryConfig[product.category]?.color || "bg-gray-100 text-gray-800"
+                        }`}
+                      >
+                        {product.category}
+                      </span>
+                    </td>
+                    <td className="whitespace-nowrap px-6 py-4 text-sm font-medium text-gray-900 dark:text-white">
+                      {formatCurrency(Number(product.basePrice))}
+                    </td>
+                    <td className="whitespace-nowrap px-6 py-4 text-sm text-gray-600 dark:text-gray-300">
+                      {product.unitOfMeasure}
+                    </td>
+                    <td className="whitespace-nowrap px-6 py-4">
+                      <span
+                        className={`inline-flex rounded-full px-2.5 py-0.5 text-xs font-medium ${
+                          product.status === "ACTIVE"
+                            ? "bg-green-100 text-green-800 dark:bg-green-900 dark:text-green-200"
+                            : product.status === "INACTIVE"
+                            ? "bg-yellow-100 text-yellow-800 dark:bg-yellow-900 dark:text-yellow-200"
+                            : "bg-gray-100 text-gray-800 dark:bg-gray-700 dark:text-gray-200"
+                        }`}
+                      >
+                        {product.status}
+                      </span>
+                    </td>
+                    <td className="whitespace-nowrap px-6 py-4">
+                      <div className="flex space-x-1">
+                        <button className="rounded p-1 hover:bg-gray-100 dark:hover:bg-gray-700" title="Edit">
+                          <Edit className="h-4 w-4 text-gray-500" />
+                        </button>
+                        <button
+                          className="rounded p-1 hover:bg-gray-100 dark:hover:bg-gray-700"
+                          title="Delete"
+                          onClick={() => handleDelete(product.id)}
+                          disabled={deleteProduct.isPending}
+                        >
+                          <Trash2 className="h-4 w-4 text-red-500" />
+                        </button>
+                      </div>
+                    </td>
+                  </tr>
+                ))
+              )}
             </tbody>
           </table>
         </div>
-        <div className="flex items-center justify-between border-t px-6 py-4">
-          <div className="text-sm text-gray-500 dark:text-gray-400">
-            Showing {filteredProducts.length} of {mockProducts.length} products
+
+        {/* Pagination */}
+        {pagination && (
+          <div className="flex items-center justify-between border-t px-6 py-4">
+            <div className="text-sm text-gray-500 dark:text-gray-400">
+              Showing {(page - 1) * pagination.limit + 1} -{" "}
+              {Math.min(page * pagination.limit, pagination.total)} of {pagination.total} products
+            </div>
+            <div className="flex space-x-2">
+              <button
+                onClick={() => setPage((p) => Math.max(1, p - 1))}
+                disabled={page === 1}
+                className="rounded-lg border px-3 py-1 text-sm hover:bg-gray-50 disabled:opacity-50 dark:border-gray-700 dark:hover:bg-gray-800"
+              >
+                Previous
+              </button>
+              <button
+                onClick={() => setPage((p) => (pagination.hasMore ? p + 1 : p))}
+                disabled={!pagination.hasMore}
+                className="rounded-lg border px-3 py-1 text-sm hover:bg-gray-50 disabled:opacity-50 dark:border-gray-700 dark:hover:bg-gray-800"
+              >
+                Next
+              </button>
+            </div>
           </div>
-          <div className="flex space-x-2">
-            <button className="rounded-lg border px-3 py-1 text-sm hover:bg-gray-50 dark:border-gray-700 dark:hover:bg-gray-800">Previous</button>
-            <button className="rounded-lg border px-3 py-1 text-sm hover:bg-gray-50 dark:border-gray-700 dark:hover:bg-gray-800">Next</button>
-          </div>
-        </div>
+        )}
       </div>
     </div>
   );

@@ -1,150 +1,190 @@
 "use client";
 
-import { useQuery } from "@tanstack/react-query";
-import { BarChart3, Users, ShoppingCart, Package, DollarSign, TrendingUp, TrendingDown, ArrowUpRight, ArrowDownRight } from "lucide-react";
-import { api, formatCurrency, formatDate, getStatusColor } from "@/lib/api";
+import { useState } from "react";
+import {
+  BarChart3,
+  Users,
+  ShoppingCart,
+  Package,
+  DollarSign,
+  TrendingUp,
+  TrendingDown,
+} from "lucide-react";
+import { useDashboardStats } from "@/hooks/useDashboard";
+import { useOrders } from "@/hooks/useOrders";
+import { formatCurrency, formatDate, getStatusColor } from "@/lib/api";
+import Link from "next/link";
 
 const statCards = [
-  { name: "Total Revenue", icon: DollarSign, color: "bg-green-500" },
-  { name: "Total Orders", icon: ShoppingCart, color: "bg-blue-500" },
-  { name: "Total Customers", icon: Users, color: "bg-purple-500" },
-  { name: "Total Products", icon: Package, color: "bg-orange-500" },
-];
-
-const recentOrders = [
-  { id: "1", orderNumber: "ORD-001", customer: "Doe Cement", total: 250000, status: "PENDING", date: "2026-03-08" },
-  { id: "2", orderNumber: "ORD-002", customer: "BuildRight", total: 180000, status: "CONFIRMED", date: "2026-03-08" },
-  { id: "3", orderNumber: "ORD-003", customer: "ABC Supplies", total: 95000, status: "DELIVERED", date: "2026-03-07" },
-  { id: "4", orderNumber: "ORD-004", customer: "Metro Builders", total: 420000, status: "PROCESSING", date: "2026-03-07" },
-  { id: "5", orderNumber: "ORD-005", customer: "City Construction", total: 150000, status: "PENDING", date: "2026-03-06" },
+  { name: "Total Revenue", icon: DollarSign, color: "bg-green-500", key: "totalRevenue" },
+  { name: "Total Orders", icon: ShoppingCart, color: "bg-blue-500", key: "totalOrders" },
+  { name: "Total Customers", icon: Users, color: "bg-purple-500", key: "totalCustomers" },
+  { name: "Total Products", icon: Package, color: "bg-orange-500", key: "totalProducts" },
 ];
 
 export default function DashboardPage() {
-  const { data: stats, isLoading: statsLoading } = useQuery({
-    queryKey: ["dashboard-stats"],
-    queryFn: api.getDashboardStats,
+  const [period, setPeriod] = useState("month");
+
+  // Fetch dashboard stats
+  const { data: stats, isLoading: statsLoading } = useDashboardStats();
+
+  // Fetch recent orders
+  const { data: ordersData, isLoading: ordersLoading } = useOrders({
+    page: 1,
+    limit: 5,
   });
 
-  const mockStats = {
-    totalRevenue: 12500000,
-    totalOrders: 156,
-    totalCustomers: 48,
-    totalProducts: 24,
-    revenueChange: 12.5,
-    ordersChange: 8.2,
-    customersChange: 15.3,
-    productsChange: -2.1,
+  const displayStats = stats || {
+    totalRevenue: 0,
+    totalOrders: 0,
+    totalCustomers: 0,
+    totalProducts: 0,
+    revenueChange: 0,
+    ordersChange: 0,
+    customersChange: 0,
+    productsChange: 0,
   };
 
-  const displayStats = stats || mockStats;
+  const recentOrders = ordersData?.data || [];
+  const isLoading = statsLoading || ordersLoading;
 
   return (
     <div className="space-y-6">
-      <div>
-        <h1 className="text-2xl font-bold text-gray-900 dark:text-white">Dashboard Overview</h1>
-        <p className="text-gray-500 dark:text-gray-400">Welcome back! Here's what's happening today.</p>
+      <div className="flex items-center justify-between">
+        <div>
+          <h1 className="text-2xl font-bold text-gray-900 dark:text-white">Dashboard Overview</h1>
+          <p className="text-gray-500 dark:text-gray-400">Welcome back! Here's what's happening today.</p>
+        </div>
+        <select
+          value={period}
+          onChange={(e) => setPeriod(e.target.value)}
+          className="rounded-lg border border-gray-300 px-3 py-2 text-sm focus:border-primary focus:outline-none dark:border-gray-700 dark:bg-gray-800"
+        >
+          <option value="day">Today</option>
+          <option value="week">This Week</option>
+          <option value="month">This Month</option>
+          <option value="year">This Year</option>
+        </select>
       </div>
 
       <div className="grid grid-cols-1 gap-6 sm:grid-cols-2 lg:grid-cols-4">
-        <div className="rounded-xl border bg-white p-6 shadow-sm dark:bg-gray-800">
-          <div className="flex items-center justify-between">
-            <div>
-              <p className="text-sm font-medium text-gray-500 dark:text-gray-400">Total Revenue</p>
-              <p className="mt-1 text-2xl font-bold text-gray-900 dark:text-white">{formatCurrency(displayStats.totalRevenue)}</p>
+        {statCards.map((card) => (
+          <div
+            key={card.name}
+            className="rounded-xl border bg-white p-6 shadow-sm dark:bg-gray-800"
+          >
+            <div className="flex items-center justify-between">
+              <div>
+                <p className="text-sm font-medium text-gray-500 dark:text-gray-400">{card.name}</p>
+                <p className="mt-1 text-2xl font-bold text-gray-900 dark:text-white">
+                  {isLoading ? (
+                    <span className="animate-pulse">Loading...</span>
+                  ) : card.key === "totalRevenue" ? (
+                    formatCurrency(displayStats[card.key as keyof typeof displayStats] as number)
+                  ) : (
+                    (displayStats[card.key as keyof typeof displayStats] as number)?.toLocaleString()
+                  )}
+                </p>
+              </div>
+              <div className={`flex h-12 w-12 items-center justify-center rounded-lg ${card.color} bg-opacity-10`}>
+                <card.icon className={`h-6 w-6 ${card.color.replace("bg-", "text-")}`} />
+              </div>
             </div>
-            <div className="flex h-12 w-12 items-center justify-center rounded-lg bg-green-100 dark:bg-green-900">
-              <DollarSign className="h-6 w-6 text-green-600 dark:text-green-400" />
-            </div>
+            {!isLoading && (
+              <div className="mt-4 flex items-center text-sm">
+                {(displayStats[`${card.key.replace("total", "").toLowerCase()}Change` as keyof typeof displayStats] as number) >= 0 ? (
+                  <>
+                    <TrendingUp className="mr-1 h-4 w-4 text-green-500" />
+                    <span className="text-green-500">
+                      {displayStats[`${card.key.replace("total", "").toLowerCase()}Change` as keyof typeof displayStats] as number}%
+                    </span>
+                  </>
+                ) : (
+                  <>
+                    <TrendingDown className="mr-1 h-4 w-4 text-red-500" />
+                    <span className="text-red-500">
+                      {Math.abs(displayStats[`${card.key.replace("total", "").toLowerCase()}Change` as keyof typeof displayStats] as number)}%
+                    </span>
+                  </>
+                )}
+                <span className="ml-1 text-gray-500 dark:text-gray-400">vs last {period}</span>
+              </div>
+            )}
           </div>
-          <div className="mt-4 flex items-center text-sm">
-            <TrendingUp className="mr-1 h-4 w-4 text-green-500" />
-            <span className="text-green-500">{displayStats.revenueChange}%</span>
-            <span className="ml-1 text-gray-500 dark:text-gray-400">vs last month</span>
-          </div>
-        </div>
-
-        <div className="rounded-xl border bg-white p-6 shadow-sm dark:bg-gray-800">
-          <div className="flex items-center justify-between">
-            <div>
-              <p className="text-sm font-medium text-gray-500 dark:text-gray-400">Total Orders</p>
-              <p className="mt-1 text-2xl font-bold text-gray-900 dark:text-white">{displayStats.totalOrders}</p>
-            </div>
-            <div className="flex h-12 w-12 items-center justify-center rounded-lg bg-blue-100 dark:bg-blue-900">
-              <ShoppingCart className="h-6 w-6 text-blue-600 dark:text-blue-400" />
-            </div>
-          </div>
-          <div className="mt-4 flex items-center text-sm">
-            <TrendingUp className="mr-1 h-4 w-4 text-green-500" />
-            <span className="text-green-500">{displayStats.ordersChange}%</span>
-            <span className="ml-1 text-gray-500 dark:text-gray-400">vs last month</span>
-          </div>
-        </div>
-
-        <div className="rounded-xl border bg-white p-6 shadow-sm dark:bg-gray-800">
-          <div className="flex items-center justify-between">
-            <div>
-              <p className="text-sm font-medium text-gray-500 dark:text-gray-400">Total Customers</p>
-              <p className="mt-1 text-2xl font-bold text-gray-900 dark:text-white">{displayStats.totalCustomers}</p>
-            </div>
-            <div className="flex h-12 w-12 items-center justify-center rounded-lg bg-purple-100 dark:bg-purple-900">
-              <Users className="h-6 w-6 text-purple-600 dark:text-purple-400" />
-            </div>
-          </div>
-          <div className="mt-4 flex items-center text-sm">
-            <TrendingUp className="mr-1 h-4 w-4 text-green-500" />
-            <span className="text-green-500">{displayStats.customersChange}%</span>
-            <span className="ml-1 text-gray-500 dark:text-gray-400">vs last month</span>
-          </div>
-        </div>
-
-        <div className="rounded-xl border bg-white p-6 shadow-sm dark:bg-gray-800">
-          <div className="flex items-center justify-between">
-            <div>
-              <p className="text-sm font-medium text-gray-500 dark:text-gray-400">Total Products</p>
-              <p className="mt-1 text-2xl font-bold text-gray-900 dark:text-white">{displayStats.totalProducts}</p>
-            </div>
-            <div className="flex h-12 w-12 items-center justify-center rounded-lg bg-orange-100 dark:bg-orange-900">
-              <Package className="h-6 w-6 text-orange-600 dark:text-orange-400" />
-            </div>
-          </div>
-          <div className="mt-4 flex items-center text-sm">
-            <TrendingDown className="mr-1 h-4 w-4 text-red-500" />
-            <span className="text-red-500">{Math.abs(displayStats.productsChange)}%</span>
-            <span className="ml-1 text-gray-500 dark:text-gray-400">vs last month</span>
-          </div>
-        </div>
+        ))}
       </div>
 
       <div className="rounded-xl border bg-white shadow-sm dark:bg-gray-800">
         <div className="flex items-center justify-between border-b p-6">
           <h2 className="text-lg font-semibold text-gray-900 dark:text-white">Recent Orders</h2>
-          <button className="text-sm font-medium text-primary hover:underline">View All</button>
+          <Link
+            href="/orders"
+            className="text-sm font-medium text-primary hover:underline"
+          >
+            View All
+          </Link>
         </div>
         <div className="overflow-x-auto">
           <table className="w-full">
             <thead className="bg-gray-50 dark:bg-gray-900">
               <tr>
-                <th className="px-6 py-3 text-left text-xs font-medium uppercase tracking-wider text-gray-500 dark:text-gray-400">Order</th>
-                <th className="px-6 py-3 text-left text-xs font-medium uppercase tracking-wider text-gray-500 dark:text-gray-400">Customer</th>
-                <th className="px-6 py-3 text-left text-xs font-medium uppercase tracking-wider text-gray-500 dark:text-gray-400">Total</th>
-                <th className="px-6 py-3 text-left text-xs font-medium uppercase tracking-wider text-gray-500 dark:text-gray-400">Status</th>
-                <th className="px-6 py-3 text-left text-xs font-medium uppercase tracking-wider text-gray-500 dark:text-gray-400">Date</th>
+                <th className="px-6 py-3 text-left text-xs font-medium uppercase tracking-wider text-gray-500 dark:text-gray-400">
+                  Order
+                </th>
+                <th className="px-6 py-3 text-left text-xs font-medium uppercase tracking-wider text-gray-500 dark:text-gray-400">
+                  Customer
+                </th>
+                <th className="px-6 py-3 text-left text-xs font-medium uppercase tracking-wider text-gray-500 dark:text-gray-400">
+                  Total
+                </th>
+                <th className="px-6 py-3 text-left text-xs font-medium uppercase tracking-wider text-gray-500 dark:text-gray-400">
+                  Status
+                </th>
+                <th className="px-6 py-3 text-left text-xs font-medium uppercase tracking-wider text-gray-500 dark:text-gray-400">
+                  Date
+                </th>
               </tr>
             </thead>
             <tbody className="divide-y divide-gray-200 dark:divide-gray-700">
-              {recentOrders.map((order) => (
-                <tr key={order.id} className="hover:bg-gray-50 dark:hover:bg-gray-900">
-                  <td className="whitespace-nowrap px-6 py-4 text-sm font-medium text-primary">{order.orderNumber}</td>
-                  <td className="whitespace-nowrap px-6 py-4 text-sm text-gray-900 dark:text-white">{order.customer}</td>
-                  <td className="whitespace-nowrap px-6 py-4 text-sm text-gray-900 dark:text-white">{formatCurrency(order.total)}</td>
-                  <td className="whitespace-nowrap px-6 py-4">
-                    <span className={`inline-flex rounded-full px-2.5 py-0.5 text-xs font-medium ${getStatusColor(order.status)}`}>
-                      {order.status}
-                    </span>
+              {isLoading ? (
+                <tr>
+                  <td colSpan={5} className="px-6 py-8 text-center text-gray-500">
+                    Loading orders...
                   </td>
-                  <td className="whitespace-nowrap px-6 py-4 text-sm text-gray-500 dark:text-gray-400">{formatDate(order.date)}</td>
                 </tr>
-              ))}
+              ) : recentOrders.length === 0 ? (
+                <tr>
+                  <td colSpan={5} className="px-6 py-8 text-center text-gray-500">
+                    No orders found
+                  </td>
+                </tr>
+              ) : (
+                recentOrders.map((order) => (
+                  <tr key={order.id} className="hover:bg-gray-50 dark:hover:bg-gray-900">
+                    <td className="whitespace-nowrap px-6 py-4 text-sm font-medium text-primary">
+                      <Link href={`/orders?id=${order.id}`}>{order.orderNumber}</Link>
+                    </td>
+                    <td className="whitespace-nowrap px-6 py-4 text-sm text-gray-900 dark:text-white">
+                      {order.customer?.name || order.customerName || "Unknown"}
+                    </td>
+                    <td className="whitespace-nowrap px-6 py-4 text-sm text-gray-900 dark:text-white">
+                      {formatCurrency(order.total)}
+                    </td>
+                    <td className="whitespace-nowrap px-6 py-4">
+                      <span
+                        className={`inline-flex rounded-full px-2.5 py-0.5 text-xs font-medium ${getStatusColor(
+                          order.status
+                        )}`}
+                      >
+                        {order.status}
+                      </span>
+                    </td>
+                    <td className="whitespace-nowrap px-6 py-4 text-sm text-gray-500 dark:text-gray-400">
+                      {formatDate(order.createdAt)}
+                    </td>
+                  </tr>
+                ))
+              )}
             </tbody>
           </table>
         </div>

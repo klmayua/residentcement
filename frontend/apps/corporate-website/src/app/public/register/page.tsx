@@ -56,7 +56,7 @@ export default function RegisterPage() {
                 <p className="text-cement-600 mb-4">
                   Access your account to place orders, track deliveries, and manage your business.
                 </p>
-                <Link href="http://localhost:3000">
+                <Link href="https://portal.residentcement.com">
                   <Button variant="outline">
                     Login to Portal
                     <ArrowRight className="ml-2 h-4 w-4" />

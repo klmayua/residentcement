@@ -1,28 +1,15 @@
 "use client";
 
 import { useState } from "react";
-import { Search, Filter, Download, Warehouse, Package, AlertTriangle, CheckCircle, MoreVertical, Plus } from "lucide-react";
-import { api, formatCurrency } from "@/lib/api";
+import { Search, Download, Warehouse, Package, AlertTriangle, CheckCircle, Loader2, Plus } from "lucide-react";
+import { useInventory, useWarehouses, useLowStock } from "@/hooks/useInventory";
+import { formatCurrency } from "@/lib/api";
 
-const mockWarehouses = [
-  { id: "WH-001", name: "Lagos Main Warehouse", code: "LAG-MAIN", location: "Ikeja, Lagos", capacity: 50000, currentStock: 35000, manager: "John Doe", isActive: true },
-  { id: "WH-002", name: "Abuja Distribution Center", code: "ABJ-DC", location: "Garki, Abuja", capacity: 30000, currentStock: 22000, manager: "Jane Smith", isActive: true },
-  { id: "WH-003", name: "Port Harcourt Depot", code: "PH-DEPOT", location: "Trans Amadi, PH", capacity: 25000, currentStock: 18000, manager: "Mike Johnson", isActive: true },
-];
-
-const mockInventory = [
-  { id: "INV-001", productName: "Dangote Cement 42.5R", sku: "DGC-42.5R-50", warehouse: "Lagos Main Warehouse", quantity: 5000, reserved: 500, available: 4500, reorderLevel: 1000, status: "AVAILABLE" },
-  { id: "INV-002", productName: "Dangote Cement 32.5R", sku: "DGC-32.5R-50", warehouse: "Lagos Main Warehouse", quantity: 8000, reserved: 200, available: 7800, reorderLevel: 1500, status: "AVAILABLE" },
-  { id: "INV-003", productName: "Ashaka Cement 42.5R", sku: "ASH-42.5R-50", warehouse: "Abuja Distribution Center", quantity: 300, reserved: 0, available: 300, reorderLevel: 500, status: "LOW_STOCK" },
-  { id: "INV-004", productName: "Bamburi Cement 42.5R", sku: "BAM-42.5R-50", warehouse: "Port Harcourt Depot", quantity: 0, reserved: 0, available: 0, reorderLevel: 200, status: "OUT_OF_STOCK" },
-  { id: "INV-005", productName: "Bulk Cement (Per Ton)", sku: "BULK-TON", warehouse: "Lagos Main Warehouse", quantity: 500, reserved: 50, available: 450, reorderLevel: 100, status: "AVAILABLE" },
-];
-
-const statusConfig: Record<string, { color: string; label: string; icon: any }> = {
-  AVAILABLE: { color: "bg-green-100 text-green-800 dark:bg-green-900 dark:text-green-200", label: "Available", icon: CheckCircle },
-  LOW_STOCK: { color: "bg-yellow-100 text-yellow-800 dark:bg-yellow-900 dark:text-yellow-200", label: "Low Stock", icon: AlertTriangle },
-  OUT_OF_STOCK: { color: "bg-red-100 text-red-800 dark:bg-red-900 dark:text-red-200", label: "Out of Stock", icon: AlertTriangle },
-  RESERVED: { color: "bg-blue-100 text-blue-800 dark:bg-blue-900 dark:text-blue-200", label: "Reserved", icon: Package },
+const statusConfig: Record<string, { color: string; label: string }> = {
+  AVAILABLE: { color: "bg-green-100 text-green-800 dark:bg-green-900 dark:text-green-200", label: "Available" },
+  RESERVED: { color: "bg-blue-100 text-blue-800 dark:bg-blue-900 dark:text-blue-200", label: "Reserved" },
+  IN_TRANSIT: { color: "bg-yellow-100 text-yellow-800 dark:bg-yellow-900 dark:text-yellow-200", label: "In Transit" },
+  QUARANTINED: { color: "bg-red-100 text-red-800 dark:bg-red-900 dark:text-red-200", label: "Quarantined" },
 };
 
 export default function InventoryPage() {
@@ -30,19 +17,39 @@ export default function InventoryPage() {
   const [warehouseFilter, setWarehouseFilter] = useState("all");
   const [statusFilter, setStatusFilter] = useState("all");
   const [activeTab, setActiveTab] = useState<"inventory" | "warehouses">("inventory");
+  const [page, setPage] = useState(1);
 
-  const filteredInventory = mockInventory.filter((item) => {
-    const matchesSearch = item.productName.toLowerCase().includes(searchQuery.toLowerCase()) ||
-      item.sku.toLowerCase().includes(searchQuery.toLowerCase());
-    const matchesWarehouse = warehouseFilter === "all" || item.warehouse === warehouseFilter;
-    const matchesStatus = statusFilter === "all" || item.status === statusFilter;
-    return matchesSearch && matchesWarehouse && matchesStatus;
+  // Fetch data from APIs
+  const { data: inventoryData, isLoading: inventoryLoading } = useInventory({
+    page,
+    limit: 10,
+    warehouseId: warehouseFilter !== "all" ? warehouseFilter : undefined,
+    status: statusFilter !== "all" ? statusFilter : undefined,
   });
 
-  const totalStock = mockInventory.reduce((sum, item) => sum + item.quantity, 0);
-  const lowStockItems = mockInventory.filter(item => item.status === "LOW_STOCK").length;
-  const outOfStockItems = mockInventory.filter(item => item.status === "OUT_OF_STOCK").length;
-  const totalWarehouses = mockWarehouses.length;
+  const { data: warehousesData, isLoading: warehousesLoading } = useWarehouses();
+  const { data: lowStockData } = useLowStock(100);
+
+  const inventory = inventoryData?.data || [];
+  const warehouses = warehousesData?.data || [];
+  const lowStockItems = lowStockData?.data || [];
+  const pagination = inventoryData?.meta?.pagination;
+
+  // Filter inventory client-side for search
+  const filteredInventory = inventory.filter((item) => {
+    const matchesSearch =
+      item.product?.name?.toLowerCase().includes(searchQuery.toLowerCase()) ||
+      item.product?.sku?.toLowerCase().includes(searchQuery.toLowerCase()) ||
+      item.batchNumber?.toLowerCase().includes(searchQuery.toLowerCase());
+    return matchesSearch;
+  });
+
+  // Calculate stats
+  const totalStock = inventory.reduce((sum, item) => sum + item.quantity, 0);
+  const totalAvailable = inventory.reduce((sum, item) => sum + item.availableQuantity, 0);
+  const totalReserved = inventory.reduce((sum, item) => sum + item.reservedQuantity, 0);
+
+  const isLoading = inventoryLoading || warehousesLoading;
 
   return (
     <div className="space-y-6">
@@ -76,8 +83,17 @@ export default function InventoryPage() {
         <div className="rounded-xl border bg-white p-4 shadow-sm dark:bg-gray-800">
           <div className="flex items-center justify-between">
             <div>
-              <p className="text-sm text-gray-500 dark:text-gray-400">Low Stock Items</p>
-              <p className="text-2xl font-bold text-yellow-600">{lowStockItems}</p>
+              <p className="text-sm text-gray-500 dark:text-gray-400">Available</p>
+              <p className="text-2xl font-bold text-green-600">{totalAvailable.toLocaleString()}</p>
+            </div>
+            <CheckCircle className="h-8 w-8 text-green-500" />
+          </div>
+        </div>
+        <div className="rounded-xl border bg-white p-4 shadow-sm dark:bg-gray-800">
+          <div className="flex items-center justify-between">
+            <div>
+              <p className="text-sm text-gray-500 dark:text-gray-400">Low Stock</p>
+              <p className="text-2xl font-bold text-yellow-600">{lowStockItems.length}</p>
             </div>
             <AlertTriangle className="h-8 w-8 text-yellow-500" />
           </div>
@@ -85,17 +101,8 @@ export default function InventoryPage() {
         <div className="rounded-xl border bg-white p-4 shadow-sm dark:bg-gray-800">
           <div className="flex items-center justify-between">
             <div>
-              <p className="text-sm text-gray-500 dark:text-gray-400">Out of Stock</p>
-              <p className="text-2xl font-bold text-red-600">{outOfStockItems}</p>
-            </div>
-            <Package className="h-8 w-8 text-red-500" />
-          </div>
-        </div>
-        <div className="rounded-xl border bg-white p-4 shadow-sm dark:bg-gray-800">
-          <div className="flex items-center justify-between">
-            <div>
               <p className="text-sm text-gray-500 dark:text-gray-400">Warehouses</p>
-              <p className="text-2xl font-bold text-gray-900 dark:text-white">{totalWarehouses}</p>
+              <p className="text-2xl font-bold text-gray-900 dark:text-white">{warehouses.length}</p>
             </div>
             <Warehouse className="h-8 w-8 text-purple-500" />
           </div>
@@ -106,13 +113,21 @@ export default function InventoryPage() {
         <div className="flex space-x-4">
           <button
             onClick={() => setActiveTab("inventory")}
-            className={`pb-2 text-sm font-medium ${activeTab === "inventory" ? "border-b-2 border-primary text-primary" : "text-gray-500 hover:text-gray-700"}`}
+            className={`pb-2 text-sm font-medium ${
+              activeTab === "inventory"
+                ? "border-b-2 border-primary text-primary"
+                : "text-gray-500 hover:text-gray-700"
+            }`}
           >
             Inventory Items
           </button>
           <button
             onClick={() => setActiveTab("warehouses")}
-            className={`pb-2 text-sm font-medium ${activeTab === "warehouses" ? "border-b-2 border-primary text-primary" : "text-gray-500 hover:text-gray-700"}`}
+            className={`pb-2 text-sm font-medium ${
+              activeTab === "warehouses"
+                ? "border-b-2 border-primary text-primary"
+                : "text-gray-500 hover:text-gray-700"
+            }`}
           >
             Warehouses
           </button>
@@ -139,8 +154,10 @@ export default function InventoryPage() {
                 className="rounded-lg border border-gray-300 px-3 py-2 text-sm focus:border-primary focus:outline-none dark:border-gray-700 dark:bg-gray-800"
               >
                 <option value="all">All Warehouses</option>
-                {mockWarehouses.map(wh => (
-                  <option key={wh.id} value={wh.name}>{wh.name}</option>
+                {warehouses.map((wh) => (
+                  <option key={wh.id} value={wh.id}>
+                    {wh.name}
+                  </option>
                 ))}
               </select>
               <select
@@ -150,8 +167,9 @@ export default function InventoryPage() {
               >
                 <option value="all">All Status</option>
                 <option value="AVAILABLE">Available</option>
-                <option value="LOW_STOCK">Low Stock</option>
-                <option value="OUT_OF_STOCK">Out of Stock</option>
+                <option value="RESERVED">Reserved</option>
+                <option value="IN_TRANSIT">In Transit</option>
+                <option value="QUARANTINED">Quarantined</option>
               </select>
             </>
           )}
@@ -171,75 +189,111 @@ export default function InventoryPage() {
                   <th className="px-6 py-3 text-left text-xs font-medium uppercase tracking-wider text-gray-500 dark:text-gray-400">Reserved</th>
                   <th className="px-6 py-3 text-left text-xs font-medium uppercase tracking-wider text-gray-500 dark:text-gray-400">Available</th>
                   <th className="px-6 py-3 text-left text-xs font-medium uppercase tracking-wider text-gray-500 dark:text-gray-400">Status</th>
-                  <th className="px-6 py-3 text-left text-xs font-medium uppercase tracking-wider text-gray-500 dark:text-gray-400">Actions</th>
                 </tr>
               </thead>
               <tbody className="divide-y divide-gray-200 dark:divide-gray-700">
-                {filteredInventory.map((item) => {
-                  const StatusIcon = statusConfig[item.status]?.icon;
-                  return (
+                {isLoading ? (
+                  <tr>
+                    <td colSpan={7} className="px-6 py-12 text-center">
+                      <Loader2 className="mx-auto h-8 w-8 animate-spin text-primary" />
+                    </td>
+                  </tr>
+                ) : filteredInventory.length === 0 ? (
+                  <tr>
+                    <td colSpan={7} className="px-6 py-12 text-center text-gray-500">
+                      No inventory items found
+                    </td>
+                  </tr>
+                ) : (
+                  filteredInventory.map((item) => (
                     <tr key={item.id} className="hover:bg-gray-50 dark:hover:bg-gray-900">
                       <td className="whitespace-nowrap px-6 py-4">
-                        <div className="font-medium text-gray-900 dark:text-white">{item.productName}</div>
+                        <div className="font-medium text-gray-900 dark:text-white">{item.product?.name || "Unknown"}</div>
                       </td>
-                      <td className="whitespace-nowrap px-6 py-4 text-sm text-gray-600 dark:text-gray-300">{item.sku}</td>
-                      <td className="whitespace-nowrap px-6 py-4 text-sm text-gray-900 dark:text-white">{item.warehouse}</td>
+                      <td className="whitespace-nowrap px-6 py-4 text-sm text-gray-600 dark:text-gray-300">{item.product?.sku || "-"}</td>
+                      <td className="whitespace-nowrap px-6 py-4 text-sm text-gray-900 dark:text-white">{item.warehouse?.name || "-"}</td>
                       <td className="whitespace-nowrap px-6 py-4 text-sm text-gray-900 dark:text-white">{item.quantity.toLocaleString()}</td>
-                      <td className="whitespace-nowrap px-6 py-4 text-sm text-gray-600 dark:text-gray-300">{item.reserved.toLocaleString()}</td>
-                      <td className="whitespace-nowrap px-6 py-4 text-sm font-medium text-gray-900 dark:text-white">{item.available.toLocaleString()}</td>
+                      <td className="whitespace-nowrap px-6 py-4 text-sm text-gray-600 dark:text-gray-300">{item.reservedQuantity.toLocaleString()}</td>
+                      <td className="whitespace-nowrap px-6 py-4 text-sm font-medium text-gray-900 dark:text-white">{item.availableQuantity.toLocaleString()}</td>
                       <td className="whitespace-nowrap px-6 py-4">
-                        <div className="flex items-center">
-                          {StatusIcon && <StatusIcon className={`mr-2 h-4 w-4 ${item.status === 'AVAILABLE' ? 'text-green-500' : item.status === 'LOW_STOCK' ? 'text-yellow-500' : 'text-red-500'}`} />}
-                          <span className={`inline-flex rounded-full px-2.5 py-0.5 text-xs font-medium ${statusConfig[item.status]?.color}`}>
-                            {statusConfig[item.status]?.label}
-                          </span>
-                        </div>
-                      </td>
-                      <td className="whitespace-nowrap px-6 py-4">
-                        <button className="rounded p-1 hover:bg-gray-100 dark:hover:bg-gray-700">
-                          <MoreVertical className="h-4 w-4 text-gray-500" />
-                        </button>
+                        <span
+                          className={`inline-flex rounded-full px-2.5 py-0.5 text-xs font-medium ${
+                            statusConfig[item.status]?.color
+                          }`}
+                        >
+                          {statusConfig[item.status]?.label}
+                        </span>
                       </td>
                     </tr>
-                  );
-                })}
+                  ))
+                )}
               </tbody>
             </table>
           </div>
+
+          {/* Pagination */}
+          {pagination && (
+            <div className="flex items-center justify-between border-t px-6 py-4">
+              <div className="text-sm text-gray-500 dark:text-gray-400">
+                Showing {(page - 1) * pagination.limit + 1} -{" "}
+                {Math.min(page * pagination.limit, pagination.total)} of {pagination.total} items
+              </div>
+              <div className="flex space-x-2">
+                <button
+                  onClick={() => setPage((p) => Math.max(1, p - 1))}
+                  disabled={page === 1}
+                  className="rounded-lg border px-3 py-1 text-sm hover:bg-gray-50 disabled:opacity-50 dark:border-gray-700 dark:hover:bg-gray-800"
+                >
+                  Previous
+                </button>
+                <button
+                  onClick={() => setPage((p) => (pagination.hasMore ? p + 1 : p))}
+                  disabled={!pagination.hasMore}
+                  className="rounded-lg border px-3 py-1 text-sm hover:bg-gray-50 disabled:opacity-50 dark:border-gray-700 dark:hover:bg-gray-800"
+                >
+                  Next
+                </button>
+              </div>
+            </div>
+          )}
         </div>
       ) : (
         <div className="grid gap-4 sm:grid-cols-2 lg:grid-cols-3">
-          {mockWarehouses.map((warehouse) => (
+          {warehouses.map((warehouse) => (
             <div key={warehouse.id} className="rounded-xl border bg-white p-6 shadow-sm dark:bg-gray-800">
               <div className="flex items-start justify-between">
                 <div>
                   <h3 className="font-semibold text-gray-900 dark:text-white">{warehouse.name}</h3>
                   <p className="text-sm text-gray-500 dark:text-gray-400">{warehouse.code}</p>
                 </div>
-                <span className={`inline-flex rounded-full px-2 py-0.5 text-xs font-medium ${warehouse.isActive ? 'bg-green-100 text-green-800' : 'bg-gray-100 text-gray-800'}`}>
+                <span
+                  className={`inline-flex rounded-full px-2 py-0.5 text-xs font-medium ${
+                    warehouse.isActive
+                      ? "bg-green-100 text-green-800"
+                      : "bg-gray-100 text-gray-800"
+                  }`}
+                >
                   {warehouse.isActive ? "Active" : "Inactive"}
                 </span>
               </div>
               <div className="mt-4 space-y-2">
                 <div className="flex items-center text-sm text-gray-600 dark:text-gray-300">
                   <Warehouse className="mr-2 h-4 w-4" />
-                  {warehouse.location}
+                  {warehouse.city}, {warehouse.state}
                 </div>
                 <div className="flex items-center text-sm text-gray-600 dark:text-gray-300">
                   <Package className="mr-2 h-4 w-4" />
-                  {warehouse.currentStock.toLocaleString()} / {warehouse.capacity.toLocaleString()} units
+                  Capacity: {warehouse.capacity.toLocaleString()} units
                 </div>
               </div>
               <div className="mt-4">
                 <div className="h-2 w-full rounded-full bg-gray-200 dark:bg-gray-700">
                   <div
                     className="h-2 rounded-full bg-primary"
-                    style={{ width: `${(warehouse.currentStock / warehouse.capacity) * 100}%` }}
+                    style={{ width: "45%" }} // Placeholder - would calculate from actual data
                   />
                 </div>
-                <p className="mt-1 text-xs text-gray-500 dark:text-gray-400">
-                  {Math.round((warehouse.currentStock / warehouse.capacity) * 100)}% capacity used
-                </p>
+                <p className="mt-1 text-xs text-gray-500 dark:text-gray-400">45% capacity used</p>
               </div>
             </div>
           ))}

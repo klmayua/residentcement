@@ -17,7 +17,7 @@ const footerLinks = {
   support: [
     { label: "Contact Us", href: "/contact/" },
     { label: "FAQs", href: "/contact/" },
-    { label: "Distributor Portal", href: "http://localhost:3000" },
+    { label: "Distributor Portal", href: "https://portal.residentcement.com" },
     { label: "Privacy Policy", href: "/privacy/" },
   ],
 };

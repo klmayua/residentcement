@@ -4,13 +4,13 @@ import { Navbar } from "@/components/navbar";
 import { Footer } from "@/components/footer";
 
 export const metadata: Metadata = {
-  title: "ResidentCement | Premium Cement Solutions for Nigeria",
-  description: "Nigeria's leading cement distribution platform. Quality products, reliable delivery, and innovative solutions for construction professionals.",
-  keywords: "cement, Nigeria, construction, Dangote, building materials, cement distribution",
-  authors: [{ name: "ResidentCement" }],
+  title: "Resident Cement Company Limited | Premium Cement Manufacturing",
+  description: "Nigeria's emerging cement manufacturing giant. Building a $500M world-class cement plant in Bauchi State with 10 million tonnes annual capacity.",
+  keywords: "cement, Nigeria, construction, building materials, cement manufacturing, Bauchi, Resident Cement, Dr Abbas Waziri",
+  authors: [{ name: "Resident Cement Company Limited" }],
   openGraph: {
-    title: "ResidentCement | Premium Cement Solutions",
-    description: "Quality cement products for Nigeria's construction industry",
+    title: "Resident Cement Company Limited | Premium Cement Manufacturing",
+    description: "Nigeria's emerging cement manufacturing giant with world-class production facility",
     type: "website",
     locale: "en_NG",
   },

@@ -694,7 +694,485 @@ model SystemConfig {
   description String?
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
-  
+
   @@index([category])
   @@map("system_configs")
+}
+
+// =============================================================================
+// Accounting Domain (Nigerian GAAP Compliant)
+// =============================================================================
+
+model Account {
+  id              String        @id @default(uuid())
+  code            String        @unique // 4-digit account code
+  name            String
+  type            AccountType
+  subtype         AccountSubType
+  parentId        String?       // Hierarchical chart of accounts
+  parent          Account?      @relation("AccountHierarchy", fields: [parentId], references: [id])
+  children        Account[]     @relation("AccountHierarchy")
+
+  isBankAccount   Boolean       @default(false)
+  isControlAccount Boolean      @default(false)
+  currency        String        @default("NGN")
+
+  // Balance tracking
+  openingBalance  Decimal       @default(0) @db.Decimal(15, 2)
+  currentBalance  Decimal       @default(0) @db.Decimal(15, 2)
+
+  // Bank account details (if applicable)
+  bankCode        String?
+  bankName        String?
+  accountNumber   String?
+
+  isActive        Boolean       @default(true)
+  createdAt       DateTime      @default(now())
+  updatedAt       DateTime      @updatedAt
+
+  // Relations
+  journalLines    JournalEntryLine[]
+
+  @@index([type, subtype])
+  @@index([isActive])
+  @@index([parentId])
+  @@map("accounts")
+}
+
+enum AccountType {
+  ASSET
+  LIABILITY
+  EQUITY
+  REVENUE
+  EXPENSE
+}
+
+enum AccountSubType {
+  CURRENT_ASSET
+  FIXED_ASSET
+  INTANGIBLE_ASSET
+  CURRENT_LIABILITY
+  LONG_TERM_LIABILITY
+  EQUITY
+  OPERATING_REVENUE
+  OTHER_REVENUE
+  COST_OF_SALES
+  OPERATING_EXPENSE
+  OTHER_EXPENSE
+}
+
+model JournalEntry {
+  id              String            @id @default(uuid())
+  entryNumber     String            @unique // JE-YYYY-NNNNNN
+  entryDate       DateTime
+  periodId        String
+  period          AccountingPeriod  @relation(fields: [periodId], references: [id])
+
+  reference       String?           // External reference number
+  description     String
+
+  sourceDocument  String?           // INVOICE, PAYMENT, etc.
+  sourceId        String?           // ID of source document
+
+  // Totals
+  totalDebit      Decimal           @default(0) @db.Decimal(15, 2)
+  totalCredit     Decimal           @default(0) @db.Decimal(15, 2)
+
+  status          JournalEntryStatus @default(DRAFT)
+  postedAt        DateTime?
+  postedById      String?
+  postedBy        User?             @relation(fields: [postedById], references: [id])
+
+  createdById     String
+  createdBy       User              @relation("JournalEntryCreator", fields: [createdById], references: [id])
+
+  // Relations
+  lines           JournalEntryLine[]
+
+  createdAt       DateTime          @default(now())
+  updatedAt       DateTime          @updatedAt
+
+  @@index([entryDate])
+  @@index([status])
+  @@index([periodId])
+  @@index([sourceDocument, sourceId])
+  @@map("journal_entries")
+}
+
+enum JournalEntryStatus {
+  DRAFT
+  PENDING_APPROVAL
+  POSTED
+  REVERSED
+}
+
+model JournalEntryLine {
+  id              String        @id @default(uuid())
+  journalEntryId  String
+  journalEntry    JournalEntry  @relation(fields: [journalEntryId], references: [id], onDelete: Cascade)
+
+  accountId       String
+  account         Account       @relation(fields: [accountId], references: [id])
+
+  description     String
+  debitAmount     Decimal       @default(0) @db.Decimal(15, 2)
+  creditAmount    Decimal       @default(0) @db.Decimal(15, 2)
+
+  // Dimensions
+  costCenter      String?
+  projectCode     String?
+  department      String?
+
+  // Link to source
+  sourceDocument  String?
+  sourceId        String?
+
+  lineOrder       Int           @default(0)
+
+  @@index([journalEntryId])
+  @@index([accountId])
+  @@index([costCenter])
+  @@map("journal_entry_lines")
+}
+
+model AccountingPeriod {
+  id              String        @id @default(uuid())
+  fiscalYearId    String
+  fiscalYear      FiscalYear    @relation(fields: [fiscalYearId], references: [id])
+
+  year            Int
+  month           Int           // 1-12
+  periodStart     DateTime
+  periodEnd       DateTime
+
+  status          PeriodStatus  @default(OPEN)
+  isClosed        Boolean       @default(false)
+  closedAt        DateTime?
+  closedById      String?
+  closedBy        User?         @relation(fields: [closedById], references: [id])
+
+  // Period totals
+  totalRevenue    Decimal       @default(0) @db.Decimal(15, 2)
+  totalExpenses   Decimal       @default(0) @db.Decimal(15, 2)
+
+  // Relations
+  journalEntries  JournalEntry[]
+
+  @@unique([year, month])
+  @@index([status, isClosed])
+  @@map("accounting_periods")
+}
+
+enum PeriodStatus {
+  OPEN
+  PENDING_CLOSE
+  CLOSED
+}
+
+model FiscalYear {
+  id              String            @id @default(uuid())
+  year            Int               @unique
+  startDate       DateTime
+  endDate         DateTime
+  status          FiscalYearStatus  @default(ACTIVE)
+
+  isClosed        Boolean           @default(false)
+  closedAt        DateTime?
+  closedById      String?
+  closedBy        User?             @relation(fields: [closedById], references: [id])
+
+  // Relations
+  periods         AccountingPeriod[]
+
+  @@map("fiscal_years")
+}
+
+enum FiscalYearStatus {
+  PENDING
+  ACTIVE
+  CLOSED
+}
+
+model TaxTransaction {
+  id              String        @id @default(uuid())
+  taxType         TaxType
+
+  // Tax amounts
+  baseAmount      Decimal       @db.Decimal(15, 2)
+  taxRate         Decimal       @db.Decimal(5, 4)
+  taxAmount       Decimal       @db.Decimal(15, 2)
+
+  // Document reference
+  documentType    String        // INVOICE, PAYMENT, etc.
+  documentId      String
+  documentNumber  String
+
+  // Period
+  period          String        // YYYY-MM format
+  taxYear         Int
+
+  // Party
+  customerId      String?
+  customer        Customer?     @relation(fields: [customerId], references: [id])
+  supplierId      String?
+
+  // Status
+  status          TaxStatus     @default(PENDING)
+  filedAt         DateTime?
+  filedById       String?
+
+  // GL posting
+  journalEntryId  String?
+  journalEntry    JournalEntry? @relation(fields: [journalEntryId], references: [id])
+
+  createdAt       DateTime      @default(now())
+  updatedAt       DateTime      @updatedAt
+
+  @@index([taxType, period])
+  @@index([status])
+  @@index([customerId])
+  @@index([documentType, documentId])
+  @@map("tax_transactions")
+}
+
+enum TaxType {
+  VAT
+  WHT
+  CIT
+  EDT
+  PAYE
+}
+
+enum TaxStatus {
+  PENDING
+  FILED
+  PAID
+  OVERDUE
+}
+
+model FixedAsset {
+  id                  String    @id @default(uuid())
+  assetCode           String    @unique
+  assetName           String
+  description         String?
+  category            String
+
+  // Acquisition
+  acquisitionDate     DateTime
+  acquisitionCost     Decimal   @db.Decimal(15, 2)
+  residualValue       Decimal   @default(0) @db.Decimal(15, 2)
+
+  // Depreciation
+  usefulLifeYears     Int
+  depreciationMethod  DepreciationMethod @default(STRAIGHT_LINE)
+  accumulatedDepreciation Decimal @default(0) @db.Decimal(15, 2)
+  netBookValue        Decimal   @db.Decimal(15, 2)
+
+  // Location & Custody
+  location            String?
+  custodian           String?
+
+  // Accounts
+  assetAccountId      String
+  assetAccount        Account   @relation("AssetAccount", fields: [assetAccountId], references: [id])
+  depreciationAccountId String
+  depreciationAccount Account   @relation("DepreciationAccount", fields: [depreciationAccountId], references: [id])
+
+  status              AssetStatus @default(ACTIVE)
+  disposalDate        DateTime?
+  disposalAmount      Decimal?   @db.Decimal(15, 2)
+
+  createdAt           DateTime  @default(now())
+  updatedAt           DateTime  @updatedAt
+
+  // Relations
+  depreciationEntries FixedAssetDepreciation[]
+
+  @@index([category])
+  @@index([status])
+  @@map("fixed_assets")
+}
+
+enum DepreciationMethod {
+  STRAIGHT_LINE
+  REDUCING_BALANCE
+  UNITS_OF_PRODUCTION
+}
+
+enum AssetStatus {
+  ACTIVE
+  UNDER_MAINTENANCE
+  DISPOSED
+  WRITTEN_OFF
+}
+
+model FixedAssetDepreciation {
+  id              String      @id @default(uuid())
+  assetId         String
+  asset           FixedAsset  @relation(fields: [assetId], references: [id], onDelete: Cascade)
+
+  year            Int
+  period          Int         // 1-12 for monthly, or fiscal year
+
+  openingValue    Decimal     @db.Decimal(15, 2)
+  depreciationAmount Decimal  @db.Decimal(15, 2)
+  closingValue    Decimal     @db.Decimal(15, 2)
+
+  // GL posting
+  journalEntryId  String?
+  journalEntry    JournalEntry? @relation(fields: [journalEntryId], references: [id])
+
+  postedAt        DateTime?
+
+  @@unique([assetId, year, period])
+  @@map("fixed_asset_depreciation")
+}
+
+model BankAccount {
+  id              String    @id @default(uuid())
+  accountName     String
+  accountNumber   String
+  bankCode        String
+  bankName        String
+  branch          String?
+
+  // Account type
+  accountType     BankAccountType @default(CURRENT)
+  currency        String    @default("NGN")
+
+  // GL Link
+  glAccountId     String
+  glAccount       Account   @relation(fields: [glAccountId], references: [id])
+
+  // Opening balance
+  openingBalance  Decimal   @default(0) @db.Decimal(15, 2)
+  currentBalance  Decimal   @default(0) @db.Decimal(15, 2)
+
+  // Status
+  isActive        Boolean   @default(true)
+  isDefault       Boolean   @default(false)
+
+  // Relations
+  statements      BankStatement[]
+
+  createdAt       DateTime  @default(now())
+  updatedAt       DateTime  @updatedAt
+
+  @@unique([accountNumber, bankCode])
+  @@map("bank_accounts")
+}
+
+enum BankAccountType {
+  CURRENT
+  SAVINGS
+  DOMICILIARY
+  PLACEMENT
+}
+
+model BankStatement {
+  id              String    @id @default(uuid())
+  bankAccountId   String
+  bankAccount     BankAccount @relation(fields: [bankAccountId], references: [id])
+
+  statementDate   DateTime
+  statementNumber String?
+
+  // Opening/Closing balances
+  openingBalance  Decimal   @db.Decimal(15, 2)
+  closingBalance  Decimal   @db.Decimal(15, 2)
+
+  // Import status
+  importStatus    StatementImportStatus @default(PENDING)
+  importedAt      DateTime?
+  importedById    String?
+
+  // File reference
+  fileUrl         String?
+  fileName        String?
+
+  // Relations
+  transactions    BankTransaction[]
+
+  createdAt       DateTime  @default(now())
+  updatedAt       DateTime  @updatedAt
+
+  @@map("bank_statements")
+}
+
+enum StatementImportStatus {
+  PENDING
+  PROCESSING
+  IMPORTED
+  RECONCILED
+  ERROR
+}
+
+model BankTransaction {
+  id              String    @id @default(uuid())
+  statementId     String
+  statement       BankStatement @relation(fields: [statementId], references: [id], onDelete: Cascade)
+
+  transactionDate DateTime
+  description     String
+  reference       String?
+
+  // Amounts
+  debitAmount     Decimal   @default(0) @db.Decimal(15, 2)
+  creditAmount    Decimal   @default(0) @db.Decimal(15, 2)
+  balance         Decimal   @db.Decimal(15, 2)
+
+  // Reconciliation
+  isReconciled    Boolean   @default(false)
+  reconciledAt    DateTime?
+  reconciledById  String?
+
+  // Link to system transaction
+  systemTransactionId   String?
+  systemTransactionType String? // PAYMENT, JOURNAL, etc.
+
+  // Suggested match
+  suggestedMatchId      String?
+  suggestedMatchScore Decimal?    @db.Decimal(5, 2)
+
+  createdAt       DateTime  @default(now())
+  updatedAt       DateTime  @updatedAt
+
+  @@index([statementId, isReconciled])
+  @@map("bank_transactions")
+}
+
+// =============================================================================
+// Reporting Domain
+// =============================================================================
+
+model ReportConfig {
+  id          String    @id @default(uuid())
+  name        String
+  description String?
+
+  // Data source configuration
+  dataSource  String    // orders, customers, products, payments, production, inventory
+  filters     Json?     // Filter configuration object
+  columns     Json?     // Selected columns array
+  groupBy     String?   // Group by field
+  sortBy      Json?     // Sort configuration
+
+  // Report settings
+  isScheduled Boolean   @default(false)
+  schedule    String?   // Cron expression for scheduled reports
+  recipients  Json?     // Email recipients array
+  format      String    @default("json") // json, csv, pdf
+
+  // Metadata
+  isActive    Boolean   @default(true)
+  isTemplate  Boolean   @default(false)
+  createdBy   String
+  lastRunAt   DateTime?
+
+  createdAt   DateTime  @default(now())
+  updatedAt   DateTime  @updatedAt
+
+  @@index([dataSource, isActive])
+  @@index([createdBy])
+  @@map("report_configs")
 }

@@ -7,7 +7,7 @@ describe('Product Service', () => {
   app.get('/products', (req, res) => {
     res.json({
       products: [
-        { id: 'prod_1', name: 'Dangote Cement 50kg', price: 4500 },
+        { id: 'prod_1', name: 'Resident Cement 50kg', price: 4500 },
         { id: 'prod_2', name: 'Premium Cement 50kg', price: 4800 },
       ],
       total: 2,

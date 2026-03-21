@@ -1,0 +1,61 @@
+{
+  "name": "@residentcement/reporting-service",
+  "version": "1.0.0",
+  "description": "Boardroom Reporting and Business Intelligence Service for ResidentCement ERP",
+  "main": "dist/index.js",
+  "scripts": {
+    "build": "tsc",
+    "start": "node dist/index.js",
+    "dev": "ts-node-dev --respawn --transpile-only src/index.ts",
+    "lint": "eslint src/**/*.ts",
+    "test": "jest",
+    "test:watch": "jest --watch"
+  },
+  "dependencies": {
+    "@residentcement/kernel": "workspace:*",
+    "@prisma/client": "^5.7.0",
+    "express": "^4.18.2",
+    "cors": "^2.8.5",
+    "helmet": "^7.1.0",
+    "morgan": "^1.10.0",
+    "dotenv": "^16.3.1",
+    "zod": "^3.22.4",
+    "kafkajs": "^2.2.4",
+    "winston": "^3.11.0",
+    "compression": "^1.7.4",
+    "express-rate-limit": "^7.1.5",
+    "uuid": "^9.0.1",
+    "date-fns": "^3.0.0"
+  },
+  "devDependencies": {
+    "@types/express": "^4.17.21",
+    "@types/cors": "^2.8.17",
+    "@types/morgan": "^1.9.9",
+    "@types/compression": "^1.7.5",
+    "@types/uuid": "^9.0.7",
+    "@types/node": "^20.10.0",
+    "typescript": "^5.3.3",
+    "ts-node": "^10.9.2",
+    "ts-node-dev": "^2.0.0",
+    "eslint": "^8.55.0",
+    "@typescript-eslint/eslint-plugin": "^6.14.0",
+    "@typescript-eslint/parser": "^6.14.0",
+    "jest": "^29.7.0",
+    "@types/jest": "^29.5.11",
+    "ts-jest": "^29.1.1"
+  },
+  "engines": {
+    "node": ">=20.0.0"
+  },
+  "keywords": [
+    "reporting",
+    "business-intelligence",
+    "dashboard",
+    "erp",
+    "microservice",
+    "kpi"
+  ],
+  "author": "ResidentCement",
+  "license": "UNLICENSED",
+  "private": true
+}

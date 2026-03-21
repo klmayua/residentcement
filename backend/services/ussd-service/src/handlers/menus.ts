@@ -49,7 +49,7 @@ export const menus: Record<string, MenuDefinition> = {
     id: 'order_product',
     title: 'Select Product',
     options: [
-      { id: '1', label: 'Dangote Cement (50kg)', action: 'navigate', target: 'order_quantity' },
+      { id: '1', label: 'Resident Cement (50kg)', action: 'navigate', target: 'order_quantity' },
       { id: '2', label: 'Premium Cement (50kg)', action: 'navigate', target: 'order_quantity' },
       { id: '3', label: 'Block Master Cement', action: 'navigate', target: 'order_quantity' },
       { id: '4', label: 'Concrete Mix', action: 'navigate', target: 'order_quantity' },
@@ -89,7 +89,7 @@ export const menus: Record<string, MenuDefinition> = {
     handler: async (session, input) => {
       session.data.address = input;
       session.currentMenu = 'order_confirm';
-      const product = session.data.product || 'Dangote Cement (50kg)';
+      const product = session.data.product || 'Resident Cement (50kg)';
       const quantity = session.data.quantity || 0;
       const price = quantity * 4500; // Placeholder price
 
@@ -170,7 +170,7 @@ export const menus: Record<string, MenuDefinition> = {
     options: [
       { id: '1', label: 'Retail Prices', action: 'submit', handler: async (session) => {
         return {
-          text: 'END Retail Prices (per bag):\nDangote Cement: NGN 4,500\nPremium Cement: NGN 4,800\nBlock Master: NGN 4,200\n\nPrices valid until 31/03/2024',
+          text: 'END Retail Prices (per bag):\nResident Cement: NGN 4,500\nPremium Cement: NGN 4,800\nBlock Master: NGN 4,200\n\nPrices valid until 31/03/2024',
           isEnd: true,
         };
       }},

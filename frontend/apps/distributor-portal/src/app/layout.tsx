@@ -9,7 +9,7 @@ const playfair = Playfair_Display({ subsets: ['latin'], variable: '--font-playfa
 export const metadata: Metadata = {
   title: 'Resident Cement Limited — Distributor Portal',
   description: 'Nigeria\'s trusted cement distribution and management platform',
-  keywords: ['cement', 'distribution', 'enterprise', 'Nigeria', 'Resident Cement', 'Dangote', 'building materials'],
+  keywords: ['cement', 'distribution', 'enterprise', 'Nigeria', 'Resident Cement', 'building materials', 'Bauchi', 'manufacturing'],
   authors: [{ name: 'Resident Cement Limited' }],
   creator: 'Resident Cement Limited',
   publisher: 'Resident Cement Limited',

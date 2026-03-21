@@ -10,6 +10,7 @@ import rateLimit from 'express-rate-limit';
 import dotenv from 'dotenv';
 
 import { AfricasTalkingHandler } from './handlers/africastalking';
+import { validateATRequest, logUSSDRequest } from './middleware/validateATRequest';
 
 dotenv.config();
 
@@ -50,10 +51,10 @@ app.get('/health', (req, res) => {
 });
 
 // USSD webhook endpoint (Africa's Talking)
-app.post('/ussd', (req, res) => ussdHandler.handleRequest(req, res));
+app.post('/ussd', logUSSDRequest, validateATRequest, (req, res) => ussdHandler.handleRequest(req, res));
 
-// Alternative endpoint for testing
-app.post('/ussd/test', (req, res) => {
+// Alternative endpoint for testing (no validation)
+app.post('/ussd/test', logUSSDRequest, (req, res) => {
   // Simulate Africa's Talking format
   req.body = {
     ...req.body,
@@ -85,6 +86,38 @@ app.get('/stats', (req, res) => {
     ...stats,
     timestamp: new Date().toISOString(),
   });
+});
+
+// SMS delivery report webhook (Africa's Talking)
+app.post('/ussd/delivery', (req, res) => {
+  console.log('SMS Delivery Report:', req.body);
+  res.json({ status: 'received' });
+});
+
+// Africa's Talking SMS callback endpoint
+app.post('/sms/incoming', (req, res) => {
+  const { from, text, to } = req.body;
+  console.log('Incoming SMS:', { from, text, to });
+
+  // Auto-respond to incoming SMS
+  const responses: Record<string, string> = {
+    'balance': 'Your account balance and credit limit information is available via USSD. Dial *384# to check.',
+    'help': 'ResidentCement Support: Dial *384# for USSD menu, call 0700-RESIDENT, or WhatsApp +234 800 123 4567',
+    'price': 'Current prices: Resident Cement NGN 4,500/bag. Dial *384# for full price list and bulk discounts.',
+    'order': 'To place an order, dial *384# and select option 2. Or visit https://app.residentcement.com',
+  };
+
+  const lowerText = text.toLowerCase().trim();
+  const response = responses[lowerText] || 'Thank you for contacting ResidentCement. Dial *384# for our USSD menu or call 0700-RESIDENT for support.';
+
+  // Send response via AT if configured
+  if (process.env.AT_SMS_ENABLED === 'true' && from) {
+    ussdHandler.sendSMS(from, response)
+      .then(() => console.log(`Auto-reply sent to ${from}`))
+      .catch(err => console.error('Failed to send auto-reply:', err));
+  }
+
+  res.json({ status: 'ok' });
 });
 
 // Error handling

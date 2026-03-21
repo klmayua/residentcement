@@ -93,6 +93,8 @@ services:
       PLANT_MES_SERVICE_URL: http://plant-mes-service:3008
       QUALITY_SERVICE_URL: http://quality-service:3009
       LOGISTICS_SERVICE_URL: http://logistics-service:3010
+      ACCOUNTING_SERVICE_URL: http://accounting-service:3011
+      REPORTING_SERVICE_URL: http://reporting-service:3012
     depends_on:
       postgres:
         condition: service_healthy
@@ -376,6 +378,91 @@ services:
     networks:
       - resident-cement-network
     restart: unless-stopped
+
+  accounting-service:
+    build:
+      context: .
+      dockerfile: backend/services/accounting-service/Dockerfile
+    container_name: rc-accounting-svc
+    environment:
+      NODE_ENV: production
+      PORT: "3011"
+      DATABASE_URL: postgresql://${DB_USER}:${DB_PASSWORD}@postgres:5432/${DB_NAME}
+      KAFKA_BROKERS: kafka:29092
+      REDIS_URL: redis://:${REDIS_PASSWORD}@redis:6379
+    depends_on:
+      db-migrate:
+        condition: service_completed_successfully
+      kafka:
+        condition: service_healthy
+    networks:
+      - resident-cement-network
+    restart: unless-stopped
+    healthcheck:
+      test: ["CMD", "wget", "--spider", "-q", "http://localhost:3011/health"]
+      interval: 30s
+      timeout: 5s
+      retries: 3
+      start_period: 20s
+
+  reporting-service:
+    build:
+      context: .
+      dockerfile: backend/services/reporting-service/Dockerfile
+    container_name: rc-reporting-svc
+    environment:
+      NODE_ENV: production
+      PORT: "3012"
+      DATABASE_URL: postgresql://${DB_USER}:${DB_PASSWORD}@postgres:5432/${DB_NAME}
+      KAFKA_BROKERS: kafka:29092
+      REDIS_URL: redis://:${REDIS_PASSWORD}@redis:6379
+    depends_on:
+      db-migrate:
+        condition: service_completed_successfully
+      kafka:
+        condition: service_healthy
+    networks:
+      - resident-cement-network
+    restart: unless-stopped
+    healthcheck:
+      test: ["CMD", "wget", "--spider", "-q", "http://localhost:3012/health"]
+      interval: 30s
+      timeout: 5s
+      retries: 3
+      start_period: 20s
+
+  ussd-service:
+    build:
+      context: .
+      dockerfile: backend/services/ussd-service/Dockerfile
+    container_name: rc-ussd-svc
+    ports:
+      - "4008:4008"
+    environment:
+      NODE_ENV: production
+      PORT: "4008"
+      DATABASE_URL: postgresql://${DB_USER}:${DB_PASSWORD}@postgres:5432/${DB_NAME}
+      KAFKA_BROKERS: kafka:29092
+      REDIS_URL: redis://:${REDIS_PASSWORD}@redis:6379
+      AT_USERNAME: ${AT_USERNAME:-sandbox}
+      AT_API_KEY: ${AT_API_KEY:-}
+      AT_SHORTCODE: ${AT_SHORTCODE:-*384#}
+      AT_SENDER_ID: ${AT_SENDER_ID:-ResidentCement}
+      AT_SMS_ENABLED: ${AT_SMS_ENABLED:-false}
+    depends_on:
+      db-migrate:
+        condition: service_completed_successfully
+      redis:
+        condition: service_healthy
+    networks:
+      - resident-cement-network
+    restart: unless-stopped
+    healthcheck:
+      test: ["CMD", "wget", "--spider", "-q", "http://localhost:4008/health"]
+      interval: 30s
+      timeout: 5s
+      retries: 3
+      start_period: 20s
 
   # === INFRASTRUCTURE ===
   postgres:

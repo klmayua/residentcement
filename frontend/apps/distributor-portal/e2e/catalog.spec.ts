@@ -33,7 +33,7 @@ test.describe('Product Catalog', () => {
 
     const searchInput = page.locator('input[type="search"], input[placeholder*="search" i]');
     if (await searchInput.isVisible().catch(() => false)) {
-      await searchInput.fill('Dangote');
+      await searchInput.fill('Resident');
       await page.keyboard.press('Enter');
 
       // Results should update

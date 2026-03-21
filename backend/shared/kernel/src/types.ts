@@ -336,3 +336,260 @@ export interface ChangeEntry {
   oldValue: unknown;
   newValue: unknown;
 }
+
+// -----------------------------------------------------------------------------
+// Nigerian Accounting & Financial Types
+// -----------------------------------------------------------------------------
+
+// Currencies supported
+export type CurrencyCode = 'NGN' | 'USD' | 'EUR' | 'GBP';
+
+// Primary currency is NGN
+export const PRIMARY_CURRENCY: CurrencyCode = 'NGN';
+
+// Nigerian Tax Types
+export type TaxType = 'VAT' | 'WHT' | 'CIT' | 'EDT' | 'PAYE';
+
+// VAT Configuration (Nigeria: 7.5% standard rate)
+export interface VATConfig {
+  standardRate: number;      // 0.075 (7.5%)
+  exemptRate: number;        // 0.00
+  zeroRated: number;         // 0.00
+  registrationThreshold: number; // NGN 25,000,000 annual turnover
+  filingFrequency: 'MONTHLY' | 'QUARTERLY';
+  filingDeadline: number;    // Day of month (21st)
+}
+
+export const DEFAULT_VAT_CONFIG: VATConfig = {
+  standardRate: 0.075,
+  exemptRate: 0,
+  zeroRated: 0,
+  registrationThreshold: 25000000,
+  filingFrequency: 'MONTHLY',
+  filingDeadline: 21,
+};
+
+// WHT (Withholding Tax) Rates - Nigeria
+export interface WHTRate {
+  type: string;
+  rate: number;
+  applicableTo: string[];
+}
+
+export const WHT_RATES: WHTRate[] = [
+  { type: 'DIVIDEND', rate: 0.10, applicableTo: ['dividends', 'distributions'] },
+  { type: 'INTEREST', rate: 0.10, applicableTo: ['interest', 'deposit'] },
+  { type: 'ROYALTY', rate: 0.10, applicableTo: ['royalties', 'intellectual_property'] },
+  { type: 'DIRECTORS_FEES', rate: 0.10, applicableTo: ['director_fees', 'board_remuneration'] },
+  { type: 'CONTRACTS', rate: 0.05, applicableTo: ['contracts', 'supplies', 'services'] },
+  { type: 'RENT', rate: 0.10, applicableTo: ['rent', 'lease'] },
+  { type: 'CONSULTANCY', rate: 0.10, applicableTo: ['consultancy', 'professional_services'] },
+  { type: 'AGENCY', rate: 0.10, applicableTo: ['agency', 'commission'] },
+];
+
+// CIT (Company Income Tax) Rates - Nigeria
+export interface CITRate {
+  category: 'SMALL' | 'MEDIUM' | 'LARGE';
+  turnoverThreshold: { min: number; max: number | null };
+  rate: number;
+  description: string;
+}
+
+export const CIT_RATES: CITRate[] = [
+  {
+    category: 'SMALL',
+    turnoverThreshold: { min: 0, max: 25000000 },
+    rate: 0,
+    description: '0% for first 5 years (reinvestment allowance)',
+  },
+  {
+    category: 'MEDIUM',
+    turnoverThreshold: { min: 25000000, max: 100000000 },
+    rate: 0.20,
+    description: '20% for medium companies',
+  },
+  {
+    category: 'LARGE',
+    turnoverThreshold: { min: 100000000, max: null },
+    rate: 0.30,
+    description: '30% for large companies',
+  },
+];
+
+// Minimum Tax (0.5% of gross profit if CIT is lower)
+export const MINIMUM_TAX_RATE = 0.005;
+
+// Accounting Period (Nigeria: January - December)
+export type AccountingPeriod = {
+  year: number;
+  month: number; // 1-12
+  startDate: Date;
+  endDate: Date;
+  status: 'OPEN' | 'CLOSED' | 'PENDING_CLOSE';
+};
+
+// Fiscal Year (Nigeria: Jan 1 - Dec 31)
+export interface FiscalYear {
+  year: number;
+  startDate: Date;
+  endDate: Date;
+  status: 'ACTIVE' | 'CLOSED' | 'PENDING';
+  closedAt?: Date;
+  closedBy?: string;
+}
+
+// Account Types (Nigerian GAAP)
+export type AccountType = 'ASSET' | 'LIABILITY' | 'EQUITY' | 'REVENUE' | 'EXPENSE';
+
+// Account Subtypes
+export type AccountSubType =
+  | 'CURRENT_ASSET'
+  | 'FIXED_ASSET'
+  | 'INTANGIBLE_ASSET'
+  | 'CURRENT_LIABILITY'
+  | 'LONG_TERM_LIABILITY'
+  | 'EQUITY'
+  | 'OPERATING_REVENUE'
+  | 'OTHER_REVENUE'
+  | 'COST_OF_SALES'
+  | 'OPERATING_EXPENSE'
+  | 'OTHER_EXPENSE';
+
+// Journal Entry Status
+export type JournalEntryStatus = 'DRAFT' | 'PENDING_APPROVAL' | 'POSTED' | 'REVERSED';
+
+// Nigerian Banks (major ones for integrations)
+export type NigerianBankCode =
+  | '000014' // First Bank
+  | '000015' // GTBank
+  | '000016' // Zenith
+  | '000018' // UBA
+  | '000019' // Union Bank
+  | '000020' | '000021' | '000022' | '000023' | '000024';
+
+export interface NigerianBank {
+  code: NigerianBankCode;
+  name: string;
+  shortName: string;
+}
+
+export const NIGERIAN_BANKS: NigerianBank[] = [
+  { code: '000014', name: 'First Bank of Nigeria', shortName: 'FirstBank' },
+  { code: '000015', name: 'Guaranty Trust Bank', shortName: 'GTBank' },
+  { code: '000016', name: 'Zenith Bank', shortName: 'Zenith' },
+  { code: '000018', name: 'United Bank for Africa', shortName: 'UBA' },
+  { code: '000019', name: 'Union Bank of Nigeria', shortName: 'Union' },
+  { code: '000020', name: 'Access Bank', shortName: 'Access' },
+  { code: '000021', name: 'Ecobank Nigeria', shortName: 'Ecobank' },
+  { code: '000022', name: 'Fidelity Bank', shortName: 'Fidelity' },
+  { code: '000023', name: 'Stanbic IBTC Bank', shortName: 'Stanbic' },
+  { code: '000024', name: 'Sterling Bank', shortName: 'Sterling' },
+];
+
+// Exchange Rate Configuration
+export interface ExchangeRate {
+  fromCurrency: CurrencyCode;
+  toCurrency: CurrencyCode;
+  rate: number;
+  source: 'CBN' | 'PARALLEL' | 'CUSTOM';
+  effectiveDate: Date;
+  expiresAt?: Date;
+}
+
+// CBN Official Rates (daily update)
+export interface CBNRate {
+  currency: CurrencyCode;
+  buyRate: number;
+  sellRate: number;
+  centralRate: number;
+  date: Date;
+}
+
+// Financial Document Types (Nigerian compliance)
+export type FinancialDocumentType =
+  | 'INVOICE'
+  | 'RECEIPT'
+  | 'PAYMENT_VOUCHER'
+  | 'JOURNAL_VOUCHER'
+  | 'CREDIT_NOTE'
+  | 'DEBIT_NOTE'
+  | 'TAX_INVOICE'
+  | 'DELIVERY_NOTE';
+
+// Cost Center Structure (typical Nigerian manufacturing)
+export type CostCenterType =
+  | 'PRODUCTION'
+  | 'ADMINISTRATION'
+  | 'SALES'
+  | 'DISTRIBUTION'
+  | 'RESEARCH';
+
+export interface CostCenter {
+  code: string;
+  name: string;
+  type: CostCenterType;
+  parentId?: string;
+  manager?: string;
+  budget?: number;
+}
+
+// Nigerian Regulatory References
+export interface RegulatoryInfo {
+  cacNumber?: string;       // Corporate Affairs Commission
+  tin?: string;             // Tax Identification Number
+  vatNumber?: string;       // VAT TIN
+  rcNumber?: string;        // Registration Number
+}
+
+// Payment Terms (Nigerian business norms)
+export type PaymentTerm =
+  | 'CASH_ON_DELIVERY'
+  | 'NET_7'
+  | 'NET_14'
+  | 'NET_30'
+  | 'NET_45'
+  | 'NET_60'
+  | 'PREPAID';
+
+// Depreciation Methods (Nigerian GAAP accepted)
+export type DepreciationMethod = 'STRAIGHT_LINE' | 'REDUCING_BALANCE' | 'UNITS_OF_PRODUCTION';
+
+// Financial Ratios (Nigerian banking covenant common metrics)
+export interface FinancialRatios {
+  currentRatio: number;
+  quickRatio: number;
+  debtToEquity: number;
+  returnOnAssets: number;
+  returnOnEquity: number;
+  grossProfitMargin: number;
+  netProfitMargin: number;
+  inventoryTurnover: number;
+  daysSalesOutstanding: number;
+}
+
+// Monthly VAT Return Summary (FIRS format)
+export interface VATReturnSummary {
+  period: string; // YYYY-MM
+  outputVAT: number; // VAT on sales
+  inputVAT: number; // VAT on purchases
+  netVATPayable: number;
+  totalSalesExclVAT: number;
+  totalPurchasesExclVAT: number;
+  exemptSupplies: number;
+  zeroRatedSupplies: number;
+}
+
+// Annual Tax Computation
+export interface TaxComputation {
+  fiscalYear: number;
+  assessableProfit: number;
+  capitalAllowance: number;
+  totalProfit: number;
+  taxRate: number;
+  taxPayable: number;
+  minimumTax: number;
+  educationTax: number; // 2% of assessable profit
+  netTaxLiability: number;
+  paymentsMade: number;
+  balanceDue: number;
+}

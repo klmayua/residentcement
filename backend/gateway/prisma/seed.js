@@ -41,8 +41,8 @@ async function main() {
   // Create products
   const products = [
     {
-      name: 'Dangote Cement 42.5R',
-      sku: 'DGC-42.5R-50',
+      name: 'Resident Cement 42.5R',
+      sku: 'RCC-42.5R-50',
       description: 'Premium grade cement for general construction',
       category: 'CEMENT',
       grade: '42.5R',
@@ -53,8 +53,8 @@ async function main() {
       status: 'active',
     },
     {
-      name: 'Dangote Cement 32.5R',
-      sku: 'DGC-32.5R-50',
+      name: 'Resident Cement 32.5R',
+      sku: 'RCC-32.5R-50',
       description: 'Standard grade cement for masonry work',
       category: 'CEMENT',
       grade: '32.5R',
@@ -65,8 +65,8 @@ async function main() {
       status: 'active',
     },
     {
-      name: 'Dangote Cement 52.5R',
-      sku: 'DGC-52.5R-50',
+      name: 'Resident Cement 52.5R',
+      sku: 'RCC-52.5R-50',
       description: 'High strength cement for specialized construction',
       category: 'CEMENT',
       grade: '52.5R',
@@ -77,8 +77,8 @@ async function main() {
       status: 'active',
     },
     {
-      name: 'Dangote Pozzolana Cement 32.5N',
-      sku: 'DPC-32.5N-50',
+      name: 'Resident Pozzolana 32.5N',
+      sku: 'RPC-32.5N-50',
       description: 'Environmentally friendly cement with fly ash',
       category: 'POZZOLANA',
       grade: '32.5N',

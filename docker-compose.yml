@@ -205,6 +205,36 @@ services:
       - resident-cement-network
     restart: unless-stopped
 
+  # USSD Service (Africa's Talking Integration)
+  ussd-service:
+    build:
+      context: ./backend/services/ussd-service
+      dockerfile: Dockerfile
+    container_name: residentcement-ussd
+    ports:
+      - "4008:4008"
+    environment:
+      NODE_ENV: production
+      PORT: "4008"
+      AT_USERNAME: ${AT_USERNAME:-sandbox}
+      AT_API_KEY: ${AT_API_KEY:-}
+      AT_SHORTCODE: ${AT_SHORTCODE:-*384#}
+      AT_SENDER_ID: ${AT_SENDER_ID:-ResidentCement}
+      AT_SMS_ENABLED: ${AT_SMS_ENABLED:-false}
+      LOG_LEVEL: ${LOG_LEVEL:-info}
+    depends_on:
+      - redis
+      - kafka
+    networks:
+      - resident-cement-network
+    restart: unless-stopped
+    healthcheck:
+      test: ["CMD", "curl", "-sf", "http://localhost:4008/health"]
+      interval: 30s
+      timeout: 5s
+      retries: 5
+      start_period: 30s
+
 networks:
   resident-cement-network:
     driver: bridge

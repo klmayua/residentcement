@@ -170,7 +170,10 @@ ResidentCement is a comprehensive digital platform designed to modernize cement 
 
 - [x] Distributor Portal
 - [x] Sales Rep Mobile App
-- [x] USSD Fallback
+- [x] **USSD Service** (Africa's Talking Integration) ✅ IMPLEMENTED
+  - Dial *384# (or configured shortcode)
+  - Check balance, place orders, track deliveries
+  - SMS confirmations via AT API
 - [x] Intelligent Quote Engine
 - [x] Payment Integration (Paystack, Flutterwave)
 - [x] Command Dashboard

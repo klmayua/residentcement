@@ -28,8 +28,8 @@ import {
 const publicProducts = [
   {
     id: "prod_001",
-    name: "Dangote Cement 42.5R",
-    sku: "DGC-42.5R-50",
+    name: "Resident Cement 42.5R",
+    sku: "RCC-42.5R-50",
     grade: "42.5R",
     category: "Premium",
     retailPrice: 4800,
@@ -42,8 +42,8 @@ const publicProducts = [
   },
   {
     id: "prod_002",
-    name: "Dangote Cement 32.5R",
-    sku: "DGC-32.5R-50",
+    name: "Resident Cement 32.5R",
+    sku: "RCC-32.5R-50",
     grade: "32.5R",
     category: "Standard",
     retailPrice: 4500,
@@ -56,8 +56,8 @@ const publicProducts = [
   },
   {
     id: "prod_003",
-    name: "Dangote Cement 52.5R",
-    sku: "DGC-52.5R-50",
+    name: "Resident Cement 52.5R",
+    sku: "RCC-52.5R-50",
     grade: "52.5R",
     category: "High Strength",
     retailPrice: 5500,
@@ -70,8 +70,8 @@ const publicProducts = [
   },
   {
     id: "prod_004",
-    name: "Dangote Pozzolana 32.5N",
-    sku: "DPC-32.5N-50",
+    name: "Resident Pozzolana 32.5N",
+    sku: "RPC-32.5N-50",
     grade: "32.5N",
     category: "Eco-Friendly",
     retailPrice: 4400,
@@ -326,7 +326,7 @@ export default function PublicProductsPage() {
                     <ArrowRight className="ml-2 h-5 w-5" />
                   </Button>
                 </Link>
-                <Link href="http://localhost:3000" target="_blank">
+                <Link href="https://portal.residentcement.com" target="_blank">
                   <Button
                     size="lg"
                     variant="outline"

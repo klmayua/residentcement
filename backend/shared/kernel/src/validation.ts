@@ -442,10 +442,242 @@ export const apiResponseSchema = <T extends z.ZodType>(dataSchema: T) =>
   });
 
 // -----------------------------------------------------------------------------
-// Export Combined Schemas
+// Nigerian Accounting & Financial Validation Schemas
 // -----------------------------------------------------------------------------
 
-export const validationSchemas = {
+// Currency Schema
+export const currencyCodeSchema = z.enum(['NGN', 'USD', 'EUR', 'GBP']);
+
+// Nigerian Bank Account Validation
+export const nigerianBankAccountSchema = z.object({
+  bankCode: z.string().regex(/^\d{6}$/, 'Invalid bank code'),
+  accountNumber: z.string().regex(/^\d{10}$/, 'Nigerian account number must be 10 digits'),
+  accountName: z.string().min(2).max(100),
+});
+
+// NGN Currency Amount (2 decimal places)
+export const ngnAmountSchema = z.number().nonnegative().multipleOf(0.01);
+
+// VAT Calculation Schema
+export const vatCalculationSchema = z.object({
+  amount: z.number().positive(),
+  isInclusive: z.boolean().default(false),
+  vatRate: z.number().default(0.075), // 7.5% standard
+});
+
+// Tax Transaction Schema
+export const taxTransactionSchema = z.object({
+  taxType: z.enum(['VAT', 'WHT', 'CIT', 'EDT', 'PAYE']),
+  baseAmount: z.number().positive(),
+  taxRate: z.number().positive(),
+  taxAmount: z.number().nonnegative(),
+  documentType: z.enum([
+    'INVOICE',
+    'RECEIPT',
+    'PAYMENT_VOUCHER',
+    'JOURNAL_VOUCHER',
+    'CREDIT_NOTE',
+    'DEBIT_NOTE',
+    'TAX_INVOICE',
+    'DELIVERY_NOTE',
+  ]),
+  documentId: z.string().uuid(),
+  period: z.string().regex(/^\d{4}-\d{2}$/, 'Period must be YYYY-MM format'),
+});
+
+// Journal Entry Line Schema (Double Entry)
+export const journalEntryLineSchema = z.object({
+  accountId: z.string().uuid(),
+  description: z.string().min(1).max(500),
+  debitAmount: z.number().nonnegative().default(0),
+  creditAmount: z.number().nonnegative().default(0),
+  costCenter: z.string().optional(),
+  projectCode: z.string().optional(),
+}).refine(
+  (data) => (data.debitAmount > 0) !== (data.creditAmount > 0),
+  { message: 'Line must have either debit or credit amount, not both' }
+);
+
+// Journal Entry Schema (must balance)
+export const journalEntrySchema = z.object({
+  entryDate: z.string().datetime(),
+  reference: z.string().min(1).max(50),
+  description: z.string().min(1).max(500),
+  lines: z.array(journalEntryLineSchema).min(2),
+  sourceDocument: z.string().optional(),
+  sourceId: z.string().uuid().optional(),
+}).refine(
+  (data) => {
+    const totalDebits = data.lines.reduce((sum, line) => sum + line.debitAmount, 0);
+    const totalCredits = data.lines.reduce((sum, line) => sum + line.creditAmount, 0);
+    return Math.abs(totalDebits - totalCredits) < 0.01; // Allow for rounding
+  },
+  { message: 'Journal entry must balance: total debits must equal total credits' }
+);
+
+// Chart of Accounts Schema
+export const accountSchema = z.object({
+  code: z.string().regex(/^\d{4}$/, 'Account code must be 4 digits'),
+  name: z.string().min(2).max(200),
+  type: z.enum(['ASSET', 'LIABILITY', 'EQUITY', 'REVENUE', 'EXPENSE']),
+  subtype: z.enum([
+    'CURRENT_ASSET',
+    'FIXED_ASSET',
+    'INTANGIBLE_ASSET',
+    'CURRENT_LIABILITY',
+    'LONG_TERM_LIABILITY',
+    'EQUITY',
+    'OPERATING_REVENUE',
+    'OTHER_REVENUE',
+    'COST_OF_SALES',
+    'OPERATING_EXPENSE',
+    'OTHER_EXPENSE',
+  ]),
+  parentId: z.string().uuid().optional(),
+  isBankAccount: z.boolean().default(false),
+  isControlAccount: z.boolean().default(false),
+  currency: currencyCodeSchema.default('NGN'),
+  openingBalance: z.number().default(0),
+});
+
+// Accounting Period Schema
+export const accountingPeriodSchema = z.object({
+  year: z.number().int().min(2000).max(2100),
+  month: z.number().int().min(1).max(12),
+  startDate: z.string().datetime(),
+  endDate: z.string().datetime(),
+  status: z.enum(['OPEN', 'CLOSED', 'PENDING_CLOSE']),
+});
+
+// Fiscal Year Schema (Nigeria: Jan-Dec)
+export const fiscalYearSchema = z.object({
+  year: z.number().int().min(2000).max(2100),
+  startDate: z.string().datetime(),
+  endDate: z.string().datetime(),
+  status: z.enum(['ACTIVE', 'CLOSED', 'PENDING']),
+});
+
+// Nigerian Regulatory Info Schema
+export const regulatoryInfoSchema = z.object({
+  cacNumber: z.string().regex(/^RC\d{6,7}$/, 'CAC number format: RC######').optional(),
+  tin: z.string().regex(/^\d{10,15}$/, 'TIN must be 10-15 digits').optional(),
+  vatNumber: z.string().regex(/^\d{10,15}$/, 'VAT number must be 10-15 digits').optional(),
+  rcNumber: z.string().optional(),
+});
+
+// Payment Terms Schema
+export const paymentTermSchema = z.enum([
+  'CASH_ON_DELIVERY',
+  'NET_7',
+  'NET_14',
+  'NET_30',
+  'NET_45',
+  'NET_60',
+  'PREPAID',
+]);
+
+// Financial Ratios Schema
+export const financialRatiosSchema = z.object({
+  currentRatio: z.number().nonnegative(),
+  quickRatio: z.number().nonnegative(),
+  debtToEquity: z.number().nonnegative(),
+  returnOnAssets: z.number(),
+  returnOnEquity: z.number(),
+  grossProfitMargin: z.number(),
+  netProfitMargin: z.number(),
+  inventoryTurnover: z.number().nonnegative(),
+  daysSalesOutstanding: z.number().nonnegative(),
+});
+
+// VAT Return Summary Schema
+export const vatReturnSummarySchema = z.object({
+  period: z.string().regex(/^\d{4}-\d{2}$/),
+  outputVAT: z.number().nonnegative(),
+  inputVAT: z.number().nonnegative(),
+  netVATPayable: z.number(),
+  totalSalesExclVAT: z.number().nonnegative(),
+  totalPurchasesExclVAT: z.number().nonnegative(),
+  exemptSupplies: z.number().nonnegative(),
+  zeroRatedSupplies: z.number().nonnegative(),
+});
+
+// Tax Computation Schema
+export const taxComputationSchema = z.object({
+  fiscalYear: z.number().int(),
+  assessableProfit: z.number().nonnegative(),
+  capitalAllowance: z.number().nonnegative(),
+  totalProfit: z.number().nonnegative(),
+  taxRate: z.number().positive(),
+  taxPayable: z.number().nonnegative(),
+  minimumTax: z.number().nonnegative(),
+  educationTax: z.number().nonnegative(),
+  netTaxLiability: z.number().nonnegative(),
+  paymentsMade: z.number().nonnegative(),
+  balanceDue: z.number(),
+});
+
+// Cost Center Schema
+export const costCenterSchema = z.object({
+  code: z.string().min(1).max(20),
+  name: z.string().min(2).max(100),
+  type: z.enum(['PRODUCTION', 'ADMINISTRATION', 'SALES', 'DISTRIBUTION', 'RESEARCH']),
+  parentId: z.string().uuid().optional(),
+  manager: z.string().optional(),
+  budget: z.number().nonnegative().optional(),
+});
+
+// Exchange Rate Schema
+export const exchangeRateSchema = z.object({
+  fromCurrency: currencyCodeSchema,
+  toCurrency: currencyCodeSchema,
+  rate: z.number().positive(),
+  source: z.enum(['CBN', 'PARALLEL', 'CUSTOM']),
+  effectiveDate: z.string().datetime(),
+});
+
+// Depreciation Method Schema
+export const depreciationMethodSchema = z.enum([
+  'STRAIGHT_LINE',
+  'REDUCING_BALANCE',
+  'UNITS_OF_PRODUCTION',
+]);
+
+// Fixed Asset Schema
+export const fixedAssetSchema = z.object({
+  assetCode: z.string().min(1).max(50),
+  assetName: z.string().min(2).max(200),
+  category: z.string().min(1),
+  acquisitionDate: z.string().datetime(),
+  acquisitionCost: z.number().positive(),
+  residualValue: z.number().nonnegative().default(0),
+  usefulLifeYears: z.number().int().positive(),
+  depreciationMethod: depreciationMethodSchema.default('STRAIGHT_LINE'),
+  location: z.string().optional(),
+  custodian: z.string().optional(),
+  accountId: z.string().uuid(),
+  depreciationAccountId: z.string().uuid(),
+});
+
+// Financial Document Schema
+export const financialDocumentSchema = z.object({
+  documentType: z.enum([
+    'INVOICE',
+    'RECEIPT',
+    'PAYMENT_VOUCHER',
+    'JOURNAL_VOUCHER',
+    'CREDIT_NOTE',
+    'DEBIT_NOTE',
+    'TAX_INVOICE',
+    'DELIVERY_NOTE',
+  ]),
+  documentNumber: z.string().min(1).max(50),
+  documentDate: z.string().datetime(),
+  reference: z.string().max(100).optional(),
+  description: z.string().max(500),
+  amount: z.number().positive(),
+  currency: currencyCodeSchema.default('NGN'),
+  status: z.enum(['DRAFT', 'PENDING', 'APPROVED', 'POSTED', 'CANCELLED']),
+});
   // Auth
   login: loginSchema,
   register: registerSchema,
@@ -494,4 +726,26 @@ export const validationSchemas = {
   email: emailSchema,
   phone: phoneSchema,
   url: urlSchema,
+
+  // Nigerian Accounting
+  currencyCode: currencyCodeSchema,
+  nigerianBankAccount: nigerianBankAccountSchema,
+  ngnAmount: ngnAmountSchema,
+  vatCalculation: vatCalculationSchema,
+  taxTransaction: taxTransactionSchema,
+  journalEntryLine: journalEntryLineSchema,
+  journalEntry: journalEntrySchema,
+  account: accountSchema,
+  accountingPeriod: accountingPeriodSchema,
+  fiscalYear: fiscalYearSchema,
+  regulatoryInfo: regulatoryInfoSchema,
+  paymentTerm: paymentTermSchema,
+  financialRatios: financialRatiosSchema,
+  vatReturnSummary: vatReturnSummarySchema,
+  taxComputation: taxComputationSchema,
+  costCenter: costCenterSchema,
+  exchangeRate: exchangeRateSchema,
+  depreciationMethod: depreciationMethodSchema,
+  fixedAsset: fixedAssetSchema,
+  financialDocument: financialDocumentSchema,
 };

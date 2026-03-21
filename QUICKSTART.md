@@ -85,8 +85,8 @@ npm run dev
 The database comes pre-populated with:
 
 - **1 Admin User** - admin@residentcement.com
-- **5 Customers** - Dangote Distributors, BuildMax, etc.
-- **6 Products** - Dangote Cement, BUA Cement, etc.
+- **5 Customers** - Demo Distributors, BuildMax, etc.
+- **6 Products** - Resident Cement 42.5R, 32.5R, 52.5R, etc.
 - **3 Warehouses** - Lagos, Abuja, Port Harcourt
 - **4 Inventory Records** - Stock across warehouses
 - **3 Orders** - Sample orders in various states

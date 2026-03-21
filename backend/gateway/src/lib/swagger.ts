@@ -264,8 +264,8 @@ Errors follow a standard format:
         type: 'object',
         properties: {
           id: { $ref: '#/components/schemas/Id' },
-          name: { type: 'string', example: 'Dangote Cement Distributors Ltd' },
-          email: { type: 'string', format: 'email', example: 'contact@dangotedistributors.com' },
+          name: { type: 'string', example: 'Resident Cement Distributors Ltd' },
+          email: { type: 'string', format: 'email', example: 'contact@residentdistributors.com' },
           phone: { type: 'string', example: '+234-800-123-4567' },
           address: { type: 'string', example: '1 Industrial Avenue, Lagos' },
           city: { type: 'string', example: 'Lagos' },
@@ -327,7 +327,7 @@ Errors follow a standard format:
         type: 'object',
         properties: {
           productId: { $ref: '#/components/schemas/Id' },
-          productName: { type: 'string', example: 'Dangote Cement 50kg' },
+          productName: { type: 'string', example: 'Resident Cement 42.5R' },
           quantity: { type: 'number', example: 100 },
           unitPrice: { type: 'number', example: 3500 },
           discount: { type: 'number', example: 0 },
@@ -340,8 +340,8 @@ Errors follow a standard format:
         type: 'object',
         properties: {
           id: { $ref: '#/components/schemas/Id' },
-          name: { type: 'string', example: 'Dangote Cement 50kg' },
-          sku: { type: 'string', example: 'DANG-CEM-50KG' },
+          name: { type: 'string', example: 'Resident Cement 42.5R' },
+          sku: { type: 'string', example: 'RCC-42.5R-50' },
           description: { type: 'string', example: 'High-quality Portland cement' },
           category: {
             type: 'string',
@@ -353,7 +353,7 @@ Errors follow a standard format:
             enum: ['ACTIVE', 'INACTIVE', 'DISCONTINUED', 'OUT_OF_STOCK'],
             example: 'ACTIVE',
           },
-          basePrice: { type: 'number', example: 3500 },
+          basePrice: { type: 'number', example: 4500 },
           unitOfMeasure: { type: 'string', example: 'bag' },
           weight: { type: 'number', example: 50, description: 'Weight in kg' },
         },

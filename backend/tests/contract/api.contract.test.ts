@@ -85,7 +85,7 @@ describe('API Contract Tests', () => {
     it('should validate product response schema', () => {
       const mockProduct = {
         id: 'prod_001',
-        name: 'Dangote Cement 50kg',
+        name: 'Resident Cement 50kg',
         description: 'Premium quality cement',
         price: 4500,
         stock: 10000,

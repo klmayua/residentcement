@@ -4,7 +4,7 @@ import { Button } from "@/components/ui/button";
 
 const products = [
   {
-    name: "Dangote Cement 42.5R",
+    name: "Resident Cement 42.5R",
     grade: "Premium",
     description: "High-strength Portland cement ideal for structural applications, bridges, and high-rise buildings.",
     price: "₦4,500",
@@ -18,7 +18,7 @@ const products = [
     applications: ["High-rise buildings", "Bridges", "Industrial structures", "Prefabricated elements"],
   },
   {
-    name: "Dangote Cement 32.5R",
+    name: "Resident Cement 32.5R",
     grade: "Standard",
     description: "General purpose cement for plastering, masonry, and standard construction works.",
     price: "₦4,200",
@@ -32,7 +32,7 @@ const products = [
     applications: ["Residential buildings", "Plastering", "Flooring", "General masonry"],
   },
   {
-    name: "Dangote Cement 52.5R",
+    name: "Resident Cement 52.5R",
     grade: "High Strength",
     description: "Ultra-high strength cement for demanding infrastructure and specialized construction.",
     price: "₦5,200",
@@ -46,7 +46,7 @@ const products = [
     applications: ["Airport runways", "Dam construction", "Heavy industrial", "Marine structures"],
   },
   {
-    name: "Dangote Pozzolana 32.5N",
+    name: "Resident Pozzolana 32.5N",
     grade: "Eco-Friendly",
     description: "Environmentally friendly cement with pozzolanic properties for sustainable construction.",
     price: "₦4,100",

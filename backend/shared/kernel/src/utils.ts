@@ -453,3 +453,545 @@ export function isProduction(): boolean {
 export function isTest(): boolean {
   return process.env.NODE_ENV === 'test';
 }
+
+// -----------------------------------------------------------------------------
+// Nigerian Financial Utilities
+// -----------------------------------------------------------------------------
+
+// VAT Calculation (Nigeria: 7.5% standard rate)
+export const VAT_RATE = 0.075;
+
+export interface VATBreakdown {
+  netAmount: number;
+  vatAmount: number;
+  grossAmount: number;
+}
+
+/**
+ * Calculate VAT on an amount (exclusive)
+ * @param netAmount - Amount before VAT
+ * @returns VATBreakdown with net, VAT, and gross amounts
+ */
+export function calculateVATExclusive(netAmount: number): VATBreakdown {
+  const vatAmount = roundTo(netAmount * VAT_RATE);
+  const grossAmount = roundTo(netAmount + vatAmount);
+  return {
+    netAmount: roundTo(netAmount),
+    vatAmount,
+    grossAmount,
+  };
+}
+
+/**
+ * Calculate VAT from gross amount (inclusive)
+ * @param grossAmount - Amount including VAT
+ * @returns VATBreakdown with net, VAT, and gross amounts
+ */
+export function calculateVATInclusive(grossAmount: number): VATBreakdown {
+  const netAmount = roundTo(grossAmount / (1 + VAT_RATE));
+  const vatAmount = roundTo(grossAmount - netAmount);
+  return {
+    netAmount,
+    vatAmount,
+    grossAmount: roundTo(grossAmount),
+  };
+}
+
+// Withholding Tax Rates (Nigeria)
+export const WHT_RATES = {
+  DIVIDEND: 0.10,
+  INTEREST: 0.10,
+  ROYALTY: 0.10,
+  DIRECTORS_FEES: 0.10,
+  CONTRACTS: 0.05,
+  RENT: 0.10,
+  CONSULTANCY: 0.10,
+  AGENCY: 0.10,
+} as const;
+
+export type WHTType = keyof typeof WHT_RATES;
+
+/**
+ * Calculate Withholding Tax
+ * @param amount - Gross payment amount
+ * @param whtType - Type of payment
+ * @returns Withholding tax amount
+ */
+export function calculateWHT(amount: number, whtType: WHTType): number {
+  const rate = WHT_RATES[whtType];
+  if (!rate) {
+    throw new Error(`Unknown WHT type: ${whtType}`);
+  }
+  return roundTo(amount * rate);
+}
+
+/**
+ * Calculate net payment after WHT
+ * @param grossAmount - Gross payment amount
+ * @param whtType - Type of payment
+ * @returns Object with gross, WHT, and net amounts
+ */
+export function calculateNetPayment(
+  grossAmount: number,
+  whtType: WHTType
+): { grossAmount: number; whtAmount: number; netAmount: number } {
+  const whtAmount = calculateWHT(grossAmount, whtType);
+  const netAmount = roundTo(grossAmount - whtAmount);
+  return {
+    grossAmount: roundTo(grossAmount),
+    whtAmount,
+    netAmount,
+  };
+}
+
+// Company Income Tax (Nigeria)
+export interface CITCalculation {
+  category: 'SMALL' | 'MEDIUM' | 'LARGE';
+  rate: number;
+  turnoverThreshold: { min: number; max: number | null };
+}
+
+export const CIT_RATES: CITCalculation[] = [
+  {
+    category: 'SMALL',
+    rate: 0,
+    turnoverThreshold: { min: 0, max: 25000000 },
+  },
+  {
+    category: 'MEDIUM',
+    rate: 0.20,
+    turnoverThreshold: { min: 25000000, max: 100000000 },
+  },
+  {
+    category: 'LARGE',
+    rate: 0.30,
+    turnoverThreshold: { min: 100000000, max: null },
+  },
+];
+
+export const MINIMUM_TAX_RATE = 0.005; // 0.5% of gross profit
+export const EDUCATION_TAX_RATE = 0.02; // 2% of assessable profit
+
+/**
+ * Determine company category based on turnover
+ * @param turnover - Annual turnover in NGN
+ * @returns CITCalculation for the company
+ */
+export function determineCITCategory(turnover: number): CITCalculation {
+  for (const rate of CIT_RATES) {
+    const { min, max } = rate.turnoverThreshold;
+    if (turnover >= min && (max === null || turnover < max)) {
+      return rate;
+    }
+  }
+  return CIT_RATES[CIT_RATES.length - 1];
+}
+
+/**
+ * Calculate Company Income Tax
+ * @param assessableProfit - Profit before tax
+ * @param turnover - Annual turnover
+ * @returns CIT calculation result
+ */
+export function calculateCIT(
+  assessableProfit: number,
+  turnover: number
+): {
+  assessableProfit: number;
+  capitalAllowance: number;
+  totalProfit: number;
+  taxRate: number;
+  taxPayable: number;
+  minimumTax: number;
+  educationTax: number;
+  netTaxLiability: number;
+  category: string;
+} {
+  const category = determineCITCategory(turnover);
+  const capitalAllowance = 0; // Calculated separately based on asset schedule
+  const totalProfit = Math.max(0, assessableProfit - capitalAllowance);
+  const taxPayable = roundTo(totalProfit * category.rate);
+  const minimumTax = roundTo(assessableProfit * MINIMUM_TAX_RATE);
+  const educationTax = roundTo(assessableProfit * EDUCATION_TAX_RATE);
+  const netTaxLiability = roundTo(Math.max(taxPayable, minimumTax) + educationTax);
+
+  return {
+    assessableProfit: roundTo(assessableProfit),
+    capitalAllowance,
+    totalProfit: roundTo(totalProfit),
+    taxRate: category.rate,
+    taxPayable,
+    minimumTax,
+    educationTax,
+    netTaxLiability,
+    category: category.category,
+  };
+}
+
+// Nigerian Naira Formatting
+export function formatNGN(amount: number): string {
+  return new Intl.NumberFormat('en-NG', {
+    style: 'currency',
+    currency: 'NGN',
+    minimumFractionDigits: 2,
+    maximumFractionDigits: 2,
+  }).format(amount);
+}
+
+export function formatNGNWords(amount: number): string {
+  // Simplified implementation
+  const units = ['', 'One', 'Two', 'Three', 'Four', 'Five', 'Six', 'Seven', 'Eight', 'Nine'];
+  const teens = [
+    'Ten', 'Eleven', 'Twelve', 'Thirteen', 'Fourteen', 'Fifteen',
+    'Sixteen', 'Seventeen', 'Eighteen', 'Nineteen',
+  ];
+  const tens = ['', '', 'Twenty', 'Thirty', 'Forty', 'Fifty', 'Sixty', 'Seventy', 'Eighty', 'Ninety'];
+  const scales = ['', 'Thousand', 'Million', 'Billion'];
+
+  if (amount === 0) return 'Zero Naira';
+
+  function convertToWords(num: number): string {
+    if (num === 0) return '';
+    if (num < 10) return units[num];
+    if (num < 20) return teens[num - 10];
+    if (num < 100) {
+      return tens[Math.floor(num / 10)] + (num % 10 !== 0 ? ' ' + units[num % 10] : '');
+    }
+    if (num < 1000) {
+      return units[Math.floor(num / 100)] + ' Hundred' + (num % 100 !== 0 ? ' and ' + convertToWords(num % 100) : '');
+    }
+    return '';
+  }
+
+  let result = '';
+  let scaleIndex = 0;
+  let remaining = amount;
+
+  while (remaining > 0) {
+    const chunk = remaining % 1000;
+    if (chunk !== 0) {
+      const chunkWords = convertToWords(chunk);
+      result = chunkWords + (scales[scaleIndex] ? ' ' + scales[scaleIndex] : '') + ' ' + result;
+    }
+    remaining = Math.floor(remaining / 1000);
+    scaleIndex++;
+  }
+
+  const naira = Math.floor(amount);
+  const kobo = Math.round((amount - naira) * 100);
+
+  let output = result.trim() + ' Naira';
+  if (kobo > 0) {
+    output += ' and ' + convertToWords(kobo) + ' Kobo';
+  }
+
+  return output;
+}
+
+// Exchange Rate Utilities
+export function convertCurrency(
+  amount: number,
+  fromRate: number,
+  toRate: number
+): number {
+  // Convert from source currency to base, then to target
+  const baseAmount = amount / fromRate;
+  return roundTo(baseAmount * toRate);
+}
+
+export function formatExchangeRate(rate: number): string {
+  return rate.toFixed(4);
+}
+
+// Depreciation Calculations
+export interface DepreciationSchedule {
+  year: number;
+  openingValue: number;
+  depreciationAmount: number;
+  accumulatedDepreciation: number;
+  closingValue: number;
+}
+
+/**
+ * Calculate straight-line depreciation
+ * @param cost - Asset cost
+ * @param residualValue - Residual/scrap value
+ * @param usefulLifeYears - Useful life in years
+ * @returns Annual depreciation amount
+ */
+export function calculateStraightLineDepreciation(
+  cost: number,
+  residualValue: number,
+  usefulLifeYears: number
+): number {
+  if (usefulLifeYears <= 0) return 0;
+  return roundTo((cost - residualValue) / usefulLifeYears);
+}
+
+/**
+ * Generate depreciation schedule (straight-line method)
+ * @param cost - Asset cost
+ * @param residualValue - Residual/scrap value
+ * @param usefulLifeYears - Useful life in years
+ * @returns Array of yearly depreciation details
+ */
+export function generateDepreciationSchedule(
+  cost: number,
+  residualValue: number,
+  usefulLifeYears: number
+): DepreciationSchedule[] {
+  const annualDepreciation = calculateStraightLineDepreciation(cost, residualValue, usefulLifeYears);
+  const schedule: DepreciationSchedule[] = [];
+  let accumulatedDepreciation = 0;
+  let openingValue = cost;
+
+  for (let year = 1; year <= usefulLifeYears; year++) {
+    accumulatedDepreciation += annualDepreciation;
+    const closingValue = Math.max(residualValue, cost - accumulatedDepreciation);
+
+    schedule.push({
+      year,
+      openingValue: roundTo(openingValue),
+      depreciationAmount: roundTo(annualDepreciation),
+      accumulatedDepreciation: roundTo(accumulatedDepreciation),
+      closingValue: roundTo(closingValue),
+    });
+
+    openingValue = closingValue;
+  }
+
+  return schedule;
+}
+
+// Financial Ratios
+export function calculateCurrentRatio(currentAssets: number, currentLiabilities: number): number {
+  if (currentLiabilities === 0) return 0;
+  return roundTo(currentAssets / currentLiabilities, 2);
+}
+
+export function calculateQuickRatio(
+  currentAssets: number,
+  inventory: number,
+  currentLiabilities: number
+): number {
+  if (currentLiabilities === 0) return 0;
+  return roundTo((currentAssets - inventory) / currentLiabilities, 2);
+}
+
+export function calculateGrossProfitMargin(revenue: number, cogs: number): number {
+  if (revenue === 0) return 0;
+  const grossProfit = revenue - cogs;
+  return roundTo((grossProfit / revenue) * 100, 2);
+}
+
+export function calculateNetProfitMargin(netProfit: number, revenue: number): number {
+  if (revenue === 0) return 0;
+  return roundTo((netProfit / revenue) * 100, 2);
+}
+
+export function calculateReturnOnAssets(netProfit: number, totalAssets: number): number {
+  if (totalAssets === 0) return 0;
+  return roundTo((netProfit / totalAssets) * 100, 2);
+}
+
+export function calculateReturnOnEquity(netProfit: number, shareholdersEquity: number): number {
+  if (shareholdersEquity === 0) return 0;
+  return roundTo((netProfit / shareholdersEquity) * 100, 2);
+}
+
+export function calculateDebtToEquity(totalLiabilities: number, shareholdersEquity: number): number {
+  if (shareholdersEquity === 0) return 0;
+  return roundTo(totalLiabilities / shareholdersEquity, 2);
+}
+
+export function calculateInventoryTurnover(cogs: number, averageInventory: number): number {
+  if (averageInventory === 0) return 0;
+  return roundTo(cogs / averageInventory, 2);
+}
+
+export function calculateDaysSalesOutstanding(
+  accountsReceivable: number,
+  annualRevenue: number
+): number {
+  if (annualRevenue === 0) return 0;
+  return roundTo((accountsReceivable / annualRevenue) * 365, 0);
+}
+
+// Nigerian Fiscal Calendar (January - December)
+export function getCurrentFiscalYear(): number {
+  return new Date().getFullYear();
+}
+
+export function getFiscalYearStart(year: number): Date {
+  return new Date(year, 0, 1); // January 1st
+}
+
+export function getFiscalYearEnd(year: number): Date {
+  return new Date(year, 11, 31); // December 31st
+}
+
+export function isInCurrentFiscalYear(date: Date): boolean {
+  const currentYear = getCurrentFiscalYear();
+  return date.getFullYear() === currentYear;
+}
+
+// Journal Entry Utilities
+export function validateJournalEntryBalance(
+  lines: Array<{ debitAmount: number; creditAmount: number }>
+): { isBalanced: boolean; totalDebits: number; totalCredits: number; difference: number } {
+  const totalDebits = lines.reduce((sum, line) => sum + (line.debitAmount || 0), 0);
+  const totalCredits = lines.reduce((sum, line) => sum + (line.creditAmount || 0), 0);
+  const difference = Math.abs(totalDebits - totalCredits);
+  const isBalanced = difference < 0.01; // Allow for rounding
+
+  return {
+    isBalanced,
+    totalDebits: roundTo(totalDebits),
+    totalCredits: roundTo(totalCredits),
+    difference: roundTo(difference),
+  };
+}
+
+// Bank Account Validation (Nigerian)
+export function validateNigerianAccountNumber(accountNumber: string): boolean {
+  return /^\d{10}$/.test(accountNumber);
+}
+
+export function validateNigerianBankCode(bankCode: string): boolean {
+  return /^\d{6}$/.test(bankCode);
+}
+
+export function formatNigerianAccountNumber(accountNumber: string): string {
+  const cleaned = accountNumber.replace(/\D/g, '');
+  if (cleaned.length !== 10) return accountNumber;
+  return `${cleaned.slice(0, 3)}-${cleaned.slice(3, 6)}-${cleaned.slice(6)}`;
+}
+
+// Payment Terms Calculation
+export function calculateDueDate(
+  invoiceDate: Date,
+  paymentTerm: 'CASH_ON_DELIVERY' | 'NET_7' | 'NET_14' | 'NET_30' | 'NET_45' | 'NET_60' | 'PREPAID'
+): Date {
+  const daysMap: Record<string, number> = {
+    CASH_ON_DELIVERY: 0,
+    NET_7: 7,
+    NET_14: 14,
+    NET_30: 30,
+    NET_45: 45,
+    NET_60: 60,
+    PREPAID: -1,
+  };
+
+  const days = daysMap[paymentTerm] ?? 0;
+  if (days === -1) return invoiceDate; // Prepaid - same day
+
+  const dueDate = new Date(invoiceDate);
+  dueDate.setDate(dueDate.getDate() + days);
+  return dueDate;
+}
+
+export function isPaymentOverdue(dueDate: Date): boolean {
+  return new Date() > dueDate;
+}
+
+export function calculateOverdueDays(dueDate: Date): number {
+  const today = new Date();
+  if (today <= dueDate) return 0;
+  return getDaysDifference(dueDate, today);
+}
+
+// Document Number Generation (Nigerian format)
+export function generateJournalEntryNumber(sequence: number, year: number = getCurrentFiscalYear()): string {
+  return `JE-${year}-${String(sequence).padStart(6, '0')}`;
+}
+
+export function generateReceiptNumber(sequence: number): string {
+  return `RCP-${Date.now()}-${String(sequence).padStart(4, '0')}`;
+}
+
+export function generateVoucherNumber(sequence: number, year: number = getCurrentFiscalYear()): string {
+  return `PV-${year}-${String(sequence).padStart(6, '0')}`;
+}
+
+// Tax Period Utilities
+export function getTaxPeriod(date: Date = new Date()): string {
+  const year = date.getFullYear();
+  const month = String(date.getMonth() + 1).padStart(2, '0');
+  return `${year}-${month}`;
+}
+
+export function getTaxYear(date: Date = new Date()): number {
+  return date.getFullYear();
+}
+
+export function getPreviousTaxPeriod(period: string): string {
+  const [year, month] = period.split('-').map(Number);
+  if (month === 1) {
+    return `${year - 1}-12`;
+  }
+  return `${year}-${String(month - 1).padStart(2, '0')}`;
+}
+
+export function getNextTaxPeriod(period: string): string {
+  const [year, month] = period.split('-').map(Number);
+  if (month === 12) {
+    return `${year + 1}-01`;
+  }
+  return `${year}-${String(month + 1).padStart(2, '0')}`;
+}
+
+// VAT Return Summary Generation
+export interface VATSummaryInput {
+  period: string;
+  sales: Array<{ amount: number; vatRate: number; isExempt: boolean }>;
+  purchases: Array<{ amount: number; vatRate: number }>;
+}
+
+export function generateVATSummary(input: VATSummaryInput): {
+  period: string;
+  outputVAT: number;
+  inputVAT: number;
+  netVATPayable: number;
+  totalSalesExclVAT: number;
+  totalPurchasesExclVAT: number;
+  exemptSupplies: number;
+  zeroRatedSupplies: number;
+} {
+  let outputVAT = 0;
+  let totalSalesExclVAT = 0;
+  let exemptSupplies = 0;
+  let zeroRatedSupplies = 0;
+
+  for (const sale of input.sales) {
+    if (sale.isExempt) {
+      exemptSupplies += sale.amount;
+    } else if (sale.vatRate === 0) {
+      zeroRatedSupplies += sale.amount;
+      totalSalesExclVAT += sale.amount;
+    } else {
+      totalSalesExclVAT += sale.amount;
+      outputVAT += roundTo(sale.amount * sale.vatRate);
+    }
+  }
+
+  let inputVAT = 0;
+  let totalPurchasesExclVAT = 0;
+
+  for (const purchase of input.purchases) {
+    totalPurchasesExclVAT += purchase.amount;
+    inputVAT += roundTo(purchase.amount * purchase.vatRate);
+  }
+
+  const netVATPayable = outputVAT - inputVAT;
+
+  return {
+    period: input.period,
+    outputVAT: roundTo(outputVAT),
+    inputVAT: roundTo(inputVAT),
+    netVATPayable: roundTo(netVATPayable),
+    totalSalesExclVAT: roundTo(totalSalesExclVAT),
+    totalPurchasesExclVAT: roundTo(totalPurchasesExclVAT),
+    exemptSupplies: roundTo(exemptSupplies),
+    zeroRatedSupplies: roundTo(zeroRatedSupplies),
+  };
+}

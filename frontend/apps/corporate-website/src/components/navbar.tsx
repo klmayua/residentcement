@@ -46,7 +46,7 @@ export function Navbar() {
 
           {/* CTA Buttons */}
           <div className="hidden md:flex items-center gap-4">
-            <Link href="http://localhost:3000" target="_blank">
+            <Link href="https://portal.residentcement.com" target="_blank">
               <Button variant="outline" size="sm">
                 Distributor Login
               </Button>
@@ -87,7 +87,7 @@ export function Navbar() {
               </Link>
             ))}
             <div className="flex flex-col gap-2 pt-4 border-t border-cement-200">
-              <Link href="http://localhost:3000" target="_blank">
+              <Link href="https://portal.residentcement.com" target="_blank">
                 <Button variant="outline" className="w-full">
                   Distributor Login
                 </Button>
