@@ -249,6 +249,31 @@ services:
       - resident-cement
     restart: unless-stopped
 
+  # USSD Service (Africa's Talking Integration)
+  ussd-service:
+    build:
+      context: ../../backend/services/ussd-service
+      dockerfile: Dockerfile
+    environment:
+      - NODE_ENV=production
+      - AT_USERNAME=${AT_USERNAME:-sandbox}
+      - AT_API_KEY=${AT_API_KEY}
+      - AT_SHORTCODE=${AT_SHORTCODE:-*384#}
+      - DATABASE_URL=postgresql://${DB_USER:-residentcement}:${DB_PASSWORD}@postgres:5432/${DB_NAME:-residentcement}
+      - REDIS_URL=redis://:${REDIS_PASSWORD}@redis:6379
+    depends_on:
+      - postgres
+      - redis
+    networks:
+      - resident-cement
+    restart: unless-stopped
+    labels:
+      - "traefik.enable=true"
+      - "traefik.http.routers.ussd.rule=Host(`api.residentcement.com`) && PathPrefix(`/ussd`)"
+      - "traefik.http.routers.ussd.entrypoints=websecure"
+      - "traefik.http.routers.ussd.tls.certresolver=letsencrypt"
+      - "traefik.http.services.ussd.loadbalancer.server.port=4008"
+
   # Frontend Applications
   corporate-website:
     build:
