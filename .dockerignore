@@ -41,7 +41,9 @@ Dockerfile.mvp
 Dockerfile.simple
 
 # Exclude env files (secrets come from compose environment)
-.env*
+.env
+.env.*
+!.env.example
 backend/gateway/.env*
 backend/shared/kernel/.env*
 # Allow service source files for building

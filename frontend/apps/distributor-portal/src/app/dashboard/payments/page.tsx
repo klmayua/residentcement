@@ -1,7 +1,8 @@
 "use client";
 
 import { useState } from "react";
-import { Search, Filter, CreditCard, Banknote, Smartphone, Calendar, Receipt } from "lucide-react";
+import { useSearchParams } from "next/navigation";
+import { Search, Filter, CreditCard, Banknote, Smartphone, Receipt, Download, Loader2 } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Badge } from "@/components/ui/badge";
@@ -14,49 +15,13 @@ import {
   TableHeader,
   TableRow,
 } from "@/components/ui/table";
-
-const payments = [
-  {
-    id: "PAY-001",
-    orderId: "ORD-001",
-    amount: 450000,
-    method: "bank_transfer" as const,
-    status: "completed" as const,
-    date: "2026-03-05",
-    reference: "REF-1234567890",
-  },
-  {
-    id: "PAY-002",
-    orderId: "ORD-002",
-    amount: 210000,
-    method: "card" as const,
-    status: "completed" as const,
-    date: "2026-03-04",
-    reference: "REF-0987654321",
-  },
-  {
-    id: "PAY-003",
-    orderId: "ORD-003",
-    amount: 900000,
-    method: "ussd" as const,
-    status: "pending" as const,
-    date: "2026-03-03",
-    reference: "REF-5678901234",
-  },
-  {
-    id: "PAY-004",
-    orderId: "ORD-004",
-    amount: 307500,
-    method: "bank_transfer" as const,
-    status: "failed" as const,
-    date: "2026-03-02",
-    reference: "REF-4321098765",
-  },
-];
+import { usePayments } from "@/lib/payment";
+import { useAuthStore } from "@/store/auth";
+import { toast } from "sonner";
 
 const methodConfig = {
-  bank_transfer: { icon: Banknote, label: "Bank Transfer" },
   card: { icon: CreditCard, label: "Card" },
+  bank_transfer: { icon: Banknote, label: "Bank Transfer" },
   ussd: { icon: Smartphone, label: "USSD" },
 };
 
@@ -68,21 +33,51 @@ const statusConfig = {
 };
 
 export default function PaymentsPage() {
+  const searchParams = useSearchParams();
+  const reference = searchParams.get("reference");
+  const { customer, user } = useAuthStore();
   const [searchQuery, setSearchQuery] = useState("");
   const [methodFilter, setMethodFilter] = useState("all");
   const [statusFilter, setStatusFilter] = useState("all");
 
-  const filteredPayments = payments.filter((payment) => {
+  const { data: payments, isLoading, error } = usePayments(
+    customer?.id || user?.id
+  );
+
+  if (error) {
+    toast.error("Failed to load payments");
+  }
+
+  const filteredPayments = payments?.filter((payment) => {
     const matchesSearch =
-      payment.id.toLowerCase().includes(searchQuery.toLowerCase()) ||
-      payment.orderId.toLowerCase().includes(searchQuery.toLowerCase()) ||
-      payment.reference.toLowerCase().includes(searchQuery.toLowerCase());
-    
-    const matchesMethod = methodFilter === "all" || payment.method === methodFilter;
-    const matchesStatus = statusFilter === "all" || payment.status === statusFilter;
+      searchQuery === "" ||
+      payment.id?.toLowerCase().includes(searchQuery.toLowerCase()) ||
+      payment.orderId?.toLowerCase().includes(searchQuery.toLowerCase()) ||
+      payment.reference?.toLowerCase().includes(searchQuery.toLowerCase());
+
+    const matchesMethod =
+      methodFilter === "all" || payment.method === methodFilter;
+    const matchesStatus =
+      statusFilter === "all" || payment.status === statusFilter;
 
     return matchesSearch && matchesMethod && matchesStatus;
-  });
+  }) || [];
+
+  const formatCurrency = (amount: number, currency = "NGN") => {
+    return new Intl.NumberFormat("en-NG", {
+      style: "currency",
+      currency,
+      minimumFractionDigits: 0,
+    }).format(amount);
+  };
+
+  const formatDate = (dateString: string) => {
+    return new Date(dateString).toLocaleDateString("en-NG", {
+      year: "numeric",
+      month: "short",
+      day: "numeric",
+    });
+  };
 
   return (
     <div className="space-y-6">
@@ -91,11 +86,25 @@ export default function PaymentsPage() {
           <h1 className="text-2xl font-bold text-cement-900">Payments</h1>
           <p className="text-cement-600">Manage and track payment transactions</p>
         </div>
-        <Button>
+        <Button variant="outline">
           <Receipt className="w-4 h-4 mr-2" />
           Payment Report
         </Button>
       </div>
+
+      {reference && (
+        <Card className="bg-green-50 border-green-200">
+          <CardContent className="p-4">
+            <div className="flex items-center gap-2 text-green-800">
+              <Badge variant="success">New</Badge>
+              <p>
+                Payment initiated with reference: <strong>{reference}</strong>. Your
+                order will be processed once payment is confirmed.
+              </p>
+            </div>
+          </CardContent>
+        </Card>
+      )}
 
       <Card>
         <CardHeader className="border-b border-cement-100">
@@ -117,7 +126,7 @@ export default function PaymentsPage() {
               </Button>
             </div>
           </div>
-          
+
           <div className="flex flex-wrap gap-3 pt-4">
             <Button
               variant={methodFilter === "all" ? "default" : "outline"}
@@ -127,18 +136,18 @@ export default function PaymentsPage() {
               All Methods
             </Button>
             <Button
-              variant={methodFilter === "bank_transfer" ? "default" : "outline"}
-              size="sm"
-              onClick={() => setMethodFilter("bank_transfer")}
-            >
-              Bank Transfer
-            </Button>
-            <Button
               variant={methodFilter === "card" ? "default" : "outline"}
               size="sm"
               onClick={() => setMethodFilter("card")}
             >
               Card
+            </Button>
+            <Button
+              variant={methodFilter === "bank_transfer" ? "default" : "outline"}
+              size="sm"
+              onClick={() => setMethodFilter("bank_transfer")}
+            >
+              Bank Transfer
             </Button>
             <Button
               variant={methodFilter === "ussd" ? "default" : "outline"}
@@ -147,7 +156,7 @@ export default function PaymentsPage() {
             >
               USSD
             </Button>
-            
+
             <div className="ml-auto flex gap-2">
               <Button
                 variant={statusFilter === "all" ? "default" : "outline"}
@@ -185,35 +194,67 @@ export default function PaymentsPage() {
                   <TableHead>Amount</TableHead>
                   <TableHead>Reference</TableHead>
                   <TableHead>Status</TableHead>
+                  <TableHead></TableHead>
                 </TableRow>
               </TableHeader>
               <TableBody>
-                {filteredPayments.map((payment) => {
-                  const method = methodConfig[payment.method];
-                  const status = statusConfig[payment.status];
-                  const IconComponent = method.icon;
-                  
-                  return (
-                    <TableRow key={payment.id}>
-                      <TableCell>
-                        <div className="font-medium">#{payment.id}</div>
-                      </TableCell>
-                      <TableCell>{payment.orderId}</TableCell>
-                      <TableCell>
-                        <div className="flex items-center gap-2">
-                          <IconComponent className="w-4 h-4" />
-                          {method.label}
-                        </div>
-                      </TableCell>
-                      <TableCell>{payment.date}</TableCell>
-                      <TableCell>₦{payment.amount.toLocaleString()}</TableCell>
-                      <TableCell>{payment.reference}</TableCell>
-                      <TableCell>
-                        <Badge variant={status.variant}>{status.label}</Badge>
-                      </TableCell>
-                    </TableRow>
-                  );
-                })}
+                {isLoading ? (
+                  <TableRow>
+                    <TableCell colSpan={8} className="text-center py-8">
+                      <Loader2 className="w-6 h-6 animate-spin mx-auto" />
+                    </TableCell>
+                  </TableRow>
+                ) : filteredPayments.length === 0 ? (
+                  <TableRow>
+                    <TableCell
+                      colSpan={8}
+                      className="text-center py-8 text-cement-500"
+                    >
+                      No payments found
+                    </TableCell>
+                  </TableRow>
+                ) : (
+                  filteredPayments.map((payment) => {
+                    const method =
+                      methodConfig[payment.method as keyof typeof methodConfig];
+                    const status =
+                      statusConfig[payment.status as keyof typeof statusConfig];
+                    const IconComponent = method?.icon || CreditCard;
+
+                    return (
+                      <TableRow key={payment.id}>
+                        <TableCell>
+                          <div className="font-medium">#{payment.id}</div>
+                        </TableCell>
+                        <TableCell>{payment.orderId}</TableCell>
+                        <TableCell>
+                          <div className="flex items-center gap-2">
+                            <IconComponent className="w-4 h-4" />
+                            {method?.label || payment.method}
+                          </div>
+                        </TableCell>
+                        <TableCell>{formatDate(payment.createdAt)}</TableCell>
+                        <TableCell>
+                          {formatCurrency(payment.amount, payment.currency)}
+                        </TableCell>
+                        <TableCell className="font-mono text-xs">
+                          {payment.reference}
+                        </TableCell>
+                        <TableCell>
+                          <Badge variant={status?.variant || "default"}>
+                            {status?.label || payment.status}
+                          </Badge>
+                        </TableCell>
+                        <TableCell>
+                          <Button variant="ghost" size="sm">
+                            <Download className="w-4 h-4 mr-1" />
+                            Receipt
+                          </Button>
+                        </TableCell>
+                      </TableRow>
+                    );
+                  })
+                )}
               </TableBody>
             </Table>
           </div>

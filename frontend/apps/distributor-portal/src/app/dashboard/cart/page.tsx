@@ -1,7 +1,9 @@
 "use client";
 
-import { useState } from "react";
+import { useState, useEffect } from "react";
+import { useRouter } from "next/navigation";
 import Link from "next/link";
+import { usePaystackPayment } from "react-paystack";
 import {
   ShoppingCart,
   Trash2,
@@ -10,11 +12,20 @@ import {
   ArrowLeft,
   CreditCard,
   Building2,
+  CheckCircle,
+  Loader2,
 } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Badge } from "@/components/ui/badge";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
+import {
+  Select,
+  SelectContent,
+  SelectItem,
+  SelectTrigger,
+  SelectValue,
+} from "@/components/ui/select";
 import {
   Table,
   TableBody,
@@ -23,63 +34,125 @@ import {
   TableHeader,
   TableRow,
 } from "@/components/ui/table";
-import {
-  Select,
-  SelectContent,
-  SelectItem,
-  SelectTrigger,
-  SelectValue,
-} from "@/components/ui/select";
+import { useCartStore } from "@/store/cart";
+import { useAuthStore } from "@/store/auth";
+import { useInitializePayment, useVerifyPayment, getPaystackConfig } from "@/lib/payment";
+import { ordersApi } from "@/lib/api";
+import { toast } from "sonner";
 
-const cartItems = [
-  {
-    id: "cart_001",
-    productId: "prod_001",
-    name: "Dangote Cement 42.5R",
-    sku: "DGC-42.5R-50",
-    price: 4500,
-    quantity: 100,
-    unit: "bag",
-  },
-  {
-    id: "cart_002",
-    productId: "prod_002",
-    name: "Dangote Cement 32.5R",
-    sku: "DGC-32.5R-50",
-    price: 4200,
-    quantity: 50,
-    unit: "bag",
-  },
-];
+const PAYSTACK_PUBLIC_KEY = process.env.NEXT_PUBLIC_PAYSTACK_PUBLIC_KEY || "";
 
 export default function CartPage() {
-  const [items, setItems] = useState(cartItems);
-  const [paymentMethod, setPaymentMethod] = useState("bank_transfer");
+  const router = useRouter();
+  const { items, removeItem, updateQuantity, clearCart, totalAmount } = useCartStore();
+  const { user, customer } = useAuthStore();
+  const [paymentMethod, setPaymentMethod] = useState("card");
   const [isProcessing, setIsProcessing] = useState(false);
+  const [paymentReference, setPaymentReference] = useState("");
+  const [orderId, setOrderId] = useState("");
 
-  const updateQuantity = (itemId: string, delta: number) => {
-    setItems(
-      items
-        .map((item) => {
-          if (item.id === itemId) {
-            const newQty = Math.max(1, item.quantity + delta);
-            return { ...item, quantity: newQty };
-          }
-          return item;
-        })
-    );
+  const initializePayment = useInitializePayment();
+  const verifyPayment = useVerifyPayment();
+
+  // Paystack configuration
+  const paystackConfig = PAYSTACK_PUBLIC_KEY
+    ? getPaystackConfig(
+        PAYSTACK_PUBLIC_KEY,
+        user?.email || customer?.email || "",
+        totalAmount,
+        paymentReference
+      )
+    : null;
+
+  const initializePaystack = usePaystackPayment(paystackConfig || {});
+
+  const handleCheckout = async () => {
+    if (!user && !customer) {
+      toast.error("Please log in to complete your order");
+      router.push("/login");
+      return;
+    }
+
+    if (items.length === 0) {
+      toast.error("Your cart is empty");
+      return;
+    }
+
+    setIsProcessing(true);
+
+    try {
+      // Step 1: Create order
+      const orderData = {
+        customerId: customer?.id || user?.id,
+        items: items.map((item) => ({
+          productId: item.productId,
+          quantity: item.quantity,
+          unitPrice: item.price,
+          totalPrice: item.price * item.quantity,
+        })),
+        deliveryAddress: {
+          street: "123 Lagos Road", // TODO: Get from form
+          city: "Lagos",
+          state: "Lagos",
+          country: "Nigeria",
+        },
+        totalAmount: totalAmount,
+        currency: "NGN",
+      };
+
+      const orderResponse = await ordersApi.create(orderData);
+      const createdOrderId = orderResponse.data.id || orderResponse.data.order?.id;
+      setOrderId(createdOrderId);
+
+      // Step 2: Initialize payment
+      const paymentData = await initializePayment.mutateAsync({
+        amount: totalAmount,
+        currency: "NGN",
+        customerId: customer?.id || user?.id,
+        orderId: createdOrderId,
+        email: user?.email || customer?.email || "",
+        metadata: {
+          orderId: createdOrderId,
+          customerName: customer?.name || user?.name,
+        },
+      });
+
+      if (paymentData.reference) {
+        setPaymentReference(paymentData.reference);
+
+        if (paymentMethod === "card" && PAYSTACK_PUBLIC_KEY) {
+          // Step 3a: Open Paystack popup for card payments
+          initializePaystack(onPaystackSuccess, onPaystackClose);
+        } else if (paymentMethod === "bank_transfer") {
+          // Step 3b: Show bank transfer instructions
+          toast.success("Order created! Please complete bank transfer.");
+          // TODO: Show bank details modal
+          clearCart();
+          router.push(`/dashboard/orders/${createdOrderId}`);
+        }
+      }
+    } catch (error: any) {
+      toast.error(error.message || "Failed to process order");
+    } finally {
+      setIsProcessing(false);
+    }
   };
 
-  const removeItem = (itemId: string) => {
-    setItems(items.filter((item) => item.id !== itemId));
+  const onPaystackSuccess = async (reference: any) => {
+    toast.success("Payment initiated! Verifying...");
+
+    // Verify payment
+    await verifyPayment.mutateAsync(paymentReference);
+
+    // Clear cart and redirect
+    clearCart();
+    router.push(`/dashboard/orders/${orderId}`);
   };
 
-  const subtotal = items.reduce(
-    (sum, item) => sum + item.price * item.quantity,
-    0
-  );
-  const discount = subtotal >= 500000 ? subtotal * 0.05 : 0;
-  const total = subtotal - discount;
+  const onPaystackClose = () => {
+    toast.info("Payment cancelled. You can retry from your orders page.");
+    router.push("/dashboard/orders");
+  };
 
   const formatCurrency = (amount: number) => {
     return new Intl.NumberFormat("en-NG", {
@@ -87,13 +160,6 @@ export default function CartPage() {
       currency: "NGN",
       minimumFractionDigits: 0,
     }).format(amount);
-  };
-
-  const handleCheckout = async () => {
-    setIsProcessing(true);
-    await new Promise((resolve) => setTimeout(resolve, 2000));
-    setIsProcessing(false);
-    alert("Order placed successfully!");
   };
 
   if (items.length === 0) {
@@ -148,9 +214,7 @@ export default function CartPage() {
                     <TableRow key={item.id}>
                       <TableCell>
                         <div>
-                          <p className="font-medium text-cement-900">
-                            {item.name}
-                          </p>
+                          <p className="font-medium text-cement-900">{item.name}</p>
                           <p className="text-sm text-cement-500">{item.sku}</p>
                         </div>
                       </TableCell>
@@ -162,12 +226,11 @@ export default function CartPage() {
                             size="icon"
                             className="w-8 h-8"
                             onClick={() => updateQuantity(item.id, -1)}
+                            disabled={item.quantity <= 1}
                           >
                             <Minus className="w-3 h-3" />
                           </Button>
-                          <span className="w-12 text-center font-medium">
-                            {item.quantity}
-                          </span>
+                          <span className="w-12 text-center font-medium">{item.quantity}</span>
                           <Button
                             variant="outline"
                             size="icon"
@@ -205,18 +268,14 @@ export default function CartPage() {
             </CardHeader>
             <CardContent className="space-y-4">
               <Input
-                label="Delivery Address"
                 placeholder="Enter delivery address"
                 defaultValue="123 Lagos Road, Victoria Island, Lagos"
               />
               <div className="grid sm:grid-cols-2 gap-4">
-                <Input label="City" placeholder="Lagos" defaultValue="Lagos" />
-                <Input label="State" placeholder="Lagos" defaultValue="Lagos" />
+                <Input placeholder="City" defaultValue="Lagos" />
+                <Input placeholder="State" defaultValue="Lagos" />
               </div>
-              <Input
-                label="Delivery Notes (Optional)"
-                placeholder="Any special instructions"
-              />
+              <Input placeholder="Any special instructions" />
             </CardContent>
           </Card>
         </div>
@@ -230,14 +289,8 @@ export default function CartPage() {
             <CardContent className="space-y-4">
               <div className="flex justify-between">
                 <span className="text-cement-600">Subtotal</span>
-                <span className="font-medium">{formatCurrency(subtotal)}</span>
+                <span className="font-medium">{formatCurrency(totalAmount)}</span>
               </div>
-              {discount > 0 && (
-                <div className="flex justify-between text-green-600">
-                  <span>Volume Discount (5%)</span>
-                  <span>-{formatCurrency(discount)}</span>
-                </div>
-              )}
               <div className="flex justify-between">
                 <span className="text-cement-600">Delivery</span>
                 <Badge variant="success">Free</Badge>
@@ -245,9 +298,7 @@ export default function CartPage() {
               <hr className="border-cement-200" />
               <div className="flex justify-between text-lg font-bold">
                 <span>Total</span>
-                <span className="text-brand-primary">
-                  {formatCurrency(total)}
-                </span>
+                <span className="text-brand-primary">{formatCurrency(totalAmount)}</span>
               </div>
             </CardContent>
           </Card>
@@ -263,16 +314,16 @@ export default function CartPage() {
                   <SelectValue />
                 </SelectTrigger>
                 <SelectContent>
+                  <SelectItem value="card">
+                    <div className="flex items-center gap-2">
+                      <CreditCard className="w-4 h-4" />
+                      Pay with Card (Paystack)
+                    </div>
+                  </SelectItem>
                   <SelectItem value="bank_transfer">
                     <div className="flex items-center gap-2">
                       <Building2 className="w-4 h-4" />
                       Bank Transfer
-                    </div>
-                  </SelectItem>
-                  <SelectItem value="card">
-                    <div className="flex items-center gap-2">
-                      <CreditCard className="w-4 h-4" />
-                      Debit/Credit Card
                     </div>
                   </SelectItem>
                 </SelectContent>
@@ -280,17 +331,18 @@ export default function CartPage() {
 
               {paymentMethod === "bank_transfer" && (
                 <div className="p-4 bg-cement-50 rounded-lg space-y-2">
-                  <p className="text-sm font-medium text-cement-700">
-                    Bank Details
-                  </p>
-                  <p className="text-sm text-cement-600">
-                    First Bank of Nigeria
-                  </p>
-                  <p className="text-sm font-medium text-cement-900">
-                    1234567890
-                  </p>
-                  <p className="text-sm text-cement-600">
-                    Resident Cement Ltd
+                  <p className="text-sm font-medium text-cement-700">Bank Details</p>
+                  <p className="text-sm text-cement-600">First Bank of Nigeria</p>
+                  <p className="text-sm font-medium text-cement-900">1234567890</p>
+                  <p className="text-sm text-cement-600">Resident Cement Ltd</p>
+                  <p className="text-xs text-cement-500 mt-2">Use your Order ID as reference</p>
+                </div>
+              )}
+
+              {paymentMethod === "card" && !PAYSTACK_PUBLIC_KEY && (
+                <div className="p-4 bg-amber-50 rounded-lg">
+                  <p className="text-sm text-amber-700">
+                    Paystack public key not configured. Add NEXT_PUBLIC_PAYSTACK_PUBLIC_KEY to .env.local
                   </p>
                 </div>
               )}
@@ -299,9 +351,19 @@ export default function CartPage() {
                 className="w-full"
                 size="lg"
                 onClick={handleCheckout}
-                isLoading={isProcessing}
+                disabled={isProcessing || initializePayment.isPending}
               >
-                {isProcessing ? "Processing..." : "Place Order"}
+                {isProcessing || initializePayment.isPending ? (
+                  <>
+                    <Loader2 className="w-4 h-4 mr-2 animate-spin" /
+                    Processing...
+                  </>
+                ) : (
+                  <>
+                    <CheckCircle className="w-4 h-4 mr-2" /
+                    Place Order
+                  </>
+                )}
               </Button>
 
               <p className="text-xs text-cement-500 text-center">
