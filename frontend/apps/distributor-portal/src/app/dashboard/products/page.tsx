@@ -2,13 +2,15 @@
 
 import { useState } from "react";
 import Link from "next/link";
+import Image from "next/image";
 import {
   Search,
-  Filter,
   ShoppingCart,
   Package,
-  Scale,
   AlertCircle,
+  Loader2,
+  Plus,
+  Minus,
 } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
@@ -22,72 +24,42 @@ import {
   SelectValue,
 } from "@/components/ui/select";
 import { cn } from "@/lib/utils";
-
-const products = [
-  {
-    id: "prod_001",
-    name: "Dangote Cement 42.5R",
-    sku: "DGC-42.5R-50",
-    grade: "42.5R",
-    category: "Premium",
-    basePrice: 4500,
-    stockLevel: 5000,
-    reorderPoint: 1000,
-    unit: "bag",
-    image: "/products/cement-42.5r.png",
-  },
-  {
-    id: "prod_002",
-    name: "Dangote Cement 32.5R",
-    sku: "DGC-32.5R-50",
-    grade: "32.5R",
-    category: "Standard",
-    basePrice: 4200,
-    stockLevel: 8000,
-    reorderPoint: 1500,
-    unit: "bag",
-    image: "/products/cement-32.5r.png",
-  },
-  {
-    id: "prod_003",
-    name: "Dangote Cement 52.5R",
-    sku: "DGC-52.5R-50",
-    grade: "52.5R",
-    category: "High Strength",
-    basePrice: 5200,
-    stockLevel: 2000,
-    reorderPoint: 500,
-    unit: "bag",
-    image: "/products/cement-52.5r.png",
-  },
-  {
-    id: "prod_004",
-    name: "Dangote Pozzolana 32.5N",
-    sku: "DPC-32.5N-50",
-    grade: "32.5N",
-    category: "Eco-Friendly",
-    basePrice: 4100,
-    stockLevel: 3500,
-    reorderPoint: 800,
-    unit: "bag",
-    image: "/products/pozzo-cement.png",
-  },
-];
+import { useProducts } from "@/lib/products";
+import { useCartStore } from "@/store/cart";
+import { toast } from "sonner";
 
 export default function ProductsPage() {
   const [searchQuery, setSearchQuery] = useState("");
   const [categoryFilter, setCategoryFilter] = useState("all");
   const [gradeFilter, setGradeFilter] = useState("all");
-  const [cart, setCart] = useState<{ productId: string; quantity: number }[]>([]);
 
-  const filteredProducts = products.filter((product) => {
-    const matchesSearch =
-      product.name.toLowerCase().includes(searchQuery.toLowerCase()) ||
-      product.sku.toLowerCase().includes(searchQuery.toLowerCase());
-    const matchesCategory = categoryFilter === "all" || product.category === categoryFilter;
-    const matchesGrade = gradeFilter === "all" || product.grade === gradeFilter;
-    return matchesSearch && matchesCategory && matchesGrade;
+  // Fetch products from API
+  const { data: products, isLoading, error } = useProducts({
+    search: searchQuery || undefined,
+    category: categoryFilter !== "all" ? categoryFilter : undefined,
   });
+
+  // Cart store
+  const { items, addItem, removeItem, updateQuantity, totalAmount, totalItems } =
+    useCartStore();
+
+  if (error) {
+    toast.error("Failed to load products");
+  }
+
+  // Filter products client-side for grade
+  const filteredProducts =
+    products?.filter((product) => {
+      const matchesSearch =
+        !searchQuery ||
+        product.name.toLowerCase().includes(searchQuery.toLowerCase()) ||
+        product.sku.toLowerCase().includes(searchQuery.toLowerCase()) ||
+        (product.description?.toLowerCase().includes(searchQuery.toLowerCase()) ??
+          false);
+      const matchesGrade =
+        gradeFilter === "all" || product.grade === gradeFilter;
+      return matchesSearch && matchesGrade;
+    }) || [];
 
   const formatCurrency = (amount: number) => {
     return new Intl.NumberFormat("en-NG", {
@@ -97,30 +69,27 @@ export default function ProductsPage() {
     }).format(amount);
   };
 
-  const addToCart = (productId: string) => {
-    const existing = cart.find((item) => item.productId === productId);
-    if (existing) {
-      setCart(
-        cart.map((item) =>
-          item.productId === productId
-            ? { ...item, quantity: item.quantity + 1 }
-            : item
-        )
-      );
-    } else {
-      setCart([...cart, { productId, quantity: 1 }]);
-    }
+  const handleAddToCart = (product: any) => {
+    addItem({
+      id: product.id,
+      productId: product.id,
+      name: product.name,
+      sku: product.sku,
+      price: product.basePrice,
+      quantity: 1,
+      unit: product.unit,
+      image: product.image,
+    });
+    toast.success(`${product.name} added to cart`);
   };
 
-  const cartTotal = cart.reduce((sum, item) => {
-    const product = products.find((p) => p.id === item.productId);
-    return sum + (product?.basePrice || 0) * item.quantity;
-  }, 0);
-
-  const cartCount = cart.reduce((sum, item) => sum + item.quantity, 0);
+  const cartItemCount = (productId: string) => {
+    const item = items.find((i) => i.productId === productId);
+    return item?.quantity || 0;
+  };
 
   return (
-    <div className="space-y-6">
+    <div className="space-y-6 pb-24">
       {/* Header */}
       <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-4">
         <div>
@@ -132,9 +101,9 @@ export default function ProductsPage() {
             <Button variant="outline" className="relative">
               <ShoppingCart className="w-4 h-4 mr-2" />
               Cart
-              {cartCount > 0 && (
+              {totalItems > 0 && (
                 <span className="absolute -top-2 -right-2 w-5 h-5 bg-brand-primary text-white text-xs rounded-full flex items-center justify-center">
-                  {cartCount}
+                  {totalItems}
                 </span>
               )}
             </Button>
@@ -147,12 +116,15 @@ export default function ProductsPage() {
         <CardContent className="pt-6">
           <div className="flex flex-col lg:flex-row gap-4">
             <div className="flex-1">
-              <Input
-                placeholder="Search products..."
-                value={searchQuery}
-                onChange={(e) => setSearchQuery(e.target.value)}
-                leftIcon={<Search className="w-5 h-5" />}
-              />
+              <div className="relative">
+                <Search className="absolute left-3 top-1/2 -translate-y-1/2 w-4 h-4 text-cement-400" />
+                <Input
+                  placeholder="Search products..."
+                  value={searchQuery}
+                  onChange={(e) => setSearchQuery(e.target.value)}
+                  className="pl-10"
+                />
+              </div>
             </div>
             <div className="flex gap-2">
               <Select value={categoryFilter} onValueChange={setCategoryFilter}>
@@ -184,85 +156,140 @@ export default function ProductsPage() {
         </CardContent>
       </Card>
 
-      {/* Products Grid */}
-      <div className="grid gap-6 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4">
-        {filteredProducts.map((product) => {
-          const isLowStock = product.stockLevel <= product.reorderPoint;
-          const inCart = cart.find((item) => item.productId === product.id);
-          return (
-            <Card
-              key={product.id}
-              className={cn(
-                "overflow-hidden transition-all hover:shadow-lg",
-                isLowStock && "border-amber-300"
-              )}
-            >
-              <div className="aspect-square bg-cement-100 flex items-center justify-center">
-                <Package className="w-24 h-24 text-cement-300" />
-              </div>
-              <CardContent className="pt-4">
-                <div className="flex items-start justify-between mb-2">
-                  <div>
-                    <h3 className="font-semibold text-cement-900">{product.name}</h3>
-                    <p className="text-sm text-cement-500">{product.sku}</p>
-                  </div>
-                  <Badge variant={isLowStock ? "warning" : "success"}>
-                    {product.stockLevel.toLocaleString()} in stock
-                  </Badge>
-                </div>
-                <div className="flex items-center gap-4 mb-4">
-                  <div>
-                    <p className="text-sm text-cement-500">Grade</p>
-                    <p className="font-medium">{product.grade}</p>
-                  </div>
-                  <div>
-                    <p className="text-sm text-cement-500">Category</p>
-                    <p className="font-medium">{product.category}</p>
-                  </div>
-                </div>
-                {isLowStock && (
-                  <div className="flex items-center gap-2 mb-4 text-amber-600 text-sm">
-                    <AlertCircle className="w-4 h-4" />
-                    Low stock - order soon
-                  </div>
-                )}
-                <div className="flex items-center justify-between">
-                  <div>
-                    <p className="text-sm text-cement-500">Price per {product.unit}</p>
-                    <p className="text-xl font-bold text-brand-primary">
-                      {formatCurrency(product.basePrice)}
-                    </p>
-                  </div>
-                  <Button
-                    onClick={() => addToCart(product.id)}
-                    size="sm"
-                  >
-                    {inCart ? `Added (${inCart.quantity})` : "Add to Cart"}
-                  </Button>
-                </div>
-              </CardContent>
-            </Card>
-          );
-        })}
-      </div>
+      {/* Loading State */}
+      {isLoading && (
+        <div className="flex items-center justify-center py-12">
+          <Loader2 className="w-8 h-8 animate-spin text-brand-primary" />
+          <span className="ml-2 text-cement-600">Loading products...</span>
+        </div>
+      )}
 
-      {filteredProducts.length === 0 && (
+      {/* Products Grid */}
+      {!isLoading && (
+        <div className="grid gap-6 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4">
+          {filteredProducts.map((product) => {
+            const isLowStock = false; // TODO: Fetch from inventory API
+            const quantityInCart = cartItemCount(product.id);
+
+            return (
+              <Card
+                key={product.id}
+                className={cn(
+                  "overflow-hidden transition-all hover:shadow-lg",
+                  isLowStock && "border-amber-300"
+                )}
+              >
+                <div className="aspect-square bg-cement-100 flex items-center justify-center relative">
+                  {product.image ? (
+                    <Image
+                      src={product.image}
+                      alt={product.name}
+                      fill
+                      className="object-cover"
+                    />
+                  ) : (
+                    <Package className="w-24 h-24 text-cement-300" />
+                  )}
+                </div>
+                <CardContent className="pt-4">
+                  <div className="flex items-start justify-between mb-2">
+                    <div>
+                      <h3 className="font-semibold text-cement-900">{product.name}</h3>
+                      <p className="text-sm text-cement-500">{product.sku}</p>
+                    </div>
+                    <Badge variant={isLowStock ? "warning" : "success"}>
+                      {isLowStock ? "Low Stock" : "In Stock"}
+                    </Badge>
+                  </div>
+
+                  <div className="flex items-center gap-4 mb-4">
+                    <div>
+                      <p className="text-sm text-cement-500">Grade</p>
+                      <p className="font-medium">{product.grade}</p>
+                    </div>
+                    <div>
+                      <p className="text-sm text-cement-500">Category</p>
+                      <p className="font-medium">{product.category}</p>
+                    </div>
+                  </div>
+
+                  {isLowStock && (
+                    <div className="flex items-center gap-2 mb-4 text-amber-600 text-sm">
+                      <AlertCircle className="w-4 h-4" />
+                      Low stock - order soon
+                    </div>
+                  )}
+
+                  <div className="flex items-center justify-between">
+                    <div>
+                      <p className="text-sm text-cement-500">Price per {product.unit}</p>
+                      <p className="text-xl font-bold text-brand-primary">
+                        {formatCurrency(product.basePrice)}
+                      </p>
+                    </div>
+
+                    {quantityInCart > 0 ? (
+                      <div className="flex items-center gap-2">
+                        <Button
+                          variant="outline"
+                          size="icon"
+                          className="w-8 h-8"
+                          onClick={() => updateQuantity(product.id, -1)}
+                        >
+                          <Minus className="w-3 h-3" />
+                        </Button>
+                        <span className="w-8 text-center font-medium">
+                          {quantityInCart}
+                        </span>
+                        <Button
+                          variant="outline"
+                          size="icon"
+                          className="w-8 h-8"
+                          onClick={() =>
+                            addItem({
+                              id: product.id,
+                              productId: product.id,
+                              name: product.name,
+                              sku: product.sku,
+                              price: product.basePrice,
+                              quantity: 1,
+                              unit: product.unit,
+                              image: product.image,
+                            })
+                          }
+                        >
+                          <Plus className="w-3 h-3" />
+                        </Button>
+                      </div>
+                    ) : (
+                      <Button onClick={() => handleAddToCart(product)} size="sm">
+                        Add to Cart
+                      </Button>
+                    )}
+                  </div>
+                </CardContent>
+              </Card>
+            );
+          })}
+        </div>
+      )}
+
+      {!isLoading && filteredProducts.length === 0 && (
         <div className="text-center py-12">
           <Package className="w-12 h-12 text-cement-300 mx-auto mb-4" />
           <p className="text-cement-500">No products found</p>
+          <p className="text-sm text-cement-400 mt-1">Try adjusting your filters</p>
         </div>
       )}
 
       {/* Cart Summary */}
-      {cart.length > 0 && (
-        <div className="fixed bottom-0 left-0 right-0 bg-white border-t border-cement-200 p-4 shadow-lg lg:left-64">
+      {items.length > 0 && (
+        <div className="fixed bottom-0 left-0 right-0 bg-white border-t border-cement-200 p-4 shadow-lg lg:left-64 z-50">
           <div className="flex items-center justify-between max-w-7xl mx-auto">
             <div>
-              <p className="font-medium text-cement-900">
-                {cartCount} items in cart
-              </p>
+              <p className="font-medium text-cement-900">{totalItems} items in cart</p>
               <p className="text-sm text-cement-500">
-                Total: {formatCurrency(cartTotal)}
+                Total: {formatCurrency(totalAmount)}
               </p>
             </div>
             <Link href="/dashboard/cart">
