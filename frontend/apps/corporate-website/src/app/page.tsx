@@ -110,7 +110,7 @@ export default function HomePage() {
             </p>
 
             <div className="flex flex-col sm:flex-row gap-4 justify-center">
-              <Link href="/products/">
+              <Link href="/public/products/">
                 <Button size="lg" className="bg-brand-accent text-brand-dark hover:bg-brand-accent/90">
                   View Products
                   <ArrowRight className="ml-2 h-5 w-5" />
