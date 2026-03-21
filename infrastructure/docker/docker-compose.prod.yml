@@ -1,0 +1,331 @@
+# Production Docker Compose for ResidentCement Platform
+# Usage: docker-compose -f docker-compose.prod.yml up -d
+
+version: '3.8'
+
+services:
+  # Reverse Proxy with SSL
+  traefik:
+    image: traefik:v2.11
+    command:
+      - "--api.dashboard=true"
+      - "--providers.docker=true"
+      - "--providers.docker.exposedbydefault=false"
+      - "--entrypoints.web.address=:80"
+      - "--entrypoints.websecure.address=:443"
+      - "--certificatesresolvers.letsencrypt.acme.tlschallenge=true"
+      - "--certificatesresolvers.letsencrypt.acme.email=admin@residentcement.com"
+      - "--certificatesresolvers.letsencrypt.acme.storage=/letsencrypt/acme.json"
+      - "--ping=true"
+      - "--metrics.prometheus=true"
+      - "--accesslog=true"
+      - "--log.level=INFO"
+    ports:
+      - "80:80"
+      - "443:443"
+      - "8080:8080"  # Traefik dashboard (restrict in production)
+    volumes:
+      - /var/run/docker.sock:/var/run/docker.sock:ro
+      - ./letsencrypt:/letsencrypt
+    networks:
+      - resident-cement
+    restart: unless-stopped
+    labels:
+      - "traefik.enable=true"
+      - "traefik.http.routers.traefik.rule=Host(`monitor.residentcement.com`)"
+      - "traefik.http.routers.traefik.service=api@internal"
+      - "traefik.http.routers.traefik.tls.certresolver=letsencrypt"
+      - "traefik.http.routers.traefik.middlewares=auth@file"
+
+  # PostgreSQL Database
+  postgres:
+    image: postgres:16-alpine
+    environment:
+      POSTGRES_USER: ${DB_USER:-residentcement}
+      POSTGRES_PASSWORD: ${DB_PASSWORD}
+      POSTGRES_DB: ${DB_NAME:-residentcement}
+    volumes:
+      - postgres_data:/var/lib/postgresql/data
+      - ./backups:/backups
+    networks:
+      - resident-cement
+    restart: unless-stopped
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U ${DB_USER:-residentcement}"]
+      interval: 10s
+      timeout: 5s
+      retries: 5
+
+  # Redis Cache
+  redis:
+    image: redis:7-alpine
+    command: redis-server --appendonly yes --requirepass ${REDIS_PASSWORD}
+    volumes:
+      - redis_data:/data
+    networks:
+      - resident-cement
+    restart: unless-stopped
+    healthcheck:
+      test: ["CMD", "redis-cli", "ping"]
+      interval: 10s
+      timeout: 3s
+      retries: 5
+
+  # Kafka (for event streaming)
+  zookeeper:
+    image: confluentinc/cp-zookeeper:7.5.0
+    environment:
+      ZOOKEEPER_CLIENT_PORT: 2181
+      ZOOKEEPER_TICK_TIME: 2000
+    networks:
+      - resident-cement
+    restart: unless-stopped
+
+  kafka:
+    image: confluentinc/cp-kafka:7.5.0
+    depends_on:
+      - zookeeper
+    environment:
+      KAFKA_BROKER_ID: 1
+      KAFKA_ZOOKEEPER_CONNECT: zookeeper:2181
+      KAFKA_ADVERTISED_LISTENERS: PLAINTEXT://kafka:9092
+      KAFKA_OFFSETS_TOPIC_REPLICATION_FACTOR: 1
+    networks:
+      - resident-cement
+    restart: unless-stopped
+
+  # API Gateway
+  gateway:
+    build:
+      context: ../../backend/gateway
+      dockerfile: Dockerfile
+    environment:
+      - NODE_ENV=production
+      - DATABASE_URL=postgresql://${DB_USER:-residentcement}:${DB_PASSWORD}@postgres:5432/${DB_NAME:-residentcement}
+      - REDIS_URL=redis://:${REDIS_PASSWORD}@redis:6379
+      - JWT_SECRET=${JWT_SECRET}
+      - KAFKA_BROKER=kafka:9092
+      - PAYSTACK_SECRET_KEY=${PAYSTACK_SECRET_KEY}
+    depends_on:
+      postgres:
+        condition: service_healthy
+      redis:
+        condition: service_healthy
+      kafka:
+        condition: service_started
+    networks:
+      - resident-cement
+    restart: unless-stopped
+    labels:
+      - "traefik.enable=true"
+      - "traefik.http.routers.gateway.rule=Host(`api.residentcement.com`)"
+      - "traefik.http.routers.gateway.entrypoints=websecure"
+      - "traefik.http.routers.gateway.tls.certresolver=letsencrypt"
+      - "traefik.http.services.gateway.loadbalancer.server.port=4000"
+      - "traefik.http.middlewares.gateway-ratelimit.ratelimit.average=100"
+      - "traefik.http.middlewares.gateway-ratelimit.ratelimit.burst=50"
+      - "traefik.http.routers.gateway.middlewares=gateway-ratelimit"
+
+  # Microservices
+  customer-service:
+    build:
+      context: ../../backend/services/customer-service
+      dockerfile: Dockerfile
+    environment:
+      - NODE_ENV=production
+      - DATABASE_URL=postgresql://${DB_USER:-residentcement}:${DB_PASSWORD}@postgres:5432/${DB_NAME:-residentcement}
+      - KAFKA_BROKER=kafka:9092
+    depends_on:
+      - postgres
+      - kafka
+    networks:
+      - resident-cement
+    restart: unless-stopped
+
+  order-service:
+    build:
+      context: ../../backend/services/order-service
+      dockerfile: Dockerfile
+    environment:
+      - NODE_ENV=production
+      - DATABASE_URL=postgresql://${DB_USER:-residentcement}:${DB_PASSWORD}@postgres:5432/${DB_NAME:-residentcement}
+      - KAFKA_BROKER=kafka:9092
+    depends_on:
+      - postgres
+      - kafka
+    networks:
+      - resident-cement
+    restart: unless-stopped
+
+  product-service:
+    build:
+      context: ../../backend/services/product-service
+      dockerfile: Dockerfile
+    environment:
+      - NODE_ENV=production
+      - DATABASE_URL=postgresql://${DB_USER:-residentcement}:${DB_PASSWORD}@postgres:5432/${DB_NAME:-residentcement}
+    depends_on:
+      - postgres
+    networks:
+      - resident-cement
+    restart: unless-stopped
+
+  payment-service:
+    build:
+      context: ../../backend/services/payment-service
+      dockerfile: Dockerfile
+    environment:
+      - NODE_ENV=production
+      - DATABASE_URL=postgresql://${DB_USER:-residentcement}:${DB_PASSWORD}@postgres:5432/${DB_NAME:-residentcement}
+      - PAYSTACK_SECRET_KEY=${PAYSTACK_SECRET_KEY}
+    depends_on:
+      - postgres
+    networks:
+      - resident-cement
+    restart: unless-stopped
+
+  inventory-service:
+    build:
+      context: ../../backend/services/inventory-service
+      dockerfile: Dockerfile
+    environment:
+      - NODE_ENV=production
+      - DATABASE_URL=postgresql://${DB_USER:-residentcement}:${DB_PASSWORD}@postgres:5432/${DB_NAME:-residentcement}
+    depends_on:
+      - postgres
+    networks:
+      - resident-cement
+    restart: unless-stopped
+
+  logistics-service:
+    build:
+      context: ../../backend/services/logistics-service
+      dockerfile: Dockerfile
+    environment:
+      - NODE_ENV=production
+      - DATABASE_URL=postgresql://${DB_USER:-residentcement}:${DB_PASSWORD}@postgres:5432/${DB_NAME:-residentcement}
+    depends_on:
+      - postgres
+    networks:
+      - resident-cement
+    restart: unless-stopped
+
+  pricing-service:
+    build:
+      context: ../../backend/services/pricing-service
+      dockerfile: Dockerfile
+    environment:
+      - NODE_ENV=production
+      - DATABASE_URL=postgresql://${DB_USER:-residentcement}:${DB_PASSWORD}@postgres:5432/${DB_NAME:-residentcement}
+    depends_on:
+      - postgres
+    networks:
+      - resident-cement
+    restart: unless-stopped
+
+  plant-mes-service:
+    build:
+      context: ../../backend/services/plant-mes-service
+      dockerfile: Dockerfile
+    environment:
+      - NODE_ENV=production
+      - DATABASE_URL=postgresql://${DB_USER:-residentcement}:${DB_PASSWORD}@postgres:5432/${DB_NAME:-residentcement}
+    depends_on:
+      - postgres
+    networks:
+      - resident-cement
+    restart: unless-stopped
+
+  quality-service:
+    build:
+      context: ../../backend/services/quality-service
+      dockerfile: Dockerfile
+    environment:
+      - NODE_ENV=production
+      - DATABASE_URL=postgresql://${DB_USER:-residentcement}:${DB_PASSWORD}@postgres:5432/${DB_NAME:-residentcement}
+    depends_on:
+      - postgres
+    networks:
+      - resident-cement
+    restart: unless-stopped
+
+  # Frontend Applications
+  corporate-website:
+    build:
+      context: ../../frontend/apps/corporate-website
+      dockerfile: Dockerfile
+    environment:
+      - NODE_ENV=production
+    networks:
+      - resident-cement
+    restart: unless-stopped
+    labels:
+      - "traefik.enable=true"
+      - "traefik.http.routers.corporate.rule=Host(`residentcement.com`) || Host(`www.residentcement.com`)"
+      - "traefik.http.routers.corporate.entrypoints=websecure"
+      - "traefik.http.routers.corporate.tls.certresolver=letsencrypt"
+      - "traefik.http.services.corporate.loadbalancer.server.port=3000"
+
+  distributor-portal:
+    build:
+      context: ../../frontend/apps/distributor-portal
+      dockerfile: Dockerfile
+    environment:
+      - NODE_ENV=production
+      - NEXT_PUBLIC_API_URL=https://api.residentcement.com
+    networks:
+      - resident-cement
+    restart: unless-stopped
+    labels:
+      - "traefik.enable=true"
+      - "traefik.http.routers.distributor.rule=Host(`app.residentcement.com`)"
+      - "traefik.http.routers.distributor.entrypoints=websecure"
+      - "traefik.http.routers.distributor.tls.certresolver=letsencrypt"
+      - "traefik.http.services.distributor.loadbalancer.server.port=3000"
+
+  # Monitoring
+  prometheus:
+    image: prom/prometheus:v2.48.0
+    volumes:
+      - ./monitoring/prometheus.yml:/etc/prometheus/prometheus.yml
+      - prometheus_data:/prometheus
+    command:
+      - '--config.file=/etc/prometheus/prometheus.yml'
+      - '--storage.tsdb.path=/prometheus'
+      - '--web.console.libraries=/etc/prometheus/console_libraries'
+      - '--web.console.templates=/etc/prometheus/consoles'
+      - '--web.enable-lifecycle'
+    networks:
+      - resident-cement
+    restart: unless-stopped
+    labels:
+      - "traefik.enable=true"
+      - "traefik.http.routers.prometheus.rule=Host(`prometheus.residentcement.com`)"
+      - "traefik.http.routers.prometheus.tls.certresolver=letsencrypt"
+
+  grafana:
+    image: grafana/grafana:10.2.3
+    environment:
+      - GF_SECURITY_ADMIN_PASSWORD=${GRAFANA_PASSWORD:-admin}
+      - GF_USERS_ALLOW_SIGN_UP=false
+    volumes:
+      - grafana_data:/var/lib/grafana
+      - ./monitoring/grafana/dashboards:/etc/grafana/provisioning/dashboards
+      - ./monitoring/grafana/datasources:/etc/grafana/provisioning/datasources
+    networks:
+      - resident-cement
+    restart: unless-stopped
+    labels:
+      - "traefik.enable=true"
+      - "traefik.http.routers.grafana.rule=Host(`grafana.residentcement.com`)"
+      - "traefik.http.routers.grafana.tls.certresolver=letsencrypt"
+
+volumes:
+  postgres_data:
+  redis_data:
+  prometheus_data:
+  grafana_data:
+
+networks:
+  resident-cement:
+    driver: bridge

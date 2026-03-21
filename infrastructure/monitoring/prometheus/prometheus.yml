@@ -1,0 +1,67 @@
+# Prometheus Configuration
+# Scrapes metrics from all services
+
+global:
+  scrape_interval: 15s
+  evaluation_interval: 15s
+  external_labels:
+    cluster: resident-cement-prod
+    replica: '{{.ExternalURL}}'
+
+rule_files:
+  - 'alert_rules.yml'
+
+alerting:
+  alertmanagers:
+    - static_configs:
+        - targets:
+          - alertmanager:9093
+
+scrape_configs:
+  # Prometheus self-monitoring
+  - job_name: 'prometheus'
+    static_configs:
+      - targets: ['localhost:9090']
+
+  # API Gateway metrics
+  - job_name: 'gateway'
+    static_configs:
+      - targets: ['gateway:4000']
+    metrics_path: '/metrics'
+
+  # Service endpoints (via gateway)
+  - job_name: 'services'
+    static_configs:
+      - targets:
+        - 'gateway:4000'
+    metrics_path: '/metrics/services'
+
+  # Node exporter (system metrics)
+  - job_name: 'node-exporter'
+    static_configs:
+      - targets: ['node-exporter:9100']
+
+  # PostgreSQL exporter
+  - job_name: 'postgres'
+    static_configs:
+      - targets: ['postgres-exporter:9187']
+
+  # Redis exporter
+  - job_name: 'redis'
+    static_configs:
+      - targets: ['redis-exporter:9121']
+
+  # Traefik metrics
+  - job_name: 'traefik'
+    static_configs:
+      - targets: ['traefik:8080']
+
+  # cAdvisor (Docker container metrics)
+  - job_name: 'cadvisor'
+    static_configs:
+      - targets: ['cadvisor:8080']
+
+  # Loki (logs)
+  - job_name: 'loki'
+    static_configs:
+      - targets: ['loki:3100']
