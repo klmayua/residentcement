@@ -1,0 +1,46 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+:root {
+  --foreground-rgb: 23, 43, 77;
+  --background-rgb: 250, 251, 252;
+}
+
+* {
+  box-sizing: border-box;
+  padding: 0;
+  margin: 0;
+}
+
+html {
+  scroll-behavior: smooth;
+  -webkit-tap-highlight-color: transparent;
+}
+
+body {
+  color: rgb(var(--foreground-rgb));
+  background: rgb(var(--background-rgb));
+  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+  overscroll-behavior: none;
+}
+
+/* Mobile touch optimizations */
+button, a {
+  touch-action: manipulation;
+}
+
+/* Safe area for mobile */
+.safe-top { padding-top: env(safe-area-inset-top); }
+.safe-bottom { padding-bottom: env(safe-area-inset-bottom); }
+
+/* Offline indicator */
+.offline-mode {
+  background: repeating-linear-gradient(
+    45deg,
+    #fbbf24,
+    #fbbf24 10px,
+    #f59e0b 10px,
+    #f59e0b 20px
+  );
+}
