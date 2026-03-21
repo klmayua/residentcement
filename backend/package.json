@@ -1,0 +1,46 @@
+{
+  "name": "@resident-cement/backend",
+  "version": "1.0.0",
+  "description": "ResidentCement Backend Services - Monorepo",
+  "private": true,
+  "scripts": {
+    "test": "jest --config jest.config.js",
+    "test:coverage": "jest --config jest.config.js --coverage",
+    "test:gateway": "cd gateway && npm test",
+    "test:services": "npm-run-all test:customer test:events test:inventory test:logistics test:order test:payment test:plant-mes test:pricing test:product test:quality",
+    "test:customer": "cd services/customer-service && npm test",
+    "test:events": "cd services/events && npm test",
+    "test:inventory": "cd services/inventory-service && npm test",
+    "test:logistics": "cd services/logistics-service && npm test",
+    "test:order": "cd services/order-service && npm test",
+    "test:payment": "cd services/payment-service && npm test",
+    "test:plant-mes": "cd services/plant-mes-service && npm test",
+    "test:pricing": "cd services/pricing-service && npm test",
+    "test:product": "cd services/product-service && npm test",
+    "test:quality": "cd services/quality-service && npm test",
+    "install:all": "npm install && npm run install:services",
+    "install:services": "npm-run-all install:gateway install:service-*",
+    "install:gateway": "cd gateway && npm install",
+    "install:service-customer": "cd services/customer-service && npm install",
+    "install:service-events": "cd services/events && npm install",
+    "install:service-inventory": "cd services/inventory-service && npm install",
+    "install:service-logistics": "cd services/logistics-service && npm install",
+    "install:service-order": "cd services/order-service && npm install",
+    "install:service-payment": "cd services/payment-service && npm install",
+    "install:service-plant-mes": "cd services/plant-mes-service && npm install",
+    "install:service-pricing": "cd services/pricing-service && npm install",
+    "install:service-product": "cd services/product-service && npm install",
+    "install:service-quality": "cd services/quality-service && npm install"
+  },
+  "devDependencies": {
+    "npm-run-all": "^4.1.5"
+  },
+  "engines": {
+    "node": ">=20.0.0"
+  },
+  "workspaces": [
+    "gateway",
+    "services/*",
+    "shared/*"
+  ]
+}

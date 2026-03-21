@@ -1,0 +1,114 @@
+name: Security Scan
+
+on:
+  push:
+    branches: [main, develop]
+  pull_request:
+    branches: [main]
+  schedule:
+    # Run weekly
+    - cron: '0 0 * * 0'
+
+jobs:
+  # Dependency vulnerability scan
+  dependency-scan:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: '20'
+
+      - name: Run npm audit (Gateway)
+        working-directory: backend/gateway
+        run: npm audit --audit-level=high || true
+
+      - name: Run npm audit (Frontend)
+        working-directory: frontend/apps/distributor-portal
+        run: npm audit --audit-level=high || true
+
+      - name: Run npm audit (Corporate)
+        working-directory: frontend/apps/corporate-website
+        run: npm audit --audit-level=high || true
+
+  # Container vulnerability scan with Trivy
+  container-scan:
+    runs-on: ubuntu-latest
+    strategy:
+      matrix:
+        service:
+          - gateway
+          - services/customer-service
+          - services/events
+          - services/inventory-service
+          - services/logistics-service
+          - services/order-service
+          - services/payment-service
+          - services/plant-mes-service
+          - services/pricing-service
+          - services/product-service
+          - services/quality-service
+
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Build Docker image
+        working-directory: backend/${{ matrix.service }}
+        run: docker build -t resident-cement/${{ matrix.service }}:scan .
+
+      - name: Run Trivy vulnerability scanner
+        uses: aquasecurity/trivy-action@master
+        with:
+          image-ref: resident-cement/${{ matrix.service }}:scan
+          format: 'sarif'
+          output: 'trivy-results.sarif'
+          severity: 'CRITICAL,HIGH'
+
+      - name: Upload Trivy scan results
+        uses: github/codeql-action/upload-sarif@v2
+        if: always()
+        with:
+          sarif_file: 'trivy-results.sarif'
+
+  # Secret scanning
+  secret-scan:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+
+      - name: Secret detection
+        uses: trufflesecurity/trufflehog@main
+        with:
+          path: ./
+          base: main
+          head: HEAD
+
+  # Static analysis with CodeQL
+  codeql:
+    runs-on: ubuntu-latest
+    permissions:
+      actions: read
+      contents: read
+      security-events: write
+
+    strategy:
+      matrix:
+        language: ['javascript', 'typescript']
+
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Initialize CodeQL
+        uses: github/codeql-action/init@v2
+        with:
+          languages: ${{ matrix.language }}
+
+      - name: Autobuild
+        uses: github/codeql-action/autobuild@v2
+
+      - name: Perform CodeQL Analysis
+        uses: github/codeql-action/analyze@v2
