@@ -1,5 +1,4 @@
 import Link from "next/link";
-import Image from "next/image";
 import {
   Building2,
   Truck,
@@ -11,29 +10,29 @@ import {
   Users,
   Award,
   TrendingUp,
+  Verified,
+  Leaf,
+  Globe,
+  Diamond,
+  Architecture,
 } from "lucide-react";
 import { Button } from "@/components/ui/button";
 
 const features = [
   {
-    icon: Building2,
-    title: "Premium Quality",
-    description: "Grade-A cement products meeting international standards",
+    icon: Diamond,
+    title: "Product Quality",
+    description: "Nano-engineered aggregates ensuring compressive strength that exceeds global industrial standards by 40%.",
+  },
+  {
+    icon: Leaf,
+    title: "Sustainability",
+    description: "Carbon-neutral manufacturing processes and recycled raw materials for the next century of green building.",
   },
   {
     icon: Truck,
-    title: "Nationwide Distribution",
-    description: "Serving all 36 states across Nigeria",
-  },
-  {
-    icon: Shield,
-    title: "Sustainable Production",
-    description: "Eco-friendly manufacturing with 100-150MW captive power plant",
-  },
-  {
-    icon: Clock,
-    title: "Global Partnership",
-    description: "Strategic alliance with Sinoma Nigeria Company",
+    title: "B2B Logistics",
+    description: "Real-time supply chain tracking and automated fleet management for seamless site delivery integration.",
   },
 ];
 
@@ -46,242 +45,265 @@ const stats = [
 
 const products = [
   {
-    name: "Resident Cement 42.5R",
-    grade: "Premium",
-    description: "High-strength cement for structural applications and major construction projects",
-    price: "Coming Soon",
-    unit: "per bag",
+    name: "Elite Portland",
+    grade: "Type GU",
+    description: "Premium minimalist cement for structural applications and major construction projects",
+    price: "$24.50",
+    unit: "unit",
   },
   {
-    name: "Resident Cement 32.5R",
-    grade: "Standard",
-    description: "General purpose cement for plastering, masonry, and residential construction",
-    price: "Coming Soon",
-    unit: "per bag",
+    name: "Monolith Blocks",
+    grade: "Pre-Cast",
+    description: "Perfect geometric concrete blocks for foundational and architectural applications",
+    price: "$112.00",
+    unit: "block",
   },
   {
-    name: "Resident Cement 52.5R",
-    grade: "High Strength",
-    description: "Ultra-high strength for infrastructure, bridges, and demanding industrial projects",
-    price: "Coming Soon",
-    unit: "per bag",
-  },
-];
-
-const testimonials = [
-  {
-    quote: "The Bauchi cement plant represents a major milestone for Nigeria's infrastructure development. Resident Cement is positioned to transform the industry.",
-    author: "Industry Analyst",
-    role: "Global Cement Review",
-  },
-  {
-    quote: "The strategic partnership with Sinoma Nigeria Company brings world-class technology and expertise to cement production in Nigeria.",
-    author: "Construction Expert",
-    role: "Nigeria Infrastructure Summit",
-  },
-  {
-    quote: "Resident Cement's commitment to sustainable energy with their captive power plant sets a new standard for the industry.",
-    author: "Energy Consultant",
-    role: "West African Power Initiative",
+    name: "Titanium Grit",
+    grade: "Aggregate",
+    description: "High-quality sand and gravel aggregate for premium concrete mixes",
+    price: "$85.00",
+    unit: "ton",
   },
 ];
 
 export default function HomePage() {
   return (
-    <div className="min-h-screen">
-      {/* Hero Section */}
-      <section className="relative py-20 lg:py-32 bg-gradient-to-br from-brand-dark via-brand-secondary to-brand-primary overflow-hidden">
-        <div className="absolute inset-0 bg-[url('/images/hero-pattern.svg')] opacity-10"></div>
-        <div className="container mx-auto px-4 sm:px-6 lg:px-8 relative">
-          <div className="max-w-3xl mx-auto text-center text-white">
-            <div className="inline-flex items-center gap-2 px-4 py-2 rounded-full bg-white/10 backdrop-blur-sm mb-6">
-              <span className="w-2 h-2 rounded-full bg-green-400 animate-pulse"></span>
-              <span className="text-sm font-medium">Now Serving All 36 States</span>
-            </div>
-
-            <h1 className="text-4xl md:text-5xl lg:text-6xl font-bold mb-6 leading-tight">
-              Building Nigeria's Future with
-              <span className="text-brand-accent"> World-Class Cement</span>
-            </h1>
-
-            <p className="text-lg md:text-xl text-cement-200 mb-8 max-w-2xl mx-auto">
-              Resident Cement Company Limited — Nigeria's emerging cement manufacturing giant.
-              Our $500 million Bauchi plant will produce 10 million tonnes annually,
-              powered by sustainable energy and cutting-edge technology.
-            </p>
-
-            <div className="flex flex-col sm:flex-row gap-4 justify-center">
-              <Link href="/public/products/">
-                <Button size="lg" className="bg-brand-accent text-brand-dark hover:bg-brand-accent/90">
-                  View Products
-                  <ArrowRight className="ml-2 h-5 w-5" />
-                </Button>
-              </Link>
-              <Link href="/contact/">
-                <Button size="lg" variant="outline" className="border-white text-white hover:bg-white/10">
-                  Get a Quote
-                </Button>
-              </Link>
-            </div>
-          </div>
+    <div className="min-h-screen bg-background">
+      {/* Hero Section - Full Bleed with Gradient Overlay */}
+      <section className="relative h-screen w-full overflow-hidden">
+        {/* Background Image Placeholder */}
+        <div className="absolute inset-0 bg-surface-dim">
+          <div className="absolute inset-0 bg-gradient-to-r from-foreground/80 via-foreground/50 to-transparent" />
         </div>
 
-        {/* Stats Bar */}
-        <div className="container mx-auto px-4 sm:px-6 lg:px-8 mt-16">
-          <div className="grid grid-cols-2 md:grid-cols-4 gap-4 bg-white/10 backdrop-blur-sm rounded-2xl p-6">
-            {stats.map((stat) => (
-              <div key={stat.label} className="text-center text-white">
-                <stat.icon className="h-6 w-6 mx-auto mb-2 text-brand-accent" />
-                <div className="text-2xl md:text-3xl font-bold">{stat.value}</div>
-                <div className="text-sm text-cement-200">{stat.label}</div>
-              </div>
-            ))}
-          </div>
-        </div>
-      </section>
+        <div className="relative z-10 h-full flex flex-col justify-center px-4 sm:px-6 lg:px-8 xl:px-24 max-w-7xl mx-auto">
+          <span className="text-primary-container font-label tracking-[0.3em] uppercase mb-6 block">
+            Industrial Excellence
+          </span>
 
-      {/* Features Section */}
-      <section className="py-20 bg-white">
-        <div className="container mx-auto px-4 sm:px-6 lg:px-8">
-          <div className="text-center max-w-2xl mx-auto mb-12">
-            <h2 className="text-3xl md:text-4xl font-bold text-cement-900 mb-4">
-              Why Choose Resident
-              <span className="text-brand-primary">Cement</span>?
-            </h2>
-            <p className="text-cement-600">
-              We combine quality products with exceptional service to deliver
-              the best cement distribution experience in Nigeria.
-            </p>
-          </div>
+          <h1 className="font-headline text-5xl md:text-7xl lg:text-8xl text-white font-black leading-[0.9] tracking-tighter mb-8 max-w-4xl">
+            Built for
+            <br />
+            <span className="text-primary-container">Generations</span>
+          </h1>
 
-          <div className="grid md:grid-cols-2 lg:grid-cols-4 gap-6">
-            {features.map((feature) => (
-              <div
-                key={feature.title}
-                className="p-6 rounded-xl bg-cement-50 hover:bg-brand-light transition-colors group"
+          <p className="text-surface-bright text-lg md:text-xl max-w-xl font-body font-light leading-relaxed mb-12 opacity-90">
+            Architectural grade foundations engineered for permanence. We provide the structural soul for tomorrow&apos;s landmarks.
+          </p>
+
+          <div className="flex flex-col sm:flex-row gap-6">
+            <Link href="/contact/">
+              <Button size="lg" className="btn-gold px-10 py-6 text-sm font-bold uppercase tracking-[0.2em]">
+                Request Quote
+              </Button>
+            </Link>
+            <Link href="/products/">
+              <Button
+                size="lg"
+                variant="ghost"
+                className="border border-white/30 backdrop-blur-md text-white px-10 py-6 hover:bg-white/10"
               >
-                <div className="w-12 h-12 rounded-lg bg-brand-primary/10 flex items-center justify-center mb-4 group-hover:bg-brand-primary group-hover:text-white transition-colors">
-                  <feature.icon className="h-6 w-6 text-brand-primary group-hover:text-white" />
-                </div>
-                <h3 className="text-lg font-semibold text-cement-900 mb-2">{feature.title}</h3>
-                <p className="text-cement-600 text-sm">{feature.description}</p>
-              </div>
-            ))}
-          </div>
-        </div>
-      </section>
-
-      {/* Products Section */}
-      <section className="py-20 bg-cement-50">
-        <div className="container mx-auto px-4 sm:px-6 lg:px-8">
-          <div className="flex flex-col md:flex-row justify-between items-center mb-12">
-            <div className="max-w-2xl">
-              <h2 className="text-3xl md:text-4xl font-bold text-cement-900 mb-4">
-                Our Products
-              </h2>
-              <p className="text-cement-600">
-                Premium cement grades manufactured at our state-of-the-art Bauchi plant,
-                suitable for all construction needs — from residential buildings to major infrastructure projects.
-              </p>
-            </div>
-            <Link href="/products/" className="mt-4 md:mt-0">
-              <Button variant="outline">
-                View All Products
-                <ArrowRight className="ml-2 h-4 w-4" />
+                Explore Materials
               </Button>
             </Link>
           </div>
+        </div>
 
-          <div className="grid md:grid-cols-3 gap-6">
-            {products.map((product) => (
-              <div
-                key={product.name}
-                className="bg-white rounded-xl overflow-hidden shadow-sm hover:shadow-lg transition-shadow"
-              >
-                <div className="h-48 bg-gradient-to-br from-cement-200 to-cement-300 flex items-center justify-center">
-                  <Package className="h-20 w-20 text-cement-500" />
+        {/* Scroll Indicator */}
+        <div className="absolute bottom-10 left-1/2 -translate-x-1/2 text-white/50 flex flex-col items-center">
+          <span className="text-[10px] uppercase tracking-[0.4em] mb-4">Discovery</span>
+          <div className="w-[1px] h-12 bg-gradient-to-b from-white/50 to-transparent" />
+        </div>
+      </section>
+
+      {/* Stats Bar */}
+      <section className="bg-surface-container py-8 border-b border-outline-variant/10">
+        <div className="container-wide mx-auto px-4 sm:px-6 lg:px-8">
+          <div className="grid grid-cols-2 md:grid-cols-4 gap-8">
+            {stats.map((stat) => (
+              <div key={stat.label} className="text-center">
+                <div className="text-3xl md:text-4xl font-headline font-black text-foreground tracking-tight mb-1">
+                  {stat.value}
                 </div>
-                <div className="p-6">
-                  <div className="flex items-center gap-2 mb-2">
-                    <span className="px-2 py-1 rounded-full text-xs font-medium bg-brand-primary/10 text-brand-primary">
-                      {product.grade}
-                    </span>
-                  </div>
-                  <h3 className="text-xl font-semibold text-cement-900 mb-2">{product.name}</h3>
-                  <p className="text-cement-600 text-sm mb-4">{product.description}</p>
-                  <div className="flex items-center justify-between">
-                    <div>
-                      <span className="text-2xl font-bold text-brand-primary">{product.price}</span>
-                      <span className="text-cement-500 text-sm"> / {product.unit}</span>
-                    </div>
-                    <Link href="/contact/">
-                      <Button size="sm">Get Quote</Button>
-                    </Link>
-                  </div>
-                </div>
+                <div className="text-label text-on-surface-variant">{stat.label}</div>
               </div>
             ))}
           </div>
         </div>
       </section>
 
-      {/* How It Works */}
-      <section className="py-20 bg-white">
-        <div className="container mx-auto px-4 sm:px-6 lg:px-8">
-          <div className="text-center max-w-2xl mx-auto mb-12">
-            <h2 className="text-3xl md:text-4xl font-bold text-cement-900 mb-4">
-              How It Works
-            </h2>
-            <p className="text-cement-600">
-              Simple, transparent process from order to delivery
-            </p>
-          </div>
-
-          <div className="grid md:grid-cols-4 gap-8">
-            {[
-              { step: "01", title: "Browse Products", desc: "Explore our catalog" },
-              { step: "02", title: "Request Quote", desc: "Get competitive pricing" },
-              { step: "03", title: "Place Order", desc: "Confirm and pay securely" },
-              { step: "04", title: "Receive Delivery", desc: "Track in real-time" },
-            ].map((item, idx) => (
-              <div key={item.step} className="text-center relative">
-                {idx < 3 && (
-                  <div className="hidden md:block absolute top-8 left-1/2 w-full h-0.5 bg-cement-200"></div>
-                )}
-                <div className="w-16 h-16 rounded-full bg-brand-primary text-white flex items-center justify-center mx-auto mb-4 relative z-10">
-                  <span className="text-xl font-bold">{item.step}</span>
-                </div>
-                <h3 className="text-lg font-semibold text-cement-900 mb-1">{item.title}</h3>
-                <p className="text-cement-600 text-sm">{item.desc}</p>
+      {/* Features Bento Grid */}
+      <section className="section-padding">
+        <div className="container-wide mx-auto">
+          <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
+            {features.map((feature) => (
+              <div
+                key={feature.title}
+                className="p-10 bg-surface-container-low rounded-lg border-l-2 border-primary-container/30 hover:bg-surface-container-lowest transition-all group"
+              >
+                <feature.icon className="h-10 w-10 text-primary mb-8" />
+                <h3 className="font-headline text-2xl font-bold mb-4 text-foreground">
+                  {feature.title}
+                </h3>
+                <p className="text-on-surface-variant leading-relaxed">
+                  {feature.description}
+                </p>
+                <div className="mt-8 h-[1px] w-0 group-hover:w-full bg-primary transition-all duration-500" />
               </div>
             ))}
+          </div>
+        </div>
+      </section>
+
+      {/* Our Materials Section */}
+      <section className="bg-surface-container py-20 md:py-32">
+        <div className="container-wide mx-auto px-4 sm:px-6 lg:px-8">
+          <div className="flex flex-col md:flex-row md:items-end justify-between mb-16 gap-8">
+            <div className="max-w-2xl">
+              <span className="text-label text-primary mb-4 block">Our Materials</span>
+              <h2 className="font-headline text-4xl md:text-5xl font-extrabold text-foreground mb-6 tracking-tight"
+              >
+                The Foundation of Modern Infrastructure
+              </h2>
+              <p className="text-on-surface-variant text-lg">
+                Refined for specific architectural needs and engineered for structural permanence.
+              </p>
+            </div>
+            <Link href="/products/" className="group flex items-center gap-2 text-primary font-bold uppercase tracking-widest text-sm whitespace-nowrap"
+            >
+              View Catalog
+              <ArrowRight className="h-4 w-4 group-hover:translate-x-2 transition-transform" />
+            </Link>
+          </div>
+
+          <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
+            {products.map((product) => (
+              <div
+                key={product.name}
+                className="bg-surface-container-lowest p-4 rounded-lg group cursor-pointer shadow-sm hover:shadow-xl transition-all duration-300"
+              >
+                <div className="aspect-square bg-surface-container rounded-lg mb-6 overflow-hidden flex items-center justify-center"
+                >
+                  <Package className="h-20 w-20 text-outline-variant group-hover:text-primary transition-colors duration-500" />
+                </div>
+                <span className="text-[10px] text-outline font-bold uppercase tracking-widest">
+                  {product.grade}
+                </span>
+                <h4 className="font-headline text-xl font-bold mt-1 text-foreground">
+                  {product.name}
+                </h4>
+                <p className="text-on-surface-variant text-sm mt-2 mb-4">{product.description}</p>
+                <p className="text-primary font-bold">
+                  {product.price}{" "}
+                  <span className="text-on-surface-variant font-normal text-xs">
+                    / {product.unit}
+                  </span>
+                </p>
+              </div>
+            ))}
+          </div>
+        </div>
+      </section>
+
+      {/* Heritage Section */}
+      <section className="bg-surface-container-low py-20 md:py-32">
+        <div className="container-wide mx-auto px-4 sm:px-6 lg:px-8">
+          <div className="grid grid-cols-1 lg:grid-cols-2 gap-16 items-center">
+            <div className="relative">
+              <div className="aspect-[4/3] bg-surface-container-highest rounded-lg overflow-hidden">
+                <div className="w-full h-full bg-gradient-to-br from-cement-300 to-cement-400 flex items-center justify-center"
+                >
+                  <Architecture className="h-32 w-32 text-cement-600" />
+                </div>
+              </div>
+              <div className="absolute -bottom-6 -right-6 w-40 h-40 bg-primary p-6 flex flex-col justify-end">
+                <span className="text-4xl font-headline font-black text-on-primary leading-none">
+                  2025
+                </span>
+                <span className="text-xs uppercase font-bold text-on-primary tracking-widest mt-2">
+                  Production Start
+                </span>
+              </div>
+            </div>
+
+            <div className="lg:pl-8">
+              <span className="text-label text-primary mb-4 block">Our Heritage</span>
+              <h2 className="font-headline text-4xl md:text-5xl font-bold tracking-tight mb-8"
+              >
+                Engineering Nigeria&apos;s Future
+              </h2>
+              <p className="text-on-surface-variant mb-8 leading-relaxed text-lg"
+              >
+                Resident Cement Company Limited is building a $500 million world-class cement plant in Bauchi State, Nigeria. With 10 million tonnes annual capacity, we are positioned to transform Nigeria&apos;s construction industry.
+              </p>
+
+              <div className="space-y-6">
+                <div className="flex gap-4 items-start">
+                  <Verified className="h-6 w-6 text-primary shrink-0 mt-1" />
+                  <div>
+                    <h4 className="font-bold text-foreground">Purity of Material</h4>
+                    <p className="text-sm text-on-surface-variant">
+                      Strategic partnership with Sinoma Nigeria Company brings world-class technology and expertise.
+                    </p>
+                  </div>
+                </div>
+                <div className="flex gap-4 items-start">
+                  <Globe className="h-6 w-6 text-primary shrink-0 mt-1" />
+                  <div>
+                    <h4 className="font-bold text-foreground">Architectural Trust</h4>
+                    <p className="text-sm text-on-surface-variant">
+                      Sustainable energy with 100-150MW captive power plant, setting a new industry standard.
+                    </p>
+                  </div>
+                </div>
+              </div>
+            </div>
           </div>
         </div>
       </section>
 
       {/* Testimonials */}
-      <section className="py-20 bg-brand-dark text-white">
-        <div className="container mx-auto px-4 sm:px-6 lg:px-8">
-          <div className="text-center max-w-2xl mx-auto mb-12">
-            <h2 className="text-3xl md:text-4xl font-bold mb-4">What Our Clients Say</h2>
-            <p className="text-cement-300">
-              Trusted by leading construction companies across Nigeria
-            </p>
+      <section className="section-padding bg-foreground text-surface">
+        <div className="container-wide mx-auto">
+          <div className="text-center max-w-3xl mx-auto mb-16">
+            <span className="text-label text-primary-container mb-4 block">Testimonials</span>
+            <h2 className="font-headline text-4xl md:text-5xl font-black tracking-tighter mb-6"
+            >
+              Industry Recognition
+            </h2>
           </div>
 
           <div className="grid md:grid-cols-3 gap-6">
-            {testimonials.map((testimonial) => (
+            {[
+              {
+                quote: "The Bauchi cement plant represents a major milestone for Nigeria's infrastructure development. Resident Cement is positioned to transform the industry.",
+                author: "Industry Analyst",
+                role: "Global Cement Review",
+              },
+              {
+                quote: "The strategic partnership with Sinoma Nigeria Company brings world-class technology and expertise to cement production in Nigeria.",
+                author: "Construction Expert",
+                role: "Nigeria Infrastructure Summit",
+              },
+              {
+                quote: "Resident Cement's commitment to sustainable energy with their captive power plant sets a new standard for the industry.",
+                author: "Energy Consultant",
+                role: "West African Power Initiative",
+              },
+            ].map((testimonial) => (
               <div
                 key={testimonial.author}
-                className="bg-white/5 backdrop-blur-sm rounded-xl p-6 border border-white/10"
+                className="bg-surface-container-high/50 backdrop-blur-sm rounded-lg p-8 border border-outline-variant/10"
               >
-                <CheckCircle className="h-8 w-8 text-brand-accent mb-4" />
-                <blockquote className="text-cement-100 mb-4">
-                  "{testimonial.quote}"
+                <CheckCircle className="h-8 w-8 text-primary-container mb-6" />
+                <blockquote className="text-surface-bright mb-6 leading-relaxed"
+                >
+                  &ldquo;{testimonial.quote}&rdquo;
                 </blockquote>
                 <div>
-                  <div className="font-semibold">{testimonial.author}</div>
-                  <div className="text-sm text-cement-400">{testimonial.role}</div>
+                  <div className="font-headline font-bold">{testimonial.author}</div>
+                  <div className="text-sm text-surface-variant/70">{testimonial.role}</div>
                 </div>
               </div>
             ))}
@@ -289,30 +311,42 @@ export default function HomePage() {
         </div>
       </section>
 
-      {/* CTA Section */}
-      <section className="py-20 bg-gradient-to-r from-brand-primary to-brand-secondary">
-        <div className="container mx-auto px-4 sm:px-6 lg:px-8 text-center">
-          <h2 className="text-3xl md:text-4xl font-bold text-white mb-4">
-            Ready to Start Your Project?
-          </h2>
+      {/* CTA Section - Gold Monolith */}
+      <section className="mb-20 px-4 sm:px-6 lg:px-8">
+        <div className="container-wide mx-auto relative overflow-hidden rounded-lg"
+        >
+          <div
+            className="p-12 md:p-20 flex flex-col md:flex-row items-center justify-between relative"
+            style={{
+              background: "linear-gradient(45deg, #745B17, #C5A55A)",
+            }}
+          >
+            {/* Decorative circle */}
+            <div className="absolute -right-20 -top-20 w-80 h-80 bg-white/10 rounded-full blur-3xl" />
 
-          <p className="text-xl text-white/80 mb-8 max-w-2xl mx-auto">
-            Join thousands of satisfied customers. Get a quote today and
-            experience the ResidentCement difference.
-          </p>
+            <div className="relative z-10 max-w-xl text-center md:text-left mb-10 md:mb-0">
+              <h2 className="font-headline text-3xl md:text-4xl lg:text-5xl font-extrabold text-on-primary mb-6"
+              >
+                Ready to break ground?
+              </h2>
+              <p className="text-on-primary/80 text-lg leading-relaxed">
+                Join the network of elite builders choosing Resident Cement for structural permanence. Our team is ready to scale with your project.
+              </p>
+            </div>
 
-          <div className="flex flex-col sm:flex-row gap-4 justify-center">
-            <Link href="/contact/">
-              <Button size="lg" className="bg-brand-accent text-brand-dark hover:bg-brand-accent/90">
-                Get Free Quote
-                <ArrowRight className="ml-2 h-5 w-5" />
-              </Button>
-            </Link>
-            <Link href="tel:+2341234567890">
-              <Button size="lg" variant="outline" className="border-white text-white hover:bg-white/10">
-                Call Us Now
-              </Button>
-            </Link>
+            <div className="relative z-10 flex flex-col gap-4">
+              <Link href="/contact/">
+                <Button
+                  size="lg"
+                  className="bg-on-primary text-primary px-12 py-6 rounded text-sm font-extrabold uppercase tracking-[0.2em] shadow-lg hover:scale-105 transition-transform"
+                >
+                  Request Quote
+                </Button>
+              </Link>
+              <p className="text-on-primary/60 text-[10px] text-center uppercase tracking-widest">
+                Average response time: 2 hours
+              </p>
+            </div>
           </div>
         </div>
       </section>

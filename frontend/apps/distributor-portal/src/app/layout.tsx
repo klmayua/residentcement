@@ -1,14 +1,31 @@
 import type { Metadata } from 'next';
-import { Inter, Playfair_Display } from 'next/font/google';
+import { Inter, Noto_Serif, Plus_Jakarta_Sans } from 'next/font/google';
 import './globals.css';
 import { Providers } from '@/components/providers';
 
-const inter = Inter({ subsets: ['latin'] });
-const playfair = Playfair_Display({ subsets: ['latin'], variable: '--font-playfair' });
+const inter = Inter({
+  subsets: ['latin'],
+  variable: '--font-inter',
+  display: 'swap',
+});
+
+const notoSerif = Noto_Serif({
+  subsets: ['latin'],
+  variable: '--font-noto-serif',
+  display: 'swap',
+  weight: ['400', '500', '600', '700', '800', '900'],
+});
+
+const plusJakarta = Plus_Jakarta_Sans({
+  subsets: ['latin'],
+  variable: '--font-plus-jakarta',
+  display: 'swap',
+  weight: ['300', '400', '500', '600', '700'],
+});
 
 export const metadata: Metadata = {
-  title: 'Resident Cement Limited — Distributor Portal',
-  description: 'Nigeria\'s trusted cement distribution and management platform',
+  title: 'Resident Cement | Distributor Portal',
+  description: 'Nigeria\'s trusted cement distribution and management platform - Premium Access',
   keywords: ['cement', 'distribution', 'enterprise', 'Nigeria', 'Resident Cement', 'building materials', 'Bauchi', 'manufacturing'],
   authors: [{ name: 'Resident Cement Limited' }],
   creator: 'Resident Cement Limited',
@@ -22,23 +39,23 @@ export const metadata: Metadata = {
     apple: '/images/logo.png',
   },
   openGraph: {
-    title: 'Resident Cement Limited',
+    title: 'Resident Cement | Distributor Portal',
     description: 'Enterprise cement distribution platform',
     type: 'website',
     locale: 'en_NG',
-    siteName: 'Resident Cement Limited',
+    siteName: 'Resident Cement',
     images: [
       {
         url: '/images/logo.png',
         width: 400,
         height: 200,
-        alt: 'Resident Cement Limited Logo',
+        alt: 'Resident Cement Logo',
       },
     ],
   },
   twitter: {
     card: 'summary',
-    title: 'Resident Cement Limited',
+    title: 'Resident Cement | Distributor Portal',
     description: 'Enterprise cement distribution platform',
     images: ['/images/logo.png'],
   },
@@ -50,9 +67,11 @@ export default function RootLayout({
   children: React.ReactNode;
 }) {
   return (
-    <html lang="en" suppressHydrationWarning>
-      <body className={`${inter.className} ${playfair.variable}`}>
-        <Providers>{children}</Providers>
+    <html lang="en" suppressHydrationWarning className="dark">
+      <body className={`${inter.variable} ${notoSerif.variable} ${plusJakarta.variable} antialiased`}>
+        <Providers>
+          {children}
+        </Providers>
       </body>
     </html>
   );

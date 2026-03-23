@@ -2,58 +2,232 @@
 @tailwind components;
 @tailwind utilities;
 
-@layer base {
-  :root {
-    --background: 40 20% 99%;          /* warm white */
-    --foreground: 24 10% 10%;           /* charcoal */
-    --card: 0 0% 100%;
-    --card-foreground: 24 10% 10%;
-    --popover: 0 0% 100%;
-    --popover-foreground: 24 10% 10%;
-    --primary: 40 38% 56%;              /* gold #C5A55A */
-    --primary-foreground: 0 0% 100%;    /* white on gold */
-    --secondary: 24 6% 96%;
-    --secondary-foreground: 24 10% 10%;
-    --muted: 24 6% 96%;
-    --muted-foreground: 24 5% 45%;
-    --accent: 40 48% 48%;               /* deep gold */
-    --accent-foreground: 0 0% 100%;
-    --destructive: 0 84% 60%;
-    --destructive-foreground: 0 0% 100%;
-    --border: 24 6% 90%;
-    --input: 24 6% 90%;
-    --ring: 40 38% 56%;                 /* gold ring */
-    --radius: 0.5rem;
-  }
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=Noto+Serif:wght@400;500;600;700;800;900&family=Plus+Jakarta+Sans:wght@300;400;500;600;700&display=swap');
 
-  .dark {
-    --background: 24 10% 5%;            /* dark charcoal */
-    --foreground: 40 20% 95%;           /* light gold */
-    --card: 24 10% 8%;
-    --card-foreground: 40 20% 95%;
-    --popover: 24 10% 8%;
-    --popover-foreground: 40 20% 95%;
-    --primary: 40 38% 45%;              /* dark gold */
-    --primary-foreground: 0 0% 100%;
-    --secondary: 24 6% 15%;
-    --secondary-foreground: 40 20% 95%;
-    --muted: 24 6% 15%;
-    --muted-foreground: 24 5% 60%;
-    --accent: 40 48% 35%;               /* deep dark gold */
-    --accent-foreground: 0 0% 100%;
-    --destructive: 0 84% 60%;
-    --destructive-foreground: 0 0% 100%;
-    --border: 24 6% 20%;
-    --input: 24 6% 20%;
-    --ring: 40 38% 45%;
-  }
+:root {
+  /* Obsidian Gilt - Dark Theme (Default) */
+  --background: 20 10% 8%; /* #161311 */
+  --foreground: 30 20% 90%; /* #e9e1dd - warm parchment, not pure white */
+
+  --surface: 20 10% 8%;
+  --surface-bright: 24 8% 12%; /* #1a1c1c */
+  --surface-dim: 24 8% 18%;
+  --surface-variant: 24 6% 22%;
+
+  --surface-container-lowest: 20 10% 5%;
+  --surface-container-low: 20 9% 10%; /* #1c1917 */
+  --surface-container: 24 7% 13%; /* #221f1d */
+  --surface-container-high: 24 6% 16%;
+  --surface-container-highest: 20 6% 21%; /* #383432 */
+
+  --primary: 42 68% 67%; /* #e5c374 - Gold */
+  --primary-container: 42 48% 40%;
+  --primary-fixed: 45 100% 80%;
+  --primary-fixed-dim: 42 65% 67%;
+  --primary-foreground: 20 10% 5%;
+
+  --secondary: 30 3% 65%;
+  --secondary-container: 30 5% 25%;
+  --secondary-foreground: 30 20% 95%;
+
+  --tertiary: 228 43% 73%;
+  --tertiary-container: 228 30% 35%;
+  --tertiary-foreground: 20 10% 5%;
+
+  --error: 0 84% 60%;
+  --error-container: 0 70% 30%;
+  --error-foreground: 0 0% 100%;
+
+  --outline: 30 8% 35%;
+  --outline-variant: 30 6% 25%;
+
+  --radius: 0.125rem;
 }
 
 @layer base {
   * {
-    @apply border-border;
+    @apply border-outline-variant/20;
   }
+
+  html {
+    scroll-behavior: smooth;
+  }
+
   body {
-    @apply bg-background text-foreground;
+    @apply bg-background text-foreground font-body antialiased;
+    background-color: #161311;
+    color: #e9e1dd;
+    font-feature-settings: "rlig" 1, "calt" 1;
   }
+
+  /* Headlines use serif for editorial authority */
+  h1, h2, h3, h4 {
+    @apply font-headline font-bold tracking-tight;
+  }
+
+  h1 {
+    @apply text-3xl md:text-4xl;
+  }
+
+  h2 {
+    @apply text-2xl md:text-3xl;
+  }
+
+  h3 {
+    @apply text-xl md:text-2xl;
+  }
+
+  h4 {
+    @apply text-lg md:text-xl;
+  }
+}
+
+@layer components {
+  /* Gold Monolith Button - Primary CTA */
+  .btn-gold {
+    @apply relative overflow-hidden text-on-primary px-6 py-3 text-sm font-bold uppercase tracking-widest rounded transition-all duration-200;
+    background: linear-gradient(45deg, #745B17, #C5A55A);
+  }
+
+  .btn-gold:hover {
+    @apply opacity-90;
+    transform: translateY(-1px);
+  }
+
+  .btn-gold:active {
+    @apply scale-95;
+  }
+
+  /* Ghost Button - Secondary */
+  .btn-ghost {
+    @apply border border-outline-variant/30 bg-transparent text-primary px-6 py-3 text-sm font-bold uppercase tracking-widest rounded transition-all duration-200;
+  }
+
+  .btn-ghost:hover {
+    @apply bg-surface-container-high;
+  }
+
+  /* Dark Glass Navigation */
+  .glass-nav-dark {
+    @apply bg-[#161311]/70 backdrop-blur-xl;
+    -webkit-backdrop-filter: blur(20px);
+  }
+
+  /* Sidebar Styling */
+  .sidebar-dark {
+    @apply bg-surface-container border-r border-outline-variant/10;
+  }
+
+  /* Card with tonal depth for dark theme */
+  .card-tonal {
+    @apply bg-surface-container rounded transition-all duration-300 border border-outline-variant/10;
+  }
+
+  .card-tonal:hover {
+    @apply bg-surface-container-high shadow-elevated;
+  }
+
+  /* Status Seal for badges - dark mode */
+  .status-seal {
+    @apply inline-flex items-center gap-2 text-xs font-bold uppercase tracking-widest;
+  }
+
+  .status-seal::before {
+    content: '';
+    @apply w-2 h-2 rounded-full;
+  }
+
+  .status-seal.active::before {
+    @apply bg-primary;
+  }
+
+  .status-seal.pending::before {
+    @apply bg-amber-500;
+  }
+
+  .status-seal.error::before {
+    @apply bg-error;
+  }
+
+  /* Input Fields - Carved Style for dark */
+  .input-carved {
+    @apply bg-transparent border-0 border-b border-outline-variant/30 px-0 py-3 text-foreground focus:outline-none focus:border-b-2 focus:border-primary transition-all placeholder:text-on-surface-variant/50;
+    background-color: transparent;
+  }
+
+  /* Table styling for dark theme */
+  .table-dark {
+    @apply w-full;
+  }
+
+  .table-dark th {
+    @apply text-left text-[10px] uppercase tracking-widest text-on-surface-variant/60 font-medium pb-4 border-b border-outline-variant/20;
+  }
+
+  .table-dark td {
+    @apply py-4 border-b border-outline-variant/10;
+  }
+
+  .table-dark tr:hover td {
+    @apply bg-surface-container-high/50;
+  }
+
+  /* Section Spacing */
+  .section-padding {
+    @apply py-8 px-4 sm:px-6 lg:px-8;
+  }
+}
+
+@layer utilities {
+  /* Typography helpers */
+  .text-display {
+    @apply font-headline font-black tracking-tighter leading-tight;
+    letter-spacing: -0.02em;
+  }
+
+  .text-label {
+    @apply font-label text-xs font-bold uppercase tracking-widest;
+    letter-spacing: 0.05em;
+  }
+
+  /* Gradient text - gold */
+  .text-gradient-gold {
+    @apply bg-clip-text text-transparent;
+    background-image: linear-gradient(45deg, #e5c374, #C5A55A);
+  }
+
+  /* Selection styling */
+  ::selection {
+    @apply bg-primary/30 text-foreground;
+  }
+}
+
+/* Custom scrollbar - dark mode */
+::-webkit-scrollbar {
+  width: 8px;
+  height: 8px;
+}
+
+::-webkit-scrollbar-track {
+  @apply bg-surface-container;
+}
+
+::-webkit-scrollbar-thumb {
+  @apply bg-outline-variant/50 rounded-full;
+}
+
+::-webkit-scrollbar-thumb:hover {
+  @apply bg-outline-variant/70;
+}
+
+/* Ambient glow for primary elements */
+.glow-gold {
+  box-shadow: 0 0 40px rgba(229, 195, 116, 0.15);
+}
+
+/* Glassmorphism overlay */
+.glass-overlay {
+  background: rgba(34, 31, 29, 0.7);
+  backdrop-filter: blur(12px);
+  -webkit-backdrop-filter: blur(12px);
 }

@@ -2,56 +2,217 @@
 @tailwind components;
 @tailwind utilities;
 
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=Noto+Serif:wght@400;500;600;700;800;900&family=Plus+Jakarta+Sans:wght@300;400;500;600;700&display=swap');
+
 :root {
-  --background: 0 0% 100%;
-  --foreground: 222.2 84% 4.9%;
-  --card: 0 0% 100%;
-  --card-foreground: 222.2 84% 4.9%;
+  /* Material Design 3 Color System - Light Theme */
+  --background: 40 20% 98%; /* #f9f9f8 */
+  --foreground: 24 10% 10%; /* #1a1c1c */
+
+  --card: 40 7% 96%;
+  --card-foreground: 24 10% 10%;
   --popover: 0 0% 100%;
-  --popover-foreground: 222.2 84% 4.9%;
-  --primary: 221.2 83.2% 53.3%;
-  --primary-foreground: 210 40% 98%;
-  --secondary: 210 40% 96.1%;
-  --secondary-foreground: 222.2 47.4% 11.2%;
-  --muted: 210 40% 96.1%;
-  --muted-foreground: 215.4 16.3% 46.9%;
-  --accent: 210 40% 96.1%;
-  --accent-foreground: 222.2 47.4% 11.2%;
-  --destructive: 0 84.2% 60.2%;
-  --destructive-foreground: 210 40% 98%;
-  --border: 214.3 31.8% 91.4%;
-  --input: 214.3 31.8% 91.4%;
-  --ring: 221.2 83.2% 53.3%;
-  --radius: 0.5rem;
+  --popover-foreground: 24 10% 10%;
+
+  --primary: 42 66% 27%; /* #745b17 */
+  --primary-foreground: 0 0% 100%;
+
+  --secondary: 0 1% 37%; /* #5f5e5e */
+  --secondary-foreground: 0 0% 100%;
+
+  --muted: 40 6% 93%;
+  --muted-foreground: 24 5% 45%;
+
+  --accent: 42 48% 56%;
+  --accent-foreground: 0 0% 100%;
+
+  --destructive: 0 75% 41%;
+  --destructive-foreground: 0 0% 100%;
+
+  --border: 33 22% 85%;
+  --input: 33 22% 85%;
+  --ring: 42 66% 27%;
+  --radius: 0.125rem;
 }
 
 .dark {
-  --background: 222.2 84% 4.9%;
-  --foreground: 210 40% 98%;
-  --card: 222.2 84% 4.9%;
-  --card-foreground: 210 40% 98%;
-  --popover: 222.2 84% 4.9%;
-  --popover-foreground: 210 40% 98%;
-  --primary: 217.2 91.2% 59.8%;
-  --primary-foreground: 222.2 47.4% 11.2%;
-  --secondary: 217.2 32.6% 17.5%;
-  --secondary-foreground: 210 40% 98%;
-  --muted: 217.2 32.6% 17.5%;
-  --muted-foreground: 215 20.2% 65.1%;
-  --accent: 217.2 32.6% 17.5%;
-  --accent-foreground: 210 40% 98%;
-  --destructive: 0 62.8% 30.6%;
-  --destructive-foreground: 210 40% 98%;
-  --border: 217.2 32.6% 17.5%;
-  --input: 217.2 32.6% 17.5%;
-  --ring: 224.3 76.3% 48%;
+  --background: 24 10% 8%;
+  --foreground: 30 20% 95%;
+
+  --card: 24 10% 12%;
+  --card-foreground: 30 20% 95%;
+
+  --primary: 42 68% 67%;
+  --primary-foreground: 20 10% 5%;
+
+  --secondary: 30 3% 45%;
+  --secondary-foreground: 30 20% 95%;
+
+  --muted: 24 6% 15%;
+  --muted-foreground: 24 5% 60%;
+
+  --accent: 42 48% 45%;
+  --accent-foreground: 0 0% 100%;
+
+  --destructive: 0 84% 60%;
+  --destructive-foreground: 0 0% 100%;
+
+  --border: 24 6% 20%;
+  --input: 24 6% 20%;
+  --ring: 42 68% 67%;
 }
 
 @layer base {
   * {
     @apply border-border;
   }
-  body {
-    @apply bg-background text-foreground;
+
+  html {
+    scroll-behavior: smooth;
   }
+
+  body {
+    @apply bg-background text-foreground font-body antialiased;
+    font-feature-settings: "rlig" 1, "calt" 1;
+  }
+
+  /* Headlines use serif for editorial authority */
+  h1, h2, h3, h4 {
+    @apply font-headline font-bold tracking-tight;
+  }
+
+  h1 {
+    @apply text-2xl md:text-3xl;
+  }
+
+  h2 {
+    @apply text-xl md:text-2xl;
+  }
+
+  h3 {
+    @apply text-lg md:text-xl;
+  }
+
+  h4 {
+    @apply text-base md:text-lg;
+  }
+}
+
+@layer components {
+  /* Gold Monolith Button - Primary CTA */
+  .btn-gold {
+    @apply relative overflow-hidden bg-primary text-on-primary px-6 py-3 text-sm font-bold uppercase tracking-widest rounded transition-all duration-200;
+    background: linear-gradient(45deg, #745B17, #C5A55A);
+  }
+
+  .btn-gold:hover {
+    @apply opacity-90;
+    transform: translateY(-1px);
+  }
+
+  .btn-gold:active {
+    @apply scale-95;
+  }
+
+  /* Ghost Button - Secondary */
+  .btn-ghost {
+    @apply border border-outline-variant/30 bg-transparent text-primary px-6 py-3 text-sm font-bold uppercase tracking-widest rounded transition-all duration-200;
+  }
+
+  .btn-ghost:hover {
+    @apply bg-surface-container-high;
+  }
+
+  /* Glass Navigation */
+  .glass-nav {
+    @apply bg-surface/70 backdrop-blur-xl;
+    -webkit-backdrop-filter: blur(20px);
+  }
+
+  /* Card with tonal depth */
+  .card-tonal {
+    @apply bg-surface-container-low rounded transition-all duration-300;
+  }
+
+  .card-tonal:hover {
+    @apply bg-surface-container-lowest shadow-soft;
+  }
+
+  /* Status Seal for badges */
+  .status-seal {
+    @apply inline-flex items-center gap-2 text-xs font-bold uppercase tracking-widest;
+  }
+
+  .status-seal::before {
+    content: '';
+    @apply w-2 h-2 rounded-full;
+  }
+
+  .status-seal.active::before {
+    @apply bg-primary;
+  }
+
+  .status-seal.pending::before {
+    @apply bg-amber-500;
+  }
+
+  .status-seal.error::before {
+    @apply bg-error;
+  }
+
+  /* Section Spacing */
+  .section-padding {
+    @apply py-6 px-4 sm:px-6 lg:px-8;
+  }
+
+  /* Container max-widths */
+  .container-narrow {
+    @apply max-w-3xl mx-auto;
+  }
+
+  .container-wide {
+    @apply max-w-7xl mx-auto;
+  }
+}
+
+@layer utilities {
+  /* Typography helpers */
+  .text-display {
+    @apply font-headline font-black tracking-tighter leading-tight;
+    letter-spacing: -0.02em;
+  }
+
+  .text-label {
+    @apply font-label text-xs font-bold uppercase tracking-widest;
+    letter-spacing: 0.05em;
+  }
+
+  /* Gradient text */
+  .text-gradient-gold {
+    @apply bg-clip-text text-transparent;
+    background-image: linear-gradient(45deg, #745B17, #C5A55A);
+  }
+
+  /* Selection styling */
+  ::selection {
+    @apply bg-primary-container/30 text-foreground;
+  }
+}
+
+/* Custom scrollbar */
+::-webkit-scrollbar {
+  width: 8px;
+  height: 8px;
+}
+
+::-webkit-scrollbar-track {
+  @apply bg-surface-container-low;
+}
+
+::-webkit-scrollbar-thumb {
+  @apply bg-outline-variant/50 rounded-full;
+}
+
+::-webkit-scrollbar-thumb:hover {
+  @apply bg-outline-variant/70;
 }
