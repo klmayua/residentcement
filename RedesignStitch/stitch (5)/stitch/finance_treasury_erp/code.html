@@ -1,0 +1,424 @@
+<!DOCTYPE html>
+
+<html class="light" lang="en"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>Resident Cement | Finance &amp; Treasury Dashboard</title>
+<!-- Material Symbols -->
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<!-- Google Fonts: Newsreader & Work Sans -->
+<link href="https://fonts.googleapis.com/css2?family=Newsreader:ital,opsz,wght@0,6..72,200..800;1,6..72,200..800&amp;family=Work+Sans:wght@300;400;500;600;700;800&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<script id="tailwind-config">
+      tailwind.config = {
+        darkMode: "class",
+        theme: {
+          extend: {
+            colors: {
+              "surface-bright": "#f9f9f9",
+              "error-container": "#ffdad6",
+              "on-primary-fixed": "#1c1b1b",
+              "surface-container-low": "#f3f3f3",
+              "secondary-container": "#fdd08b",
+              "tertiary-container": "#1b1c1c",
+              "on-surface-variant": "#444748",
+              "on-error": "#ffffff",
+              "inverse-surface": "#2f3131",
+              "primary-fixed-dim": "#c8c6c5",
+              "outline": "#747878",
+              "on-tertiary-fixed-variant": "#474747",
+              "on-secondary-container": "#78571e",
+              "primary-container": "#1c1b1b",
+              "tertiary": "#000000",
+              "surface-tint": "#5f5e5e",
+              "on-secondary-fixed-variant": "#5f4107",
+              "surface-container-highest": "#e2e2e2",
+              "on-tertiary-fixed": "#1b1c1c",
+              "outline-variant": "#c4c7c7",
+              "on-secondary-fixed": "#281900",
+              "on-tertiary-container": "#848483",
+              "on-error-container": "#93000a",
+              "surface-dim": "#dadada",
+              "inverse-primary": "#c8c6c5",
+              "error": "#ba1a1a",
+              "secondary": "#79591f",
+              "on-primary": "#ffffff",
+              "on-primary-container": "#858383",
+              "surface-container": "#eeeeee",
+              "secondary-fixed": "#ffdead",
+              "inverse-on-surface": "#f1f1f1",
+              "on-background": "#1a1c1c",
+              "background": "#f9f9f9",
+              "surface": "#f9f9f9",
+              "tertiary-fixed-dim": "#c8c6c6",
+              "surface-container-high": "#e8e8e8",
+              "on-secondary": "#ffffff",
+              "on-tertiary": "#ffffff",
+              "secondary-fixed-dim": "#ebc07c",
+              "surface-variant": "#e2e2e2",
+              "on-primary-fixed-variant": "#474746",
+              "tertiary-fixed": "#e4e2e2",
+              "primary": "#000000",
+              "on-surface": "#1a1c1c",
+              "surface-container-lowest": "#ffffff",
+              "primary-fixed": "#e5e2e1"
+            },
+            fontFamily: {
+              "headline": ["Newsreader", "serif"],
+              "body": ["Work Sans", "sans-serif"],
+              "label": ["Work Sans", "sans-serif"]
+            },
+            borderRadius: {"DEFAULT": "0px", "lg": "0px", "xl": "0px", "full": "9999px"},
+          },
+        },
+      }
+    </script>
+<style>
+        .material-symbols-outlined {
+            font-variation-settings: 'FILL' 0, 'wght' 400, 'GRAD' 0, 'opsz' 24;
+        }
+        body { font-family: 'Work Sans', sans-serif; }
+        h1, h2, h3, h4 { font-family: 'Newsreader', serif; }
+        .no-scrollbar::-webkit-scrollbar { display: none; }
+    </style>
+</head>
+<body class="bg-surface text-on-surface selection:bg-secondary selection:text-white">
+<!-- TopAppBar -->
+<header class="fixed top-0 left-0 right-0 z-[60] bg-stone-950 flex justify-between items-center w-full px-10 h-24">
+<div class="flex items-center gap-8">
+<span class="text-3xl font-serif tracking-tighter uppercase text-white">Resident Cement</span>
+<nav class="hidden md:flex gap-8">
+<a class="text-stone-400 font-medium hover:bg-stone-900 transition-colors duration-200 px-4 py-2" href="#">Status: Operational</a>
+<a class="text-amber-600 font-bold border-b-2 border-amber-600 px-4 py-2" href="#">Global Search</a>
+</nav>
+</div>
+<div class="flex items-center gap-6">
+<div class="flex items-center bg-stone-900 px-4 py-2">
+<span class="material-symbols-outlined text-stone-400 mr-2">search</span>
+<input class="bg-transparent border-none text-white focus:ring-0 text-sm w-48 font-body" placeholder="Search Treasury..." type="text"/>
+</div>
+<button class="text-white hover:bg-stone-900 p-2 transition-colors duration-200">
+<span class="material-symbols-outlined" data-icon="notifications">notifications</span>
+</button>
+<button class="text-white hover:bg-stone-900 p-2 transition-colors duration-200">
+<span class="material-symbols-outlined" data-icon="settings">settings</span>
+</button>
+<div class="w-10 h-10 bg-secondary flex items-center justify-center">
+<img alt="User Profile Avatar" class="w-full h-full object-cover" data-alt="professional portrait of a high-level finance executive in a dark tailored suit against a neutral architectural background" src="https://lh3.googleusercontent.com/aida-public/AB6AXuCVQGq2NIY7CpQguUoD4lth555QMg4Foea1R3Yc9vy80OQPw7zhByTBeCJXnRSrWXrFszUN9_X3cchFJsxby0d6jnavmucRwXVWKBDdS1MFvVD5wYcgJckpz758FMLZOf6qsqf3ARejpDOR-zFP9OLPpn8OM_AEHoB6Gs0H-HwQgTFoUbUC4K5ZPCCFEc92z7310ewy_O6XrIv7pGw6lIAT6mrBQlyFSEhrBfhXpwSdYZlDY7WxF1yI9DWjPj0N1MAd4TubzJ5rbIV9"/>
+</div>
+</div>
+</header>
+<!-- SideNavBar -->
+<aside class="fixed left-0 top-0 h-full w-64 bg-stone-900 flex flex-col z-50 pt-24">
+<div class="p-8">
+<h2 class="font-serif italic text-xl text-amber-600">Resident Cement</h2>
+<p class="text-stone-500 text-[10px] uppercase tracking-widest font-body">Industrial ERP</p>
+</div>
+<nav class="flex-1 overflow-y-auto no-scrollbar">
+<a class="text-stone-400 px-6 py-4 flex items-center gap-4 hover:bg-stone-800 hover:text-white transition-all" href="#">
+<span class="material-symbols-outlined" data-icon="factory">factory</span>
+<span class="font-body uppercase tracking-widest text-[10px]">Production</span>
+</a>
+<a class="text-stone-400 px-6 py-4 flex items-center gap-4 hover:bg-stone-800 hover:text-white transition-all" href="#">
+<span class="material-symbols-outlined" data-icon="local_shipping">local_shipping</span>
+<span class="font-body uppercase tracking-widest text-[10px]">Logistics</span>
+</a>
+<a class="text-stone-400 px-6 py-4 flex items-center gap-4 hover:bg-stone-800 hover:text-white transition-all" href="#">
+<span class="material-symbols-outlined" data-icon="inventory_2">inventory_2</span>
+<span class="font-body uppercase tracking-widest text-[10px]">Inventory</span>
+</a>
+<a class="bg-amber-700 text-white border-l-4 border-white px-6 py-4 flex items-center gap-4" href="#">
+<span class="material-symbols-outlined" data-icon="payments">payments</span>
+<span class="font-body uppercase tracking-widest text-[10px]">Finance</span>
+</a>
+<a class="text-stone-400 px-6 py-4 flex items-center gap-4 hover:bg-stone-800 hover:text-white transition-all" href="#">
+<span class="material-symbols-outlined" data-icon="verified">verified</span>
+<span class="font-body uppercase tracking-widest text-[10px]">Quality</span>
+</a>
+<a class="text-stone-400 px-6 py-4 flex items-center gap-4 hover:bg-stone-800 hover:text-white transition-all" href="#">
+<span class="material-symbols-outlined" data-icon="point_of_sale">point_of_sale</span>
+<span class="font-body uppercase tracking-widest text-[10px]">Sales</span>
+</a>
+<a class="text-stone-400 px-6 py-4 flex items-center gap-4 hover:bg-stone-800 hover:text-white transition-all" href="#">
+<span class="material-symbols-outlined" data-icon="build">build</span>
+<span class="font-body uppercase tracking-widest text-[10px]">Maintenance</span>
+</a>
+<a class="text-stone-400 px-6 py-4 flex items-center gap-4 hover:bg-stone-800 hover:text-white transition-all" href="#">
+<span class="material-symbols-outlined" data-icon="groups">groups</span>
+<span class="font-body uppercase tracking-widest text-[10px]">HR</span>
+</a>
+</nav>
+<div class="p-4 border-t border-stone-800">
+<a class="text-stone-500 px-4 py-2 flex items-center gap-3 text-[10px] uppercase tracking-widest hover:text-white" href="#">
+<span class="material-symbols-outlined text-sm" data-icon="help">help</span> Support
+            </a>
+<a class="text-stone-500 px-4 py-2 flex items-center gap-3 text-[10px] uppercase tracking-widest hover:text-white" href="#">
+<span class="material-symbols-outlined text-sm" data-icon="history">history</span> Logs
+            </a>
+</div>
+</aside>
+<!-- Main Content Canvas -->
+<main class="ml-64 pt-24 min-h-screen bg-background">
+<!-- Hero Header -->
+<section class="px-12 py-16 bg-surface-container-low">
+<div class="max-w-7xl mx-auto flex flex-col md:flex-row justify-between items-end gap-8">
+<div>
+<span class="text-secondary font-label uppercase tracking-[0.3em] text-[12px] font-bold block mb-4">Treasury Operations</span>
+<h1 class="text-6xl md:text-8xl font-headline tracking-tighter text-primary">Financial<br/>Position</h1>
+</div>
+<div class="flex flex-col items-end text-right gap-2">
+<p class="font-label text-on-surface-variant text-sm uppercase tracking-widest">Global Asset Valuation</p>
+<p class="text-5xl font-headline text-primary">$1.52B <span class="text-xl text-secondary">USD</span></p>
+</div>
+</div>
+</section>
+<!-- Section 1: Financial Position Bento Grid -->
+<section class="px-12 py-12">
+<div class="max-w-7xl mx-auto grid grid-cols-1 md:grid-cols-12 gap-6">
+<!-- Cash Reserve -->
+<div class="md:col-span-8 bg-primary p-10 flex flex-col justify-between min-h-[400px]">
+<div class="flex justify-between items-start">
+<span class="material-symbols-outlined text-secondary text-4xl" data-icon="account_balance_wallet">account_balance_wallet</span>
+<div class="text-right">
+<p class="text-stone-500 font-label text-[10px] uppercase tracking-widest">Current Liquidity</p>
+<p class="text-white text-3xl font-headline">₦82.4B NGN</p>
+</div>
+</div>
+<div>
+<h3 class="text-white text-5xl font-headline mb-4">Cash Position</h3>
+<div class="w-full bg-stone-800 h-1">
+<div class="bg-secondary h-full w-[74%]"></div>
+</div>
+<div class="flex justify-between mt-4 text-[10px] font-label text-stone-400 uppercase tracking-widest">
+<span>Target: ₦110B</span>
+<span>74.9% Realized</span>
+</div>
+</div>
+</div>
+<!-- CAPEX Deployed -->
+<div class="md:col-span-4 bg-surface-container-highest p-8 flex flex-col justify-between">
+<div>
+<p class="text-primary font-label text-[10px] uppercase tracking-widest font-bold mb-2">CAPEX Deployed</p>
+<p class="text-5xl font-headline text-primary">$1.24B</p>
+</div>
+<div class="mt-8">
+<img alt="Industrial Construction" class="w-full h-48 object-cover grayscale brightness-75" data-alt="dramatic architectural shot of a massive cement factory under construction with cranes and structural steel against a harsh daylight sky" src="https://lh3.googleusercontent.com/aida-public/AB6AXuB8faNr1tDu6rQJxYOhlQpDkyAT5HA08Pma0VAkhtYBwmknSyaNJRx0ecbAkQeVPji9UXTzycDYM5afnLZmpXEzPJCv0GLUP3oSlDF3NfQ1dufsOHfna44jHoVd-_9WMGKOjh4bpfr1FRWG1xJ90NOl4IDTpD3RTPCQA9Bz6Lvvg8hq7L_Yqs96dABZFrQ0GYnYXJvP8Ai7eeU3Hpo_n75ikeI9KpDzae5IDoOTXD4r3EUeI3xhLEG6FojuCiXwQAjX2BUIJD--rrtX"/>
+</div>
+<div class="mt-4">
+<p class="text-[12px] font-body text-on-surface-variant leading-relaxed">Strategic expansion in Northern Nigeria corridor phase III. Infrastructure and heavy machinery investment tracking.</p>
+</div>
+</div>
+<!-- Revenue Card -->
+<div class="md:col-span-4 bg-surface-container-low p-8 border-l-4 border-primary">
+<p class="text-primary font-label text-[10px] uppercase tracking-widest font-bold mb-1">Quarterly Revenue</p>
+<p class="text-4xl font-headline text-primary">₦412.8B</p>
+<p class="text-emerald-700 font-label text-[11px] font-bold mt-2">+12.4% vs LY</p>
+</div>
+<!-- EBITDA Card -->
+<div class="md:col-span-4 bg-surface-container-low p-8 border-l-4 border-secondary">
+<p class="text-secondary font-label text-[10px] uppercase tracking-widest font-bold mb-1">EBITDA Margin</p>
+<p class="text-4xl font-headline text-primary">38.2%</p>
+<p class="text-on-surface-variant font-label text-[11px] mt-2">Target: 40.0%</p>
+</div>
+<!-- Net Income -->
+<div class="md:col-span-4 bg-secondary p-8 text-white">
+<p class="font-label text-[10px] uppercase tracking-widest font-bold mb-1">Net Income (YTD)</p>
+<p class="text-4xl font-headline">₦156.2B</p>
+<div class="flex items-center gap-2 mt-2">
+<span class="material-symbols-outlined text-sm" data-icon="trending_up">trending_up</span>
+<span class="text-[11px] font-bold">Exceeding Forecast</span>
+</div>
+</div>
+</div>
+</section>
+<!-- Section 2: Partners & Accounts -->
+<section class="px-12 py-20 bg-white">
+<div class="max-w-7xl mx-auto">
+<div class="flex flex-col md:flex-row gap-20">
+<div class="md:w-1/3">
+<h2 class="text-5xl font-headline text-primary mb-6 leading-none">Accounts &amp;<br/>Partnerships</h2>
+<p class="text-on-surface-variant font-body mb-8">Management of major industrial partner payables and regional dealer credit lines.</p>
+<button class="bg-primary text-white px-8 py-4 font-label text-[12px] uppercase tracking-widest hover:bg-stone-800 transition-colors">Generate Statement</button>
+</div>
+<div class="md:w-2/3 grid grid-cols-1 gap-1">
+<!-- Partner Item -->
+<div class="bg-surface-container-low p-6 flex justify-between items-center">
+<div class="flex items-center gap-6">
+<div class="w-12 h-12 bg-primary flex items-center justify-center text-white">
+<span class="material-symbols-outlined" data-icon="handshake">handshake</span>
+</div>
+<div>
+<p class="text-primary font-headline text-xl">Sinoma Partner Payments</p>
+<p class="text-on-surface-variant text-[11px] font-label uppercase tracking-widest">Engineering &amp; EPC Services</p>
+</div>
+</div>
+<div class="text-right">
+<p class="text-primary font-body font-bold">$14.2M</p>
+<p class="text-amber-700 text-[10px] font-label uppercase">Due in 12 Days</p>
+</div>
+</div>
+<!-- Dealer Item -->
+<div class="bg-surface p-6 flex justify-between items-center">
+<div class="flex items-center gap-6">
+<div class="w-12 h-12 bg-secondary flex items-center justify-center text-white">
+<span class="material-symbols-outlined" data-icon="store">store</span>
+</div>
+<div>
+<p class="text-primary font-headline text-xl">Regional Dealer Credits</p>
+<p class="text-on-surface-variant text-[11px] font-label uppercase tracking-widest">Aggregate Northern Cluster</p>
+</div>
+</div>
+<div class="text-right">
+<p class="text-primary font-body font-bold">₦4.82B</p>
+<p class="text-emerald-700 text-[10px] font-label uppercase">98% Collection Rate</p>
+</div>
+</div>
+<!-- Supply Chain Item -->
+<div class="bg-surface-container-low p-6 flex justify-between items-center">
+<div class="flex items-center gap-6">
+<div class="w-12 h-12 bg-stone-300 flex items-center justify-center text-primary">
+<span class="material-symbols-outlined" data-icon="local_gas_station">local_gas_station</span>
+</div>
+<div>
+<p class="text-primary font-headline text-xl">Energy &amp; Fuel Payables</p>
+<p class="text-on-surface-variant text-[11px] font-label uppercase tracking-widest">Natural Gas &amp; Heavy Oil</p>
+</div>
+</div>
+<div class="text-right">
+<p class="text-primary font-body font-bold">₦12.1B</p>
+<p class="text-on-surface-variant text-[10px] font-label uppercase">Settled This Month</p>
+</div>
+</div>
+</div>
+</div>
+</div>
+</section>
+<!-- Section 3: Debt & Equity -->
+<section class="px-12 py-20 bg-primary text-white">
+<div class="max-w-7xl mx-auto">
+<div class="grid grid-cols-1 md:grid-cols-2 gap-16">
+<div>
+<span class="text-secondary font-label uppercase tracking-[0.3em] text-[12px] font-bold block mb-4">Ownership Structure</span>
+<h2 class="text-6xl font-headline mb-8">Equity &amp; Valuation</h2>
+<div class="bg-stone-900 p-10 relative overflow-hidden">
+<div class="relative z-10">
+<p class="text-secondary font-label text-[10px] uppercase tracking-widest mb-2">Bauchi State Govt Stake</p>
+<p class="text-4xl font-headline mb-4">10.0% Equity</p>
+<p class="text-white text-lg font-body opacity-80 mb-6">Valued at: $152,000,000 USD</p>
+<div class="flex gap-4">
+<button class="border border-white/20 px-6 py-2 text-[10px] uppercase tracking-widest font-label hover:bg-white hover:text-primary transition-all">View Deeds</button>
+<button class="border border-white/20 px-6 py-2 text-[10px] uppercase tracking-widest font-label hover:bg-white hover:text-primary transition-all">Audit Trail</button>
+</div>
+</div>
+<div class="absolute right-[-20px] bottom-[-20px] opacity-10">
+<span class="material-symbols-outlined text-[200px]" data-icon="account_balance">account_balance</span>
+</div>
+</div>
+</div>
+<div class="flex flex-col justify-center">
+<div class="space-y-12">
+<div>
+<p class="text-stone-400 font-label text-[10px] uppercase tracking-widest mb-4">Debt Composition</p>
+<div class="flex items-end gap-2">
+<div class="w-full h-12 bg-stone-800">
+<div class="h-full bg-secondary w-[65%]"></div>
+</div>
+<p class="text-2xl font-headline">65%</p>
+</div>
+<div class="flex justify-between mt-2 text-[11px] font-label text-stone-500">
+<span>Commercial Loans</span>
+<span>₦340B Total Leverage</span>
+</div>
+</div>
+<div>
+<p class="text-stone-400 font-label text-[10px] uppercase tracking-widest mb-4">Weighted Average Cost of Capital (WACC)</p>
+<p class="text-5xl font-headline text-secondary">14.8%</p>
+<p class="text-stone-500 font-body text-sm mt-2 italic">Optimized through strategic refinancing in Q1.</p>
+</div>
+</div>
+</div>
+</div>
+</div>
+</section>
+<!-- Section 4: Audit Logs & Procurement -->
+<section class="px-12 py-20 bg-surface-container-low">
+<div class="max-w-7xl mx-auto">
+<div class="flex justify-between items-end mb-12">
+<div>
+<h2 class="text-5xl font-headline text-primary">Procurement &amp; Audit</h2>
+<p class="text-on-surface-variant font-body">Real-time ledger of industrial procurement and external audit validations.</p>
+</div>
+<button class="text-primary font-label text-[12px] uppercase tracking-widest border-b-2 border-secondary pb-1">View Full Ledger</button>
+</div>
+<div class="overflow-x-auto">
+<table class="w-full text-left border-collapse">
+<thead class="bg-surface-container-highest">
+<tr>
+<th class="p-6 font-label text-[10px] uppercase tracking-widest text-on-surface-variant">Timestamp</th>
+<th class="p-6 font-label text-[10px] uppercase tracking-widest text-on-surface-variant">Category</th>
+<th class="p-6 font-label text-[10px] uppercase tracking-widest text-on-surface-variant">Entity / Vendor</th>
+<th class="p-6 font-label text-[10px] uppercase tracking-widest text-on-surface-variant">Amount</th>
+<th class="p-6 font-label text-[10px] uppercase tracking-widest text-on-surface-variant">Status</th>
+</tr>
+</thead>
+<tbody class="bg-white">
+<tr class="hover:bg-surface-container-low transition-colors group">
+<td class="p-6 text-[12px] font-body text-on-surface-variant">OCT 24, 09:12 AM</td>
+<td class="p-6 font-headline text-lg">Heavy Machinery</td>
+<td class="p-6 text-on-surface-variant">FLSmidth Denmark</td>
+<td class="p-6 font-bold text-primary">$4,250,000</td>
+<td class="p-6">
+<span class="bg-emerald-100 text-emerald-800 text-[10px] font-bold uppercase tracking-widest px-3 py-1">Verified</span>
+</td>
+</tr>
+<tr class="hover:bg-surface-container-low transition-colors group">
+<td class="p-6 text-[12px] font-body text-on-surface-variant">OCT 24, 11:45 AM</td>
+<td class="p-6 font-headline text-lg">Raw Materials</td>
+<td class="p-6 text-on-surface-variant">Gombe Gypsum Ltd.</td>
+<td class="p-6 font-bold text-primary">₦112,400,000</td>
+<td class="p-6">
+<span class="bg-amber-100 text-amber-800 text-[10px] font-bold uppercase tracking-widest px-3 py-1">In Review</span>
+</td>
+</tr>
+<tr class="hover:bg-surface-container-low transition-colors group">
+<td class="p-6 text-[12px] font-body text-on-surface-variant">OCT 23, 04:30 PM</td>
+<td class="p-6 font-headline text-lg">External Audit</td>
+<td class="p-6 text-on-surface-variant">PwC Nigeria</td>
+<td class="p-6 font-bold text-primary">₦18,000,000</td>
+<td class="p-6">
+<span class="bg-stone-100 text-stone-800 text-[10px] font-bold uppercase tracking-widest px-3 py-1">Completed</span>
+</td>
+</tr>
+<tr class="hover:bg-surface-container-low transition-colors group">
+<td class="p-6 text-[12px] font-body text-on-surface-variant">OCT 23, 10:05 AM</td>
+<td class="p-6 font-headline text-lg">Logistics Fleet</td>
+<td class="p-6 text-on-surface-variant">MAN Truck &amp; Bus SE</td>
+<td class="p-6 font-bold text-primary">$1,840,000</td>
+<td class="p-6">
+<span class="bg-emerald-100 text-emerald-800 text-[10px] font-bold uppercase tracking-widest px-3 py-1">Verified</span>
+</td>
+</tr>
+</tbody>
+</table>
+</div>
+</div>
+</section>
+<!-- Footer -->
+<footer class="bg-stone-950 text-white px-12 py-16">
+<div class="max-w-7xl mx-auto flex flex-col md:flex-row justify-between items-center border-t border-stone-800 pt-16">
+<div class="mb-8 md:mb-0">
+<span class="text-2xl font-serif tracking-tighter uppercase text-white">Resident Cement</span>
+<p class="text-stone-500 font-label text-[10px] uppercase tracking-[0.2em] mt-2">© 2024 Industrial Treasury Management System</p>
+</div>
+<div class="flex gap-12">
+<a class="font-label text-[10px] uppercase tracking-widest text-stone-400 hover:text-secondary" href="#">Security Protocols</a>
+<a class="font-label text-[10px] uppercase tracking-widest text-stone-400 hover:text-secondary" href="#">Regulatory Filing</a>
+<a class="font-label text-[10px] uppercase tracking-widest text-stone-400 hover:text-secondary" href="#">Export Data</a>
+</div>
+</div>
+</footer>
+</main>
+<!-- Contextual FAB - Suppression as per rules on Details/Dashboard screens, but kept if essential for navigation -->
+<!-- FAB Suppressed as this is a focused Details/Dashboard screen -->
+</body></html>

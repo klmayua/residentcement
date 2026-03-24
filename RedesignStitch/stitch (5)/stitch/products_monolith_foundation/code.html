@@ -1,0 +1,309 @@
+<!DOCTYPE html>
+
+<html class="light" lang="en"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<link href="https://fonts.googleapis.com/css2?family=Newsreader:ital,opsz,wght@0,6..72,200..800;1,6..72,200..800&amp;family=Work+Sans:wght@100..900&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<script id="tailwind-config">
+      tailwind.config = {
+        darkMode: "class",
+        theme: {
+          extend: {
+            colors: {
+              "secondary-fixed-dim": "#ebc07c",
+              "secondary-fixed": "#ffdead",
+              "on-primary": "#ffffff",
+              "inverse-on-surface": "#f1f1f1",
+              "on-tertiary-fixed-variant": "#474747",
+              "surface-container-low": "#f3f3f3",
+              "on-secondary-fixed": "#281900",
+              "primary-fixed": "#e5e2e1",
+              "secondary": "#79591f",
+              "primary-fixed-dim": "#c8c6c5",
+              "surface": "#f9f9f9",
+              "on-background": "#1a1c1c",
+              "on-tertiary-fixed": "#1b1c1c",
+              "on-secondary": "#ffffff",
+              "secondary-container": "#fdd08b",
+              "inverse-surface": "#2f3131",
+              "primary-container": "#1c1b1b",
+              "primary": "#000000",
+              "surface-container-lowest": "#ffffff",
+              "inverse-primary": "#c8c6c5",
+              "tertiary-fixed-dim": "#c8c6c6",
+              "surface-container-highest": "#e2e2e2",
+              "error-container": "#ffdad6",
+              "tertiary-container": "#1b1c1c",
+              "surface-container": "#eeeeee",
+              "outline-variant": "#c4c7c7",
+              "on-secondary-container": "#78571e",
+              "tertiary-fixed": "#e4e2e2",
+              "outline": "#747878",
+              "surface-tint": "#5f5e5e",
+              "on-error-container": "#93000a",
+              "on-secondary-fixed-variant": "#5f4107",
+              "on-primary-fixed": "#1c1b1b",
+              "tertiary": "#000000",
+              "on-tertiary": "#ffffff",
+              "on-tertiary-container": "#848483",
+              "on-primary-container": "#858383",
+              "on-error": "#ffffff",
+              "background": "#f9f9f9",
+              "surface-variant": "#e2e2e2",
+              "on-surface-variant": "#444748",
+              "error": "#ba1a1a",
+              "surface-dim": "#dadada",
+              "surface-bright": "#f9f9f9",
+              "on-primary-fixed-variant": "#474746",
+              "surface-container-high": "#e8e8e8",
+              "on-surface": "#1a1c1c"
+            },
+            fontFamily: {
+              "headline": ["Newsreader"],
+              "body": ["Work Sans"],
+              "label": ["Work Sans"]
+            },
+            borderRadius: {"DEFAULT": "0px", "lg": "0px", "xl": "0px", "full": "9999px"},
+          },
+        },
+      }
+    </script>
+<style>
+        body { font-family: 'Work Sans', sans-serif; }
+        .font-serif { font-family: 'Newsreader', serif; }
+        .material-symbols-outlined { font-variation-settings: 'FILL' 0, 'wght' 400, 'GRAD' 0, 'opsz' 24; }
+    </style>
+</head>
+<body class="bg-surface text-on-surface">
+<!-- TopAppBar -->
+<header class="bg-black dark:bg-stone-950 docked full-width top-0 z-50 no-border tonal-shift bg-stone-900 flat no shadows">
+<div class="flex justify-between items-center w-full px-8 py-6 max-w-full">
+<div class="text-2xl font-serif tracking-tighter uppercase text-white">MONOLITH CEMENT</div>
+<nav class="hidden md:flex items-center space-x-12">
+<a class="text-stone-400 font-medium hover:text-white transition-colors" href="#">Infrastructure</a>
+<a class="text-amber-600 font-bold border-b-2 border-amber-600 pb-1" href="#">Products</a>
+<a class="text-stone-400 font-medium hover:text-white transition-colors" href="#">Technical</a>
+<a class="text-stone-400 font-medium hover:text-white transition-colors" href="#">Sustainability</a>
+</nav>
+<div class="flex items-center gap-6">
+<button class="bg-secondary text-white px-6 py-2 text-sm font-bold transition-all hover:opacity-90 active:scale-95 duration-200">
+                    Request Quote
+                </button>
+</div>
+</div>
+</header>
+<main class="min-h-screen">
+<!-- Hero Section: Architectural Gravitas -->
+<section class="relative h-[921px] w-full flex items-center overflow-hidden bg-primary">
+<div class="absolute inset-0 z-0">
+<img class="w-full h-full object-cover opacity-40 grayscale" data-alt="Monolithic industrial cement plant at dusk with harsh dramatic lighting and heavy concrete structural elements" src="https://lh3.googleusercontent.com/aida-public/AB6AXuCOEWJchAHVAJYFzxSk9-lcUSElh2g3g8gGCdmTRzHHv59GmvVkrzjjhjVjKz6SVT3bMf2pl6GsDsck7mTuQbFi3qH8rDF2XJrYOuuxd2w6jj967YBCjZDeUtH-m8XRCsmvyDYsyQPdqAWdvGIH4SB9Sut4AVbb6DwTYJNB78MLFJpuVcfA4InPnh5SX3fXXV_lrLIzUCU6gSSB47FSlrG9JgVOY4Calob9gmo8b_gz4-qXxjCKxdtKuYMk1VFqAp2tXpZqe0CeBv3m"/>
+<div class="absolute inset-0 bg-gradient-to-r from-black via-black/70 to-transparent"></div>
+</div>
+<div class="relative z-10 px-8 md:px-20 w-full grid grid-cols-1 md:grid-cols-2 gap-12 items-end pb-24">
+<div class="space-y-8">
+<span class="inline-block bg-secondary text-white px-4 py-1 text-xs tracking-[0.2em] uppercase font-bold">Industrial Standard</span>
+<h1 class="text-6xl md:text-8xl font-serif text-white leading-[0.9] tracking-tighter">Precision in Every Molecule.</h1>
+<div class="flex items-center gap-8">
+<div class="border-l-4 border-secondary pl-6">
+<p class="text-white text-4xl font-serif">10Mt</p>
+<p class="text-stone-400 text-xs uppercase tracking-widest font-body">Annual Capacity</p>
+</div>
+<p class="text-stone-300 max-w-xs text-sm leading-relaxed">Resident Cement represents the pinnacle of structural integrity, engineered for the most demanding architectural marvels of the century.</p>
+</div>
+</div>
+<div class="flex justify-end hidden md:flex">
+<div class="w-80 h-[450px] bg-stone-900 p-2 relative overflow-hidden group">
+<img class="w-full h-full object-cover" data-alt="High quality industrial cement bag with the prominent gold Camel logo, sitting on a dark concrete floor with sharp studio lighting" src="https://lh3.googleusercontent.com/aida-public/AB6AXuB5aP780tLHDzSMVwtJjvXWzBsZixvwvGrapEBYSinXnwufZ8SNS8HXSEOv-nSPWYH50WXT7h5aZsAkx98xpZTeXKUoJuGYQY3va4Y_bU9sAwNdD6G1pOGrE3o3gE55v91Te3A8O1inEJanT2Pd6Ni8thSTnX8_HNOs02pNi7nQ-UVJGnvjRA8sdFu29_jfV66Ee_5A25fy_LTRlWXdZoO0Mwotj8EZGxzhyDJQeWp0oqM-hQyAxGizQgmkpFbvJ3gBM9bS5JOkAWkN"/>
+<div class="absolute inset-0 bg-black/20 hover:bg-transparent transition-all"></div>
+</div>
+</div>
+</div>
+</section>
+<!-- Product Portfolio: Bento Grid Layout -->
+<section class="py-32 px-8 md:px-20 bg-surface">
+<div class="mb-20 space-y-4">
+<p class="text-secondary font-bold text-xs tracking-widest uppercase">The Collection</p>
+<h2 class="text-5xl md:text-6xl font-serif tracking-tighter">Product Portfolio</h2>
+</div>
+<div class="grid grid-cols-1 md:grid-cols-12 gap-8">
+<!-- PLC -->
+<div class="md:col-span-7 bg-surface-container-high p-12 flex flex-col justify-between min-h-[500px]">
+<div class="space-y-6">
+<div class="flex justify-between items-start">
+<h3 class="text-4xl font-serif italic">Portland Limestone (PLC)</h3>
+<span class="text-xs font-body px-3 py-1 bg-white border border-stone-200 uppercase font-bold tracking-tighter">Eco-Efficient</span>
+</div>
+<p class="text-stone-600 max-w-md leading-relaxed">Engineered for high early strength and reduced carbon footprint. Ideal for residential developments and general-purpose structural masonry.</p>
+</div>
+<div class="flex items-center gap-12 mt-12">
+<div class="space-y-1">
+<p class="text-xs text-stone-400 uppercase">Early Strength</p>
+<p class="font-serif text-xl">Rapid Setting</p>
+</div>
+<div class="space-y-1">
+<p class="text-xs text-stone-400 uppercase">Usage</p>
+<p class="font-serif text-xl">Residential</p>
+</div>
+<button class="ml-auto text-xs uppercase tracking-[0.2em] font-bold border-b-2 border-secondary pb-1">Specifications</button>
+</div>
+</div>
+<!-- OPC -->
+<div class="md:col-span-5 bg-primary text-white p-12 flex flex-col justify-between min-h-[500px]">
+<div class="space-y-6">
+<h3 class="text-4xl font-serif italic">Ordinary Portland (OPC)</h3>
+<p class="text-stone-400 leading-relaxed">The structural foundation of nations. Grade 52.5N for massive infrastructure, including bridges, dams, and 100MW power installations.</p>
+</div>
+<div class="space-y-8">
+<div class="h-[1px] bg-stone-800 w-full"></div>
+<ul class="space-y-3 font-body text-xs uppercase tracking-widest">
+<li class="flex items-center gap-3"><span class="w-2 h-2 bg-secondary"></span> Heavy Civil Works</li>
+<li class="flex items-center gap-3"><span class="w-2 h-2 bg-secondary"></span> Marine Environments</li>
+<li class="flex items-center gap-3"><span class="w-2 h-2 bg-secondary"></span> High-Rise Structural</li>
+</ul>
+</div>
+</div>
+<!-- Masonry -->
+<div class="md:col-span-12 bg-surface-container-low grid md:grid-cols-2 overflow-hidden">
+<div class="p-12 flex flex-col justify-center space-y-8">
+<h3 class="text-4xl font-serif">Masonry Cement</h3>
+<p class="text-stone-600 leading-relaxed">Specialized formulation for finishing, brickwork, and plastering. Superior workability with enhanced bond strength for architectural detailing.</p>
+<div>
+<button class="bg-primary text-white px-10 py-4 font-bold text-xs uppercase tracking-[0.3em]">View Technical Sheet</button>
+</div>
+</div>
+<div class="relative min-h-[400px]">
+<img class="w-full h-full object-cover grayscale" data-alt="Close up of a mason applying high-quality cement mortar to stone blocks in sharp sunlight with detailed texture" src="https://lh3.googleusercontent.com/aida-public/AB6AXuArL5TOdfBat6eNtHR0OYTadnraK5HCFNFN9J9mGERzpWPJ1u9MsxZ7UbbDlPhpg-jNmH9ua0tAN8HKkpYdbAA7EFV3O0BctyqzCOuMO6xYCL-mpOtQwTpcCdjNyG8yn5zPnuLQ0gjW6jemMzSSABf9T--vXeSPE3KS4XDl-RcMlxvl9Y1UW0VVhg_fNmpirIkrhdIIuezCm8SB7Hs3QAuLVzKI5Zqv20NIYM0vaTqo15u5YN_-ThJOHHrg3ukjStCE45dgAmNpth-S"/>
+</div>
+</div>
+</div>
+</section>
+<!-- Industrial Applications: High Contrast -->
+<section class="bg-black text-white py-32 overflow-hidden">
+<div class="px-8 md:px-20 mb-20">
+<h2 class="text-6xl md:text-8xl font-serif italic tracking-tighter mb-4 opacity-10">Scale</h2>
+<h2 class="text-4xl md:text-5xl font-serif -mt-16 md:-mt-20">Resident in Action</h2>
+</div>
+<div class="flex flex-col md:flex-row gap-0">
+<div class="flex-1 group relative h-[600px] overflow-hidden">
+<img class="w-full h-full object-cover grayscale transition-all duration-700 group-hover:scale-105" data-alt="Modern concrete commercial skyscraper reaching into a blue sky with sharp geometric shadows and reflections" src="https://lh3.googleusercontent.com/aida-public/AB6AXuAWlMgmnvWH1t9pO3lDj8PbJOolICMvxYYBdVj30y1W25ecuwpnbPXLfQ0xlc57J0g6uMbiZwIyhooGZmfEwEXERUfMV9f7ZPeZfYwIz5psSDkHPq6fi1o4-mJMuUTAo83qrALIJbLsybJYNUYSJgWsoeX2mhSLanw84N2IPn5kRU6IFFWGvlxtxdDkvYnQuiG4L6h3-eXVHPYSCpowwXTe3Yvci7KV3cFxG8s8-KPbYf4yyfdAvn1dOc_l85rWJryC8XE15sHDwVcw"/>
+<div class="absolute inset-0 bg-black/40 p-12 flex flex-col justify-end">
+<p class="text-secondary font-bold text-xs tracking-widest uppercase mb-2">Metropolis</p>
+<h4 class="text-3xl font-serif">Skyscrapers</h4>
+</div>
+</div>
+<div class="flex-1 group relative h-[600px] overflow-hidden">
+<img class="w-full h-full object-cover grayscale transition-all duration-700 group-hover:scale-105" data-alt="Wide shot of a massive modern concrete suspension bridge crossing a wide river with technical industrial architectural detail" src="https://lh3.googleusercontent.com/aida-public/AB6AXuAkhaDwMSZ7xfQQMnWCCeat6doND1IIEJaCQE3cAPM2RC1A2CbzbKURQHpCiMHyNbQMM9Fbt7-3piDu-Gx62YH2PfWr2opSOeuPzTdvQuCqux9vQbMMi8E0G40EqB4Bne3-9FqM6MYAxx0YGPkoskH0kIBI6nNa4kpMBcKa8s6XWgz3ljGqf6an-w6ZeFwN_GhnktUn7IA1JUxKNlywChqmxOGN8Y86SOx1jqznSCT9GU7_Cl7pq8stw3-CV7xmjyoqyFeQL1iTQp0x"/>
+<div class="absolute inset-0 bg-black/60 p-12 flex flex-col justify-end">
+<p class="text-secondary font-bold text-xs tracking-widest uppercase mb-2">Infrastructure</p>
+<h4 class="text-3xl font-serif">Bridges &amp; Roads</h4>
+</div>
+</div>
+<div class="flex-1 group relative h-[600px] overflow-hidden">
+<img class="w-full h-full object-cover grayscale transition-all duration-700 group-hover:scale-105" data-alt="Interior of a massive industrial concrete power plant facility with structural pillars and heavy machinery" src="https://lh3.googleusercontent.com/aida-public/AB6AXuD3VTsnXX1fBXZGGJlKy4w43pI3PEFqd5XJyZ69yoU_3Fvl_-yBSkb8q_kMbWibhVjXTgQf7WS5oB4SmwjgfidHFyWA2fZBzs04N0QEU0ZDQzIkbRTc3HQ4zURm9GPGYTCukooGhn71nYiYBJkl1jjFNlut4rNa17PSqCygwCVFPTTiYjglkgCL_eKPheD7ryQOtLEP3mBXcjgKAg_vMynOVuqZSV4Gg8IMNHhMxF7ueiCEqTV4_lcu9RJKv7p_JCLbZKoDlHgV3js9"/>
+<div class="absolute inset-0 bg-black/40 p-12 flex flex-col justify-end">
+<p class="text-secondary font-bold text-xs tracking-widest uppercase mb-2">Energy</p>
+<h4 class="text-3xl font-serif">100MW Stations</h4>
+</div>
+</div>
+</div>
+</section>
+<!-- Technical Data Sheets -->
+<section class="py-32 px-8 md:px-20 bg-surface-container-lowest">
+<div class="max-w-7xl mx-auto flex flex-col md:flex-row gap-20">
+<div class="md:w-1/3">
+<h2 class="text-4xl font-serif mb-6 leading-tight">Technical Data &amp; Benchmarks</h2>
+<p class="text-stone-500 mb-8 font-body">All Resident products undergo rigorous testing to exceed NIS (Nigerian Industrial Standards) and ASTM international benchmarks.</p>
+<div class="bg-surface-container-high p-8">
+<p class="text-[10px] uppercase tracking-widest font-bold mb-4 text-stone-400">Compliance</p>
+<div class="space-y-4">
+<div class="flex justify-between border-b border-stone-300 pb-2">
+<span class="text-xs font-bold">NIS ISO 9001</span>
+<span class="material-symbols-outlined text-sm text-secondary">verified</span>
+</div>
+<div class="flex justify-between border-b border-stone-300 pb-2">
+<span class="text-xs font-bold">ASTM C150</span>
+<span class="material-symbols-outlined text-sm text-secondary">verified</span>
+</div>
+</div>
+</div>
+</div>
+<div class="md:w-2/3 space-y-4">
+<!-- Download Items -->
+<div class="group bg-white p-8 flex items-center justify-between hover:bg-black hover:text-white transition-all cursor-pointer">
+<div class="flex items-center gap-6">
+<span class="material-symbols-outlined text-4xl opacity-30">description</span>
+<div>
+<p class="text-lg font-serif">PLC Product Data Sheet (PDS)</p>
+<p class="text-[10px] uppercase text-stone-400">PDF • 2.4 MB • Rev 2024</p>
+</div>
+</div>
+<span class="material-symbols-outlined transform group-hover:translate-x-2 transition-transform">download</span>
+</div>
+<div class="group bg-white p-8 flex items-center justify-between hover:bg-black hover:text-white transition-all cursor-pointer">
+<div class="flex items-center gap-6">
+<span class="material-symbols-outlined text-4xl opacity-30">description</span>
+<div>
+<p class="text-lg font-serif">OPC 52.5N Safety Data Sheets (SDS)</p>
+<p class="text-[10px] uppercase text-stone-400">PDF • 1.1 MB • Rev 2024</p>
+</div>
+</div>
+<span class="material-symbols-outlined transform group-hover:translate-x-2 transition-transform">download</span>
+</div>
+<div class="group bg-white p-8 flex items-center justify-between hover:bg-black hover:text-white transition-all cursor-pointer">
+<div class="flex items-center gap-6">
+<span class="material-symbols-outlined text-4xl opacity-30">description</span>
+<div>
+<p class="text-lg font-serif">Industrial Application Guide</p>
+<p class="text-[10px] uppercase text-stone-400">PDF • 8.7 MB • Full Catalog</p>
+</div>
+</div>
+<span class="material-symbols-outlined transform group-hover:translate-x-2 transition-transform">download</span>
+</div>
+</div>
+</div>
+</section>
+<!-- Quality Guarantee: Sinoma Partnership -->
+<section class="relative py-32 px-8 md:px-20 bg-primary overflow-hidden">
+<div class="absolute top-0 right-0 w-1/2 h-full opacity-20">
+<img class="w-full h-full object-cover grayscale" data-alt="Laboratory technician in white coat analyzing samples in a high-tech modern cement testing laboratory facility" src="https://lh3.googleusercontent.com/aida-public/AB6AXuBHiApNRrGnHBuioPUYy-_3GcQ_H82Jt9FhRSE5bu6owA_esY6fHpRChGRODfgyEqZkNf6hpK6pjFU8xDp__m0fK2G2pDL25hVJ4nfOOHGei-UmjXDwTXoWP7IMFBQroxbmTc_JqjWdFPcKgTf2ETdzCMZOitjqGprIr2uHctKquDaX_0npMuMyO4bfffQROIMG6arWoQtZWNSzB2Rbj4yuV1JJUxyvCO-B1-nHSdD4q4D_o8jBk71K0EjJRQN61egLPNXvNNwAy_he"/>
+</div>
+<div class="relative z-10 max-w-4xl">
+<span class="text-secondary font-bold text-xs tracking-widest uppercase block mb-4">Technical Excellence</span>
+<h2 class="text-4xl md:text-6xl font-serif text-white mb-8 leading-tight">The Sinoma Standard</h2>
+<p class="text-xl text-stone-300 font-serif italic mb-12">"Our partnership with Sinoma Nigeria ensures that every bag of Resident Cement is backed by world-class engineering and automated laboratory precision."</p>
+<div class="grid grid-cols-2 md:grid-cols-3 gap-12">
+<div>
+<p class="text-white font-serif text-3xl mb-1">100%</p>
+<p class="text-[10px] uppercase tracking-widest text-stone-500">Automated Analysis</p>
+</div>
+<div>
+<p class="text-white font-serif text-3xl mb-1">X-Ray</p>
+<p class="text-[10px] uppercase tracking-widest text-stone-500">Fluorescence Testing</p>
+</div>
+<div>
+<p class="text-white font-serif text-3xl mb-1">24/7</p>
+<p class="text-[10px] uppercase tracking-widest text-stone-500">Quality Monitoring</p>
+</div>
+</div>
+</div>
+</section>
+</main>
+<!-- Footer -->
+<footer class="bg-black dark:bg-stone-950 full-width bottom-0 no-border bg-stone-900 flat no shadows">
+<div class="w-full px-12 py-20 flex flex-col md:flex-row justify-between items-center">
+<div class="mb-12 md:mb-0">
+<div class="font-serif text-white text-3xl tracking-tighter uppercase mb-2">MONOLITH</div>
+<p class="text-stone-500 font-sans uppercase tracking-widest text-[10px]">© 2024 MONOLITH CEMENT CORP. ARCHITECTURAL INTEGRITY GUARANTEED.</p>
+</div>
+<div class="flex flex-wrap justify-center gap-12">
+<a class="font-sans uppercase tracking-widest text-[10px] text-stone-500 hover:text-amber-600 transition-opacity" href="#">Investors</a>
+<a class="font-sans uppercase tracking-widest text-[10px] text-stone-500 hover:text-amber-600 transition-opacity" href="#">Global Logistics</a>
+<a class="font-sans uppercase tracking-widest text-[10px] text-stone-500 hover:text-amber-600 transition-opacity" href="#">Environmental EPD</a>
+<a class="font-sans uppercase tracking-widest text-[10px] text-stone-500 hover:text-amber-600 transition-opacity" href="#">Contact Engineering</a>
+</div>
+</div>
+</footer>
+</body></html>

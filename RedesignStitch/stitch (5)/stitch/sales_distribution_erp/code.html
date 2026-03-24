@@ -1,0 +1,444 @@
+<!DOCTYPE html>
+
+<html class="light" lang="en"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>CEMENT_MONOLITH | Sales &amp; Distribution</title>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<link href="https://fonts.googleapis.com/css2?family=Newsreader:opsz,wght@6..72,400;6..72,700;6..72,800&amp;family=Work+Sans:wght@300;400;600;700;900&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<script id="tailwind-config">
+        tailwind.config = {
+            darkMode: "class",
+            theme: {
+                extend: {
+                    colors: {
+                        "secondary-container": "#fdd08b",
+                        "outline-variant": "#c4c7c7",
+                        "surface-container-high": "#e8e8e8",
+                        "on-primary-fixed": "#1c1b1b",
+                        "primary-fixed-dim": "#c8c6c5",
+                        "primary-fixed": "#e5e2e1",
+                        "on-primary": "#ffffff",
+                        "tertiary-fixed": "#e4e2e2",
+                        "on-surface-variant": "#444748",
+                        "inverse-on-surface": "#f1f1f1",
+                        "error": "#ba1a1a",
+                        "surface-container-low": "#f3f3f3",
+                        "primary-container": "#1c1b1b",
+                        "on-error": "#ffffff",
+                        "surface-bright": "#f9f9f9",
+                        "secondary-fixed": "#ffdead",
+                        "primary": "#000000",
+                        "on-primary-fixed-variant": "#474746",
+                        "surface": "#f9f9f9",
+                        "inverse-primary": "#c8c6c5",
+                        "tertiary-container": "#1b1c1c",
+                        "on-secondary-fixed": "#281900",
+                        "surface-container-highest": "#e2e2e2",
+                        "on-secondary-fixed-variant": "#5f4107",
+                        "surface-container": "#eeeeee",
+                        "background": "#f9f9f9",
+                        "on-secondary-container": "#78571e",
+                        "on-tertiary": "#ffffff",
+                        "tertiary": "#000000",
+                        "tertiary-fixed-dim": "#c8c6c6",
+                        "surface-dim": "#dadada",
+                        "on-tertiary-fixed-variant": "#474747",
+                        "secondary-fixed-dim": "#ebc07c",
+                        "outline": "#747878",
+                        "secondary": "#79591f",
+                        "surface-container-lowest": "#ffffff",
+                        "on-tertiary-fixed": "#1b1c1c",
+                        "on-tertiary-container": "#848483",
+                        "surface-variant": "#e2e2e2",
+                        "inverse-surface": "#2f3131",
+                        "error-container": "#ffdad6",
+                        "on-primary-container": "#858383",
+                        "on-secondary": "#ffffff",
+                        "on-background": "#1a1c1c",
+                        "on-error-container": "#93000a",
+                        "surface-tint": "#5f5e5e",
+                        "on-surface": "#1a1c1c"
+                    },
+                    fontFamily: {
+                        "headline": ["Newsreader"],
+                        "body": ["Work Sans"],
+                        "label": ["Work Sans"]
+                    },
+                    borderRadius: {"DEFAULT": "0px", "lg": "0px", "xl": "0px", "full": "9999px"},
+                },
+            },
+        }
+    </script>
+<style>
+        body { font-family: 'Work Sans', sans-serif; }
+        h1, h2, h3, .font-headline { font-family: 'Newsreader', serif; }
+        .material-symbols-outlined { font-variation-settings: 'FILL' 0, 'wght' 400, 'GRAD' 0, 'opsz' 24; }
+        .no-scrollbar::-webkit-scrollbar { display: none; }
+    </style>
+</head>
+<body class="bg-background text-on-background">
+<!-- SideNavBar Shell -->
+<aside class="fixed left-0 top-0 h-full flex flex-col z-50 bg-black dark:bg-stone-950 w-64 border-r-0">
+<div class="p-8">
+<h1 class="text-2xl font-black uppercase tracking-tighter text-white">CEMENT_MONOLITH</h1>
+<p class="text-[10px] text-stone-500 font-bold tracking-widest mt-1 uppercase">Enterprise Resource Planning</p>
+</div>
+<nav class="flex-1 mt-4">
+<a class="flex items-center gap-4 py-4 px-6 text-stone-400 hover:text-white transition-colors hover:bg-stone-900 duration-300" href="#">
+<span class="material-symbols-outlined">factory</span>
+<span class="text-xs font-bold uppercase tracking-widest">Production</span>
+</a>
+<a class="flex items-center gap-4 py-4 px-6 text-stone-400 hover:text-white transition-colors hover:bg-stone-900 duration-300" href="#">
+<span class="material-symbols-outlined">local_shipping</span>
+<span class="text-xs font-bold uppercase tracking-widest">Logistics</span>
+</a>
+<a class="flex items-center gap-4 py-4 px-6 text-stone-400 hover:text-white transition-colors hover:bg-stone-900 duration-300" href="#">
+<span class="material-symbols-outlined">inventory_2</span>
+<span class="text-xs font-bold uppercase tracking-widest">Inventory</span>
+</a>
+<a class="flex items-center gap-4 py-4 px-6 text-stone-400 hover:text-white transition-colors hover:bg-stone-900 duration-300" href="#">
+<span class="material-symbols-outlined">payments</span>
+<span class="text-xs font-bold uppercase tracking-widest">Finance</span>
+</a>
+<a class="flex items-center gap-4 py-4 px-6 text-stone-400 hover:text-white transition-colors hover:bg-stone-900 duration-300" href="#">
+<span class="material-symbols-outlined">high_quality</span>
+<span class="text-xs font-bold uppercase tracking-widest">Quality</span>
+</a>
+<!-- Active Tab: Sales -->
+<a class="flex items-center gap-4 py-4 px-6 bg-[#79591f] text-white font-bold uppercase tracking-widest" href="#">
+<span class="material-symbols-outlined" style="font-variation-settings: 'FILL' 1;">sell</span>
+<span class="text-xs tracking-widest">Sales</span>
+</a>
+<a class="flex items-center gap-4 py-4 px-6 text-stone-400 hover:text-white transition-colors hover:bg-stone-900 duration-300" href="#">
+<span class="material-symbols-outlined">engineering</span>
+<span class="text-xs font-bold uppercase tracking-widest">Maintenance</span>
+</a>
+</nav>
+<div class="p-6 mt-auto">
+<div class="bg-stone-900 p-4 mb-6">
+<p class="text-[10px] text-stone-500 uppercase font-bold mb-1">System Status</p>
+<p class="text-xs text-secondary font-bold">Optimal</p>
+</div>
+<div class="flex flex-col gap-2">
+<a class="flex items-center gap-3 text-stone-500 hover:text-white transition-all" href="#">
+<span class="material-symbols-outlined text-sm">settings</span>
+<span class="text-[10px] font-bold uppercase tracking-widest">Settings</span>
+</a>
+<a class="flex items-center gap-3 text-stone-500 hover:text-white transition-all" href="#">
+<span class="material-symbols-outlined text-sm">help_center</span>
+<span class="text-[10px] font-bold uppercase tracking-widest">Support</span>
+</a>
+</div>
+</div>
+</aside>
+<!-- TopAppBar Shell -->
+<header class="fixed top-0 right-0 w-[calc(100%-16rem)] h-24 flex justify-between items-center px-12 z-40 bg-white dark:bg-black transition-all">
+<div class="flex items-center gap-12">
+<div class="text-3xl font-black text-black dark:text-white border-l-8 border-[#79591f] pl-4 uppercase tracking-tighter">
+                MONOLITH_ERP
+            </div>
+<nav class="hidden lg:flex gap-8">
+<a class="text-xs font-bold uppercase tracking-widest text-black dark:text-[#79591f] border-b-4 border-[#79591f] pb-1 transition-all" href="#">Global Overview</a>
+<a class="text-xs font-bold uppercase tracking-widest text-stone-500 hover:text-black dark:hover:text-white transition-opacity" href="#">Quarterly Reports</a>
+</nav>
+</div>
+<div class="flex items-center gap-6">
+<div class="relative">
+<span class="absolute left-3 top-1/2 -translate-y-1/2 material-symbols-outlined text-stone-400">search</span>
+<input class="bg-surface-container-low border-0 text-[10px] font-bold uppercase tracking-widest py-3 pl-10 pr-6 w-64 focus:ring-1 focus:ring-secondary" placeholder="SEARCH DISTRIBUTION..." type="text"/>
+</div>
+<div class="flex items-center gap-4">
+<button class="material-symbols-outlined text-stone-400 hover:text-black transition-colors">notifications</button>
+<button class="material-symbols-outlined text-stone-400 hover:text-black transition-colors">database</button>
+<div class="w-10 h-10 bg-primary flex items-center justify-center">
+<img alt="Executive User Profile" class="w-full h-full object-cover grayscale" data-alt="Portrait of a professional corporate executive in a sharp dark suit against a neutral industrial grey background" src="https://lh3.googleusercontent.com/aida-public/AB6AXuB9ajO2IAGHZIfyoeqa7DVpG3p98G2kro4I7MW8L9sl2xCaTwZQFrKqQvHXe2sv2lUpWrNL7CtwsDN_KWd7MEu4Ks1pyVXZ0kB-O6e_KP8LE8xwQgheZnX7wUxbGVO8zYYOmeEBOpLvGmdtWdaIfhjDJ_3UTQyDtwraG-i7NZe40c1nRotBl8IjEh_ehSysmJRkBQL7M46kcbRSzbgG0FEwX9bszFnRyers98OihA192wJ5jO1CiFzvmp26A5Uov3j1Jzma9NbSEps-"/>
+</div>
+</div>
+<button class="bg-primary text-white text-[10px] font-bold uppercase tracking-[0.2em] px-6 py-3 hover:opacity-80 transition-opacity">
+                New Entry
+            </button>
+</div>
+</header>
+<!-- Main Content -->
+<main class="ml-64 pt-32 p-12 min-h-screen bg-surface">
+<!-- Hero Header -->
+<section class="mb-16">
+<div class="flex items-end justify-between mb-8">
+<div>
+<span class="text-secondary font-bold uppercase tracking-[0.3em] text-[10px] block mb-2">Commercial Sector</span>
+<h2 class="text-7xl font-black text-primary leading-none tracking-tighter">SALES_DISTRIBUTION</h2>
+</div>
+<div class="text-right">
+<p class="text-xs font-bold uppercase tracking-widest text-stone-400">Current Quarter Revenue</p>
+<p class="text-4xl font-black text-primary">₦4.82B</p>
+</div>
+</div>
+<div class="w-full h-1 bg-surface-container-highest">
+<div class="w-3/4 h-full bg-secondary"></div>
+</div>
+</section>
+<!-- Bento Grid Layout -->
+<div class="grid grid-cols-12 gap-8">
+<!-- Nigeria Sales Heat Map (Large) -->
+<div class="col-span-8 bg-surface-container-lowest p-0 relative overflow-hidden h-[600px] flex flex-col">
+<div class="p-8 absolute top-0 left-0 z-10 w-full bg-gradient-to-b from-white/90 to-transparent">
+<h3 class="text-3xl font-bold text-primary mb-1">Regional Performance Heatmap</h3>
+<p class="text-xs text-stone-500 font-bold uppercase tracking-widest">Active Territories: Nigeria Central &amp; Southern Belts</p>
+</div>
+<div class="flex-1 bg-stone-100 relative group">
+<img alt="Regional sales heat map (Nigeria)" class="w-full h-full object-cover filter contrast-125 grayscale hover:grayscale-0 transition-all duration-700" data-alt="Abstract stylized map of Nigeria showing high intensity orange and black heat clusters over industrial commercial zones" data-location="Nigeria" src="https://lh3.googleusercontent.com/aida-public/AB6AXuDLwljpJFqDG6OaZgogaIOyBz9ErodM8QQHadjxO1r46kxR4gk5FrL528WdLGOB-gr71XoPJVrqvVn6rkCrHdB6opST3n5uriUjqZjorEZNFwkDr9U8HBwcf0vuDi6WJ0CIUm9xemvv6rKN2etxV2aR5NS0Ji-UsxM4nnXp4cSnscdx6MD7BwRyzuIk8ZLY6etpxpIXD7MQRYaYeDpHFGdJc2PGJb6mX8XWBPcpsyXhfoW-pRBoTHljythcU1kiSvipyj9ZyAU-3NyQ"/>
+<!-- Overlay Data Points -->
+<div class="absolute top-1/2 left-1/3 p-4 bg-primary text-white">
+<p class="text-[10px] font-bold uppercase tracking-tighter">Lagos Hub</p>
+<p class="text-xl font-black text-secondary">₦1.2B</p>
+</div>
+<div class="absolute bottom-1/4 right-1/4 p-4 bg-white shadow-xl">
+<p class="text-[10px] font-bold uppercase tracking-tighter text-stone-500">Port Harcourt</p>
+<p class="text-xl font-black text-primary">₦842M</p>
+</div>
+</div>
+<div class="p-8 bg-surface-container-low flex justify-between items-center">
+<div class="flex gap-12">
+<div>
+<p class="text-[10px] font-bold text-stone-400 uppercase tracking-widest mb-1">Top Region</p>
+<p class="text-lg font-bold">South-West Cluster</p>
+</div>
+<div>
+<p class="text-[10px] font-bold text-stone-400 uppercase tracking-widest mb-1">Growth Index</p>
+<p class="text-lg font-bold text-secondary">+12.4%</p>
+</div>
+</div>
+<button class="border-b-2 border-primary text-[10px] font-bold uppercase tracking-[0.2em] pb-1">Download Geo-Report</button>
+</div>
+</div>
+<!-- Dealer Leaderboard (Side Column) -->
+<div class="col-span-4 flex flex-col gap-8">
+<div class="bg-primary p-8 text-white h-full">
+<h3 class="text-2xl font-bold mb-8 border-b border-stone-800 pb-4">Dealer Leaderboard</h3>
+<div class="space-y-6">
+<div class="flex justify-between items-center">
+<div class="flex items-center gap-4">
+<span class="text-2xl font-black text-stone-700">01</span>
+<div>
+<p class="text-xs font-bold uppercase tracking-widest">Dangote Distribution Ltd</p>
+<p class="text-[10px] text-stone-500 uppercase">Premium Tier</p>
+</div>
+</div>
+<p class="text-lg font-bold text-secondary">42.1k T</p>
+</div>
+<div class="flex justify-between items-center">
+<div class="flex items-center gap-4">
+<span class="text-2xl font-black text-stone-700">02</span>
+<div>
+<p class="text-xs font-bold uppercase tracking-widest">Sahara Cement Partners</p>
+<p class="text-[10px] text-stone-500 uppercase">Strategic Tier</p>
+</div>
+</div>
+<p class="text-lg font-bold">38.5k T</p>
+</div>
+<div class="flex justify-between items-center">
+<div class="flex items-center gap-4">
+<span class="text-2xl font-black text-stone-700">03</span>
+<div>
+<p class="text-xs font-bold uppercase tracking-widest">Elite Builders Nigeria</p>
+<p class="text-[10px] text-stone-500 uppercase">Growth Tier</p>
+</div>
+</div>
+<p class="text-lg font-bold">31.2k T</p>
+</div>
+<div class="flex justify-between items-center">
+<div class="flex items-center gap-4">
+<span class="text-2xl font-black text-stone-700">04</span>
+<div>
+<p class="text-xs font-bold uppercase tracking-widest">Mega-Structure Supply</p>
+<p class="text-[10px] text-stone-500 uppercase">Strategic Tier</p>
+</div>
+</div>
+<p class="text-lg font-bold">29.8k T</p>
+</div>
+</div>
+<button class="mt-12 w-full py-4 bg-stone-900 text-secondary text-[10px] font-bold uppercase tracking-[0.3em] hover:bg-stone-800 transition-colors">
+                        View Complete Ranking
+                    </button>
+</div>
+</div>
+<!-- Outstanding Aging Report (Asymmetric Card) -->
+<div class="col-span-5 bg-surface-container-high p-8 flex flex-col justify-between">
+<div>
+<h3 class="text-3xl font-bold mb-2">Outstanding Aging</h3>
+<p class="text-xs text-stone-500 font-bold uppercase tracking-widest mb-10">Receivables breakdown by duration</p>
+<div class="space-y-4">
+<div class="flex items-center gap-4">
+<div class="w-24 text-[10px] font-bold uppercase">0-30 Days</div>
+<div class="flex-1 h-3 bg-stone-300">
+<div class="w-full h-full bg-primary"></div>
+</div>
+<div class="w-20 text-right text-xs font-bold">₦142M</div>
+</div>
+<div class="flex items-center gap-4">
+<div class="w-24 text-[10px] font-bold uppercase">31-60 Days</div>
+<div class="flex-1 h-3 bg-stone-300">
+<div class="w-2/3 h-full bg-secondary"></div>
+</div>
+<div class="w-20 text-right text-xs font-bold">₦88M</div>
+</div>
+<div class="flex items-center gap-4">
+<div class="w-24 text-[10px] font-bold uppercase">61-90 Days</div>
+<div class="flex-1 h-3 bg-stone-300">
+<div class="w-1/4 h-full bg-stone-800"></div>
+</div>
+<div class="w-20 text-right text-xs font-bold">₦12M</div>
+</div>
+<div class="flex items-center gap-4">
+<div class="w-24 text-[10px] font-bold uppercase">90+ Days</div>
+<div class="flex-1 h-3 bg-stone-300">
+<div class="w-[5%] h-full bg-error"></div>
+</div>
+<div class="w-20 text-right text-xs font-bold text-error">₦4M</div>
+</div>
+</div>
+</div>
+<div class="mt-12 p-4 bg-white/50 border-l-4 border-primary">
+<p class="text-[10px] font-bold uppercase tracking-widest text-stone-500">Action Required</p>
+<p class="text-sm font-bold">Initiate collection protocol for overdue accounts exceeding ₦5M</p>
+</div>
+</div>
+<!-- Dispatch vs Revenue Reconciliation (Center Card) -->
+<div class="col-span-7 bg-white p-8">
+<div class="flex justify-between items-start mb-12">
+<div>
+<h3 class="text-3xl font-bold mb-2">Reconciliation</h3>
+<p class="text-xs text-stone-500 font-bold uppercase tracking-widest">Dispatch Volume vs Realized Revenue</p>
+</div>
+<div class="flex gap-4">
+<div class="flex items-center gap-2">
+<div class="w-3 h-3 bg-primary"></div>
+<span class="text-[10px] font-bold uppercase tracking-tighter">Revenue</span>
+</div>
+<div class="flex items-center gap-2">
+<div class="w-3 h-3 bg-secondary"></div>
+<span class="text-[10px] font-bold uppercase tracking-tighter">Dispatch</span>
+</div>
+</div>
+</div>
+<div class="h-64 flex items-end justify-between gap-4 border-b-2 border-stone-100">
+<!-- Graph Columns -->
+<div class="flex-1 flex flex-col items-center gap-2">
+<div class="w-full flex justify-center items-end gap-1 h-full">
+<div class="w-4 bg-primary h-[80%]"></div>
+<div class="w-4 bg-secondary h-[75%]"></div>
+</div>
+<span class="text-[10px] font-bold uppercase text-stone-400">Week 01</span>
+</div>
+<div class="flex-1 flex flex-col items-center gap-2">
+<div class="w-full flex justify-center items-end gap-1 h-full">
+<div class="w-4 bg-primary h-[90%]"></div>
+<div class="w-4 bg-secondary h-[88%]"></div>
+</div>
+<span class="text-[10px] font-bold uppercase text-stone-400">Week 02</span>
+</div>
+<div class="flex-1 flex flex-col items-center gap-2">
+<div class="w-full flex justify-center items-end gap-1 h-full">
+<div class="w-4 bg-primary h-[70%]"></div>
+<div class="w-4 bg-secondary h-[95%]"></div>
+</div>
+<span class="text-[10px] font-bold uppercase text-stone-400">Week 03</span>
+</div>
+<div class="flex-1 flex flex-col items-center gap-2">
+<div class="w-full flex justify-center items-end gap-1 h-full">
+<div class="w-4 bg-primary h-[100%]"></div>
+<div class="w-4 bg-secondary h-[98%]"></div>
+</div>
+<span class="text-[10px] font-bold uppercase text-stone-400">Week 04</span>
+</div>
+</div>
+<div class="mt-8 grid grid-cols-2 gap-8">
+<div class="bg-surface-container-low p-4">
+<p class="text-[10px] font-bold uppercase text-stone-400">Variance</p>
+<p class="text-2xl font-bold">-2.14%</p>
+</div>
+<div class="bg-surface-container-low p-4">
+<p class="text-[10px] font-bold uppercase text-stone-400">Status</p>
+<p class="text-2xl font-bold text-secondary uppercase tracking-tighter">Balanced</p>
+</div>
+</div>
+</div>
+<!-- Pricing Policy Management (Bottom Row) -->
+<div class="col-span-12 bg-primary p-12 text-white">
+<div class="flex justify-between items-center mb-12">
+<div>
+<h3 class="text-4xl font-bold mb-2">Pricing Policy Management</h3>
+<p class="text-xs text-stone-400 font-bold uppercase tracking-widest">Global Variant Benchmarks (PLC &amp; OPC)</p>
+</div>
+<button class="bg-secondary text-white text-[10px] font-bold uppercase tracking-[0.3em] px-10 py-4 hover:opacity-90">Update Policies</button>
+</div>
+<div class="grid grid-cols-2 gap-12">
+<!-- PLC Variant -->
+<div class="border-t-4 border-secondary pt-6 flex gap-8">
+<div class="w-32 h-32 bg-stone-900 flex items-center justify-center">
+<img alt="Pricing policy management for PLC" class="w-full h-full object-cover grayscale" data-alt="Close-up of industrial cement bags stacked in a minimalist dark warehouse with sharp shadow lighting" src="https://lh3.googleusercontent.com/aida-public/AB6AXuBossBVtWxBsGLh_knb3QWPfz5fF6Lrm9Dey77k0Mc_0ZwAv9i_-fdT3TpZ0Sv4aqpBEPld1eITZN3YuZGwe0MwHOzwaOjJcXzpO64cpd2QkWGz2KZBca-YlqpQER_nVdT5nYnn_KISgSHP7ojg1e97ocZJCwJSdTZziAMQ3K8KXTH2Dsk7NcfPe9dT4eigr3UQN-cWGVlR-7gWltJOmxV3fmXXqzylX5ekQJlGgiY-WxC52hYKHutA0Ue8KCJjrysMP6FjM4EzMq9_"/>
+</div>
+<div class="flex-1">
+<div class="flex justify-between items-start mb-4">
+<div>
+<h4 class="text-2xl font-bold uppercase tracking-tighter">PLC Variant</h4>
+<p class="text-[10px] text-stone-500 uppercase">Portland Limestone Cement</p>
+</div>
+<span class="bg-stone-800 text-secondary text-[10px] font-bold px-2 py-1">ACTIVE</span>
+</div>
+<div class="grid grid-cols-2 gap-4">
+<div>
+<p class="text-[10px] text-stone-400 uppercase">Current Rate</p>
+<p class="text-xl font-bold">₦4,200 <span class="text-[10px] text-stone-500">/Bag</span></p>
+</div>
+<div>
+<p class="text-[10px] text-stone-400 uppercase">Margin Offset</p>
+<p class="text-xl font-bold text-secondary">+5.0%</p>
+</div>
+</div>
+</div>
+</div>
+<!-- OPC Variant -->
+<div class="border-t-4 border-white pt-6 flex gap-8">
+<div class="w-32 h-32 bg-stone-900 flex items-center justify-center">
+<img alt="Pricing policy management for OPC" class="w-full h-full object-cover grayscale" data-alt="Industrial construction site with heavy machinery and bulk cement storage in high-contrast black and white photography" src="https://lh3.googleusercontent.com/aida-public/AB6AXuDolYIytWWesj4G3SJIo8qTZsOK8hEp9QSgVJAAQQJs-ig3OVzoUsMo4ypqkcyyZx2PPw9pswHrceP0QmDhyYIxag5CJC1aOui_rZZEwNOMVsYlxR21YFMgxLoz-mk3jUIbDtbytxLiJbR8bzfijgq8ceu3Nl76cAVs0VUPKV_Wc_b0pa5XGKZk6kO9IGsFPEUmuZ5SJ1od_ofWb7IoNmIhyxspoR3Lw8suvxZpyfzhnHa76OTK4kS3PA3QOU8ovIbRtQ9gz0mn5sDV"/>
+</div>
+<div class="flex-1">
+<div class="flex justify-between items-start mb-4">
+<div>
+<h4 class="text-2xl font-bold uppercase tracking-tighter">OPC Variant</h4>
+<p class="text-[10px] text-stone-500 uppercase">Ordinary Portland Cement</p>
+</div>
+<span class="bg-stone-800 text-stone-400 text-[10px] font-bold px-2 py-1 uppercase">Pending Review</span>
+</div>
+<div class="grid grid-cols-2 gap-4">
+<div>
+<p class="text-[10px] text-stone-400 uppercase">Current Rate</p>
+<p class="text-xl font-bold">₦5,100 <span class="text-[10px] text-stone-500">/Bag</span></p>
+</div>
+<div>
+<p class="text-[10px] text-stone-400 uppercase">Margin Offset</p>
+<p class="text-xl font-bold">+8.2%</p>
+</div>
+</div>
+</div>
+</div>
+</div>
+</div>
+</div>
+<!-- Footer Metadata -->
+<footer class="mt-20 border-t border-stone-200 pt-12 flex justify-between items-center text-stone-400">
+<div class="flex items-center gap-8">
+<span class="text-[10px] font-bold uppercase tracking-[0.2em]">© 2024 CEMENT_MONOLITH ERP SYSTEM</span>
+<span class="text-[10px] font-bold uppercase tracking-[0.2em]">Privacy &amp; Data Policy</span>
+</div>
+<div class="flex items-center gap-4">
+<span class="text-[10px] font-bold uppercase tracking-[0.2em]">Session Duration: 02:14:10</span>
+<div class="w-2 h-2 bg-secondary rounded-full"></div>
+</div>
+</footer>
+</main>
+</body></html>

@@ -1,0 +1,346 @@
+<!DOCTYPE html>
+
+<html class="dark" lang="en"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<link href="https://fonts.googleapis.com/css2?family=Noto+Serif:ital,wght@0,400;0,700;1,400&amp;family=Inter:wght@400;500;600;700&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<script id="tailwind-config">
+      tailwind.config = {
+        darkMode: "class",
+        theme: {
+          extend: {
+            colors: {
+              "secondary-fixed-dim": "#e8c265",
+              "surface-container-high": "#2d2927",
+              "surface-tint": "#e5c374",
+              "surface-container-low": "#1e1b19",
+              "primary": "#e5c374",
+              "on-secondary-fixed-variant": "#594400",
+              "on-surface": "#e9e1dd",
+              "on-background": "#e9e1dd",
+              "error-container": "#93000a",
+              "on-tertiary-fixed-variant": "#454747",
+              "surface-variant": "#383432",
+              "surface-bright": "#3c3836",
+              "surface-container-lowest": "#100e0c",
+              "surface-container": "#221f1d",
+              "on-tertiary": "#2f3131",
+              "primary-fixed-dim": "#e5c374",
+              "on-tertiary-fixed": "#1a1c1c",
+              "surface": "#161311",
+              "on-error-container": "#ffdad6",
+              "inverse-on-surface": "#33302d",
+              "secondary-container": "#765a00",
+              "tertiary": "#c6c6c6",
+              "error": "#ffb4ab",
+              "tertiary-container": "#181a1a",
+              "surface-dim": "#161311",
+              "primary-container": "#231800",
+              "secondary": "#e8c265",
+              "outline-variant": "#4d4540",
+              "on-secondary-container": "#fbd475",
+              "on-primary-fixed": "#251a00",
+              "surface-container-highest": "#383432",
+              "on-secondary": "#3e2e00",
+              "tertiary-fixed-dim": "#c6c6c6",
+              "on-primary": "#3f2e00",
+              "on-tertiary-container": "#818382",
+              "primary-fixed": "#ffdf99",
+              "inverse-surface": "#e9e1dd",
+              "inverse-primary": "#745b17",
+              "on-primary-container": "#9c7f38",
+              "tertiary-fixed": "#e2e2e2",
+              "outline": "#998f89",
+              "on-secondary-fixed": "#251a00",
+              "background": "#161311",
+              "on-surface-variant": "#d0c4be",
+              "on-primary-fixed-variant": "#5a4300",
+              "secondary-fixed": "#ffdf96",
+              "on-error": "#690005"
+            },
+            fontFamily: {
+              "headline": ["Noto Serif"],
+              "body": ["Inter"],
+              "label": ["Inter"]
+            },
+            borderRadius: {"DEFAULT": "0.125rem", "lg": "0.25rem", "xl": "0.5rem", "full": "0.75rem"},
+          },
+        },
+      }
+    </script>
+<style>
+        .material-symbols-outlined {
+            font-variation-settings: 'FILL' 0, 'wght' 400, 'GRAD' 0, 'opsz' 24;
+        }
+        body { font-family: 'Inter', sans-serif; }
+        h1, h2, h3, .serif { font-family: 'Noto Serif', serif; }
+    </style>
+</head>
+<body class="bg-surface text-on-surface min-h-screen flex flex-col">
+<!-- TopAppBar -->
+<header class="bg-[#161311] dark:bg-[#161311] docked full-width top-0 z-50 flex justify-between items-center px-12 py-6 w-full max-w-none shadow-none">
+<div class="flex items-center gap-12">
+<div class="text-2xl font-serif font-bold text-[#e9e1dd] uppercase tracking-widest">ResidentCement</div>
+<nav class="hidden md:flex gap-8 font-serif text-lg tracking-tight">
+<a class="text-[#e9e1dd] hover:text-[#e5c374] transition-colors" href="#">Dashboard</a>
+<a class="text-[#e5c374] border-b-2 border-[#e5c374] pb-1" href="#">Products</a>
+<a class="text-[#e9e1dd] hover:text-[#e5c374] transition-colors" href="#">Orders</a>
+<a class="text-[#e9e1dd] hover:text-[#e5c374] transition-colors" href="#">Invoices</a>
+<a class="text-[#e9e1dd] hover:text-[#e5c374] transition-colors" href="#">Account</a>
+</nav>
+</div>
+<div class="flex items-center gap-6">
+<div class="relative group">
+<span class="material-symbols-outlined absolute left-3 top-1/2 -translate-y-1/2 text-outline-variant">search</span>
+<input class="bg-surface-container border-none focus:ring-1 focus:ring-primary rounded-lg pl-10 pr-4 py-2 w-64 text-sm transition-all outline-none" placeholder="Search catalog..." type="text"/>
+</div>
+<div class="flex items-center gap-4">
+<button class="hover:bg-[#383432] transition-all duration-300 p-2 rounded-full">
+<span class="material-symbols-outlined text-[#e5c374]">notifications</span>
+</button>
+<button class="hover:bg-[#383432] transition-all duration-300 p-2 rounded-full">
+<span class="material-symbols-outlined text-[#e5c374]">settings</span>
+</button>
+<div class="w-8 h-8 rounded-full bg-surface-container-highest overflow-hidden border border-outline-variant/20">
+<img class="w-full h-full object-cover" data-alt="User profile portrait" src="https://lh3.googleusercontent.com/aida-public/AB6AXuDEWDpioYCZ8i46UB-cB-WUS8zXDdlIDD2yv8X8sUxXJGSBHIyBoNtLVJZwmVub0WpmjgNAnL85YYFM1Uo-Wv_3vpKM073VfmUc6gjT6KKlziEZ-n5uBF8GrjHyUlsOFxvyVJOsBqBA5CuFYq_nKmZzYSYmmQiTaD-ZE7nV9ND4oeobE_gDzkWNMTmhhmSHhoudtAzvCHufUJbuBQAVKo6aK5Zb5H3zy0HcbMNrusT30RX4APyje6orwKznNA6oMk1rKJwjSs6bBCKo"/>
+</div>
+</div>
+</div>
+</header>
+<div class="flex flex-1">
+<!-- SideNavBar -->
+<aside class="fixed left-0 top-0 h-screen flex flex-col py-8 gap-y-2 bg-[#161311] dark:bg-[#161311] h-full w-64 border-r-0 z-40 pt-28">
+<div class="px-8 mb-8">
+<div class="text-[#e9e1dd] font-serif italic text-xl">Distributor Portal</div>
+<div class="font-sans text-[10px] font-bold tracking-wider text-primary uppercase mt-1">Premium Tier</div>
+</div>
+<nav class="flex flex-col gap-1">
+<a class="text-[#e9e1dd] hover:bg-[#221f1d] mx-4 px-4 py-3 rounded-sm transition-all flex items-center gap-3 font-sans text-sm font-bold tracking-wider" href="#">
+<span class="material-symbols-outlined">dashboard</span> Dashboard
+                </a>
+<a class="text-[#161311] bg-gradient-to-r from-[#e5c374] to-[#9c7f38] rounded-sm mx-4 px-4 py-3 flex items-center gap-3 font-sans text-sm font-bold tracking-wider active:translate-x-1" href="#">
+<span class="material-symbols-outlined">inventory_2</span> Products
+                </a>
+<a class="text-[#e9e1dd] hover:bg-[#221f1d] mx-4 px-4 py-3 rounded-sm transition-all flex items-center gap-3 font-sans text-sm font-bold tracking-wider" href="#">
+<span class="material-symbols-outlined">shopping_cart</span> Orders
+                </a>
+<a class="text-[#e9e1dd] hover:bg-[#221f1d] mx-4 px-4 py-3 rounded-sm transition-all flex items-center gap-3 font-sans text-sm font-bold tracking-wider" href="#">
+<span class="material-symbols-outlined">receipt_long</span> Invoices
+                </a>
+<a class="text-[#e9e1dd] hover:bg-[#221f1d] mx-4 px-4 py-3 rounded-sm transition-all flex items-center gap-3 font-sans text-sm font-bold tracking-wider" href="#">
+<span class="material-symbols-outlined">person</span> Account
+                </a>
+</nav>
+<div class="mt-auto px-8 py-6 bg-surface-container-low/50 mx-4 rounded-lg">
+<div class="text-[10px] uppercase tracking-widest text-outline mb-2">Current Tier</div>
+<div class="text-secondary font-bold text-sm flex items-center gap-2">
+<span class="material-symbols-outlined text-xs" style="font-variation-settings: 'FILL' 1;">workspace_premium</span>
+                    Platinum Partner
+                </div>
+</div>
+</aside>
+<!-- Main Content Area -->
+<main class="flex-1 ml-64 p-12 bg-surface">
+<!-- Header Section -->
+<section class="mb-16">
+<div class="flex justify-between items-end mb-8">
+<div>
+<h1 class="text-5xl font-bold tracking-tight text-on-surface mb-4">Product Catalog</h1>
+<p class="text-on-surface-variant max-w-xl text-lg font-body leading-relaxed">
+                            Premium architectural solutions for high-performance structural and finishing applications.
+                        </p>
+</div>
+<div class="flex gap-4">
+<button class="flex items-center gap-2 px-6 py-3 bg-surface-container-highest border border-outline-variant/20 rounded-lg hover:bg-surface-bright transition-all">
+<span class="material-symbols-outlined text-primary">filter_list</span>
+<span class="text-sm font-bold tracking-wide">Filters</span>
+</button>
+<button class="flex items-center gap-2 px-6 py-3 bg-surface-container-highest border border-outline-variant/20 rounded-lg hover:bg-surface-bright transition-all text-sm font-bold tracking-wide">
+<span class="material-symbols-outlined text-primary">sort</span>
+                            Performance Grade
+                        </button>
+</div>
+</div>
+<!-- Filter Pills -->
+<div class="flex gap-3 overflow-x-auto pb-4">
+<button class="px-5 py-2 bg-primary text-on-primary rounded-full text-xs font-bold uppercase tracking-widest">All Materials</button>
+<button class="px-5 py-2 bg-surface-container border border-outline-variant/20 text-on-surface-variant rounded-full text-xs font-bold uppercase tracking-widest hover:border-primary/50 transition-all">Structural Portland</button>
+<button class="px-5 py-2 bg-surface-container border border-outline-variant/20 text-on-surface-variant rounded-full text-xs font-bold uppercase tracking-widest hover:border-primary/50 transition-all">Finishing Alabaster</button>
+<button class="px-5 py-2 bg-surface-container border border-outline-variant/20 text-on-surface-variant rounded-full text-xs font-bold uppercase tracking-widest hover:border-primary/50 transition-all">Monolith Blocks</button>
+<button class="px-5 py-2 bg-surface-container border border-outline-variant/20 text-on-surface-variant rounded-full text-xs font-bold uppercase tracking-widest hover:border-primary/50 transition-all">Eco-Hybrid</button>
+</div>
+</section>
+<!-- Product Grid (Asymmetric Layout) -->
+<div class="grid grid-cols-1 lg:grid-cols-3 gap-8">
+<!-- Card 1: Elite Portland -->
+<div class="group lg:col-span-2 bg-surface-container-low rounded-xl overflow-hidden flex flex-col md:flex-row shadow-2xl border border-outline-variant/5">
+<div class="md:w-1/2 relative h-80 md:h-auto overflow-hidden">
+<img class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-700" data-alt="Close up of high performance cement texture" src="https://lh3.googleusercontent.com/aida-public/AB6AXuAcwA6q21pLaZR3FybUE2LcPwRppZIhDZ-n5nMsBEp0wHOhKtXJpbV7QFCZe_43v6f52yUGmCU6J02ewxTxAyNCZ7kMf_2IX9cZ_OoG9atJXvrY-lwOx35XvIF1qPehAuoA-0l2I0stLXrTzod0ChGWkyligWW7RX62SvsquZAUnTfB0hl69eajbP-EYyfC1yHakwBNYR-Lykojgtb6z-WgJ0bJO2J6JZhijdJKFZPyh_pjTFtuUn4FEJrstzt9g7T2y8X7xKlxB4bJ"/>
+<div class="absolute top-6 left-6 flex flex-col gap-2">
+<span class="bg-primary px-3 py-1 rounded-sm text-[10px] font-bold text-on-primary-fixed uppercase tracking-widest">Premium Grade</span>
+<span class="bg-surface-container-highest/80 backdrop-blur-md px-3 py-1 rounded-sm text-[10px] font-bold text-on-surface uppercase tracking-widest">Available Now</span>
+</div>
+</div>
+<div class="md:w-1/2 p-10 flex flex-col">
+<div class="mb-auto">
+<h3 class="text-3xl font-bold mb-2">Elite Portland</h3>
+<div class="text-primary text-xl font-headline mb-6 tracking-tight">$24.50 / Unit</div>
+<div class="grid grid-cols-2 gap-y-6 mb-8">
+<div>
+<div class="text-[10px] uppercase tracking-[0.2em] text-outline mb-1">PSI Strength</div>
+<div class="text-lg font-headline">8,500+</div>
+</div>
+<div>
+<div class="text-[10px] uppercase tracking-[0.2em] text-outline mb-1">Curing Speed</div>
+<div class="text-lg font-headline text-secondary">Rapid Set</div>
+</div>
+<div>
+<div class="text-[10px] uppercase tracking-[0.2em] text-outline mb-1">Finish</div>
+<div class="text-lg font-headline">Matte Gray</div>
+</div>
+<div>
+<div class="text-[10px] uppercase tracking-[0.2em] text-outline mb-1">Aggregate</div>
+<div class="text-lg font-headline">Ultra Fine</div>
+</div>
+</div>
+</div>
+<div class="flex items-center gap-4">
+<div class="flex items-center bg-surface-container-highest border border-outline-variant/20 rounded px-2">
+<button class="p-2 text-outline hover:text-primary transition-colors"><span class="material-symbols-outlined text-sm">remove</span></button>
+<input class="w-12 bg-transparent border-none text-center font-bold text-sm focus:ring-0" type="text" value="10"/>
+<button class="p-2 text-outline hover:text-primary transition-colors"><span class="material-symbols-outlined text-sm">add</span></button>
+</div>
+<button class="flex-1 bg-gradient-to-r from-primary to-on-primary-container text-on-primary-fixed py-3 rounded-lg font-bold text-sm uppercase tracking-widest hover:opacity-90 transition-all flex items-center justify-center gap-2">
+<span class="material-symbols-outlined text-lg">shopping_basket</span>
+                                Add to Order
+                            </button>
+</div>
+</div>
+</div>
+<!-- Card 2: Monolith Blocks -->
+<div class="group bg-surface-container-low rounded-xl overflow-hidden flex flex-col shadow-2xl border border-outline-variant/5">
+<div class="relative h-64 overflow-hidden">
+<img class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-700" data-alt="Brutalistic concrete blocks stacked vertically" src="https://lh3.googleusercontent.com/aida-public/AB6AXuBsUBbPIRP2piv2urdWacS7_CzEZVy0HYaisjglhsojlef0L1Lw9GIrzI1JtM6dVA42zmI1u2lTWqnXSgqiRHadBWSuIFbwxoNgr36HQ0ZZYgga2HyG8Cn0k8eTMu3zZCDFElqRIoQVEuExyAa1rwXSGI439UdXm9ufAbKejx0ezJJ5kZHkWoJeJ28x46_UnauOXdfcqFMiQ1GD6NOe2fqVaIzbdEnBp17AJD_7mfxvuh121spVlGRBEOtL6iYyw26I5OjEtPNysRqF"/>
+<div class="absolute inset-0 bg-gradient-to-t from-surface-container-low via-transparent to-transparent"></div>
+</div>
+<div class="p-8 flex flex-col flex-1">
+<div class="mb-8">
+<h3 class="text-2xl font-bold mb-1">Monolith Blocks</h3>
+<div class="text-primary text-lg font-headline mb-6">$12.75 / Block</div>
+<div class="space-y-4">
+<div class="flex justify-between items-center border-b border-outline-variant/10 pb-2">
+<span class="text-[10px] uppercase tracking-widest text-outline">Thermal Rating</span>
+<span class="text-sm font-bold">R-18 Eco</span>
+</div>
+<div class="flex justify-between items-center border-b border-outline-variant/10 pb-2">
+<span class="text-[10px] uppercase tracking-widest text-outline">Composition</span>
+<span class="text-sm font-bold">Hollow-Core</span>
+</div>
+<div class="flex justify-between items-center border-b border-outline-variant/10 pb-2">
+<span class="text-[10px] uppercase tracking-widest text-outline">Weight</span>
+<span class="text-sm font-bold">24.5 kg</span>
+</div>
+</div>
+</div>
+<div class="mt-auto space-y-4">
+<div class="flex items-center bg-surface-container-highest border border-outline-variant/20 rounded px-2 w-full">
+<button class="p-2 text-outline hover:text-primary transition-colors flex-1"><span class="material-symbols-outlined text-sm">remove</span></button>
+<input class="w-20 bg-transparent border-none text-center font-bold text-sm focus:ring-0" type="text" value="50"/>
+<button class="p-2 text-outline hover:text-primary transition-colors flex-1"><span class="material-symbols-outlined text-sm">add</span></button>
+</div>
+<button class="w-full bg-surface-container-highest text-on-surface py-3 rounded-lg font-bold text-sm uppercase tracking-widest hover:bg-surface-bright transition-all border border-outline-variant/20">
+                                Add to Order
+                            </button>
+</div>
+</div>
+</div>
+<!-- Card 3: Alabaster Finish -->
+<div class="group bg-surface-container-low rounded-xl overflow-hidden flex flex-col shadow-2xl border border-outline-variant/5">
+<div class="relative h-64 overflow-hidden">
+<img class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-700" data-alt="Smooth architectural concrete finish on a wall" src="https://lh3.googleusercontent.com/aida-public/AB6AXuBS2qGmD_AvvEDA85T9pyvFpx5peLTyov5yRn-o9VwP_cbd3YMsiPFFCJMeIcYaaGorz0SVkodBSpRonfCEFWSqS2Rs0K0CHnMdcef4lHfYW141wmc4aVCUtFjKgUcTIDGnIXfqUNzDlfKyLBpKto1ATL-xCWWRan-cRLIfadKywpnRhKLcloPGTz_lJlmw_shzqHZEuNkiTCWPkdUaxH-3bHDd3v0Mk8s-Zw9SYcYQCtcPBOz3ZDfBc6rRFaENK_oZLxzC7TL_gFxM"/>
+<div class="absolute top-4 right-4">
+<div class="w-3 h-3 bg-secondary rounded-full shadow-[0_0_10px_rgba(232,194,101,0.5)]"></div>
+</div>
+</div>
+<div class="p-8 flex flex-col flex-1">
+<div class="mb-8">
+<h3 class="text-2xl font-bold mb-1">Alabaster Finish</h3>
+<div class="text-primary text-lg font-headline mb-6">$38.00 / Unit</div>
+<div class="space-y-4">
+<div class="flex justify-between items-center border-b border-outline-variant/10 pb-2">
+<span class="text-[10px] uppercase tracking-widest text-outline">UV Resistance</span>
+<span class="text-sm font-bold">Ultra High</span>
+</div>
+<div class="flex justify-between items-center border-b border-outline-variant/10 pb-2">
+<span class="text-[10px] uppercase tracking-widest text-outline">Application</span>
+<span class="text-sm font-bold">Top Layer</span>
+</div>
+<div class="flex justify-between items-center border-b border-outline-variant/10 pb-2">
+<span class="text-[10px] uppercase tracking-widest text-outline">Sheen</span>
+<span class="text-sm font-bold">Satin Pearl</span>
+</div>
+</div>
+</div>
+<div class="mt-auto space-y-4">
+<div class="flex items-center bg-surface-container-highest border border-outline-variant/20 rounded px-2 w-full">
+<button class="p-2 text-outline hover:text-primary transition-colors flex-1"><span class="material-symbols-outlined text-sm">remove</span></button>
+<input class="w-20 bg-transparent border-none text-center font-bold text-sm focus:ring-0" type="text" value="5"/>
+<button class="p-2 text-outline hover:text-primary transition-colors flex-1"><span class="material-symbols-outlined text-sm">add</span></button>
+</div>
+<button class="w-full bg-surface-container-highest text-on-surface py-3 rounded-lg font-bold text-sm uppercase tracking-widest hover:bg-surface-bright transition-all border border-outline-variant/20">
+                                Add to Order
+                            </button>
+</div>
+</div>
+</div>
+<!-- Card 4: Structural Reinforcement (New Selection) -->
+<div class="group lg:col-span-2 bg-surface-container-low rounded-xl overflow-hidden flex flex-col md:flex-row shadow-2xl border border-outline-variant/5">
+<div class="md:w-1/2 p-10 flex flex-col order-2 md:order-1">
+<div class="mb-auto">
+<h3 class="text-3xl font-bold mb-2">High-Density Silica</h3>
+<div class="text-primary text-xl font-headline mb-6 tracking-tight">$31.25 / Bag</div>
+<p class="text-on-surface-variant text-sm mb-8 leading-relaxed">
+                                Specialized additive for extreme marine and bridge environments. Increases chemical resistance by 40%.
+                            </p>
+<div class="grid grid-cols-2 gap-y-4 mb-4">
+<div class="flex items-center gap-2">
+<span class="material-symbols-outlined text-primary text-sm">verified</span>
+<span class="text-xs font-bold uppercase tracking-wider">ISO Certified</span>
+</div>
+<div class="flex items-center gap-2">
+<span class="material-symbols-outlined text-primary text-sm">water_drop</span>
+<span class="text-xs font-bold uppercase tracking-wider">Low Permeability</span>
+</div>
+</div>
+</div>
+<div class="flex items-center gap-4 mt-6">
+<div class="flex items-center bg-surface-container-highest border border-outline-variant/20 rounded px-2">
+<button class="p-2 text-outline hover:text-primary transition-colors"><span class="material-symbols-outlined text-sm">remove</span></button>
+<input class="w-12 bg-transparent border-none text-center font-bold text-sm focus:ring-0" type="text" value="20"/>
+<button class="p-2 text-outline hover:text-primary transition-colors"><span class="material-symbols-outlined text-sm">add</span></button>
+</div>
+<button class="flex-1 bg-surface-container-highest text-on-surface py-3 rounded-lg font-bold text-sm uppercase tracking-widest hover:bg-surface-bright transition-all border border-outline-variant/20">
+                                Add to Order
+                            </button>
+</div>
+</div>
+<div class="md:w-1/2 relative h-80 md:h-auto overflow-hidden order-1 md:order-2">
+<img class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-700" data-alt="Industrial concrete construction site" src="https://lh3.googleusercontent.com/aida-public/AB6AXuByvbkpr4FgllPgCILGse5fKRJ2nHInkQAK9zlXgaWuc8UZxb2kYBPijaaCIcC7V649Gh-i570hKPddb_s8_B8Ra0_gVo0tI9qNXlFrjmJ_LMaEUUjQZp2Cs7cnZbOkGOSG4KOtVWF2Cl7BO4VuDQwgmyEhb-c7Cb10mhTM8weJgnwdjghSSAgA9JFAi-Z38Xw_Dt33ZrNWoX5RfHGT9oUK5Y0zdUQP3_qdCB5Jm26Oh02X5GvbCWyUw_pCDvBq4sxpfRBCSbBZtVPE"/>
+</div>
+</div>
+</div>
+</main>
+</div>
+<!-- Footer -->
+<footer class="bg-[#161311] dark:bg-[#161311] flex justify-between items-center px-12 py-8 w-full mt-auto border-t-0 bg-[#161311]">
+<div class="font-sans text-[10px] uppercase tracking-[0.2em] text-[#e9e1dd]/40">© 2024 ResidentCement Industrial. All Rights Reserved.</div>
+<div class="flex gap-12 font-sans text-[10px] uppercase tracking-[0.2em] text-[#e9e1dd]/40">
+<a class="hover:text-[#e5c374] transition-colors underline-offset-4 hover:underline" href="#">Terms of Service</a>
+<a class="hover:text-[#e5c374] transition-colors underline-offset-4 hover:underline" href="#">Privacy Policy</a>
+<a class="hover:text-[#e5c374] transition-colors underline-offset-4 hover:underline" href="#">Support</a>
+</div>
+</footer>
+</body></html>

@@ -1,0 +1,287 @@
+<!DOCTYPE html>
+
+<html class="dark" lang="en"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>Resident Cement | Distributor Portal</title>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<link href="https://fonts.googleapis.com/css2?family=Noto+Serif:wght@400;700&amp;family=Plus+Jakarta+Sans:wght@300;400;500;600;700&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<script id="tailwind-config">
+      tailwind.config = {
+        darkMode: "class",
+        theme: {
+          extend: {
+            colors: {
+              "surface-container-highest": "#e2e2e2",
+              "inverse-on-surface": "#f1f1f0",
+              "tertiary": "#4e5c8c",
+              "on-secondary-fixed-variant": "#474746",
+              "surface-variant": "#e2e2e2",
+              "primary-fixed": "#ffdf99",
+              "surface-bright": "#f9f9f8",
+              "secondary-fixed": "#e5e2e1",
+              "on-primary-fixed": "#251a00",
+              "tertiary-fixed": "#dce1ff",
+              "error": "#ba1a1a",
+              "primary-container": "#c5a55a",
+              "inverse-primary": "#e5c374",
+              "outline": "#7e7667",
+              "background": "#f9f9f8",
+              "surface-tint": "#745b17",
+              "on-primary-container": "#4f3b00",
+              "primary": "#745b17",
+              "secondary-fixed-dim": "#c8c6c5",
+              "on-primary": "#ffffff",
+              "on-tertiary-fixed-variant": "#364573",
+              "on-background": "#1a1c1c",
+              "on-error": "#ffffff",
+              "on-error-container": "#93000a",
+              "on-secondary": "#ffffff",
+              "error-container": "#ffdad6",
+              "inverse-surface": "#2f3130",
+              "primary-fixed-dim": "#e5c374",
+              "surface": "#f9f9f8",
+              "tertiary-fixed-dim": "#b6c4fb",
+              "surface-container-lowest": "#ffffff",
+              "on-surface": "#1a1c1c",
+              "on-secondary-fixed": "#1c1b1b",
+              "on-tertiary-container": "#2d3b69",
+              "on-surface-variant": "#4d4639",
+              "surface-dim": "#dadad9",
+              "outline-variant": "#d0c5b4",
+              "secondary": "#5f5e5e",
+              "on-tertiary": "#ffffff",
+              "on-primary-fixed-variant": "#5a4300",
+              "on-secondary-container": "#636262",
+              "surface-container-high": "#e8e8e7",
+              "on-tertiary-fixed": "#071845",
+              "tertiary-container": "#99a7dc",
+              "secondary-container": "#e2dfde",
+              "surface-container": "#eeeeed",
+              "surface-container-low": "#f4f4f3"
+            },
+            fontFamily: {
+              "headline": ["Noto Serif"],
+              "body": ["Plus Jakarta Sans"],
+              "label": ["Plus Jakarta Sans"]
+            },
+            borderRadius: {"DEFAULT": "0.125rem", "lg": "0.25rem", "xl": "0.5rem", "full": "0.75rem"},
+          },
+        },
+      }
+    </script>
+<style>
+        body {
+            background-color: #171717;
+            color: #f9f9f8;
+            font-family: 'Plus Jakarta Sans', sans-serif;
+        }
+        .material-symbols-outlined {
+            font-variation-settings: 'FILL' 0, 'wght' 400, 'GRAD' 0, 'opsz' 24;
+        }
+        .glass-nav {
+            background: rgba(26, 28, 28, 0.7);
+            backdrop-filter: blur(20px);
+        }
+        .gold-monolith-gradient {
+            background: linear-gradient(45deg, #745B17, #C5A55A);
+        }
+    </style>
+</head>
+<body class="overflow-hidden">
+<div class="flex h-screen w-full">
+<!-- SideNavBar -->
+<aside class="h-screen w-64 border-r-0 bg-stone-100 dark:bg-stone-950 flex flex-col h-full py-6 px-4">
+<div class="mb-10 px-2">
+<h1 class="text-lg font-serif font-bold text-stone-900 dark:text-stone-100 tracking-tight">Distributor Portal</h1>
+<p class="font-sans text-xs uppercase tracking-widest text-stone-500 mt-1">Premium Access</p>
+</div>
+<nav class="flex-1 space-y-2">
+<!-- Dashboard Active -->
+<a class="flex items-center gap-3 px-3 py-3 font-sans text-sm font-medium tracking-wide transition-all duration-200 text-yellow-700 dark:text-yellow-400 font-bold border-r-4 border-yellow-700 dark:border-yellow-500 bg-stone-200/50 dark:bg-stone-900/50 translate-x-1" href="#">
+<span class="material-symbols-outlined" data-icon="dashboard">dashboard</span>
+<span>Dashboard</span>
+</a>
+<a class="flex items-center gap-3 px-3 py-3 font-sans text-sm font-medium tracking-wide transition-all duration-200 text-stone-500 dark:text-stone-400 hover:bg-stone-200 dark:hover:bg-stone-900 hover:pl-2" href="#">
+<span class="material-symbols-outlined" data-icon="inventory_2">inventory_2</span>
+<span>Inventory</span>
+</a>
+<a class="flex items-center gap-3 px-3 py-3 font-sans text-sm font-medium tracking-wide transition-all duration-200 text-stone-500 dark:text-stone-400 hover:bg-stone-200 dark:hover:bg-stone-900 hover:pl-2" href="#">
+<span class="material-symbols-outlined" data-icon="shopping_cart">shopping_cart</span>
+<span>Orders</span>
+</a>
+<a class="flex items-center gap-3 px-3 py-3 font-sans text-sm font-medium tracking-wide transition-all duration-200 text-stone-500 dark:text-stone-400 hover:bg-stone-200 dark:hover:bg-stone-900 hover:pl-2" href="#">
+<span class="material-symbols-outlined" data-icon="analytics">analytics</span>
+<span>Analytics</span>
+</a>
+<a class="flex items-center gap-3 px-3 py-3 font-sans text-sm font-medium tracking-wide transition-all duration-200 text-stone-500 dark:text-stone-400 hover:bg-stone-200 dark:hover:bg-stone-900 hover:pl-2" href="#">
+<span class="material-symbols-outlined" data-icon="settings">settings</span>
+<span>Settings</span>
+</a>
+</nav>
+<div class="mt-auto pt-6 border-t border-stone-800/50 px-2">
+<div class="flex items-center gap-3">
+<div class="w-10 h-10 rounded-lg bg-primary flex items-center justify-center text-on-primary font-bold">JD</div>
+<div>
+<p class="text-xs font-bold text-stone-100">John Doe</p>
+<p class="text-[10px] text-stone-500 uppercase tracking-tighter">Senior Distributor</p>
+</div>
+</div>
+</div>
+</aside>
+<!-- Main Dashboard Content -->
+<main class="flex-1 overflow-y-auto bg-[#171717] px-8 py-10">
+<!-- Header Section -->
+<header class="flex justify-between items-end mb-12">
+<div>
+<h2 class="font-headline text-4xl font-bold tracking-tight text-white mb-2 italic">Welcome, John Doe</h2>
+<p class="font-body text-stone-400 max-w-md">Your logistics oversight for the Northeast region is currently 98% efficient.</p>
+</div>
+<div class="flex gap-4">
+<button class="bg-primary text-on-primary px-6 py-3 text-sm font-bold rounded-lg gold-monolith-gradient transition-opacity hover:opacity-90">
+                        New Distribution Order
+                    </button>
+</div>
+</header>
+<!-- Bento Grid Dashboard -->
+<div class="grid grid-cols-12 gap-6">
+<!-- Widget: Total Orders (Gold Accent Monolith) -->
+<div class="col-span-12 md:col-span-4 bg-[#1A1C1C] rounded-lg p-8 relative overflow-hidden group border border-stone-800/30">
+<div class="absolute top-0 right-0 w-32 h-32 gold-monolith-gradient opacity-10 blur-3xl -mr-16 -mt-16 group-hover:opacity-20 transition-opacity"></div>
+<h3 class="font-headline text-stone-400 text-lg mb-6">Total Orders</h3>
+<div class="flex items-baseline gap-2">
+<span class="text-6xl font-bold text-primary tracking-tighter">1,284</span>
+<span class="text-green-500 text-sm font-bold flex items-center">
+<span class="material-symbols-outlined text-xs" data-icon="trending_up">trending_up</span> 12%
+                        </span>
+</div>
+<p class="text-stone-500 text-xs mt-4 tracking-widest uppercase">Fiscal Year 2024</p>
+</div>
+<!-- Widget: Inventory Status (Circular Progress) -->
+<div class="col-span-12 md:col-span-4 bg-[#1A1C1C] rounded-lg p-8 border border-stone-800/30">
+<h3 class="font-headline text-stone-400 text-lg mb-6">Inventory Status</h3>
+<div class="flex justify-between items-center">
+<div class="relative w-28 h-28">
+<svg class="w-full h-full transform -rotate-90">
+<circle class="text-stone-800" cx="56" cy="56" fill="transparent" r="48" stroke="currentColor" stroke-width="8"></circle>
+<circle class="text-primary" cx="56" cy="56" fill="transparent" r="48" stroke="currentColor" stroke-dasharray="301.59" stroke-dashoffset="45.24" stroke-width="8"></circle>
+</svg>
+<div class="absolute inset-0 flex flex-col items-center justify-center">
+<span class="text-2xl font-bold text-white">85%</span>
+</div>
+</div>
+<div class="space-y-4">
+<div>
+<p class="text-[10px] text-stone-500 uppercase tracking-widest">Type-1 Portland</p>
+<p class="text-lg font-bold text-white">4,200 Tons</p>
+</div>
+<div>
+<p class="text-[10px] text-stone-500 uppercase tracking-widest">Hydraulic Lime</p>
+<p class="text-lg font-bold text-stone-400">850 Tons</p>
+</div>
+</div>
+</div>
+</div>
+<!-- Widget: Recent Shipments (Cards) -->
+<div class="col-span-12 md:col-span-4 bg-[#1A1C1C] rounded-lg p-8 border border-stone-800/30">
+<h3 class="font-headline text-stone-400 text-lg mb-6">Recent Shipments</h3>
+<div class="space-y-4">
+<div class="flex items-center justify-between p-3 bg-stone-900/50 rounded border border-stone-800/50">
+<div class="flex items-center gap-3">
+<span class="material-symbols-outlined text-primary" data-icon="local_shipping">local_shipping</span>
+<div>
+<p class="text-sm font-bold text-white">#RC-9021</p>
+<p class="text-[10px] text-stone-500">ETA: 2 Hours</p>
+</div>
+</div>
+<span class="px-2 py-1 text-[9px] font-bold uppercase tracking-tighter bg-yellow-900/30 text-yellow-500 border border-yellow-900/50 rounded">In Transit</span>
+</div>
+<div class="flex items-center justify-between p-3 bg-stone-900/50 rounded border border-stone-800/50">
+<div class="flex items-center gap-3">
+<span class="material-symbols-outlined text-stone-600" data-icon="check_circle">check_circle</span>
+<div>
+<p class="text-sm font-bold text-stone-300">#RC-8994</p>
+<p class="text-[10px] text-stone-500">Delivered Yesterday</p>
+</div>
+</div>
+<span class="px-2 py-1 text-[9px] font-bold uppercase tracking-tighter bg-green-900/30 text-green-500 border border-green-900/50 rounded">Delivered</span>
+</div>
+</div>
+</div>
+<!-- Widget: Recent Invoices (Large Table View) -->
+<div class="col-span-12 bg-[#1A1C1C] rounded-lg p-8 border border-stone-800/30 shadow-2xl">
+<div class="flex justify-between items-center mb-8">
+<h3 class="font-headline text-stone-400 text-xl tracking-tight">Recent Invoices</h3>
+<a class="text-primary text-xs font-bold uppercase tracking-widest border-b border-primary/30 pb-1 hover:border-primary transition-all" href="#">View All Ledger</a>
+</div>
+<div class="w-full overflow-x-auto">
+<table class="w-full text-left">
+<thead>
+<tr class="border-b border-stone-800">
+<th class="pb-4 text-[10px] uppercase tracking-widest text-stone-500 font-medium">Invoice ID</th>
+<th class="pb-4 text-[10px] uppercase tracking-widest text-stone-500 font-medium">Client / Project</th>
+<th class="pb-4 text-[10px] uppercase tracking-widest text-stone-500 font-medium">Issue Date</th>
+<th class="pb-4 text-[10px] uppercase tracking-widest text-stone-500 font-medium">Amount</th>
+<th class="pb-4 text-[10px] uppercase tracking-widest text-stone-500 font-medium text-right">Action</th>
+</tr>
+</thead>
+<tbody class="divide-y divide-stone-800/50">
+<tr class="group hover:bg-stone-900/30 transition-colors">
+<td class="py-6 text-sm font-bold text-white">INV-2024-042</td>
+<td class="py-6">
+<div class="text-sm text-stone-300">Skyline Plaza Phase II</div>
+<div class="text-[10px] text-stone-500">Structural Cement (Bulk)</div>
+</td>
+<td class="py-6 text-sm text-stone-400">Oct 12, 2024</td>
+<td class="py-6 text-sm font-bold text-primary">$14,250.00</td>
+<td class="py-6 text-right">
+<button class="bg-primary text-on-primary px-4 py-2 text-xs font-bold rounded hover:opacity-90 transition-opacity">Pay Now</button>
+</td>
+</tr>
+<tr class="group hover:bg-stone-900/30 transition-colors">
+<td class="py-6 text-sm font-bold text-white">INV-2024-041</td>
+<td class="py-6">
+<div class="text-sm text-stone-300">Metro Bridge Renovation</div>
+<div class="text-[10px] text-stone-500">Reinforced Concrete Mix</div>
+</td>
+<td class="py-6 text-sm text-stone-400">Oct 08, 2024</td>
+<td class="py-6 text-sm font-bold text-primary">$8,940.00</td>
+<td class="py-6 text-right">
+<button class="bg-primary text-on-primary px-4 py-2 text-xs font-bold rounded hover:opacity-90 transition-opacity">Pay Now</button>
+</td>
+</tr>
+<tr class="group hover:bg-stone-900/30 transition-colors">
+<td class="py-6 text-sm font-bold text-white">INV-2024-039</td>
+<td class="py-6">
+<div class="text-sm text-stone-300">Harbor Front Walkway</div>
+<div class="text-[10px] text-stone-500">Finishing Lime Plaster</div>
+</td>
+<td class="py-6 text-sm text-stone-400">Oct 02, 2024</td>
+<td class="py-6 text-sm font-bold text-stone-500 line-through">$2,100.00</td>
+<td class="py-6 text-right">
+<span class="text-[10px] uppercase font-bold text-stone-500 tracking-widest mr-4">Paid</span>
+<button class="border border-stone-700 text-stone-400 px-4 py-2 text-xs font-bold rounded hover:bg-stone-800 transition-colors">Receipt</button>
+</td>
+</tr>
+</tbody>
+</table>
+</div>
+</div>
+</div>
+<!-- Footer Section -->
+<footer class="mt-20 flex flex-col md:flex-row justify-between items-center px-0 py-12 w-full border-t border-stone-800/50">
+<div class="font-sans text-xs uppercase tracking-widest text-stone-500 mb-4 md:mb-0">
+                    © 2024 Resident Cement. All rights reserved.
+                </div>
+<div class="flex gap-8">
+<a class="font-sans text-xs uppercase tracking-widest text-stone-500 hover:text-yellow-700 transition-colors" href="#">Sitemap</a>
+<a class="font-sans text-xs uppercase tracking-widest text-stone-500 hover:text-yellow-700 transition-colors" href="#">Contact</a>
+<a class="font-sans text-xs uppercase tracking-widest text-stone-500 hover:text-yellow-700 transition-colors" href="#">Privacy Policy</a>
+<a class="font-sans text-xs uppercase tracking-widest text-stone-500 hover:text-yellow-700 transition-colors" href="#">LinkedIn</a>
+</div>
+</footer>
+</main>
+</div>
+</body></html>

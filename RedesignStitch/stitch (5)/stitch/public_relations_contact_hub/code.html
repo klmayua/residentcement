@@ -1,0 +1,350 @@
+<!DOCTYPE html>
+
+<html class="light" lang="en"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>Public Relations | MONOLITH CEMENT</title>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<link href="https://fonts.googleapis.com/css2?family=Newsreader:ital,opsz,wght@0,6..72,200..800;1,6..72,200..800&amp;family=Work+Sans:wght@100..900&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<script id="tailwind-config">
+        tailwind.config = {
+            darkMode: "class",
+            theme: {
+                extend: {
+                    colors: {
+                        "tertiary-fixed-dim": "#c8c6c6",
+                        "on-error": "#ffffff",
+                        "on-tertiary-fixed-variant": "#474747",
+                        "on-secondary-fixed": "#281900",
+                        "inverse-on-surface": "#f1f1f1",
+                        "secondary-fixed-dim": "#ebc07c",
+                        "on-secondary-fixed-variant": "#5f4107",
+                        "on-tertiary": "#ffffff",
+                        "surface-variant": "#e2e2e2",
+                        "on-primary": "#ffffff",
+                        "surface-dim": "#dadada",
+                        "background": "#f9f9f9",
+                        "primary-container": "#1c1b1b",
+                        "tertiary-fixed": "#e4e2e2",
+                        "surface-tint": "#5f5e5e",
+                        "primary": "#000000",
+                        "outline": "#747878",
+                        "on-background": "#1a1c1c",
+                        "tertiary": "#000000",
+                        "inverse-surface": "#2f3131",
+                        "surface-bright": "#f9f9f9",
+                        "secondary-container": "#fdd08b",
+                        "inverse-primary": "#c8c6c5",
+                        "on-tertiary-fixed": "#1b1c1c",
+                        "surface": "#f9f9f9",
+                        "on-primary-container": "#858383",
+                        "outline-variant": "#c4c7c7",
+                        "secondary-fixed": "#ffdead",
+                        "on-tertiary-container": "#848483",
+                        "on-surface": "#1a1c1c",
+                        "secondary": "#79591f",
+                        "on-secondary": "#ffffff",
+                        "primary-fixed": "#e5e2e1",
+                        "on-secondary-container": "#78571e",
+                        "surface-container-lowest": "#ffffff",
+                        "error-container": "#ffdad6",
+                        "primary-fixed-dim": "#c8c6c5",
+                        "error": "#ba1a1a",
+                        "surface-container-highest": "#e2e2e2",
+                        "surface-container": "#eeeeee",
+                        "on-surface": "#1a1c1c",
+                        "surface-container-high": "#e8e8e8",
+                        "surface-container-low": "#f3f3f3",
+                        "on-error-container": "#93000a",
+                        "tertiary-container": "#1b1c1c",
+                        "on-surface-variant": "#444748"
+                    },
+                    fontFamily: {
+                        "headline": ["Newsreader", "serif"],
+                        "body": ["Work Sans", "sans-serif"],
+                        "label": ["Work Sans", "sans-serif"]
+                    },
+                    borderRadius: {
+                        "DEFAULT": "0px",
+                        "lg": "0px",
+                        "xl": "0px",
+                        "full": "9999px"
+                    },
+                },
+            },
+        }
+    </script>
+<style>
+        .material-symbols-outlined {
+            font-variation-settings: 'FILL' 0, 'wght' 400, 'GRAD' 0, 'opsz' 24;
+        }
+        body {
+            font-family: 'Work Sans', sans-serif;
+            background-color: #f9f9f9;
+        }
+        h1, h2, h3, .serif-text {
+            font-family: 'Newsreader', serif;
+        }
+        /* Custom scrollbar for side nav */
+        .no-scrollbar::-webkit-scrollbar { display: none; }
+        .no-scrollbar { -ms-overflow-style: none; scrollbar-width: none; }
+    </style>
+</head>
+<body class="text-on-surface">
+<!-- SideNavBar (PR TERMINAL) -->
+<aside class="fixed left-0 top-0 h-screen w-72 bg-stone-50 dark:bg-stone-950 flex flex-col p-6 z-50 border-r-0 hidden md:flex">
+<div class="mb-12">
+<h2 class="text-lg font-black text-black dark:text-white font-headline tracking-tighter">PR TERMINAL</h2>
+<p class="text-[10px] uppercase tracking-widest text-stone-500 font-label">Global Communications</p>
+</div>
+<nav class="flex flex-col gap-2">
+<a class="flex items-center gap-4 px-4 py-3 text-stone-600 dark:text-stone-400 font-medium hover:bg-stone-100 dark:hover:bg-stone-900 transition-all duration-150" href="#">
+<span class="material-symbols-outlined" data-icon="newspaper">newspaper</span>
+<span class="text-sm font-label">Newsroom</span>
+</a>
+<a class="flex items-center gap-4 px-4 py-3 text-stone-600 dark:text-stone-400 font-medium hover:bg-stone-100 dark:hover:bg-stone-900 transition-all duration-150" href="#">
+<span class="material-symbols-outlined" data-icon="perm_media">perm_media</span>
+<span class="text-sm font-label">Media Kit</span>
+</a>
+<a class="flex items-center gap-4 px-4 py-3 text-stone-600 dark:text-stone-400 font-medium hover:bg-stone-100 dark:hover:bg-stone-900 transition-all duration-150" href="#">
+<span class="material-symbols-outlined" data-icon="person_4">person_4</span>
+<span class="text-sm font-label">Executive Bios</span>
+</a>
+<a class="flex items-center gap-4 px-4 py-3 text-stone-600 dark:text-stone-400 font-medium hover:bg-stone-100 dark:hover:bg-stone-900 transition-all duration-150" href="#">
+<span class="material-symbols-outlined" data-icon="priority_high">priority_high</span>
+<span class="text-sm font-label">Crisis Protocol</span>
+</a>
+<a class="flex items-center gap-4 px-4 py-3 bg-stone-200 dark:bg-stone-800 text-stone-900 dark:text-stone-50 font-bold scale-95 transition-all duration-150" href="#">
+<span class="material-symbols-outlined" data-icon="mail">mail</span>
+<span class="text-sm font-label">Contact PR</span>
+</a>
+</nav>
+<div class="mt-auto pt-8 border-t border-stone-200 dark:border-stone-800">
+<div class="flex items-center gap-3">
+<div class="w-10 h-10 bg-black flex items-center justify-center">
+<span class="text-white text-xs font-bold">MC</span>
+</div>
+<div>
+<p class="text-xs font-bold text-stone-900 dark:text-stone-100">Corporate Seal</p>
+<p class="text-[10px] text-stone-500 uppercase tracking-tighter">Verified Authority</p>
+</div>
+</div>
+</div>
+</aside>
+<!-- Main Content Canvas -->
+<main class="md:ml-72 min-h-screen">
+<!-- TopNavBar (Mobile Toggle & Branding) -->
+<header class="flex justify-between items-center w-full px-8 py-6 max-w-screen-2xl mx-auto bg-stone-50 dark:bg-stone-950">
+<div class="text-2xl font-bold tracking-tighter text-black dark:text-white uppercase font-headline">
+                MONOLITH CEMENT
+            </div>
+<div class="hidden lg:flex gap-8 items-center">
+<a class="text-stone-500 dark:text-stone-400 font-medium pb-1 hover:text-stone-900 transition-colors duration-300 font-label text-sm" href="#">Operations</a>
+<a class="text-stone-500 dark:text-stone-400 font-medium pb-1 hover:text-stone-900 transition-colors duration-300 font-label text-sm" href="#">Investors</a>
+<a class="text-stone-500 dark:text-stone-400 font-medium pb-1 hover:text-stone-900 transition-colors duration-300 font-label text-sm" href="#">Sustainability</a>
+<a class="text-stone-900 dark:text-stone-50 font-bold border-b-2 border-stone-800 dark:border-stone-200 pb-1 font-label text-sm" href="#">Press</a>
+<a class="text-stone-500 dark:text-stone-400 font-medium pb-1 hover:text-stone-900 transition-colors duration-300 font-label text-sm" href="#">Contact</a>
+<button class="bg-primary text-on-primary px-6 py-2 text-xs font-bold uppercase tracking-widest hover:bg-stone-800 transition-all">Investor Portal</button>
+</div>
+</header>
+<!-- Hero Section: Official Transmission -->
+<section class="relative w-full h-[614px] flex items-end overflow-hidden">
+<div class="absolute inset-0 bg-primary">
+<img alt="Industrial plant" class="w-full h-full object-cover opacity-40 grayscale" data-alt="dramatic wide shot of a massive brutalist concrete manufacturing plant in Nigeria at dusk with stark high contrast lighting" src="https://lh3.googleusercontent.com/aida-public/AB6AXuCRq6Y2t_9GBZuwc22OHRnKGiABxAAdFHJLCEoq5ZZWgNiTsspnvvHQRIN6oHBsbetRnEUAvLkpOLIY6vhpVwaWyb8vpTZX8mSrY33JY9jppBT0ZPUmvbjaGEdD0mX8-7c1wnUTKLfUwgaXnudr0m5cbbfJq16I4HF-GtGY3s4WD88naTKM9iwGN8ejq54LVLJgSqBfloEYphLYs6yo1qhLP3rzm65lBgOpBXZhSe6B6032tpAFfdOEd8P5FSSZ_9kLhJu2MeqE8cIM"/>
+<div class="absolute inset-0 bg-gradient-to-t from-primary to-transparent opacity-80"></div>
+</div>
+<div class="relative z-10 p-12 lg:p-24 max-w-6xl">
+<span class="text-secondary font-bold uppercase tracking-[0.3em] text-xs mb-4 block">Communication Protocol v2.4</span>
+<h1 class="text-white text-6xl md:text-8xl font-headline leading-none mb-8">Official<br/>Transmission.</h1>
+<p class="text-stone-400 font-body text-lg max-w-xl">
+                    The Monolith Cement Global Communications Hub serves as the singular point of truth for institutional stakeholders, international media partners, and government entities.
+                </p>
+</div>
+</section>
+<!-- Media Enquiries & Region Selection -->
+<section class="p-12 lg:p-24 bg-surface grid grid-cols-1 lg:grid-cols-12 gap-16">
+<div class="lg:col-span-5">
+<h2 class="text-4xl font-headline mb-8 border-b-2 border-secondary pb-4 inline-block">Direct Liaison</h2>
+<div class="space-y-12">
+<div>
+<h3 class="text-xs font-bold uppercase tracking-widest text-stone-400 mb-6">Regional Hubs</h3>
+<div class="space-y-6">
+<div class="p-6 bg-surface-container-low border-l-4 border-primary">
+<p class="text-xs text-secondary font-bold mb-1">NORTHERN OPERATIONS</p>
+<p class="text-xl font-headline font-bold">Bauchi HQ</p>
+<p class="text-sm text-stone-600 font-body mt-2">Gwana District Liaison Office</p>
+<p class="text-sm font-bold mt-4">+234 (0) 700 MONOLITH-B</p>
+</div>
+<div class="p-6 bg-surface-container-low">
+<p class="text-xs text-secondary font-bold mb-1">GOVERNMENT AFFAIRS</p>
+<p class="text-xl font-headline font-bold">Abuja Bureau</p>
+<p class="text-sm text-stone-600 font-body mt-2">Maitama District, FCT</p>
+</div>
+<div class="p-6 bg-surface-container-low">
+<p class="text-xs text-secondary font-bold mb-1">COMMERCIAL MEDIA</p>
+<p class="text-xl font-headline font-bold">Lagos Office</p>
+<p class="text-sm text-stone-600 font-body mt-2">Victoria Island Corporate Tower</p>
+</div>
+</div>
+</div>
+</div>
+</div>
+<div class="lg:col-span-7 bg-white p-12 shadow-sm">
+<h2 class="text-3xl font-headline mb-8">Inquiry Submission</h2>
+<form class="space-y-8">
+<div class="grid grid-cols-1 md:grid-cols-2 gap-8">
+<div class="flex flex-col">
+<label class="text-[10px] uppercase font-bold tracking-widest text-stone-500 mb-2">Full Name</label>
+<input class="bg-surface-container-highest border-0 border-b-2 border-primary focus:border-secondary focus:ring-0 px-4 py-3 transition-colors" type="text"/>
+</div>
+<div class="flex flex-col">
+<label class="text-[10px] uppercase font-bold tracking-widest text-stone-500 mb-2">Media Outlet / Agency</label>
+<input class="bg-surface-container-highest border-0 border-b-2 border-primary focus:border-secondary focus:ring-0 px-4 py-3 transition-colors" type="text"/>
+</div>
+</div>
+<div class="flex flex-col">
+<label class="text-[10px] uppercase font-bold tracking-widest text-stone-500 mb-2">Nature of Inquiry</label>
+<select class="bg-surface-container-highest border-0 border-b-2 border-primary focus:border-secondary focus:ring-0 px-4 py-3 transition-colors">
+<option>Corporate Statement Request</option>
+<option>Interview: Dr. Abbas Junaid Waziri</option>
+<option>Site Access / B-Roll Request</option>
+<option>Financial Performance Inquiry</option>
+</select>
+</div>
+<div class="flex flex-col">
+<label class="text-[10px] uppercase font-bold tracking-widest text-stone-500 mb-2">Message</label>
+<textarea class="bg-surface-container-highest border-0 border-b-2 border-primary focus:border-secondary focus:ring-0 px-4 py-3 transition-colors" rows="4"></textarea>
+</div>
+<button class="w-full bg-primary text-white py-5 text-sm font-bold uppercase tracking-[0.4em] hover:bg-stone-900 transition-all">
+                        Transmit Request
+                    </button>
+</form>
+</div>
+</section>
+<!-- Brand Assets: Bento Grid -->
+<section class="p-12 lg:p-24 bg-surface-container-low">
+<div class="flex justify-between items-end mb-16">
+<div>
+<span class="text-secondary font-bold uppercase tracking-widest text-xs mb-2 block">Institutional Resources</span>
+<h2 class="text-5xl font-headline">Brand Assets.</h2>
+</div>
+<button class="text-xs font-bold uppercase tracking-widest border-b-2 border-secondary pb-1">Download Full Media Kit (2.4 GB)</button>
+</div>
+<div class="grid grid-cols-1 md:grid-cols-4 gap-4">
+<!-- Exec Photo -->
+<div class="md:col-span-2 md:row-span-2 relative group overflow-hidden bg-black aspect-square">
+<img alt="Executive headshot" class="w-full h-full object-cover opacity-80 group-hover:scale-105 transition-transform duration-700" data-alt="portrait of a distinguished middle-aged male corporate executive in a dark tailored suit standing against a dark grey architectural background" src="https://lh3.googleusercontent.com/aida-public/AB6AXuBmIKrNHcB8TlxrTdhdrhdBeGZ0r_YNgAo_Q4U21bdUwPMRAHE7fcRW67tply_z36mywtuTYSnxVktOQIWGJtosMJ0uHP7dbNr3CQfR78PThnDRg2gVd0n1M5_We94fPM5WkIn5uDevVkRRMqpKrTj98Mc3nQiy5hY7dn1Qkgb5v2yB0BAiIsiOE7SdsXLIy-5tL8OWp0D6kFu9fHVbfETyDP-gnq8QTeOEWZH-5g6wISwA18NscBL9ZuA0YXSOC1OVCqIo9JtRvSzn"/>
+<div class="absolute bottom-0 left-0 right-0 p-8 bg-gradient-to-t from-black to-transparent">
+<p class="text-white text-2xl font-headline">Dr. Abbas Junaid Waziri</p>
+<p class="text-stone-400 text-xs font-label uppercase tracking-widest">Executive Chairman &amp; Founder</p>
+<div class="mt-4 flex gap-4 opacity-0 group-hover:opacity-100 transition-opacity">
+<button class="bg-secondary text-white p-2 flex items-center gap-2 text-[10px] font-bold">
+<span class="material-symbols-outlined text-sm" data-icon="download">download</span> Hi-Res JPG
+                            </button>
+<button class="bg-white/10 text-white p-2 flex items-center gap-2 text-[10px] font-bold backdrop-blur-md">
+<span class="material-symbols-outlined text-sm" data-icon="description">description</span> Bio (PDF)
+                            </button>
+</div>
+</div>
+</div>
+<!-- Logo -->
+<div class="bg-white p-8 flex flex-col justify-between aspect-square group">
+<div class="flex justify-center items-center h-full">
+<span class="text-4xl font-black tracking-tighter uppercase font-headline">MONOLITH</span>
+</div>
+<div class="flex justify-between items-center">
+<p class="text-[10px] font-bold uppercase text-stone-400">Primary Logo (SVG)</p>
+<span class="material-symbols-outlined text-stone-300 group-hover:text-secondary" data-icon="download">download</span>
+</div>
+</div>
+<!-- Site B-Roll -->
+<div class="relative group aspect-square bg-stone-900 overflow-hidden">
+<img alt="Construction site" class="w-full h-full object-cover opacity-60 group-hover:scale-110 transition-transform duration-1000" data-alt="cinematic wide angle shot of a massive industrial cement kiln with sparks and smoke in a low-key lighting environment" src="https://lh3.googleusercontent.com/aida-public/AB6AXuBX6hw1etyqDqEZC7kLwHuz5bRZxvjowmxP-Me0Mcv8XCIAHYGXqMR1c74ldd7x2flUSySG5SKCPnc44ps3vSFIUbxPPp9zufhikicdnYfIrQvpP0Y6BTFOET8yXQ4MEd0xvS7mh2hbKHyFiZbB0M9U2ccf7iaN51W8M9UqG5c8q0ibGQc_CSAdvLhYDnld8mecfUgE86IJdapiOgH-lW-1zgpyVg-tBtiVRKswrbMKSRRbHbjLLmFUGI-PdHwcFK6DnYleVZZ0J_Mc"/>
+<div class="absolute inset-0 flex items-center justify-center">
+<div class="w-12 h-12 border border-white flex items-center justify-center group-hover:scale-110 transition-all">
+<span class="material-symbols-outlined text-white" data-icon="play_arrow" style="font-variation-settings: 'FILL' 1;">play_arrow</span>
+</div>
+</div>
+<div class="absolute bottom-4 left-4">
+<p class="text-white text-xs font-bold uppercase">Site B-Roll</p>
+</div>
+</div>
+<!-- Technical Specs -->
+<div class="bg-primary p-8 aspect-square flex flex-col justify-between">
+<span class="material-symbols-outlined text-secondary text-4xl" data-icon="architecture">architecture</span>
+<div>
+<p class="text-white text-xl font-headline mb-2">Technical Dossier</p>
+<p class="text-stone-500 text-[10px] font-label uppercase">Specifications &amp; Industrial Capacity</p>
+</div>
+</div>
+<!-- Annual Report -->
+<div class="bg-stone-200 p-8 aspect-square flex flex-col justify-between group hover:bg-secondary transition-colors duration-300">
+<span class="material-symbols-outlined text-primary text-4xl group-hover:text-white" data-icon="query_stats">query_stats</span>
+<div>
+<p class="text-primary text-xl font-headline mb-2 group-hover:text-white">FY2023 Performance</p>
+<p class="text-stone-500 text-[10px] font-label uppercase group-hover:text-stone-200">Financial Disclosure</p>
+</div>
+</div>
+</div>
+</section>
+<!-- Community & Government Relations -->
+<section class="p-12 lg:p-24 bg-white grid grid-cols-1 lg:grid-cols-2 gap-24 items-center">
+<div>
+<h2 class="text-4xl font-headline mb-8">Strategic Partnerships.</h2>
+<p class="text-stone-600 mb-12 font-body text-lg leading-relaxed">
+                    Monolith Cement operates as a tripartite synergy between private industry, the Gwana District Community, and the Bauchi State Government. We maintain dedicated channels for our 10% equity partners and the surrounding ecosystem.
+                </p>
+<div class="space-y-8">
+<div class="flex gap-6 items-start">
+<div class="w-12 h-12 bg-surface-container-highest flex items-center justify-center shrink-0">
+<span class="material-symbols-outlined text-secondary" data-icon="groups">groups</span>
+</div>
+<div>
+<p class="text-sm font-bold uppercase tracking-widest mb-1">Gwana District Liaison</p>
+<p class="text-stone-500 text-sm font-body">Dedicated community outreach and employment coordination for the indigenous population of Gwana.</p>
+<a class="text-secondary text-xs font-bold mt-2 block uppercase tracking-tighter" href="#">View Community Charter →</a>
+</div>
+</div>
+<div class="flex gap-6 items-start">
+<div class="w-12 h-12 bg-surface-container-highest flex items-center justify-center shrink-0">
+<span class="material-symbols-outlined text-secondary" data-icon="account_balance">account_balance</span>
+</div>
+<div>
+<p class="text-sm font-bold uppercase tracking-widest mb-1">Bauchi State Equity Desk</p>
+<p class="text-stone-500 text-sm font-body">Direct institutional reporting for the Bauchi State Ministry of Commerce and Industry.</p>
+<a class="text-secondary text-xs font-bold mt-2 block uppercase tracking-tighter" href="#">Partner Portal Login →</a>
+</div>
+</div>
+</div>
+</div>
+<div class="relative h-[500px] bg-stone-100 p-8 flex flex-col justify-end overflow-hidden">
+<img alt="Corporate meeting room" class="absolute inset-0 w-full h-full object-cover grayscale opacity-20" data-alt="abstract architectural shot of a minimalist black and white modern office interior with strong vertical lines and glass partitions" src="https://lh3.googleusercontent.com/aida-public/AB6AXuBx8dqmcWhW2YxqNR-yhbFqILL_VGLumHdBTWdcwj8gDcV1XGdEyE5FI3Vi37J3U_72AAdNKc7MXMDHcrgtaxIoVwX4MKDxD1ztt9AYkHJvz-nSBvzzn7ZLdjIpsH6zCZw7MQ8OaebR0VXjr7wxSWDI8mK7teKjhi4ULYccd7oA-JKQWmTo0aCKZKe2lPkDcelDDXb4RbVkCJqftNpAd4sg2KS5B5yAF7bExIBgwhry591tkM1aBTdxjhAWOE96asmLUzq1KVOPB5y6"/>
+<div class="relative z-10 border-l-8 border-secondary p-8 bg-white shadow-2xl">
+<p class="text-6xl font-headline leading-none text-primary mb-4 italic">"Building with<br/>Legacy in mind."</p>
+<p class="text-xs uppercase font-bold tracking-[0.2em] text-stone-400">Governance Committee Statement</p>
+</div>
+</div>
+</section>
+<!-- Footer -->
+<footer class="w-full py-16 px-12 flex flex-col items-center gap-12 bg-black dark:bg-stone-950 text-stone-400">
+<div class="text-white dark:text-stone-200 font-bold tracking-widest text-2xl font-headline">MONOLITH CEMENT CORP.</div>
+<div class="flex flex-wrap justify-center gap-8 md:gap-12">
+<a class="text-stone-500 hover:text-stone-300 font-label text-[0.75rem] transition-colors" href="#">SEC Filings</a>
+<a class="text-stone-500 hover:text-stone-300 font-label text-[0.75rem] transition-colors" href="#">Annual Reports</a>
+<a class="text-stone-500 hover:text-stone-300 font-label text-[0.75rem] transition-colors" href="#">Governance</a>
+<a class="text-stone-500 hover:text-stone-300 font-label text-[0.75rem] transition-colors" href="#">Compliance</a>
+<a class="text-stone-500 hover:text-stone-300 font-label text-[0.75rem] transition-colors" href="#">Privacy Policy</a>
+<a class="text-stone-500 hover:text-stone-300 font-label text-[0.75rem] transition-colors" href="#">Environmental Impact</a>
+</div>
+<div class="text-center space-y-4">
+<p class="text-[0.65rem] tracking-[0.2em] font-bold">CONTACT INFORMATION</p>
+<p class="text-white text-sm font-headline">Liaison Office: Plot 1024, Diplomatic Enclave, Bauchi State, Nigeria</p>
+</div>
+<div class="pt-8 border-t border-stone-800 w-full text-center">
+<p class="text-[0.65rem] tracking-widest">© 2024 MONOLITH CEMENT CORP. ALL RIGHTS RESERVED.</p>
+</div>
+</footer>
+</main>
+</body></html>

@@ -1,0 +1,360 @@
+<!DOCTYPE html>
+
+<html class="light" lang="en"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>Resident Cement | Master ERP Dashboard</title>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<link href="https://fonts.googleapis.com/css2?family=Newsreader:ital,opsz,wght@0,6..72,200..800;1,6..72,200..800&amp;family=Work+Sans:wght@100..900&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<script id="tailwind-config">
+        tailwind.config = {
+            darkMode: "class",
+            theme: {
+                extend: {
+                    colors: {
+                        "surface-bright": "#f9f9f9",
+                        "error-container": "#ffdad6",
+                        "on-primary-fixed": "#1c1b1b",
+                        "surface-container-low": "#f3f3f3",
+                        "secondary-container": "#fdd08b",
+                        "tertiary-container": "#1b1c1c",
+                        "on-surface-variant": "#444748",
+                        "on-error": "#ffffff",
+                        "inverse-surface": "#2f3131",
+                        "primary-fixed-dim": "#c8c6c5",
+                        "outline": "#747878",
+                        "on-tertiary-fixed-variant": "#474747",
+                        "on-secondary-container": "#78571e",
+                        "primary-container": "#1c1b1b",
+                        "tertiary": "#000000",
+                        "surface-tint": "#5f5e5e",
+                        "on-secondary-fixed-variant": "#5f4107",
+                        "surface-container-highest": "#e2e2e2",
+                        "on-tertiary-fixed": "#1b1c1c",
+                        "outline-variant": "#c4c7c7",
+                        "on-secondary-fixed": "#281900",
+                        "on-tertiary-container": "#848483",
+                        "on-error-container": "#93000a",
+                        "surface-dim": "#dadada",
+                        "inverse-primary": "#c8c6c5",
+                        "error": "#ba1a1a",
+                        "secondary": "#79591f",
+                        "on-primary": "#ffffff",
+                        "on-primary-container": "#858383",
+                        "surface-container": "#eeeeee",
+                        "secondary-fixed": "#ffdead",
+                        "inverse-on-surface": "#f1f1f1",
+                        "on-background": "#1a1c1c",
+                        "background": "#f9f9f9",
+                        "surface": "#f9f9f9",
+                        "tertiary-fixed-dim": "#c8c6c6",
+                        "surface-container-high": "#e8e8e8",
+                        "on-secondary": "#ffffff",
+                        "on-tertiary": "#ffffff",
+                        "secondary-fixed-dim": "#ebc07c",
+                        "surface-variant": "#e2e2e2",
+                        "on-primary-fixed-variant": "#474746",
+                        "tertiary-fixed": "#e4e2e2",
+                        "primary": "#000000",
+                        "on-surface": "#1a1c1c",
+                        "surface-container-lowest": "#ffffff",
+                        "primary-fixed": "#e5e2e1"
+                    },
+                    fontFamily: {
+                        "headline": ["Newsreader", "serif"],
+                        "body": ["Work Sans", "sans-serif"],
+                        "label": ["Work Sans", "sans-serif"]
+                    },
+                    borderRadius: {
+                        "DEFAULT": "0px",
+                        "lg": "0px",
+                        "xl": "0px",
+                        "full": "9999px"
+                    },
+                },
+            },
+        }
+    </script>
+<style>
+        .material-symbols-outlined {
+            font-variation-settings: 'FILL' 0, 'wght' 400, 'GRAD' 0, 'opsz' 24;
+            display: inline-block;
+            line-height: 1;
+        }
+        body {
+            font-family: 'Work Sans', sans-serif;
+            background-color: #f9f9f9;
+        }
+        h1, h2, h3, .font-serif {
+            font-family: 'Newsreader', serif;
+        }
+    </style>
+</head>
+<body class="text-on-background selection:bg-secondary selection:text-white">
+<!-- Sidebar Navigation -->
+<aside class="fixed left-0 top-0 h-full flex flex-col z-50 bg-stone-900 dark:bg-stone-950 w-64">
+<div class="px-6 py-8">
+<h1 class="font-serif italic text-xl text-amber-600">Resident Cement</h1>
+<p class="text-[10px] uppercase tracking-widest text-stone-500 font-label mt-1">Industrial ERP</p>
+</div>
+<nav class="flex-1 flex flex-col mt-4">
+<!-- Production is Active for this Dashboard View -->
+<a class="bg-amber-700 text-white rounded-none border-l-4 border-white px-6 py-4 flex items-center gap-4 transition-all" href="#">
+<span class="material-symbols-outlined" data-icon="factory">factory</span>
+<span class="font-label uppercase tracking-widest text-[10px]">Production</span>
+</a>
+<a class="text-stone-400 px-6 py-4 flex items-center gap-4 hover:bg-stone-800 hover:text-white transition-all" href="#">
+<span class="material-symbols-outlined" data-icon="local_shipping">local_shipping</span>
+<span class="font-label uppercase tracking-widest text-[10px]">Logistics</span>
+</a><a class="text-stone-400 px-6 py-4 flex items-center gap-4 hover:bg-stone-800 hover:text-white transition-all" href="#">
+<span class="material-symbols-outlined" data-icon="shopping_cart">shopping_cart</span>
+<span class="font-label uppercase tracking-widest text-[10px]">Procurement</span>
+</a>
+<a class="text-stone-400 px-6 py-4 flex items-center gap-4 hover:bg-stone-800 hover:text-white transition-all" href="#">
+<span class="material-symbols-outlined" data-icon="inventory_2">inventory_2</span>
+<span class="font-label uppercase tracking-widest text-[10px]">Inventory</span>
+</a>
+<a class="text-stone-400 px-6 py-4 flex items-center gap-4 hover:bg-stone-800 hover:text-white transition-all" href="#">
+<span class="material-symbols-outlined" data-icon="payments">payments</span>
+<span class="font-label uppercase tracking-widest text-[10px]">Finance</span>
+</a>
+<a class="text-stone-400 px-6 py-4 flex items-center gap-4 hover:bg-stone-800 hover:text-white transition-all" href="#">
+<span class="material-symbols-outlined" data-icon="verified">verified</span>
+<span class="font-label uppercase tracking-widest text-[10px]">Quality</span>
+</a>
+<a class="text-stone-400 px-6 py-4 flex items-center gap-4 hover:bg-stone-800 hover:text-white transition-all" href="#">
+<span class="material-symbols-outlined" data-icon="point_of_sale">point_of_sale</span>
+<span class="font-label uppercase tracking-widest text-[10px]">Sales</span>
+</a>
+<a class="text-stone-400 px-6 py-4 flex items-center gap-4 hover:bg-stone-800 hover:text-white transition-all" href="#">
+<span class="material-symbols-outlined" data-icon="build">build</span>
+<span class="font-label uppercase tracking-widest text-[10px]">Maintenance</span>
+</a>
+<a class="text-stone-400 px-6 py-4 flex items-center gap-4 hover:bg-stone-800 hover:text-white transition-all" href="#">
+<span class="material-symbols-outlined" data-icon="groups">groups</span>
+<span class="font-label uppercase tracking-widest text-[10px]">HR</span>
+</a>
+</nav>
+<div class="mt-auto border-t border-stone-800">
+<a class="text-stone-400 px-6 py-4 flex items-center gap-4 hover:bg-stone-800 hover:text-white transition-all" href="#">
+<span class="material-symbols-outlined" data-icon="help">help</span>
+<span class="font-label uppercase tracking-widest text-[10px]">Support</span>
+</a>
+<a class="text-stone-400 px-6 py-4 flex items-center gap-4 hover:bg-stone-800 hover:text-white transition-all" href="#">
+<span class="material-symbols-outlined" data-icon="history">history</span>
+<span class="font-label uppercase tracking-widest text-[10px]">Logs</span>
+</a>
+</div>
+</aside>
+<!-- Main Content Canvas -->
+<main class="ml-64 min-h-screen">
+<!-- Top App Bar -->
+<header class="flex justify-between items-center w-full px-10 h-24 bg-stone-950 dark:bg-black top-0 z-40 sticky">
+<div class="flex items-center gap-8">
+<span class="text-3xl font-serif tracking-tighter uppercase text-white">Resident Cement</span>
+<nav class="hidden md:flex items-center gap-6">
+<span class="text-amber-600 font-bold border-b-2 border-amber-600 pb-1 cursor-default">Status: Operational</span>
+<a class="text-stone-400 font-medium hover:text-white transition-colors" href="#">Global Search</a>
+</nav>
+</div>
+<div class="flex items-center gap-6">
+<button class="text-stone-400 hover:text-white transition-colors">
+<span class="material-symbols-outlined" data-icon="settings">settings</span>
+</button>
+<button class="text-stone-400 hover:text-white transition-colors">
+<span class="material-symbols-outlined" data-icon="notifications">notifications</span>
+</button>
+<div class="w-10 h-10 bg-secondary flex items-center justify-center">
+<span class="text-white font-bold">JD</span>
+</div>
+</div>
+</header>
+<!-- Hero Metric Section -->
+<section class="px-10 py-16 bg-surface-container-low">
+<div class="max-w-7xl mx-auto">
+<div class="mb-12">
+<h2 class="text-7xl font-serif font-extrabold tracking-tight text-primary leading-tight">Architectural Gravitas.</h2>
+<p class="text-secondary font-label uppercase tracking-widest text-sm mt-4">Enterprise Resource Planning &amp; Command Center</p>
+</div>
+<!-- High Performance Bento Grid -->
+<div class="grid grid-cols-12 gap-0 border border-outline-variant/15">
+<!-- Main KPI: Production -->
+<div class="col-span-12 lg:col-span-8 bg-primary p-12 text-white flex flex-col justify-between min-h-[400px]">
+<div>
+<span class="material-symbols-outlined text-secondary text-5xl mb-6" data-icon="factory">factory</span>
+<h3 class="text-4xl font-serif mb-2">Production Pace</h3>
+<p class="text-stone-400 font-body text-sm max-w-md">Real-time aggregate output across all integrated kilns and grinding units. Currently maintaining optimal thermal efficiency.</p>
+</div>
+<div class="mt-12 flex items-baseline gap-4">
+<span class="text-8xl font-serif font-black">10<span class="text-4xl">Mt</span></span>
+<span class="text-secondary flex items-center gap-1 font-label text-sm">
+<span class="material-symbols-outlined" data-icon="trending_up">trending_up</span>
+                                +4.2% VS LY
+                            </span>
+</div>
+</div>
+<!-- Side KPI: Finance -->
+<div class="col-span-12 lg:col-span-4 bg-surface-container-highest p-10 flex flex-col justify-between">
+<div>
+<span class="material-symbols-outlined text-primary text-4xl mb-6" data-icon="payments">payments</span>
+<h3 class="text-2xl font-serif font-bold">Finance Volume</h3>
+</div>
+<div class="mt-8">
+<span class="text-5xl font-serif font-bold block">₦428.5B</span>
+<p class="text-on-surface-variant text-xs uppercase tracking-widest mt-2">Total Transactional Value Q3</p>
+</div>
+<div class="mt-8 pt-8 border-t border-outline-variant">
+<button class="w-full bg-primary text-white py-4 font-label text-xs uppercase tracking-widest hover:bg-stone-900 transition-colors">Audit Ledger</button>
+</div>
+</div>
+<!-- Bottom KPI: Safety -->
+<div class="col-span-12 md:col-span-4 bg-secondary p-10 text-white flex flex-col justify-center">
+<span class="material-symbols-outlined text-4xl mb-4" data-icon="verified_user">verified_user</span>
+<h3 class="font-serif text-xl mb-1">Safety Record</h3>
+<div class="flex items-baseline gap-2">
+<span class="text-6xl font-serif font-black">428</span>
+<span class="text-sm font-label uppercase">Days</span>
+</div>
+<p class="text-xs uppercase tracking-widest mt-2 opacity-80">Since Last Lost Time Incident (LTI)</p>
+</div>
+<!-- Bottom KPI: Logistics -->
+<div class="col-span-12 md:col-span-4 bg-surface p-10 border-x border-outline-variant/20">
+<span class="material-symbols-outlined text-primary text-4xl mb-4" data-icon="local_shipping">local_shipping</span>
+<h3 class="font-serif text-xl mb-1">Active Logistics</h3>
+<div class="flex items-baseline gap-2">
+<span class="text-6xl font-serif font-black">842</span>
+<span class="text-sm font-label uppercase">Trucks</span>
+</div>
+<p class="text-on-surface-variant text-xs uppercase tracking-widest mt-2">In-transit Fleet Distribution</p>
+</div>
+<!-- Bottom KPI: HR -->
+<div class="col-span-12 md:col-span-4 bg-surface-container-low p-10">
+<span class="material-symbols-outlined text-primary text-4xl mb-4" data-icon="groups">groups</span>
+<h3 class="font-serif text-xl mb-1">Human Capital</h3>
+<div class="flex items-baseline gap-2">
+<span class="text-6xl font-serif font-black">1,248</span>
+</div>
+<p class="text-on-surface-variant text-xs uppercase tracking-widest mt-2">Total Operational Staff</p>
+</div>
+</div>
+</div>
+</section>
+<!-- Secondary Operational Data -->
+<section class="px-10 py-24 bg-surface">
+<div class="max-w-7xl mx-auto">
+<div class="flex justify-between items-end mb-16">
+<div>
+<h3 class="text-4xl font-serif font-bold">Operational Status</h3>
+<div class="h-1 w-24 bg-secondary mt-4"></div>
+</div>
+<p class="text-on-surface-variant font-body max-w-sm text-right italic">
+                        "Strength is not merely in the material, but in the precision of the architecture that binds it."
+                    </p>
+</div>
+<div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-12">
+<!-- Inventory Slab -->
+<div class="bg-surface-container-low p-8 border-b-4 border-primary">
+<div class="flex justify-between items-start mb-12">
+<span class="text-xs font-label uppercase tracking-widest text-secondary">Inventory</span>
+<span class="material-symbols-outlined text-stone-400" data-icon="inventory_2">inventory_2</span>
+</div>
+<h4 class="font-serif text-2xl mb-2">Clinker Reserves</h4>
+<div class="w-full bg-stone-300 h-1 mb-6">
+<div class="bg-secondary h-full w-[82%]"></div>
+</div>
+<div class="flex justify-between text-xs font-label uppercase tracking-tighter">
+<span>842,000 Tons</span>
+<span class="text-secondary">82% Capacity</span>
+</div>
+</div>
+<!-- Quality Slab -->
+<div class="bg-surface-container-low p-8 border-b-4 border-primary">
+<div class="flex justify-between items-start mb-12">
+<span class="text-xs font-label uppercase tracking-widest text-secondary">Quality Assurance</span>
+<span class="material-symbols-outlined text-stone-400" data-icon="verified">verified</span>
+</div>
+<h4 class="font-serif text-2xl mb-2">Compressive Strength</h4>
+<div class="text-4xl font-serif font-bold mb-4">52.5 <span class="text-lg">MPa</span></div>
+<p class="text-xs text-on-surface-variant font-body">Exceeding Grade 42.5 standards by 23.5% across all batch samples.</p>
+</div>
+<!-- Maintenance Slab -->
+<div class="bg-surface-container-low p-8 border-b-4 border-primary">
+<div class="flex justify-between items-start mb-12">
+<span class="text-xs font-label uppercase tracking-widest text-secondary">Maintenance</span>
+<span class="material-symbols-outlined text-stone-400" data-icon="build">build</span>
+</div>
+<h4 class="font-serif text-2xl mb-2">Kiln Availability</h4>
+<div class="text-4xl font-serif font-bold mb-4">98.2%</div>
+<div class="flex gap-2">
+<span class="px-2 py-1 bg-primary text-white text-[10px] font-label uppercase">Kiln 1: Active</span>
+<span class="px-2 py-1 bg-primary text-white text-[10px] font-label uppercase">Kiln 2: Active</span>
+</div>
+</div>
+<!-- Procurement Slab -->
+<div class="bg-surface-container-low p-8 border-b-4 border-primary">
+<div class="flex justify-between items-start mb-8">
+<span class="text-xs font-label uppercase tracking-widest text-secondary">Procurement</span>
+<span class="material-symbols-outlined text-stone-400" data-icon="shopping_bag">shopping_bag</span>
+</div>
+<h4 class="font-serif text-2xl mb-4">Procurement Overview</h4>
+<div class="space-y-4">
+<div>
+<p class="text-[10px] uppercase tracking-widest text-on-surface-variant font-label">Total Spend</p>
+<p class="text-3xl font-serif font-bold">$1.24B</p>
+</div>
+<div class="flex justify-between items-end border-t border-outline-variant/30 pt-4">
+<div>
+<p class="text-[10px] uppercase tracking-widest text-on-surface-variant font-label">Active POs</p>
+<p class="text-xl font-serif font-bold">142</p>
+</div>
+<div class="text-right">
+<p class="text-[10px] uppercase tracking-widest text-on-surface-variant font-label mb-1">Strategic Partners</p>
+<p class="text-[10px] font-body text-stone-600">Sinoma Nigeria, Bauchi State Govt</p>
+</div>
+</div>
+</div>
+</div></div>
+</div>
+</section>
+<!-- Visual Anchor -->
+<section class="w-full h-[600px] relative overflow-hidden">
+<img alt="Industrial Site" class="w-full h-full object-cover grayscale contrast-125" data-alt="monumental concrete industrial plant with giant cylindrical kilns and heavy machinery under a dramatic high-contrast grey sky" src="https://lh3.googleusercontent.com/aida-public/AB6AXuDsBiS3l87J3dNfKv7qjM_s9g45tyYIdi6d97MoyVfJFELkFBw26ehHIeoEmwzyIb0UGGmWFv7QCYG7zuMMfzkp-NFbyg2ygqtKJ8gGltzFBoe9MqL_ktz8Mdq2fcojR0FJIi6sapsJpckWbO7erj-9CkFgDv6rojUTighBHPr1PWLKdkqy8CZKwAN4mo-3WC8RzXxTYIYY6mH-BVmOhyX6pzHv_zCdEYaxNPPbuo6jzPfqFOg08_6kGrqcH9mJ_sbr-JD9L5pc0y9-"/>
+<div class="absolute inset-0 bg-primary/40 flex items-center justify-center p-20">
+<div class="bg-white/10 backdrop-blur-xl p-16 border border-white/20 max-w-3xl">
+<h3 class="text-5xl font-serif text-white mb-6 leading-tight">Built on a foundation of structural permanence.</h3>
+<p class="text-stone-200 font-body text-lg mb-8">Resident Cement operations leverage industrial automation and real-time data flow to ensure we don't just build, we endure.</p>
+<button class="bg-secondary text-white px-10 py-4 font-label uppercase tracking-widest text-sm hover:brightness-110 transition-all">View Annual Outlook</button>
+</div>
+</div>
+</section>
+<!-- Footer -->
+<footer class="px-10 py-12 bg-stone-950 text-white border-t border-stone-800">
+<div class="max-w-7xl mx-auto flex flex-col md:flex-row justify-between items-start gap-10">
+<div>
+<span class="font-serif italic text-2xl text-amber-600 block mb-2">Resident Cement</span>
+<p class="text-stone-500 text-xs max-w-xs font-body">© 2024 Resident Cement Industrial Group. All rights reserved. Access authorized for executive staff only.</p>
+</div>
+<div class="grid grid-cols-2 gap-16">
+<div>
+<h5 class="font-label uppercase tracking-widest text-[10px] text-stone-400 mb-4">Resource Center</h5>
+<ul class="space-y-2 text-sm font-body">
+<li><a class="hover:text-secondary" href="#">Safety Protocols</a></li>
+<li><a class="hover:text-secondary" href="#">Logistics API</a></li>
+<li><a class="hover:text-secondary" href="#">HR Portal</a></li>
+</ul>
+</div>
+<div>
+<h5 class="font-label uppercase tracking-widest text-[10px] text-stone-400 mb-4">System</h5>
+<ul class="space-y-2 text-sm font-body">
+<li><a class="hover:text-secondary" href="#">v4.8.2-stable</a></li>
+<li><a class="hover:text-secondary" href="#">Network Health</a></li>
+<li><a class="hover:text-secondary" href="#">Security Vault</a></li>
+</ul>
+</div>
+</div>
+</div>
+</footer>
+</main>
+</body></html>

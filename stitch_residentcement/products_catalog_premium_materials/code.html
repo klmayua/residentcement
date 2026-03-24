@@ -1,0 +1,282 @@
+<!DOCTYPE html>
+
+<html class="light" lang="en"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<link href="https://fonts.googleapis.com/css2?family=Noto+Serif:wght@400;700;900&amp;family=Plus+Jakarta+Sans:wght@300;400;500;600;700&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<script id="tailwind-config">
+      tailwind.config = {
+        darkMode: "class",
+        theme: {
+          extend: {
+            colors: {
+              "secondary-container": "#e2dfde",
+              "outline-variant": "#d0c5b4",
+              "surface-container-low": "#f4f4f3",
+              "on-tertiary-fixed-variant": "#364573",
+              "on-secondary-container": "#636262",
+              "inverse-primary": "#e5c374",
+              "tertiary-container": "#99a7dc",
+              "on-surface-variant": "#4d4639",
+              "surface-container-lowest": "#ffffff",
+              "on-secondary": "#ffffff",
+              "primary-container": "#c5a55a",
+              "on-primary-fixed-variant": "#5a4300",
+              "inverse-on-surface": "#f1f1f0",
+              "primary-fixed": "#ffdf99",
+              "on-background": "#1a1c1c",
+              "on-tertiary-container": "#2d3b69",
+              "inverse-surface": "#2f3130",
+              "on-error-container": "#93000a",
+              "on-error": "#ffffff",
+              "surface-container-high": "#e8e8e7",
+              "surface-container": "#eeeeed",
+              "surface-bright": "#f9f9f8",
+              "tertiary": "#4e5c8c",
+              "on-tertiary": "#ffffff",
+              "error-container": "#ffdad6",
+              "surface-container-highest": "#e2e2e2",
+              "secondary-fixed": "#e5e2e1",
+              "outline": "#7e7667",
+              "secondary-fixed-dim": "#c8c6c5",
+              "surface-dim": "#dadad9",
+              "on-primary-container": "#4f3b00",
+              "tertiary-fixed-dim": "#b6c4fb",
+              "surface-tint": "#745b17",
+              "background": "#f9f9f8",
+              "on-tertiary-fixed": "#071845",
+              "on-primary-fixed": "#251a00",
+              "on-surface": "#1a1c1c",
+              "secondary": "#5f5e5e",
+              "tertiary-fixed": "#dce1ff",
+              "on-secondary-fixed-variant": "#474746",
+              "primary": "#745b17",
+              "surface": "#f9f9f8",
+              "surface-variant": "#e2e2e2",
+              "error": "#ba1a1a",
+              "primary-fixed-dim": "#e5c374",
+              "on-primary": "#ffffff",
+              "on-secondary-fixed": "#1c1b1b"
+            },
+            fontFamily: {
+              "headline": ["Noto Serif"],
+              "body": ["Plus Jakarta Sans"],
+              "label": ["Plus Jakarta Sans"]
+            },
+            borderRadius: {"DEFAULT": "0.125rem", "lg": "0.25rem", "xl": "0.5rem", "full": "0.75rem"},
+          },
+        },
+      }
+    </script>
+<style>
+        .material-symbols-outlined {
+            font-variation-settings: 'FILL' 0, 'wght' 400, 'GRAD' 0, 'opsz' 24;
+        }
+        .glass-nav {
+            background: rgba(249, 249, 248, 0.7);
+            backdrop-filter: blur(20px);
+        }
+        .monolith-card:hover {
+            box-shadow: 0px 20px 40px rgba(26, 28, 28, 0.06);
+            transform: translateY(-2px);
+        }
+    </style>
+</head>
+<body class="bg-background text-on-surface font-body antialiased">
+<!-- Top Navigation -->
+<nav class="fixed top-0 w-full z-50 bg-[#F9F9F8]/70 backdrop-blur-md shadow-sm transition-colors duration-300">
+<div class="flex justify-between items-center w-full px-8 py-4 max-w-screen-2xl mx-auto">
+<div class="text-xl font-headline font-bold tracking-tighter text-[#171717] uppercase">
+                Resident Cement
+            </div>
+<div class="hidden md:flex items-center space-x-12">
+<a class="text-[#171717] font-medium hover:text-[#745B17] transition-colors" href="#">About</a>
+<a class="text-[#745B17] border-b-2 border-[#745B17] pb-1 font-medium" href="#">Products</a>
+<a class="text-[#171717] font-medium hover:text-[#745B17] transition-colors" href="#">Sustainability</a>
+</div>
+<button class="bg-primary text-on-primary px-6 py-2 text-sm font-bold tracking-wide transition-all active:scale-95 opacity-100 hover:opacity-90">
+                Order Now
+            </button>
+</div>
+</nav>
+<main class="pt-32 pb-24">
+<!-- Hero Header Section -->
+<header class="max-w-screen-2xl mx-auto px-8 mb-20 grid grid-cols-1 md:grid-cols-12 gap-8 items-end">
+<div class="md:col-span-8">
+<span class="text-primary font-bold tracking-widest text-xs uppercase mb-4 block">Product Collection 2024</span>
+<h1 class="text-6xl md:text-8xl font-headline font-black tracking-tighter text-[#171717] leading-none mb-6">
+                    Structural <br/>Integrity.
+                </h1>
+<p class="text-xl text-secondary max-w-xl leading-relaxed">
+                    A curated selection of high-performance architectural materials, engineered for permanence and visual precision.
+                </p>
+</div>
+<div class="md:col-span-4 md:text-right">
+<div class="inline-flex flex-col items-end">
+<span class="text-outline text-sm mb-2">Filter By Series</span>
+<div class="flex gap-2">
+<span class="px-4 py-1 bg-surface-container-high text-xs font-bold border-l-2 border-primary">All Materials</span>
+<span class="px-4 py-1 bg-surface-container text-xs font-medium hover:bg-surface-container-high cursor-pointer transition-colors">Portland</span>
+<span class="px-4 py-1 bg-surface-container text-xs font-medium hover:bg-surface-container-high cursor-pointer transition-colors">Pre-Cast</span>
+</div>
+</div>
+</div>
+</header>
+<!-- Product Bento Grid -->
+<section class="max-w-screen-2xl mx-auto px-8">
+<div class="grid grid-cols-1 md:grid-cols-12 gap-6">
+<!-- Main Featured Product -->
+<div class="md:col-span-8 group relative overflow-hidden bg-surface-container-low transition-all duration-300 monolith-card">
+<div class="aspect-[16/9] overflow-hidden">
+<img alt="Premium Gray Cement Mix" class="w-full h-full object-cover transition-transform duration-700 group-hover:scale-105" data-alt="High quality gray cement texture detail" src="https://lh3.googleusercontent.com/aida-public/AB6AXuASkoY0as_Cws3K3HK3l6Qgyz6PreFxChQfOI0sbaCF9qx0IDUpjGFbhGrmMC6UAbnDA3LVFfXv_Xtw1YN868CaJXIAZ7EeD8zCTBhVcNPxh7Gy-6_lGykVbSkCrlCD1-TGt5zmmMgu7mvxXY4C1Geoa9Q3NRoUf2UqErA2ElKDt9_QSDXNPCWLrQnMXG1XTPd2SWXLODVWtRyRPTFnAUssJGOdVHaHtNV5p3qsa80hsxX9udqskbikmOs8VHtNZQhXOPiZvxWQJ2O_"/>
+</div>
+<div class="p-8 grid grid-cols-1 md:grid-cols-2 gap-8 items-start">
+<div>
+<h3 class="text-3xl font-headline font-bold text-[#171717] mb-2">Elite Portland</h3>
+<p class="text-secondary leading-relaxed mb-6">Our flagship high-strength binder, formulated for monumental architecture and extreme environmental resistance.</p>
+<div class="flex items-center gap-4">
+<span class="text-xs font-bold tracking-tighter uppercase text-primary border-b border-primary/30">ASTM C150 Type I/II</span>
+<span class="text-xs font-bold tracking-tighter uppercase text-primary border-b border-primary/30">Low-Alkali</span>
+</div>
+</div>
+<div class="flex flex-col justify-between h-full md:items-end">
+<span class="text-4xl font-headline font-light text-outline-variant mb-4">01</span>
+<button class="w-full md:w-auto px-8 py-3 bg-on-background text-surface text-sm font-bold hover:bg-primary transition-colors flex items-center justify-center gap-2">
+                                View Details 
+                                <span class="material-symbols-outlined text-sm">arrow_forward</span>
+</button>
+</div>
+</div>
+</div>
+<!-- Secondary Product 1 -->
+<div class="md:col-span-4 group monolith-card bg-surface-container-low transition-all duration-300">
+<div class="aspect-square overflow-hidden">
+<img alt="Solid concrete block" class="w-full h-full object-cover transition-transform duration-700 group-hover:scale-105" data-alt="Close up of a brutalist concrete block" src="https://lh3.googleusercontent.com/aida-public/AB6AXuAzIa099s7kYng9l1Xh2AbTTkvYd2WOiI_sLk-VjEFiBFlQRqU9XjzM_hUSrpNZSJkvmidwye7YvvrNavSibpvC_IQqZtiMxiT4j1az4AiCfiMMY_uV-xJyBQKgfk38cDuLUOtmZdyt5Qa1-e27HYL1HPlIxgXOcszfSRwWReeiAlVLxESowvRGKxnss71GyH3h_RNJmjhJtiYxFGklC-iJ1LeOmQLzt_CLmj7ZF0zGEIfkQY9thO_BLGu-B1UWplVL4JKq3HnM_Cec"/>
+</div>
+<div class="p-8">
+<div class="flex justify-between items-start mb-4">
+<h3 class="text-2xl font-headline font-bold text-[#171717]">Monolith Blocks</h3>
+<span class="text-xl font-headline font-light text-outline-variant">02</span>
+</div>
+<p class="text-secondary text-sm mb-8 leading-relaxed">Precision-engineered pre-cast units for brutalist aesthetics and load-bearing performance.</p>
+<button class="text-primary font-bold text-xs uppercase tracking-widest flex items-center gap-2 hover:gap-4 transition-all">
+                            Explore Series <span class="material-symbols-outlined text-sm">east</span>
+</button>
+</div>
+</div>
+<!-- Secondary Product 2 -->
+<div class="md:col-span-4 group monolith-card bg-surface-container-low transition-all duration-300">
+<div class="aspect-square overflow-hidden">
+<img alt="Construction material texture" class="w-full h-full object-cover transition-transform duration-700 group-hover:scale-105" data-alt="White smooth architectural concrete surface" src="https://lh3.googleusercontent.com/aida-public/AB6AXuAA8-QhhpvHRl09Ujh4xmdKopeQ0w5gzBGpBpGuR-caz_-VKA4tv5_zK0vFSwnN0wV7qM1_8gN5tjjhAWunJ5GvTMtJFv0LRz55a_hR-Xzglwf03eijxVYGS79HqfixXtd9aoHGaTrJ3ALGFwVsk88sXpeFPKTgJ4SJKxi2KOqaTSSUrhvpnXjuRDJczWMhLrZVdSTO-8HwPGdAqrWOsBJ0NLCpNMBFIkpUvST3beNtp9Eid5l4jaGhJesEsobXeg4p9wANJ56cYBTd"/>
+</div>
+<div class="p-8">
+<div class="flex justify-between items-start mb-4">
+<h3 class="text-2xl font-headline font-bold text-[#171717]">Alabaster Finish</h3>
+<span class="text-xl font-headline font-light text-outline-variant">03</span>
+</div>
+<p class="text-secondary text-sm mb-8 leading-relaxed">Ultra-white cement for decorative facings and high-reflectivity architectural elements.</p>
+<button class="text-primary font-bold text-xs uppercase tracking-widest flex items-center gap-2 hover:gap-4 transition-all">
+                            Explore Series <span class="material-symbols-outlined text-sm">east</span>
+</button>
+</div>
+</div>
+<!-- Asymmetric Highlight Section -->
+<div class="md:col-span-8 bg-[#171717] p-12 flex flex-col justify-center relative overflow-hidden">
+<div class="relative z-10">
+<span class="text-primary-container font-bold text-xs tracking-[0.2em] uppercase mb-4 block">Innovation Lab</span>
+<h2 class="text-4xl md:text-5xl font-headline text-surface font-bold leading-tight mb-6 max-w-md">
+                            The Carbon-Neutral <br/><span class="text-primary-container italic">Future of Stone</span>.
+                        </h2>
+<p class="text-surface-variant/70 max-w-lg mb-8">
+                            Discover our new bio-interactive cement series designed to actively capture CO2 while maintaining industrial strength.
+                        </p>
+<button class="px-8 py-3 border border-primary text-primary-container text-xs font-bold uppercase tracking-widest hover:bg-primary hover:text-on-primary transition-all">
+                            Read the Technical Whitepaper
+                        </button>
+</div>
+<!-- Decorative Element -->
+<div class="absolute right-0 bottom-0 opacity-10 translate-x-1/4 translate-y-1/4">
+<span class="material-symbols-outlined text-[300px]" style="font-variation-settings: 'wght' 100;">architecture</span>
+</div>
+</div>
+</div>
+</section>
+<!-- Catalog Filter/Search Component -->
+<section class="max-w-screen-2xl mx-auto px-8 mt-24">
+<div class="bg-surface-container-high p-10 grid grid-cols-1 md:grid-cols-4 gap-8">
+<div class="md:col-span-1">
+<h4 class="font-headline font-bold text-xl mb-2">Technical Filter</h4>
+<p class="text-xs text-secondary">Narrow your search by structural requirements and finish type.</p>
+</div>
+<div class="md:col-span-3 flex flex-wrap gap-4">
+<select class="bg-surface-container-lowest border-none text-sm font-medium focus:ring-2 focus:ring-primary min-w-[200px] h-12 px-4">
+<option>Compressive Strength (PSI)</option>
+<option>3000 - 5000 PSI</option>
+<option>5000 - 8000 PSI</option>
+<option>8000+ PSI</option>
+</select>
+<select class="bg-surface-container-lowest border-none text-sm font-medium focus:ring-2 focus:ring-primary min-w-[200px] h-12 px-4">
+<option>Curing Speed</option>
+<option>Standard (28 Days)</option>
+<option>High Early (3 Days)</option>
+</select>
+<div class="flex-grow relative">
+<input class="w-full bg-surface-container-lowest border-none text-sm h-12 px-12 focus:ring-2 focus:ring-primary" placeholder="Search product name..." type="text"/>
+<span class="material-symbols-outlined absolute left-4 top-1/2 -translate-y-1/2 text-outline">search</span>
+</div>
+</div>
+</div>
+</section>
+</main>
+<!-- Footer -->
+<footer class="bg-[#E2E2E2] dark:bg-[#1A1C1C]">
+<div class="grid grid-cols-1 md:grid-cols-4 gap-12 px-12 py-20 max-w-screen-2xl mx-auto">
+<div class="col-span-1">
+<div class="font-serif text-2xl font-black text-[#171717] dark:text-[#F9F9F8] mb-6">
+                    Resident Cement
+                </div>
+<p class="text-sm font-body opacity-70 leading-relaxed">
+                    Forging the foundations of the future with architectural precision and uncompromising strength.
+                </p>
+</div>
+<div>
+<h5 class="font-bold text-sm uppercase tracking-widest mb-6">Navigation</h5>
+<ul class="space-y-4">
+<li><a class="text-sm opacity-70 hover:opacity-100 transition-opacity hover:underline decoration-[#C5A55A] underline-offset-4" href="#">Sitemap</a></li>
+<li><a class="text-sm opacity-70 hover:opacity-100 transition-opacity hover:underline decoration-[#C5A55A] underline-offset-4" href="#">Contact Us</a></li>
+<li><a class="text-sm opacity-70 hover:opacity-100 transition-opacity hover:underline decoration-[#C5A55A] underline-offset-4" href="#">Privacy Policy</a></li>
+<li><a class="text-sm opacity-70 hover:opacity-100 transition-opacity hover:underline decoration-[#C5A55A] underline-offset-4" href="#">Terms of Service</a></li>
+</ul>
+</div>
+<div>
+<h5 class="font-bold text-sm uppercase tracking-widest mb-6">Social</h5>
+<ul class="space-y-4">
+<li><a class="text-sm opacity-70 hover:opacity-100 transition-opacity hover:underline decoration-[#C5A55A] underline-offset-4" href="#">LinkedIn</a></li>
+<li><a class="text-sm opacity-70 hover:opacity-100 transition-opacity hover:underline decoration-[#C5A55A] underline-offset-4" href="#">Instagram</a></li>
+</ul>
+</div>
+<div>
+<h5 class="font-bold text-sm uppercase tracking-widest mb-6">Legacy</h5>
+<p class="text-sm opacity-70 leading-relaxed italic">
+                    "Built for Permanence."
+                </p>
+<div class="mt-8 flex gap-4">
+<div class="w-10 h-10 border border-outline-variant flex items-center justify-center">
+<span class="material-symbols-outlined text-sm">handyman</span>
+</div>
+<div class="w-10 h-10 border border-outline-variant flex items-center justify-center">
+<span class="material-symbols-outlined text-sm">eco</span>
+</div>
+</div>
+</div>
+</div>
+<div class="max-w-screen-2xl mx-auto px-12 pb-12">
+<div class="pt-8 border-t border-outline-variant/30 text-xs font-sans tracking-wide text-[#171717] dark:text-[#F9F9F8] opacity-60">
+                © 2024 Resident Cement. Built for Permanence.
+            </div>
+</div>
+</footer>
+</body></html>

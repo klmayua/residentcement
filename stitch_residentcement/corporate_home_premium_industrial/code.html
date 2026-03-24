@@ -1,0 +1,275 @@
+<!DOCTYPE html>
+
+<html class="light" lang="en"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>Resident Cement | Built for Generations</title>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<link href="https://fonts.googleapis.com/css2?family=Noto+Serif:wght@400;700;800&amp;family=Plus+Jakarta+Sans:wght@300;400;500;600;700&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<script id="tailwind-config">
+      tailwind.config = {
+        darkMode: "class",
+        theme: {
+          extend: {
+            colors: {
+              "surface-container-highest": "#e2e2e2",
+              "inverse-on-surface": "#f1f1f0",
+              "tertiary": "#4e5c8c",
+              "on-secondary-fixed-variant": "#474746",
+              "surface-variant": "#e2e2e2",
+              "primary-fixed": "#ffdf99",
+              "surface-bright": "#f9f9f8",
+              "secondary-fixed": "#e5e2e1",
+              "on-primary-fixed": "#251a00",
+              "tertiary-fixed": "#dce1ff",
+              "error": "#ba1a1a",
+              "primary-container": "#c5a55a",
+              "inverse-primary": "#e5c374",
+              "outline": "#7e7667",
+              "background": "#f9f9f8",
+              "surface-tint": "#745b17",
+              "on-primary-container": "#4f3b00",
+              "primary": "#745b17",
+              "secondary-fixed-dim": "#c8c6c5",
+              "on-primary": "#ffffff",
+              "on-tertiary-fixed-variant": "#364573",
+              "on-background": "#1a1c1c",
+              "on-error": "#ffffff",
+              "on-error-container": "#93000a",
+              "on-secondary": "#ffffff",
+              "error-container": "#ffdad6",
+              "inverse-surface": "#2f3130",
+              "primary-fixed-dim": "#e5c374",
+              "surface": "#f9f9f8",
+              "tertiary-fixed-dim": "#b6c4fb",
+              "surface-container-lowest": "#ffffff",
+              "on-surface": "#1a1c1c",
+              "on-secondary-fixed": "#1c1b1b",
+              "on-tertiary-container": "#2d3b69",
+              "on-surface-variant": "#4d4639",
+              "surface-dim": "#dadad9",
+              "outline-variant": "#d0c5b4",
+              "secondary": "#5f5e5e",
+              "on-tertiary": "#ffffff",
+              "on-primary-fixed-variant": "#5a4300",
+              "on-secondary-container": "#636262",
+              "surface-container-high": "#e8e8e7",
+              "on-tertiary-fixed": "#071845",
+              "tertiary-container": "#99a7dc",
+              "secondary-container": "#e2dfde",
+              "surface-container": "#eeeeed",
+              "surface-container-low": "#f4f4f3"
+            },
+            fontFamily: {
+              "headline": ["Noto Serif"],
+              "body": ["Plus Jakarta Sans"],
+              "label": ["Plus Jakarta Sans"]
+            },
+            borderRadius: {"DEFAULT": "0.125rem", "lg": "0.25rem", "xl": "0.5rem", "full": "0.75rem"},
+          },
+        },
+      }
+    </script>
+<style>
+      .material-symbols-outlined {
+        font-variation-settings: 'FILL' 0, 'wght' 400, 'GRAD' 0, 'opsz' 24;
+      }
+      .glass-nav {
+        background: rgba(249, 249, 248, 0.7);
+        backdrop-filter: blur(20px);
+      }
+      .hero-gradient {
+        background: linear-gradient(to right, rgba(26, 28, 28, 0.8), rgba(26, 28, 28, 0.2));
+      }
+      .gold-monolith {
+        background: linear-gradient(45deg, #745B17, #C5A55A);
+      }
+    </style>
+</head>
+<body class="bg-background text-on-background font-body selection:bg-primary-container selection:text-on-primary-container">
+<!-- TopNavBar (Shared Component) -->
+<nav class="fixed top-0 w-full z-50 bg-stone-50/70 dark:bg-stone-900/70 backdrop-blur-md shadow-sm border-none bg-stone-100/50 dark:bg-stone-800/50 flex justify-between items-center px-8 h-20 max-w-full mx-auto">
+<div class="text-xl font-serif font-bold text-stone-900 dark:text-stone-50 tracking-tight">Resident Cement</div>
+<div class="hidden md:flex items-center space-x-12">
+<a class="font-serif text-stone-900 dark:text-stone-50 tracking-tight text-yellow-700 dark:text-yellow-500 border-b-2 border-yellow-700 pb-1 hover:opacity-80 transition-opacity" href="#">About</a>
+<a class="font-serif text-stone-900 dark:text-stone-50 tracking-tight text-stone-600 dark:text-stone-400 hover:text-stone-900 dark:hover:text-stone-100 hover:opacity-80 transition-opacity" href="#">Products</a>
+<a class="font-serif text-stone-900 dark:text-stone-50 tracking-tight text-stone-600 dark:text-stone-400 hover:text-stone-900 dark:hover:text-stone-100 hover:opacity-80 transition-opacity" href="#">Sustainability</a>
+</div>
+<div class="flex items-center gap-6">
+<div class="hidden lg:flex items-center bg-surface-container-high px-4 py-2 rounded-lg">
+<span class="material-symbols-outlined text-outline text-sm mr-2">search</span>
+<input class="bg-transparent border-none focus:ring-0 text-sm w-48 font-body" placeholder="Search infrastructure..." type="text"/>
+</div>
+<button class="bg-primary text-on-primary px-6 py-2.5 text-sm font-bold uppercase tracking-wider rounded hover:opacity-90 active:scale-95 duration-150">Order Now</button>
+</div>
+</nav>
+<!-- Hero Section -->
+<header class="relative h-screen w-full overflow-hidden">
+<div class="absolute inset-0">
+<img alt="Modern architectural monolith" class="w-full h-full object-cover" data-alt="Modern geometric skyscraper with golden sunlight reflecting on glass" src="https://lh3.googleusercontent.com/aida-public/AB6AXuB-TS8bW3rTMTiQt5AqJlKq4aq-MqO_GkyXEQI_Rep53t9VCAMMzTuhQkQR9jgmOBxhvud47GQw3aqfdZYsk6L8u7XMubUq5o-bFEfIkI2qQPSDcQ1Z47l_dzvsgGISZZ9zSiq6YB5WR9vJlXRRtKJMO02Z1f6dP4Hx_7GIuxed56jCz5V93oG1Enet3UDAAp-CpY2cU0m9_ypS-Rn0zhvOxkn_RIcgGTbT3yco4Dh0yzYPOdOGjFjpbGmHfUYxnqNXOFV8uoptd-ek"/>
+<div class="absolute inset-0 hero-gradient"></div>
+</div>
+<div class="relative z-10 h-full flex flex-col justify-center px-8 md:px-24 max-w-7xl mx-auto">
+<span class="text-primary-container font-bold tracking-[0.3em] uppercase mb-6 block text-sm">Industrial Excellence</span>
+<h1 class="font-headline text-6xl md:text-8xl text-on-primary font-extrabold leading-tight tracking-tighter mb-8 max-w-4xl">
+                Built for Generations
+            </h1>
+<p class="text-surface-bright text-lg md:text-xl max-w-xl font-light leading-relaxed mb-12 opacity-90">
+                Architectural grade foundations engineered for permanence. We provide the structural soul for tomorrow's landmarks.
+            </p>
+<div class="flex flex-col sm:flex-row gap-6">
+<button class="gold-monolith text-on-primary px-10 py-5 text-sm font-bold uppercase tracking-[0.2em] rounded-lg shadow-xl hover:opacity-90 transition-all">
+                    Request Quote
+                </button>
+<button class="border border-white/30 backdrop-blur-md text-white px-10 py-5 text-sm font-bold uppercase tracking-[0.2em] rounded-lg hover:bg-white/10 transition-all">
+                    Explore Materials
+                </button>
+</div>
+</div>
+<!-- Scroll Indicator -->
+<div class="absolute bottom-10 left-1/2 -translate-x-1/2 text-white/50 flex flex-col items-center">
+<span class="text-[10px] uppercase tracking-[0.4em] mb-4">Discovery</span>
+<div class="w-[1px] h-12 bg-gradient-to-b from-white/50 to-transparent"></div>
+</div>
+</header>
+<!-- Features Bento Grid -->
+<section class="py-32 px-8 max-w-7xl mx-auto">
+<div class="grid grid-cols-1 md:grid-cols-3 gap-8">
+<!-- Quality -->
+<div class="p-10 bg-surface-container-low rounded-lg border-l-2 border-primary-container/30 hover:bg-surface-container-lowest transition-all group">
+<span class="material-symbols-outlined text-primary text-4xl mb-8" data-weight="fill">verified</span>
+<h3 class="font-headline text-2xl font-bold mb-4 text-on-surface">Product Quality</h3>
+<p class="text-on-surface-variant leading-relaxed">Nano-engineered aggregates ensuring compressive strength that exceeds global industrial standards by 40%.</p>
+<div class="mt-8 h-[1px] w-0 group-hover:w-full bg-primary transition-all duration-500"></div>
+</div>
+<!-- Sustainability -->
+<div class="p-10 bg-surface-container-low rounded-lg border-l-2 border-primary-container/30 hover:bg-surface-container-lowest transition-all group">
+<span class="material-symbols-outlined text-primary text-4xl mb-8" data-weight="fill">eco</span>
+<h3 class="font-headline text-2xl font-bold mb-4 text-on-surface">Sustainability</h3>
+<p class="text-on-surface-variant leading-relaxed">Carbon-neutral manufacturing processes and recycled raw materials for the next century of green building.</p>
+<div class="mt-8 h-[1px] w-0 group-hover:w-full bg-primary transition-all duration-500"></div>
+</div>
+<!-- Logistics -->
+<div class="p-10 bg-surface-container-low rounded-lg border-l-2 border-primary-container/30 hover:bg-surface-container-lowest transition-all group">
+<span class="material-symbols-outlined text-primary text-4xl mb-8" data-weight="fill">conveyor_belt</span>
+<h3 class="font-headline text-2xl font-bold mb-4 text-on-surface">B2B Logistics</h3>
+<p class="text-on-surface-variant leading-relaxed">Real-time supply chain tracking and automated fleet management for seamless site delivery integration.</p>
+<div class="mt-8 h-[1px] w-0 group-hover:w-full bg-primary transition-all duration-500"></div>
+</div>
+</div>
+</section>
+<!-- Our Materials Section -->
+<section class="bg-surface-container py-32 px-8">
+<div class="max-w-7xl mx-auto">
+<div class="flex flex-col md:flex-row md:items-end justify-between mb-20 gap-8">
+<div class="max-w-2xl">
+<h2 class="font-headline text-5xl font-extrabold text-on-surface mb-6 tracking-tight">Our Materials</h2>
+<p class="text-on-surface-variant text-lg">The foundational components of modern infrastructure, refined for specific architectural needs.</p>
+</div>
+<button class="text-primary font-bold uppercase tracking-widest text-sm flex items-center gap-2 group">
+                    View Catalog 
+                    <span class="material-symbols-outlined group-hover:translate-x-2 transition-transform">arrow_right_alt</span>
+</button>
+</div>
+<div class="grid grid-cols-1 md:grid-cols-4 gap-6">
+<!-- Product Card 1 -->
+<div class="bg-surface-container-lowest p-4 rounded-lg group cursor-pointer shadow-sm hover:shadow-xl transition-all">
+<div class="aspect-square bg-surface-container rounded-lg mb-6 overflow-hidden">
+<img alt="Cement Bag" class="w-full h-full object-cover group-hover:scale-110 transition-transform duration-700" data-alt="Premium minimalist white cement bag with gold logo" src="https://lh3.googleusercontent.com/aida-public/AB6AXuBCZD7YuD66QxOn5Or34atSXp2hq1Bf_23or_WwnW-hNXFTUwYVKt1oXvFbRKM0goGaOYdMmz9qTQIUeSlsUd-ch_pAW0TMucw3ipgePhSp-iYcgaBetP7jejD2-0ofgZwxERFUR5OlWDUk5tabRYMnln5SlgrHp_yZZur9ugyOIUcKfnYhjbLOVxnv01Ar5OyXaRH4u0HnaTytluKHJXVouwAyOC3EAjixOVaSlNrHmjFk3E3RYAy6GBpS2ZNVGeJiPvDP1NawnSxD"/>
+</div>
+<span class="text-[10px] text-outline font-bold uppercase tracking-widest">Type GU</span>
+<h4 class="font-headline text-xl font-bold mt-1 text-on-surface">Elite Portland</h4>
+<p class="text-primary font-bold mt-4">$24.50 <span class="text-on-surface-variant font-normal text-xs">/ unit</span></p>
+</div>
+<!-- Product Card 2 -->
+<div class="bg-surface-container-lowest p-4 rounded-lg group cursor-pointer shadow-sm hover:shadow-xl transition-all">
+<div class="aspect-square bg-surface-container rounded-lg mb-6 overflow-hidden">
+<img alt="Concrete Cube" class="w-full h-full object-cover group-hover:scale-110 transition-transform duration-700" data-alt="Perfect geometric concrete testing cube with smooth finish" src="https://lh3.googleusercontent.com/aida-public/AB6AXuB5eucpXyB_UWS5zt2iI6sc1zfRrr2GFZqXcEHI_GaBNVmyTUjk1Po5ur2SGoB9Q7IkMazdwjJrILTFWjaNtf47jko0n0zG3WmfJSi57-wNDhqnn8TWXUeVC1wN6ibO0Mpc-kjN9YhvK-59kL5al2Y7QY7e6DLfVi3W6VmpLP8yoQjC6AMGz0EEGlF7eH5A-1ZuSRsh1haZrwjNZ0iZkcLgYwwCdyVVpnu_TBWaO7VtrdajxxgGiiTAJSrWTFmBJoZMRhSA4g7b8afm"/>
+</div>
+<span class="text-[10px] text-outline font-bold uppercase tracking-widest">Pre-Cast</span>
+<h4 class="font-headline text-xl font-bold mt-1 text-on-surface">Monolith Blocks</h4>
+<p class="text-primary font-bold mt-4">$112.00 <span class="text-on-surface-variant font-normal text-xs">/ block</span></p>
+</div>
+<!-- Product Card 3 -->
+<div class="bg-surface-container-lowest p-4 rounded-lg group cursor-pointer shadow-sm hover:shadow-xl transition-all">
+<div class="aspect-square bg-surface-container rounded-lg mb-6 overflow-hidden">
+<img alt="Aggregate Mix" class="w-full h-full object-cover group-hover:scale-110 transition-transform duration-700" data-alt="Close up of high quality sand and gravel aggregate" src="https://lh3.googleusercontent.com/aida-public/AB6AXuCOfficVu31Xt4k-E1JukBy_ciriDHvIlH3tLMMhTfNRxd4tCWtqEXbdlijDRJ2bmlq_AKFLlsQFbWVYYHgQixWzGLeg5IJ3OC2HFqXxBFt0WgUexg6H3lEpjp4uZNProLdYZ7SHzt8BSnyeNJTh4jVg-XOCU53t3thZSvHXtzgBThMbat1SOTW4Y7kBwVwk0M78Fs9Dg34k4-d-lp2qdh4CTf45qxZPOH31YqYnHJ-u9HdiDBBtleD7pOi0YoiLQWGmtv98DPyH9Uh"/>
+</div>
+<span class="text-[10px] text-outline font-bold uppercase tracking-widest">Aggregate</span>
+<h4 class="font-headline text-xl font-bold mt-1 text-on-surface">Titanium Grit</h4>
+<p class="text-primary font-bold mt-4">$85.00 <span class="text-on-surface-variant font-normal text-xs">/ ton</span></p>
+</div>
+<!-- Product Card 4 -->
+<div class="bg-surface-container-lowest p-4 rounded-lg group cursor-pointer shadow-sm hover:shadow-xl transition-all">
+<div class="aspect-square bg-surface-container rounded-lg mb-6 overflow-hidden">
+<img alt="Specialty Mix" class="w-full h-full object-cover group-hover:scale-110 transition-transform duration-700" data-alt="Liquid concrete pouring with smooth consistency" src="https://lh3.googleusercontent.com/aida-public/AB6AXuCV-TFFuaUR1pJNcw1qUmSlqRshHeop2i0M2bO-Y22ULZ2BJtD0gR9FjZWbLAPMwfXFS0ThTH0v0PNyMGaEKQeKGoK9g_92A2gmUgMLzbP5Xl3E5TyrldGQAqCPvWsn9w3tKi5ydqDS95IKsDR_BxFe1A36EyzPNYf1L47yKwOYkeRSTm06IF8ZQD6mor3hwsyhEqEk2PJOaggRByS7Szqo8ATDmC7iVRNQyNdkmxAhhg4P36as34Of620bwOy3mFtnnhoraAJLYvPW"/>
+</div>
+<span class="text-[10px] text-outline font-bold uppercase tracking-widest">Custom</span>
+<h4 class="font-headline text-xl font-bold mt-1 text-on-surface">Hydro-Seal Mix</h4>
+<p class="text-primary font-bold mt-4">Quote Only</p>
+</div>
+</div>
+</div>
+</section>
+<!-- Latest Projects -->
+<section class="py-32 px-8 max-w-7xl mx-auto">
+<h2 class="font-headline text-5xl font-extrabold text-on-surface mb-16 tracking-tight text-center">Latest Projects</h2>
+<div class="grid grid-cols-1 md:grid-cols-12 gap-4 h-[800px]">
+<div class="md:col-span-8 relative group overflow-hidden rounded-lg shadow-lg">
+<img alt="Large Bridge Construction" class="w-full h-full object-cover transition-transform duration-1000 group-hover:scale-105" data-alt="Massive concrete bridge structure under construction at dusk" src="https://lh3.googleusercontent.com/aida-public/AB6AXuDQgFGZ5klym8MNxKQEopw_FLSk1XVmGI8Ot5fmwxOdleltNq73SZKm-j_5m8LzN47G0uyRiMgd8lCel9it1Inkg_MRk63AcQWFu9XPf6QviTDo1l2ROz1W3DOO17h6GAXUd1M26BM6s1u3dliOjouCWtHF8sIhErlxCwbPSHqragAn2AX0pszPGm_pognwuI8H2rebY-ALk3zYjbUniVhJGfA8n_tAmcpBjtuUtJQ0hPeXBGcVA4yRqAGefGDW0wS0SmnS9kCzvI11"/>
+<div class="absolute inset-0 bg-gradient-to-t from-black/80 via-transparent to-transparent opacity-0 group-hover:opacity-100 transition-opacity p-12 flex flex-col justify-end">
+<span class="text-primary-fixed uppercase tracking-widest text-xs mb-4">Infrastructure</span>
+<h3 class="text-white font-headline text-3xl font-bold">The Meridian Viaduct</h3>
+<p class="text-white/70 max-w-md mt-4">120,000 cubic meters of Type V High-Sulfate resistance cement utilized for long-term maritime durability.</p>
+</div>
+</div>
+<div class="md:col-span-4 grid grid-rows-2 gap-4">
+<div class="relative group overflow-hidden rounded-lg shadow-lg">
+<img alt="High Rise Foundation" class="w-full h-full object-cover transition-transform duration-1000 group-hover:scale-105" data-alt="Aerial view of a deep skyscraper foundation pour" src="https://lh3.googleusercontent.com/aida-public/AB6AXuDH3-XYqOZUh-Gr-EyUNzATE9coXoYmrh20q9pEXBVcKVKO-6m8kM0LPGEvmD3q-23usfo8DAtBe-gFG56f9CRmZcDhgYRALZpOmxkArqQz52xItQwaKyJQP4tMaC-D1xleQEAsu-3L7UkzlLuzLgAVccVgSeDGh4l8Cb3YtyfcrPQrskWhD-lG4KduVbVpuo4g1iKkJLPp7jDaszjuxCFVyvLBfadakUI6wqyHPLzn0-TWF0DQwmzqibURUJz3QTRS2rivIONUWU9I"/>
+<div class="absolute inset-0 bg-black/40 opacity-0 group-hover:opacity-100 transition-opacity p-8 flex flex-col justify-end">
+<h3 class="text-white font-headline text-xl font-bold">Apex Plaza</h3>
+</div>
+</div>
+<div class="relative group overflow-hidden rounded-lg shadow-lg">
+<img alt="Modern Museum" class="w-full h-full object-cover transition-transform duration-1000 group-hover:scale-105" data-alt="Brutalist concrete architecture museum with sharp angles" src="https://lh3.googleusercontent.com/aida-public/AB6AXuCsTPDMLbaWEsv5W2xmpZ9z_EKzr9pPmAlERx-ONy2Lpm6v5p9ojJm_saXMcn1uRAjp-h0yAm9FLer4UNKCZ1l2vD-bfmZxkpd3UBFKhiCJLtHCOqg8Xwxsql57zw1qUF0RMdooTNXGnRPOD5UAuGXiOW21b4Selzjt-LzSZNO2YJk4Kdnou68Hx0jOl63EvpGs2cOynL8QgS5SdjEwi2iA7juc7oP3AKTVDV32kEFj8O_TDtz3unb9Eq1Wo8Nxwr4xkgvehz6f2YMR"/>
+<div class="absolute inset-0 bg-black/40 opacity-0 group-hover:opacity-100 transition-opacity p-8 flex flex-col justify-end">
+<h3 class="text-white font-headline text-xl font-bold">Museum of Form</h3>
+</div>
+</div>
+</div>
+</div>
+</section>
+<!-- Call to Action -->
+<section class="mb-32 px-8">
+<div class="max-w-7xl mx-auto gold-monolith p-20 rounded-lg flex flex-col md:flex-row items-center justify-between shadow-2xl relative overflow-hidden">
+<!-- Decorative circle -->
+<div class="absolute -right-20 -top-20 w-80 h-80 bg-white/10 rounded-full blur-3xl"></div>
+<div class="relative z-10 max-w-xl text-center md:text-left mb-12 md:mb-0">
+<h2 class="font-headline text-4xl md:text-5xl font-extrabold text-on-primary mb-6">Ready to break ground?</h2>
+<p class="text-white/80 text-lg leading-relaxed">Join the network of elite builders choosing Resident Cement for structural permanence. Our logistical team is ready to scale with your project.</p>
+</div>
+<div class="relative z-10 flex flex-col gap-4">
+<button class="bg-on-primary text-primary px-12 py-6 rounded text-sm font-extrabold uppercase tracking-[0.2em] shadow-lg hover:scale-105 transition-transform">
+                    Request Quote
+                </button>
+<p class="text-white/60 text-[10px] text-center uppercase tracking-widest">Average response time: 2 hours</p>
+</div>
+</div>
+</section>
+<!-- Footer (Shared Component) -->
+<footer class="bg-stone-50 dark:bg-stone-900 w-full border-t-0 bg-stone-200 dark:bg-stone-800 flex flex-col md:flex-row justify-between items-center px-12 py-12 w-full">
+<div class="flex flex-col items-center md:items-start gap-4 mb-8 md:mb-0">
+<div class="font-headline font-bold text-lg tracking-tight text-on-surface">Resident Cement</div>
+<p class="font-sans text-xs uppercase tracking-widest text-stone-500">© 2024 Resident Cement. All rights reserved.</p>
+</div>
+<div class="flex flex-wrap justify-center gap-10">
+<a class="font-sans text-xs uppercase tracking-widest text-stone-500 hover:text-yellow-700 transition-colors" href="#">Sitemap</a>
+<a class="font-sans text-xs uppercase tracking-widest text-stone-500 hover:text-yellow-700 transition-colors" href="#">Contact</a>
+<a class="font-sans text-xs uppercase tracking-widest text-stone-500 hover:text-yellow-700 transition-colors underline" href="#">Privacy Policy</a>
+<a class="font-sans text-xs uppercase tracking-widest text-stone-500 hover:text-yellow-700 transition-colors" href="#">LinkedIn</a>
+<a class="font-sans text-xs uppercase tracking-widest text-stone-500 hover:text-yellow-700 transition-colors" href="#">Instagram</a>
+</div>
+</footer>
+</body></html>

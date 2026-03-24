@@ -1,303 +1,156 @@
-"use client";
+'use client';
 
-import { useState } from "react";
-import Link from "next/link";
-import Image from "next/image";
-import {
-  Search,
-  ShoppingCart,
-  Package,
-  AlertCircle,
-  Loader2,
-  Plus,
-  Minus,
-} from "lucide-react";
-import { Button } from "@/components/ui/button";
-import { Input } from "@/components/ui/input";
-import { Badge } from "@/components/ui/badge";
-import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
-import {
-  Select,
-  SelectContent,
-  SelectItem,
-  SelectTrigger,
-  SelectValue,
-} from "@/components/ui/select";
-import { cn } from "@/lib/utils";
-import { useProducts } from "@/lib/products";
-import { useCartStore } from "@/store/cart";
-import { toast } from "sonner";
+import { useState } from 'react';
+import Link from 'next/link';
+import { Search, ShoppingCart, Package, LayoutDashboard, BarChart3, Receipt, Settings, Plus, Minus, Filter, ChevronDown } from 'lucide-react';
+
+const products = [
+  { id: '1', name: 'Elite Portland', sku: 'TYPE-GU-001', type: 'Type GU', grade: '42.5R', category: 'Premium', price: 2450, unit: 'bag', inStock: true },
+  { id: '2', name: 'Monolith Blocks', sku: 'PRECAST-002', type: 'Pre-Cast', grade: 'N/A', category: 'Standard', price: 11200, unit: 'block', inStock: true },
+  { id: '3', name: 'Titanium Grit', sku: 'AGG-003', type: 'Aggregate', grade: 'N/A', category: 'Bulk', price: 8500, unit: 'ton', inStock: true },
+  { id: '4', name: 'Hydro-Seal Mix', sku: 'CUSTOM-004', type: 'Custom', grade: '52.5R', category: 'Specialty', price: 0, unit: 'quote', inStock: true },
+  { id: '5', name: 'Resident 32.5R', sku: 'STD-005', type: 'Standard', grade: '32.5R', category: 'Standard', price: 1850, unit: 'bag', inStock: true },
+  { id: '6', name: 'Eco-Blend Cement', sku: 'ECO-006', type: 'Eco-Friendly', grade: '42.5N', category: 'Premium', price: 3200, unit: 'bag', inStock: false },
+];
+
+const sidebarLinks = [
+  { href: '/dashboard', label: 'Dashboard', icon: LayoutDashboard },
+  { href: '/dashboard/orders', label: 'Orders', icon: ShoppingCart },
+  { href: '/dashboard/products', label: 'Products', icon: Package, active: true },
+  { href: '/dashboard/invoices', label: 'Invoices', icon: Receipt },
+  { href: '/dashboard/analytics', label: 'Analytics', icon: BarChart3 },
+  { href: '/dashboard/settings', label: 'Settings', icon: Settings },
+];
 
 export default function ProductsPage() {
-  const [searchQuery, setSearchQuery] = useState("");
-  const [categoryFilter, setCategoryFilter] = useState("all");
-  const [gradeFilter, setGradeFilter] = useState("all");
+  const [searchQuery, setSearchQuery] = useState('');
+  const [categoryFilter, setCategoryFilter] = useState('all');
+  const [cart, setCart] = useState<Record<string, number>>({});
 
-  // Fetch products from API
-  const { data: products, isLoading, error } = useProducts({
-    search: searchQuery || undefined,
-    category: categoryFilter !== "all" ? categoryFilter : undefined,
+  const filteredProducts = products.filter((p) => {
+    const matchesSearch = p.name.toLowerCase().includes(searchQuery.toLowerCase()) || p.sku.toLowerCase().includes(searchQuery.toLowerCase());
+    const matchesCategory = categoryFilter === 'all' || p.category === categoryFilter;
+    return matchesSearch && matchesCategory;
   });
 
-  // Cart store
-  const { items, addItem, removeItem, updateQuantity, totalAmount, totalItems } =
-    useCartStore();
+  const cartCount = Object.values(cart).reduce((a, b) => a + b, 0);
 
-  if (error) {
-    toast.error("Failed to load products");
-  }
-
-  // Filter products client-side for grade
-  const filteredProducts =
-    products?.filter((product) => {
-      const matchesSearch =
-        !searchQuery ||
-        product.name.toLowerCase().includes(searchQuery.toLowerCase()) ||
-        product.sku.toLowerCase().includes(searchQuery.toLowerCase()) ||
-        (product.description?.toLowerCase().includes(searchQuery.toLowerCase()) ??
-          false);
-      const matchesGrade =
-        gradeFilter === "all" || product.grade === gradeFilter;
-      return matchesSearch && matchesGrade;
-    }) || [];
-
-  const formatCurrency = (amount: number) => {
-    return new Intl.NumberFormat("en-NG", {
-      style: "currency",
-      currency: "NGN",
-      minimumFractionDigits: 0,
-    }).format(amount);
-  };
-
-  const handleAddToCart = (product: any) => {
-    addItem({
-      id: product.id,
-      productId: product.id,
-      name: product.name,
-      sku: product.sku,
-      price: product.basePrice,
-      quantity: 1,
-      unit: product.unit,
-      image: product.image,
+  const updateCart = (productId: string, delta: number) => {
+    setCart((prev) => {
+      const current = prev[productId] || 0;
+      const updated = Math.max(0, current + delta);
+      if (updated === 0) {
+        const { [productId]: _, ...rest } = prev;
+        return rest;
+      }
+      return { ...prev, [productId]: updated };
     });
-    toast.success(`${product.name} added to cart`);
-  };
-
-  const cartItemCount = (productId: string) => {
-    const item = items.find((i) => i.productId === productId);
-    return item?.quantity || 0;
   };
 
   return (
-    <div className="space-y-6 pb-24">
-      {/* Header */}
-      <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-4">
-        <div>
-          <h2 className="text-2xl font-bold text-cement-900">Products</h2>
-          <p className="text-cement-500">Browse our cement product catalog</p>
+    <div className="min-h-screen bg-[#161311] flex">
+      {/* Sidebar */}
+      <aside className="w-64 bg-[#161311] border-r border-[#292524]/50 flex flex-col h-screen fixed left-0 top-0 z-40">
+        <div className="p-6 mb-2">
+          <h1 className="font-headline text-xl text-[#e9e1dd] italic tracking-tight">ResidentCement</h1>
+          <p className="text-[10px] font-bold uppercase tracking-wider text-[#7e7667] mt-1">Distributor Portal</p>
         </div>
-        <div className="flex items-center gap-3">
-          <Link href="/dashboard/cart">
-            <Button variant="outline" className="relative">
-              <ShoppingCart className="w-4 h-4 mr-2" />
-              Cart
-              {totalItems > 0 && (
-                <span className="absolute -top-2 -right-2 w-5 h-5 bg-brand-primary text-white text-xs rounded-full flex items-center justify-center">
-                  {totalItems}
-                </span>
-              )}
-            </Button>
-          </Link>
+        <nav className="flex-1 px-3 space-y-1">
+          {sidebarLinks.map((link) => (
+            <Link key={link.href} href={link.href} className={`flex items-center gap-3 px-4 py-3 text-sm font-medium rounded transition-colors ${link.active ? 'text-[#e5c374] bg-[#221f1d] border-l-2 border-[#e5c374]' : 'text-[#a8a29e] hover:text-[#e9e1dd] hover:bg-[#1c1917]'}`}>
+              <link.icon className="w-5 h-5" />
+              {link.label}
+            </Link>
+          ))}
+        </nav>
+        <div className="p-4 border-t border-[#292524]/50">
+          <div className="flex items-center gap-3">
+            <div className="w-10 h-10 rounded bg-[#e5c374] flex items-center justify-center text-[#161311] font-bold text-sm">JD</div>
+            <div>
+              <p className="text-sm font-bold text-[#e9e1dd]">John Doe</p>
+              <p className="text-[10px] text-[#7e7667] uppercase tracking-tight">Senior Distributor</p>
+            </div>
+          </div>
         </div>
-      </div>
+      </aside>
 
-      {/* Filters */}
-      <Card>
-        <CardContent className="pt-6">
-          <div className="flex flex-col lg:flex-row gap-4">
-            <div className="flex-1">
-              <div className="relative">
-                <Search className="absolute left-3 top-1/2 -translate-y-1/2 w-4 h-4 text-cement-400" />
-                <Input
-                  placeholder="Search products..."
-                  value={searchQuery}
-                  onChange={(e) => setSearchQuery(e.target.value)}
-                  className="pl-10"
-                />
-              </div>
+      {/* Main Content */}
+      <main className="flex-1 ml-64 p-8">
+        {/* Header */}
+        <header className="flex justify-between items-end mb-10">
+          <div>
+            <h2 className="font-headline text-4xl font-bold text-[#e9e1dd] mb-2 italic">Products</h2>
+            <p className="text-[#a8a29e] max-w-md text-sm">Browse and order cement products</p>
+          </div>
+          <Link href="/dashboard/cart">
+            <button className="flex items-center gap-2 px-4 py-2 border border-[#4d4540]/30 text-[#a8a29e] rounded hover:border-[#e5c374]/50 transition-colors">
+              <ShoppingCart className="w-5 h-5" />
+              <span className="text-sm font-bold">Cart ({cartCount})</span>
+            </button>
+          </Link>
+        </header>
+
+        {/* Filters */}
+        <div className="bg-[#1a1c1c] rounded border border-[#292524]/30 p-6 mb-8">
+          <div className="flex flex-col sm:flex-row gap-4">
+            <div className="flex-1 relative">
+              <Search className="absolute left-0 top-1/2 -translate-y-1/2 w-5 h-5 text-[#7e7667]" />
+              <input type="text" placeholder="Search products..." value={searchQuery} onChange={(e) => setSearchQuery(e.target.value)} className="w-full bg-transparent border-0 border-b border-[#4d4540]/30 pl-10 pr-4 py-3 text-[#e9e1dd] placeholder:text-[#7e7667]/50 focus:outline-none focus:border-b-2 focus:border-[#e5c374] transition-all" />
             </div>
             <div className="flex gap-2">
-              <Select value={categoryFilter} onValueChange={setCategoryFilter}>
-                <SelectTrigger className="w-40">
-                  <SelectValue placeholder="Category" />
-                </SelectTrigger>
-                <SelectContent>
-                  <SelectItem value="all">All Categories</SelectItem>
-                  <SelectItem value="Premium">Premium</SelectItem>
-                  <SelectItem value="Standard">Standard</SelectItem>
-                  <SelectItem value="High Strength">High Strength</SelectItem>
-                  <SelectItem value="Eco-Friendly">Eco-Friendly</SelectItem>
-                </SelectContent>
-              </Select>
-              <Select value={gradeFilter} onValueChange={setGradeFilter}>
-                <SelectTrigger className="w-32">
-                  <SelectValue placeholder="Grade" />
-                </SelectTrigger>
-                <SelectContent>
-                  <SelectItem value="all">All Grades</SelectItem>
-                  <SelectItem value="42.5R">42.5R</SelectItem>
-                  <SelectItem value="32.5R">32.5R</SelectItem>
-                  <SelectItem value="52.5R">52.5R</SelectItem>
-                  <SelectItem value="32.5N">32.5N</SelectItem>
-                </SelectContent>
-              </Select>
+              {['all', 'Premium', 'Standard', 'Bulk', 'Specialty'].map((cat) => (
+                <button key={cat} onClick={() => setCategoryFilter(cat)} className={`px-4 py-2 text-xs font-bold uppercase tracking-wider rounded border transition-all ${categoryFilter === cat ? 'bg-[#e5c374] text-[#161311] border-[#e5c374]' : 'bg-transparent text-[#a8a29e] border-[#4d4540]/30 hover:border-[#e5c374]/50'}`}>
+                  {cat}
+                </button>
+              ))}
             </div>
           </div>
-        </CardContent>
-      </Card>
-
-      {/* Loading State */}
-      {isLoading && (
-        <div className="flex items-center justify-center py-12">
-          <Loader2 className="w-8 h-8 animate-spin text-brand-primary" />
-          <span className="ml-2 text-cement-600">Loading products...</span>
         </div>
-      )}
 
-      {/* Products Grid */}
-      {!isLoading && (
-        <div className="grid gap-6 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4">
-          {filteredProducts.map((product) => {
-            const isLowStock = false; // TODO: Fetch from inventory API
-            const quantityInCart = cartItemCount(product.id);
-
-            return (
-              <Card
-                key={product.id}
-                className={cn(
-                  "overflow-hidden transition-all hover:shadow-lg",
-                  isLowStock && "border-amber-300"
-                )}
-              >
-                <div className="aspect-square bg-cement-100 flex items-center justify-center relative">
-                  {product.image ? (
-                    <Image
-                      src={product.image}
-                      alt={product.name}
-                      fill
-                      className="object-cover"
-                    />
-                  ) : (
-                    <Package className="w-24 h-24 text-cement-300" />
-                  )}
+        {/* Products Grid */}
+        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+          {filteredProducts.map((product) => (
+            <div key={product.id} className="bg-[#1a1c1c] rounded border border-[#292524]/30 overflow-hidden group hover:border-[#e5c374]/30 transition-all">
+              <div className="aspect-square bg-[#221f1d] flex items-center justify-center relative">
+                <Package className="w-16 h-16 text-[#4d4540]" />
+                <span className="absolute top-4 left-4 text-[10px] uppercase tracking-widest text-[#7e7667]">{product.type}</span>
+                {!product.inStock && <span className="absolute top-4 right-4 px-2 py-1 text-[9px] uppercase font-bold tracking-tighter rounded border bg-red-900/30 text-red-400 border-red-900/50">Out of Stock</span>}
+              </div>
+              <div className="p-6">
+                <h3 className="font-headline text-xl font-bold text-[#e9e1dd] mb-1">{product.name}</h3>
+                <p className="text-sm text-[#7e7667] mb-4">{product.sku}</p>
+                <div className="flex gap-6 mb-4">
+                  <div>
+                    <p className="text-[10px] uppercase tracking-widest text-[#7e7667]">Grade</p>
+                    <p className="text-sm font-bold text-[#e9e1dd]">{product.grade}</p>
+                  </div>
+                  <div>
+                    <p className="text-[10px] uppercase tracking-widest text-[#7e7667]">Category</p>
+                    <p className="text-sm font-bold text-[#e9e1dd]">{product.category}</p>
+                  </div>
                 </div>
-                <CardContent className="pt-4">
-                  <div className="flex items-start justify-between mb-2">
-                    <div>
-                      <h3 className="font-semibold text-cement-900">{product.name}</h3>
-                      <p className="text-sm text-cement-500">{product.sku}</p>
-                    </div>
-                    <Badge variant={isLowStock ? "warning" : "success"}>
-                      {isLowStock ? "Low Stock" : "In Stock"}
-                    </Badge>
+                <div className="flex items-center justify-between">
+                  <div>
+                    <p className="text-[10px] uppercase tracking-widest text-[#7e7667]">Price / {product.unit}</p>
+                    <p className="text-xl font-bold text-[#e5c374]">{product.price > 0 ? `₦${product.price.toLocaleString()}` : 'Quote'}</p>
                   </div>
-
-                  <div className="flex items-center gap-4 mb-4">
-                    <div>
-                      <p className="text-sm text-cement-500">Grade</p>
-                      <p className="font-medium">{product.grade}</p>
-                    </div>
-                    <div>
-                      <p className="text-sm text-cement-500">Category</p>
-                      <p className="font-medium">{product.category}</p>
-                    </div>
-                  </div>
-
-                  {isLowStock && (
-                    <div className="flex items-center gap-2 mb-4 text-amber-600 text-sm">
-                      <AlertCircle className="w-4 h-4" />
-                      Low stock - order soon
-                    </div>
-                  )}
-
-                  <div className="flex items-center justify-between">
-                    <div>
-                      <p className="text-sm text-cement-500">Price per {product.unit}</p>
-                      <p className="text-xl font-bold text-brand-primary">
-                        {formatCurrency(product.basePrice)}
-                      </p>
-                    </div>
-
-                    {quantityInCart > 0 ? (
+                  {product.inStock && (
+                    cart[product.id] ? (
                       <div className="flex items-center gap-2">
-                        <Button
-                          variant="outline"
-                          size="icon"
-                          className="w-8 h-8"
-                          onClick={() => updateQuantity(product.id, -1)}
-                        >
-                          <Minus className="w-3 h-3" />
-                        </Button>
-                        <span className="w-8 text-center font-medium">
-                          {quantityInCart}
-                        </span>
-                        <Button
-                          variant="outline"
-                          size="icon"
-                          className="w-8 h-8"
-                          onClick={() =>
-                            addItem({
-                              id: product.id,
-                              productId: product.id,
-                              name: product.name,
-                              sku: product.sku,
-                              price: product.basePrice,
-                              quantity: 1,
-                              unit: product.unit,
-                              image: product.image,
-                            })
-                          }
-                        >
-                          <Plus className="w-3 h-3" />
-                        </Button>
+                        <button onClick={() => updateCart(product.id, -1)} className="w-8 h-8 border border-[#4d4540]/30 rounded flex items-center justify-center text-[#e5c374] hover:border-[#e5c374] transition-colors"><Minus className="w-4 h-4" /></button>
+                        <span className="w-8 text-center text-sm font-bold text-[#e9e1dd]">{cart[product.id]}</span>
+                        <button onClick={() => updateCart(product.id, 1)} className="w-8 h-8 border border-[#4d4540]/30 rounded flex items-center justify-center text-[#e5c374] hover:border-[#e5c374] transition-colors"><Plus className="w-4 h-4" /></button>
                       </div>
                     ) : (
-                      <Button onClick={() => handleAddToCart(product)} size="sm">
-                        Add to Cart
-                      </Button>
-                    )}
-                  </div>
-                </CardContent>
-              </Card>
-            );
-          })}
-        </div>
-      )}
-
-      {!isLoading && filteredProducts.length === 0 && (
-        <div className="text-center py-12">
-          <Package className="w-12 h-12 text-cement-300 mx-auto mb-4" />
-          <p className="text-cement-500">No products found</p>
-          <p className="text-sm text-cement-400 mt-1">Try adjusting your filters</p>
-        </div>
-      )}
-
-      {/* Cart Summary */}
-      {items.length > 0 && (
-        <div className="fixed bottom-0 left-0 right-0 bg-white border-t border-cement-200 p-4 shadow-lg lg:left-64 z-50">
-          <div className="flex items-center justify-between max-w-7xl mx-auto">
-            <div>
-              <p className="font-medium text-cement-900">{totalItems} items in cart</p>
-              <p className="text-sm text-cement-500">
-                Total: {formatCurrency(totalAmount)}
-              </p>
+                      <button onClick={() => updateCart(product.id, 1)} className="px-4 py-2 text-xs font-bold uppercase tracking-wider rounded text-[#161311] hover:opacity-90 transition-opacity" style={{ background: 'linear-gradient(45deg, #745B17, #e5c374)' }}>Add</button>
+                    )
+                  )}
+                </div>
+              </div>
             </div>
-            <Link href="/dashboard/cart">
-              <Button>Proceed to Checkout</Button>
-            </Link>
-          </div>
+          ))}
         </div>
-      )}
+      </main>
     </div>
   );
 }

@@ -1,0 +1,333 @@
+<!DOCTYPE html>
+
+<html class="light" lang="en"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>MONOLITH_ERP | Quality Control</title>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<link href="https://fonts.googleapis.com/css2?family=Newsreader:ital,opsz,wght@0,6..72,200..800;1,6..72,200..800&amp;family=Work+Sans:wght@100..900&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<script id="tailwind-config">
+        tailwind.config = {
+            darkMode: "class",
+            theme: {
+                extend: {
+                    colors: {
+                        "secondary-container": "#fdd08b",
+                        "outline-variant": "#c4c7c7",
+                        "surface-container-high": "#e8e8e8",
+                        "on-primary-fixed": "#1c1b1b",
+                        "primary-fixed-dim": "#c8c6c5",
+                        "primary-fixed": "#e5e2e1",
+                        "on-primary": "#ffffff",
+                        "tertiary-fixed": "#e4e2e2",
+                        "on-surface-variant": "#444748",
+                        "inverse-on-surface": "#f1f1f1",
+                        "error": "#ba1a1a",
+                        "surface-container-low": "#f3f3f3",
+                        "primary-container": "#1c1b1b",
+                        "on-error": "#ffffff",
+                        "surface-bright": "#f9f9f9",
+                        "secondary-fixed": "#ffdead",
+                        "primary": "#000000",
+                        "on-primary-fixed-variant": "#474746",
+                        "surface": "#f9f9f9",
+                        "inverse-primary": "#c8c6c5",
+                        "tertiary-container": "#1b1c1c",
+                        "on-secondary-fixed": "#281900",
+                        "surface-container-highest": "#e2e2e2",
+                        "on-secondary-fixed-variant": "#5f4107",
+                        "surface-container": "#eeeeee",
+                        "background": "#f9f9f9",
+                        "on-secondary-container": "#78571e",
+                        "on-tertiary": "#ffffff",
+                        "tertiary": "#000000",
+                        "tertiary-fixed-dim": "#c8c6c6",
+                        "surface-dim": "#dadada",
+                        "on-tertiary-fixed-variant": "#474747",
+                        "secondary-fixed-dim": "#ebc07c",
+                        "outline": "#747878",
+                        "secondary": "#79591f",
+                        "surface-container-lowest": "#ffffff",
+                        "on-tertiary-fixed": "#1b1c1c",
+                        "on-tertiary-container": "#848483",
+                        "surface-variant": "#e2e2e2",
+                        "inverse-surface": "#2f3131",
+                        "error-container": "#ffdad6",
+                        "on-primary-container": "#858383",
+                        "on-secondary": "#ffffff",
+                        "on-background": "#1a1c1c",
+                        "on-error-container": "#93000a",
+                        "surface-tint": "#5f5e5e",
+                        "on-surface": "#1a1c1c"
+                    },
+                    fontFamily: {
+                        "headline": ["Newsreader"],
+                        "body": ["Work Sans"],
+                        "label": ["Work Sans"]
+                    },
+                    borderRadius: {"DEFAULT": "0px", "lg": "0px", "xl": "0px", "full": "9999px"},
+                },
+            },
+        }
+    </script>
+<style>
+        .material-symbols-outlined {
+            font-variation-settings: 'FILL' 0, 'wght' 400, 'GRAD' 0, 'opsz' 24;
+        }
+        body {
+            font-family: 'Work Sans', sans-serif;
+            background-color: #f9f9f9;
+        }
+        h1, h2, h3, .serif-display {
+            font-family: 'Newsreader', serif;
+        }
+    </style>
+</head>
+<body class="bg-background text-on-surface">
+<!-- SideNavBar Shell -->
+<aside class="fixed left-0 top-0 h-full flex flex-col z-50 bg-black dark:bg-stone-950 w-64 border-r-0">
+<div class="p-8">
+<h1 class="text-2xl font-black uppercase tracking-tighter text-white">CEMENT_MONOLITH</h1>
+<p class="text-[10px] text-stone-500 font-bold tracking-[0.2em] mt-1">Enterprise Resource Planning</p>
+</div>
+<nav class="flex-1 mt-4">
+<a class="flex items-center gap-4 py-4 px-6 text-stone-400 hover:text-white transition-colors hover:bg-stone-900 duration-300" href="#">
+<span class="material-symbols-outlined">factory</span>
+<span class="text-xs font-bold uppercase tracking-widest">Production</span>
+</a>
+<a class="flex items-center gap-4 py-4 px-6 text-stone-400 hover:text-white transition-colors hover:bg-stone-900 duration-300" href="#">
+<span class="material-symbols-outlined">local_shipping</span>
+<span class="text-xs font-bold uppercase tracking-widest">Logistics</span>
+</a>
+<a class="flex items-center gap-4 py-4 px-6 text-stone-400 hover:text-white transition-colors hover:bg-stone-900 duration-300" href="#">
+<span class="material-symbols-outlined">inventory_2</span>
+<span class="text-xs font-bold uppercase tracking-widest">Inventory</span>
+</a>
+<a class="flex items-center gap-4 py-4 px-6 text-stone-400 hover:text-white transition-colors hover:bg-stone-900 duration-300" href="#">
+<span class="material-symbols-outlined">payments</span>
+<span class="text-xs font-bold uppercase tracking-widest">Finance</span>
+</a>
+<!-- Active Tab: Quality -->
+<a class="flex items-center gap-4 py-4 px-6 bg-[#79591f] text-white font-bold uppercase tracking-widest" href="#">
+<span class="material-symbols-outlined">high_quality</span>
+<span class="text-xs">Quality</span>
+</a>
+<a class="flex items-center gap-4 py-4 px-6 text-stone-400 hover:text-white transition-colors hover:bg-stone-900 duration-300" href="#">
+<span class="material-symbols-outlined">sell</span>
+<span class="text-xs font-bold uppercase tracking-widest">Sales</span>
+</a>
+<a class="flex items-center gap-4 py-4 px-6 text-stone-400 hover:text-white transition-colors hover:bg-stone-900 duration-300" href="#">
+<span class="material-symbols-outlined">engineering</span>
+<span class="text-xs font-bold uppercase tracking-widest">Maintenance</span>
+</a>
+</nav>
+<div class="p-6 mt-auto">
+<div class="bg-stone-900 p-4 mb-6">
+<p class="text-[10px] text-secondary font-bold uppercase tracking-widest">System Status: Optimal</p>
+</div>
+<div class="flex flex-col gap-2">
+<a class="flex items-center gap-4 text-xs text-stone-500 hover:text-white transition-colors uppercase font-bold tracking-widest" href="#">
+<span class="material-symbols-outlined text-lg">settings</span> Settings
+                </a>
+<a class="flex items-center gap-4 text-xs text-stone-500 hover:text-white transition-colors uppercase font-bold tracking-widest" href="#">
+<span class="material-symbols-outlined text-lg">help_center</span> Support
+                </a>
+</div>
+</div>
+</aside>
+<!-- TopAppBar Shell -->
+<header class="fixed top-0 right-0 w-[calc(100%-16rem)] h-24 flex justify-between items-center px-12 z-40 bg-white dark:bg-black">
+<div class="flex items-center gap-12">
+<div class="text-3xl font-black text-black dark:text-white border-l-8 border-[#79591f] pl-4">MONOLITH_ERP</div>
+<nav class="flex gap-8">
+<a class="text-stone-500 hover:text-black dark:hover:text-white text-[10px] font-bold uppercase tracking-widest transition-opacity" href="#">Global Overview</a>
+<a class="text-black dark:text-[#79591f] border-b-4 border-[#79591f] pb-1 text-[10px] font-bold uppercase tracking-widest transition-opacity" href="#">Quarterly Reports</a>
+</nav>
+</div>
+<div class="flex items-center gap-6">
+<div class="relative group">
+<input class="bg-surface-container-low border-none text-[10px] font-bold uppercase tracking-widest w-64 py-3 px-4 focus:ring-0 focus:bg-surface-container" placeholder="SEARCH SYSTEM..." type="text"/>
+</div>
+<div class="flex gap-4 text-stone-400">
+<span class="material-symbols-outlined cursor-pointer hover:text-primary">notifications</span>
+<span class="material-symbols-outlined cursor-pointer hover:text-primary">database</span>
+</div>
+<button class="bg-primary text-on-primary px-6 py-2 text-[10px] font-bold uppercase tracking-widest">New Entry</button>
+<div class="h-10 w-10 bg-surface-container-highest overflow-hidden">
+<img class="w-full h-full object-cover grayscale" data-alt="Professional executive headshot in soft studio lighting with neutral background and sharp focus" src="https://lh3.googleusercontent.com/aida-public/AB6AXuCAU_3zzC1XyvUypH2VydjTapsgFNjyzy8S7q8LvoST33CGBFxgIadeh4D0YfP5fxZuH6lDCiuL-9TqEq5Yb4yHQXRDS-zoOsJ9ayPT9DbqMXchZU7BLwazSC_Iv4JYAFQWIUMTm8NpW3IlZS3iR92uz3W3dsZcly43Veyp3ei8p7Mt6UILLgE-Q-KT3gwPsmQIYrzxfuBiKnFkRUenpP4v2clw_FkFb2zK61-fyzYqhuexkyDIL5_RE259XugF8Ce-aBgf3bGkgVZ5"/>
+</div>
+</div>
+</header>
+<!-- Main Content Canvas -->
+<main class="ml-64 pt-24 min-h-screen">
+<div class="p-12">
+<!-- Hero Title Section -->
+<section class="mb-16">
+<div class="flex items-baseline gap-4">
+<span class="text-secondary font-bold text-sm tracking-[0.3em] uppercase">QC_LABS</span>
+<div class="h-[1px] flex-1 bg-surface-container-highest"></div>
+</div>
+<h2 class="text-8xl serif-display font-light leading-tight mt-4 -ml-1">Quality Control &amp; Lab Analysis</h2>
+<p class="max-w-xl mt-6 text-sm text-on-surface-variant font-body leading-relaxed">
+                    Continuous monitoring of chemical composition and physical properties. All data points conform to Sinoma Standard Grade-A certification protocols for industrial cement production.
+                </p>
+</section>
+<!-- Bento Grid Analysis -->
+<div class="grid grid-cols-12 gap-8">
+<!-- XRF / XRD Chemical Logs (Bento Large) -->
+<div class="col-span-8 bg-surface-container-low p-8 relative overflow-hidden">
+<div class="flex justify-between items-start mb-12">
+<div>
+<h3 class="text-3xl serif-display">XRF_Chemical_Analysis</h3>
+<p class="text-[10px] font-bold uppercase tracking-widest text-secondary mt-2">Real-time Elemental Composition</p>
+</div>
+<div class="text-right">
+<p class="text-[10px] font-bold uppercase tracking-widest text-stone-400">Last Calib: 04:00 AM</p>
+</div>
+</div>
+<div class="grid grid-cols-4 gap-0 border-t-2 border-primary">
+<div class="p-6 bg-surface-container-lowest">
+<span class="text-[10px] font-bold uppercase tracking-tighter text-stone-500">CaO</span>
+<p class="text-4xl font-headline mt-2">64.2%</p>
+<span class="text-[10px] text-secondary font-bold tracking-widest">▲ 0.4</span>
+</div>
+<div class="p-6 bg-surface-container-low">
+<span class="text-[10px] font-bold uppercase tracking-tighter text-stone-500">SiO2</span>
+<p class="text-4xl font-headline mt-2">21.8%</p>
+<span class="text-[10px] text-error font-bold tracking-widest">▼ 0.1</span>
+</div>
+<div class="p-6 bg-surface-container-lowest">
+<span class="text-[10px] font-bold uppercase tracking-tighter text-stone-500">Al2O3</span>
+<p class="text-4xl font-headline mt-2">5.4%</p>
+<span class="text-[10px] text-secondary font-bold tracking-widest">STABLE</span>
+</div>
+<div class="p-6 bg-surface-container-low">
+<span class="text-[10px] font-bold uppercase tracking-tighter text-stone-500">Fe2O3</span>
+<p class="text-4xl font-headline mt-2">3.1%</p>
+<span class="text-[10px] text-secondary font-bold tracking-widest">▲ 0.05</span>
+</div>
+</div>
+<div class="mt-8 h-48 w-full bg-white relative">
+<img class="w-full h-full object-cover opacity-10" data-alt="High-tech laboratory chemical analysis equipment with laser sensors and digital displays in a sterile industrial setting" src="https://lh3.googleusercontent.com/aida-public/AB6AXuAs--FuB2G_ZNtmT4sp8rKMx_YcrdxdyB_WIDGqnIRM7tgPW0IKwz239f0PQvc4DhKg8Pov18f-b9GH4FA8zw9PPox8j3tNjpCltGdsMjHCYaE9_dJYKQozTUVPiC-avF6TQcbzIm26s32f-q59Z6Il4AYrBVK8r_HErjrmYHWEWJemuSn6M47JDDR2ZeUql5iOm49qgOzv1VZ7Tl2WOuuMkGHSAVs-z8-WRHr_Gf_05_izIIwV1PhIuZnty4iM9h0pz3C-Sl8RgjVF"/>
+<div class="absolute inset-0 p-8 flex flex-col justify-end">
+<div class="flex gap-1 items-end">
+<div class="w-2 bg-primary h-12"></div>
+<div class="w-2 bg-primary h-24"></div>
+<div class="w-2 bg-primary h-32"></div>
+<div class="w-2 bg-secondary h-40"></div>
+<div class="w-2 bg-primary h-28"></div>
+<div class="w-2 bg-primary h-16"></div>
+<div class="w-2 bg-primary h-36"></div>
+<div class="w-2 bg-secondary h-44"></div>
+<div class="w-2 bg-primary h-20"></div>
+</div>
+</div>
+</div>
+</div>
+<!-- Blaine Fineness (Bento Small) -->
+<div class="col-span-4 bg-primary text-white p-8 flex flex-col justify-between">
+<div>
+<span class="material-symbols-outlined text-4xl text-secondary">waves</span>
+<h3 class="text-4xl serif-display mt-6 leading-none">Blaine<br/>Fineness</h3>
+</div>
+<div>
+<div class="text-6xl font-headline text-secondary">385.4</div>
+<p class="text-[10px] font-bold uppercase tracking-[0.3em] mt-2">cm²/g Specific Surface</p>
+<div class="mt-8 pt-8 border-t border-stone-800">
+<p class="text-[10px] font-bold uppercase tracking-widest text-stone-400">Tolerance Margin</p>
+<div class="h-1 bg-stone-800 w-full mt-2">
+<div class="h-full bg-secondary w-4/5"></div>
+</div>
+</div>
+</div>
+</div>
+<!-- Compressive Strength (Industrial Table Style) -->
+<div class="col-span-12 mt-8">
+<div class="bg-surface-container-highest p-1 bg-opacity-50">
+<div class="bg-white p-12">
+<div class="flex justify-between items-end mb-12">
+<div>
+<h3 class="text-5xl serif-display">Strength_Protocols</h3>
+<p class="text-sm font-body text-stone-500 mt-2 italic">ASTM C109 Standard Compression Tests</p>
+</div>
+<div class="flex gap-4">
+<button class="border-2 border-primary px-6 py-2 text-[10px] font-bold uppercase tracking-widest hover:bg-primary hover:text-white transition-all">Export CSV</button>
+<button class="bg-secondary text-white px-6 py-2 text-[10px] font-bold uppercase tracking-widest">Generate CoA</button>
+</div>
+</div>
+<div class="grid grid-cols-5 gap-8">
+<div class="col-span-2 space-y-8">
+<div class="group cursor-pointer">
+<p class="text-[10px] font-bold uppercase tracking-widest text-secondary mb-1">Lot_Identifier</p>
+<p class="text-2xl font-headline border-b-2 border-primary-container pb-2">SNM-2024-X892</p>
+</div>
+<div class="group cursor-pointer">
+<p class="text-[10px] font-bold uppercase tracking-widest text-stone-400 mb-1">Curing_Environment</p>
+<p class="text-2xl font-headline border-b-2 border-surface-container pb-2">23°C / 95% Humidity</p>
+</div>
+</div>
+<div class="col-span-3 grid grid-cols-3 gap-6">
+<div class="bg-surface-container-low p-8 flex flex-col justify-center text-center">
+<span class="text-[10px] font-bold uppercase tracking-widest text-stone-500 mb-4">02_DAY_TEST</span>
+<span class="text-5xl font-headline">28.4</span>
+<span class="text-[10px] font-bold uppercase tracking-widest mt-2">MPa</span>
+</div>
+<div class="bg-surface-container-low p-8 flex flex-col justify-center text-center">
+<span class="text-[10px] font-bold uppercase tracking-widest text-stone-500 mb-4">07_DAY_TEST</span>
+<span class="text-5xl font-headline">42.1</span>
+<span class="text-[10px] font-bold uppercase tracking-widest mt-2">MPa</span>
+</div>
+<div class="bg-surface p-8 flex flex-col justify-center text-center outline-variant outline-[1px] outline-dashed">
+<span class="text-[10px] font-bold uppercase tracking-widest text-secondary mb-4">28_DAY_PROJ</span>
+<span class="text-5xl font-headline text-stone-400">54.8</span>
+<span class="text-[10px] font-bold uppercase tracking-widest mt-2">MPa (EST)</span>
+</div>
+</div>
+</div>
+</div>
+</div>
+</div>
+<!-- Recent Certificates -->
+<div class="col-span-12 mt-8 grid grid-cols-3 gap-8">
+<div class="bg-surface-container p-8">
+<div class="flex justify-between">
+<span class="material-symbols-outlined text-secondary">verified</span>
+<span class="text-[10px] font-bold tracking-widest text-stone-500">JULY 14, 2024</span>
+</div>
+<h4 class="text-2xl serif-display mt-6">CoA_Batch_992</h4>
+<p class="text-xs mt-2 text-stone-500 uppercase tracking-widest font-bold">Sinoma Standard Grade 52.5</p>
+<button class="mt-8 text-[10px] font-bold uppercase tracking-widest border-b-2 border-secondary pb-1">Download PDF</button>
+</div>
+<div class="bg-surface-container p-8">
+<div class="flex justify-between">
+<span class="material-symbols-outlined text-secondary">verified</span>
+<span class="text-[10px] font-bold tracking-widest text-stone-500">JULY 12, 2024</span>
+</div>
+<h4 class="text-2xl serif-display mt-6">CoA_Batch_991</h4>
+<p class="text-xs mt-2 text-stone-500 uppercase tracking-widest font-bold">Sinoma Standard Grade 42.5</p>
+<button class="mt-8 text-[10px] font-bold uppercase tracking-widest border-b-2 border-secondary pb-1">Download PDF</button>
+</div>
+<div class="relative overflow-hidden group">
+<img class="absolute inset-0 w-full h-full object-cover grayscale transition-transform duration-700 group-hover:scale-110" data-alt="Industrial technician examining a concrete core sample in a modern testing facility with heavy hydraulic machinery" src="https://lh3.googleusercontent.com/aida-public/AB6AXuBvvPqV_kBJq3nB4B9nim1DR8hJo8O_H5nA3TYY0CGgM1BWYePAvQlxZMEFrV1f4RPKAyDcPBYN1nArJsf8-DHa1nqKZ8TyU-XY8s-_yQsiTHkj6Rtab238T_J2MJJ7tpJXNCsQc7mS1DEAjpT-botS0MAkPKpf0QRRXVuS039mkn1ZDLE8MTu6JZx55O0ngM1YGurtzA_t2g--z6SI6B83qI2RAkm7t-oCI1FjMCFW07xhORZYF7HfOy9rMsr45NKVKXsQpb730c7H"/>
+<div class="absolute inset-0 bg-primary/60 flex flex-col p-8 justify-end text-white">
+<h4 class="text-2xl serif-display">Lab_Archive</h4>
+<p class="text-xs uppercase tracking-widest font-bold text-secondary">Browse historical logs</p>
+</div>
+</div>
+</div>
+</div>
+<!-- Footer Slab -->
+<footer class="mt-24 pt-12 border-t border-surface-container-highest flex justify-between text-stone-400">
+<div class="text-[10px] font-bold tracking-[0.4em] uppercase">
+                    © 2024 Monolith Industrial Systems | Sinoma Certified Laboratory
+                </div>
+<div class="flex gap-8">
+<a class="text-[10px] font-bold tracking-widest uppercase hover:text-primary transition-colors" href="#">Privacy_Policy</a>
+<a class="text-[10px] font-bold tracking-widest uppercase hover:text-primary transition-colors" href="#">Compliance_Docs</a>
+</div>
+</footer>
+</div>
+</main>
+</body></html>

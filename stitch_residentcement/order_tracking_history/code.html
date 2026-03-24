@@ -1,0 +1,320 @@
+<!DOCTYPE html>
+
+<html class="dark" lang="en"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<link href="https://fonts.googleapis.com/css2?family=Noto+Serif:ital,wght@0,400;0,700;1,400&amp;family=Inter:wght@400;500;600;700&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<script id="tailwind-config">
+      tailwind.config = {
+        darkMode: "class",
+        theme: {
+          extend: {
+            colors: {
+              "secondary-fixed-dim": "#e8c265",
+              "surface-container-high": "#2d2927",
+              "surface-tint": "#e5c374",
+              "surface-container-low": "#1e1b19",
+              "primary": "#e5c374",
+              "on-secondary-fixed-variant": "#594400",
+              "on-surface": "#e9e1dd",
+              "on-background": "#e9e1dd",
+              "error-container": "#93000a",
+              "on-tertiary-fixed-variant": "#454747",
+              "surface-variant": "#383432",
+              "surface-bright": "#3c3836",
+              "surface-container-lowest": "#100e0c",
+              "surface-container": "#221f1d",
+              "on-tertiary": "#2f3131",
+              "primary-fixed-dim": "#e5c374",
+              "on-tertiary-fixed": "#1a1c1c",
+              "surface": "#161311",
+              "on-error-container": "#ffdad6",
+              "inverse-on-surface": "#33302d",
+              "secondary-container": "#765a00",
+              "tertiary": "#c6c6c6",
+              "error": "#ffb4ab",
+              "tertiary-container": "#181a1a",
+              "surface-dim": "#161311",
+              "primary-container": "#231800",
+              "secondary": "#e8c265",
+              "outline-variant": "#4d4540",
+              "on-secondary-container": "#fbd475",
+              "on-primary-fixed": "#251a00",
+              "surface-container-highest": "#383432",
+              "on-secondary": "#3e2e00",
+              "tertiary-fixed-dim": "#c6c6c6",
+              "on-primary": "#3f2e00",
+              "on-tertiary-container": "#818382",
+              "primary-fixed": "#ffdf99",
+              "inverse-surface": "#e9e1dd",
+              "inverse-primary": "#745b17",
+              "on-primary-container": "#9c7f38",
+              "tertiary-fixed": "#e2e2e2",
+              "outline": "#998f89",
+              "on-secondary-fixed": "#251a00",
+              "background": "#161311",
+              "on-surface-variant": "#d0c4be",
+              "on-primary-fixed-variant": "#5a4300",
+              "secondary-fixed": "#ffdf96",
+              "on-error": "#690005"
+            },
+            fontFamily: {
+              "headline": ["Noto Serif"],
+              "body": ["Inter"],
+              "label": ["Inter"]
+            },
+            borderRadius: {"DEFAULT": "0.125rem", "lg": "0.25rem", "xl": "0.5rem", "full": "0.75rem"},
+          },
+        },
+      }
+    </script>
+<style>
+        .material-symbols-outlined {
+            font-variation-settings: 'FILL' 0, 'wght' 400, 'GRAD' 0, 'opsz' 24;
+        }
+        body {
+            background-color: #161311;
+            color: #e9e1dd;
+        }
+    </style>
+</head>
+<body class="font-body selection:bg-primary selection:text-on-primary">
+<!-- TopAppBar -->
+<header class="bg-[#161311] dark:bg-[#161311] fixed top-0 z-50 w-full flex justify-between items-center px-12 py-6 max-w-none shadow-none">
+<div class="flex items-center gap-12">
+<span class="text-2xl font-serif font-bold text-[#e9e1dd] uppercase tracking-widest">ResidentCement</span>
+<nav class="hidden md:flex gap-8 items-center">
+<a class="font-serif text-lg tracking-tight text-[#e9e1dd] hover:text-[#e5c374] transition-colors" href="#">Dashboard</a>
+<a class="font-serif text-lg tracking-tight text-[#e9e1dd] hover:text-[#e5c374] transition-colors" href="#">Products</a>
+<a class="font-serif text-lg tracking-tight text-[#e5c374] border-b-2 border-[#e5c374] pb-1" href="#">Orders</a>
+<a class="font-serif text-lg tracking-tight text-[#e9e1dd] hover:text-[#e5c374] transition-colors" href="#">Invoices</a>
+<a class="font-serif text-lg tracking-tight text-[#e9e1dd] hover:text-[#e5c374] transition-colors" href="#">Account</a>
+</nav>
+</div>
+<div class="flex items-center gap-6">
+<button class="material-symbols-outlined text-[#e9e1dd] hover:bg-[#383432] p-2 rounded-sm transition-all duration-300">notifications</button>
+<button class="material-symbols-outlined text-[#e9e1dd] hover:bg-[#383432] p-2 rounded-sm transition-all duration-300">settings</button>
+<div class="w-10 h-10 overflow-hidden rounded-full border border-outline-variant/20">
+<img alt="User Profile" class="w-full h-full object-cover" data-alt="Close up of a professional male architect in a dark studio" src="https://lh3.googleusercontent.com/aida-public/AB6AXuATj0fmXmp8wWHJPpQh3NdjgLuQvs_v5ox2DLmvEJbFXk3hICBgzjTsY6sRKCdLzPj4TeKWsjnY98qZfI1pCHY3bCIQZMQ1br4Wu8k7Thg24DWn9QjhPKttGkBCdY1ajqoG1Bca8ZgVJ_adp3p8noxKRIt6O99UA8gPsXsxgz7fvMSTP1arKV0b7HqN8PfmrnQMUOjQq1i6ZkKKKVsuEqAqmxuulB6cnsVuaxWtCJGhIpCKy-a4v3Fb9HmJBoupf6HBfAZ2fBP_T7hD"/>
+</div>
+</div>
+</header>
+<!-- SideNavBar -->
+<aside class="fixed left-0 top-0 h-screen w-64 bg-[#161311] dark:bg-[#161311] flex flex-col py-8 gap-y-2 z-40 hidden lg:flex mt-24">
+<div class="px-8 mb-10">
+<h2 class="text-[#e9e1dd] font-serif italic text-xl">Distributor Portal</h2>
+<p class="font-sans text-[10px] font-bold tracking-[0.2em] text-[#e5c374] uppercase mt-1">Premium Tier</p>
+</div>
+<nav class="flex flex-col gap-y-1">
+<a class="text-[#e9e1dd] hover:bg-[#221f1d] mx-4 px-4 py-3 rounded-sm transition-all font-sans text-sm font-bold tracking-wider flex items-center gap-4" href="#">
+<span class="material-symbols-outlined" data-icon="dashboard">dashboard</span> Dashboard
+            </a>
+<a class="text-[#e9e1dd] hover:bg-[#221f1d] mx-4 px-4 py-3 rounded-sm transition-all font-sans text-sm font-bold tracking-wider flex items-center gap-4" href="#">
+<span class="material-symbols-outlined" data-icon="inventory_2">inventory_2</span> Products
+            </a>
+<a class="text-[#161311] bg-gradient-to-r from-[#e5c374] to-[#9c7f38] rounded-sm mx-4 px-4 py-3 font-sans text-sm font-bold tracking-wider flex items-center gap-4 translate-x-1" href="#">
+<span class="material-symbols-outlined" data-icon="shopping_cart">shopping_cart</span> Orders
+            </a>
+<a class="text-[#e9e1dd] hover:bg-[#221f1d] mx-4 px-4 py-3 rounded-sm transition-all font-sans text-sm font-bold tracking-wider flex items-center gap-4" href="#">
+<span class="material-symbols-outlined" data-icon="receipt_long">receipt_long</span> Invoices
+            </a>
+<a class="text-[#e9e1dd] hover:bg-[#221f1d] mx-4 px-4 py-3 rounded-sm transition-all font-sans text-sm font-bold tracking-wider flex items-center gap-4" href="#">
+<span class="material-symbols-outlined" data-icon="person">person</span> Account
+            </a>
+</nav>
+</aside>
+<!-- Main Content Canvas -->
+<main class="lg:ml-64 pt-32 pb-24 px-8 md:px-12">
+<div class="max-w-7xl mx-auto">
+<!-- Editorial Header -->
+<div class="mb-16 flex flex-col md:flex-row md:items-end justify-between gap-8">
+<div>
+<span class="font-label text-[10px] uppercase tracking-[0.3em] text-primary mb-4 block">Archive &amp; Logistics</span>
+<h1 class="font-headline text-5xl md:text-6xl text-on-surface tracking-tight">Order Management</h1>
+</div>
+<div class="flex gap-4">
+<button class="bg-surface-container-highest border border-outline-variant/20 px-6 py-3 rounded-lg flex items-center gap-2 hover:bg-surface-bright transition-all">
+<span class="material-symbols-outlined text-sm">filter_list</span>
+<span class="font-label text-xs uppercase tracking-widest">Filter Records</span>
+</button>
+<button class="bg-gradient-to-r from-primary to-on-primary-container text-on-primary-fixed px-8 py-3 rounded-lg font-bold text-xs uppercase tracking-widest shadow-lg hover:opacity-90 active:scale-[0.98] transition-all">
+                        Place New Order
+                    </button>
+</div>
+</div>
+<!-- Bento Stats Grid (Editorial Style) -->
+<div class="grid grid-cols-1 md:grid-cols-3 gap-6 mb-12">
+<div class="bg-surface-container p-8 rounded-xl border border-outline-variant/10 relative overflow-hidden">
+<div class="absolute -right-4 -bottom-4 opacity-5">
+<span class="material-symbols-outlined text-9xl">local_shipping</span>
+</div>
+<p class="font-label text-[10px] uppercase tracking-widest text-on-surface-variant mb-2">Active Shipments</p>
+<p class="font-headline text-4xl text-primary">12</p>
+<p class="font-body text-xs text-on-surface-variant mt-4">+3 Since yesterday</p>
+</div>
+<div class="bg-surface-container p-8 rounded-xl border border-outline-variant/10 relative overflow-hidden">
+<p class="font-label text-[10px] uppercase tracking-widest text-on-surface-variant mb-2">Total Volume MTD</p>
+<div class="flex items-baseline gap-2">
+<p class="font-headline text-4xl text-on-surface">2,480</p>
+<span class="font-serif italic text-on-surface-variant">Tons</span>
+</div>
+<p class="font-body text-xs text-on-surface-variant mt-4">84% of quarterly target</p>
+</div>
+<div class="bg-surface-container-highest p-8 rounded-xl border border-outline-variant/10">
+<p class="font-label text-[10px] uppercase tracking-widest text-primary mb-2">Pending Clearances</p>
+<p class="font-headline text-4xl text-on-surface">04</p>
+<p class="font-body text-xs text-on-surface-variant mt-4 underline decoration-primary/40 cursor-pointer">Review required</p>
+</div>
+</div>
+<!-- Main Order Table -->
+<div class="bg-surface-container rounded-xl overflow-hidden border border-outline-variant/10 shadow-2xl">
+<div class="overflow-x-auto">
+<table class="w-full text-left border-collapse">
+<thead>
+<tr class="bg-surface-container-low">
+<th class="px-8 py-6 font-label text-[10px] uppercase tracking-[0.2em] text-on-surface-variant border-b border-outline-variant/10">Order ID</th>
+<th class="px-8 py-6 font-label text-[10px] uppercase tracking-[0.2em] text-on-surface-variant border-b border-outline-variant/10">Date</th>
+<th class="px-8 py-6 font-label text-[10px] uppercase tracking-[0.2em] text-on-surface-variant border-b border-outline-variant/10">Project Name</th>
+<th class="px-8 py-6 font-label text-[10px] uppercase tracking-[0.2em] text-on-surface-variant border-b border-outline-variant/10 text-right">Volume</th>
+<th class="px-8 py-6 font-label text-[10px] uppercase tracking-[0.2em] text-on-surface-variant border-b border-outline-variant/10">Status</th>
+<th class="px-8 py-6 font-label text-[10px] uppercase tracking-[0.2em] text-on-surface-variant border-b border-outline-variant/10 text-right">Actions</th>
+</tr>
+</thead>
+<tbody class="divide-y divide-outline-variant/5">
+<!-- Row 1 -->
+<tr class="hover:bg-surface-container-high transition-colors group">
+<td class="px-8 py-8 font-label text-sm text-on-surface">#RC-88210</td>
+<td class="px-8 py-8 font-body text-sm text-on-surface-variant">Oct 24, 2024</td>
+<td class="px-8 py-8 font-headline text-lg text-on-surface">Metropolis Bridge Expansion</td>
+<td class="px-8 py-8 font-serif text-lg text-on-surface text-right">450 <span class="text-xs text-on-surface-variant uppercase">Tons</span></td>
+<td class="px-8 py-8">
+<div class="flex items-center gap-3">
+<span class="w-2 h-2 rounded-full bg-primary shadow-[0_0_8px_rgba(229,195,116,0.6)]"></span>
+<span class="font-label text-[10px] font-bold uppercase tracking-widest text-primary">In Transit</span>
+</div>
+</td>
+<td class="px-8 py-8 text-right">
+<div class="flex justify-end gap-3">
+<button class="flex items-center gap-1 text-primary hover:underline font-label text-[10px] uppercase tracking-widest">
+<span class="material-symbols-outlined text-sm">location_on</span> Track
+                                        </button>
+<button class="w-10 h-10 flex items-center justify-center rounded-lg border border-outline-variant/20 hover:bg-surface-variant transition-all">
+<span class="material-symbols-outlined text-on-surface-variant text-lg" data-icon="download">download</span>
+</button>
+</div>
+</td>
+</tr>
+<!-- Row 2 -->
+<tr class="hover:bg-surface-container-high transition-colors group">
+<td class="px-8 py-8 font-label text-sm text-on-surface">#RC-88195</td>
+<td class="px-8 py-8 font-body text-sm text-on-surface-variant">Oct 21, 2024</td>
+<td class="px-8 py-8 font-headline text-lg text-on-surface">Skyline Residential Tower</td>
+<td class="px-8 py-8 font-serif text-lg text-on-surface text-right">1,200 <span class="text-xs text-on-surface-variant uppercase">Tons</span></td>
+<td class="px-8 py-8">
+<div class="flex items-center gap-3">
+<span class="w-2 h-2 rounded-full bg-on-surface-variant/40"></span>
+<span class="font-label text-[10px] font-bold uppercase tracking-widest text-on-surface-variant/60">Delivered</span>
+</div>
+</td>
+<td class="px-8 py-8 text-right">
+<div class="flex justify-end gap-3">
+<button class="flex items-center gap-1 text-on-surface-variant/40 cursor-not-allowed font-label text-[10px] uppercase tracking-widest">
+<span class="material-symbols-outlined text-sm">history</span> History
+                                        </button>
+<button class="w-10 h-10 flex items-center justify-center rounded-lg border border-outline-variant/20 bg-primary/10 hover:bg-primary/20 transition-all">
+<span class="material-symbols-outlined text-primary text-lg" data-icon="download">download</span>
+</button>
+</div>
+</td>
+</tr>
+<!-- Row 3 -->
+<tr class="hover:bg-surface-container-high transition-colors group">
+<td class="px-8 py-8 font-label text-sm text-on-surface">#RC-88188</td>
+<td class="px-8 py-8 font-body text-sm text-on-surface-variant">Oct 19, 2024</td>
+<td class="px-8 py-8 font-headline text-lg text-on-surface">Harbor District Wharf</td>
+<td class="px-8 py-8 font-serif text-lg text-on-surface text-right">85 <span class="text-xs text-on-surface-variant uppercase">Tons</span></td>
+<td class="px-8 py-8">
+<div class="flex items-center gap-3">
+<span class="w-2 h-2 rounded-full bg-secondary-fixed-dim"></span>
+<span class="font-label text-[10px] font-bold uppercase tracking-widest text-secondary-fixed-dim">Processing</span>
+</div>
+</td>
+<td class="px-8 py-8 text-right">
+<div class="flex justify-end gap-3">
+<button class="flex items-center gap-1 text-primary hover:underline font-label text-[10px] uppercase tracking-widest">
+<span class="material-symbols-outlined text-sm">visibility</span> View
+                                        </button>
+<button class="w-10 h-10 flex items-center justify-center rounded-lg border border-outline-variant/20 hover:bg-surface-variant transition-all">
+<span class="material-symbols-outlined text-on-surface-variant text-lg" data-icon="download">download</span>
+</button>
+</div>
+</td>
+</tr>
+<!-- Row 4 -->
+<tr class="hover:bg-surface-container-high transition-colors group">
+<td class="px-8 py-8 font-label text-sm text-on-surface">#RC-88154</td>
+<td class="px-8 py-8 font-body text-sm text-on-surface-variant">Oct 15, 2024</td>
+<td class="px-8 py-8 font-headline text-lg text-on-surface">Underground Parking G-4</td>
+<td class="px-8 py-8 font-serif text-lg text-on-surface text-right">220 <span class="text-xs text-on-surface-variant uppercase">Tons</span></td>
+<td class="px-8 py-8">
+<div class="flex items-center gap-3">
+<span class="w-2 h-2 rounded-full bg-primary shadow-[0_0_8px_rgba(229,195,116,0.6)]"></span>
+<span class="font-label text-[10px] font-bold uppercase tracking-widest text-primary">In Transit</span>
+</div>
+</td>
+<td class="px-8 py-8 text-right">
+<div class="flex justify-end gap-3">
+<button class="flex items-center gap-1 text-primary hover:underline font-label text-[10px] uppercase tracking-widest">
+<span class="material-symbols-outlined text-sm">location_on</span> Track
+                                        </button>
+<button class="w-10 h-10 flex items-center justify-center rounded-lg border border-outline-variant/20 hover:bg-surface-variant transition-all">
+<span class="material-symbols-outlined text-on-surface-variant text-lg" data-icon="download">download</span>
+</button>
+</div>
+</td>
+</tr>
+</tbody>
+</table>
+</div>
+<!-- Pagination / Table Footer -->
+<div class="px-8 py-6 bg-surface-container-low flex justify-between items-center">
+<span class="font-label text-[10px] uppercase tracking-widest text-on-surface-variant">Showing 4 of 214 orders</span>
+<div class="flex gap-2">
+<button class="p-2 border border-outline-variant/20 rounded hover:bg-surface-variant transition-colors disabled:opacity-30" disabled="">
+<span class="material-symbols-outlined text-sm">chevron_left</span>
+</button>
+<button class="p-2 border border-outline-variant/20 rounded hover:bg-surface-variant transition-colors">
+<span class="material-symbols-outlined text-sm">chevron_right</span>
+</button>
+</div>
+</div>
+</div>
+<!-- Contextual Help / Editorial Note -->
+<div class="mt-20 border-t border-outline-variant/10 pt-12 grid grid-cols-1 md:grid-cols-2 gap-16">
+<div>
+<h3 class="font-headline text-2xl mb-4 italic">Supply Chain Integrity</h3>
+<p class="font-body text-sm text-on-surface-variant leading-relaxed">
+                        Each order in the ResidentCement portal is backed by our industrial-grade quality assurance. Download your manifest to view chemical composition reports and delivery logistics timestamps. For urgent rerouting, please contact your account manager directly.
+                    </p>
+</div>
+<div class="bg-[#221f1d] p-8 rounded border border-primary/20">
+<span class="material-symbols-outlined text-primary mb-4" style="font-variation-settings: 'FILL' 1;">verified</span>
+<h4 class="font-label text-xs uppercase tracking-widest text-on-surface mb-2">Automated Manifesting</h4>
+<p class="font-body text-xs text-on-surface-variant">All orders are automatically tracked via GPS. Real-time telemetry is synced every 15 minutes during transit periods.</p>
+</div>
+</div>
+</div>
+</main>
+<!-- Footer -->
+<footer class="bg-[#161311] dark:bg-[#161311] flex justify-between items-center px-12 py-8 w-full mt-auto border-t-0 bg-[#161311]">
+<span class="font-sans text-[10px] uppercase tracking-[0.2em] text-[#e9e1dd]/40">© 2024 ResidentCement Industrial. All Rights Reserved.</span>
+<div class="flex gap-8">
+<a class="font-sans text-[10px] uppercase tracking-[0.2em] text-[#e9e1dd]/40 hover:text-[#e5c374] transition-colors underline-offset-4 hover:underline" href="#">Terms of Service</a>
+<a class="font-sans text-[10px] uppercase tracking-[0.2em] text-[#e9e1dd]/40 hover:text-[#e5c374] transition-colors underline-offset-4 hover:underline" href="#">Privacy Policy</a>
+<a class="font-sans text-[10px] uppercase tracking-[0.2em] text-[#e9e1dd]/40 hover:text-[#e5c374] transition-colors underline-offset-4 hover:underline" href="#">Support</a>
+</div>
+</footer>
+</body></html>

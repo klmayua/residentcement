@@ -1,0 +1,315 @@
+<!DOCTYPE html>
+
+<html class="light" lang="en"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>About Us | Resident Cement</title>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<link href="https://fonts.googleapis.com/css2?family=Noto+Serif:wght@400;700;900&amp;family=Plus+Jakarta+Sans:wght@300;400;500;600&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<script id="tailwind-config">
+      tailwind.config = {
+        darkMode: "class",
+        theme: {
+          extend: {
+            colors: {
+              "secondary-container": "#e2dfde",
+              "outline-variant": "#d0c5b4",
+              "surface-container-low": "#f4f4f3",
+              "on-tertiary-fixed-variant": "#364573",
+              "on-secondary-container": "#636262",
+              "inverse-primary": "#e5c374",
+              "tertiary-container": "#99a7dc",
+              "on-surface-variant": "#4d4639",
+              "surface-container-lowest": "#ffffff",
+              "on-secondary": "#ffffff",
+              "primary-container": "#c5a55a",
+              "on-primary-fixed-variant": "#5a4300",
+              "inverse-on-surface": "#f1f1f0",
+              "primary-fixed": "#ffdf99",
+              "on-background": "#1a1c1c",
+              "on-tertiary-container": "#2d3b69",
+              "inverse-surface": "#2f3130",
+              "on-error-container": "#93000a",
+              "on-error": "#ffffff",
+              "surface-container-high": "#e8e8e7",
+              "surface-container": "#eeeeed",
+              "surface-bright": "#f9f9f8",
+              "tertiary": "#4e5c8c",
+              "on-tertiary": "#ffffff",
+              "error-container": "#ffdad6",
+              "surface-container-highest": "#e2e2e2",
+              "secondary-fixed": "#e5e2e1",
+              "outline": "#7e7667",
+              "secondary-fixed-dim": "#c8c6c5",
+              "surface-dim": "#dadad9",
+              "on-primary-container": "#4f3b00",
+              "tertiary-fixed-dim": "#b6c4fb",
+              "surface-tint": "#745b17",
+              "background": "#f9f9f8",
+              "on-tertiary-fixed": "#071845",
+              "on-primary-fixed": "#251a00",
+              "on-surface": "#1a1c1c",
+              "secondary": "#5f5e5e",
+              "tertiary-fixed": "#dce1ff",
+              "on-secondary-fixed-variant": "#474746",
+              "primary": "#745b17",
+              "surface": "#f9f9f8",
+              "surface-variant": "#e2e2e2",
+              "error": "#ba1a1a",
+              "primary-fixed-dim": "#e5c374",
+              "on-primary": "#ffffff",
+              "on-secondary-fixed": "#1c1b1b"
+            },
+            fontFamily: {
+              "headline": ["Noto Serif"],
+              "body": ["Plus Jakarta Sans"],
+              "label": ["Plus Jakarta Sans"]
+            },
+            borderRadius: {"DEFAULT": "0.125rem", "lg": "0.25rem", "xl": "0.5rem", "full": "0.75rem"},
+          },
+        },
+      }
+    </script>
+<style>
+        .material-symbols-outlined {
+            font-variation-settings: 'FILL' 0, 'wght' 400, 'GRAD' 0, 'opsz' 24;
+        }
+        body {
+            font-family: 'Plus Jakarta Sans', sans-serif;
+            background-color: #f9f9f8;
+            color: #1a1c1c;
+        }
+        h1, h2, h3, h4 {
+            font-family: 'Noto Serif', serif;
+        }
+    </style>
+</head>
+<body class="bg-background text-on-surface antialiased selection:bg-primary-container/30">
+<!-- Top Navigation Bar -->
+<nav class="fixed top-0 w-full z-50 bg-[#F9F9F8]/70 dark:bg-[#171717]/70 backdrop-blur-md shadow-sm dark:shadow-none transition-colors duration-300">
+<div class="flex justify-between items-center w-full px-8 py-4 max-w-screen-2xl mx-auto">
+<div class="flex items-center gap-4">
+<img alt="Resident Cement Logo" class="h-8 w-auto" data-alt="Resident Cement corporate logo minimalist gold icon" src="https://lh3.googleusercontent.com/aida-public/AB6AXuBefyA84bd6yccs1jfnEjOKqw4UNe-xDcK2MezPmvLHvhpRObTgJxDKJ0x3df8ULQweZi75_lcHv39A7GUFwu0rikXNTVD6NT4nI56lkDy-lYWWgtFVylY7hk7XAW8WeSycBE5g3SQ7T-SsI4ftrniQ1o1nybEeCJD37jAPE9Vmv_rPsGVLJtPLC6WoOWppWywDI209i74_FAV_uGQw9wz6SmzK0Oh1olHkKSIBYTGB1cYR5U-wfbjZDeWQ1YsjGEXpwjhiiEmuM-DV"/>
+<span class="text-xl font-serif font-bold tracking-tighter text-[#171717] dark:text-[#F9F9F8] uppercase">Resident Cement</span>
+</div>
+<div class="hidden md:flex gap-10">
+<a class="text-[#745B17] dark:text-[#C5A55A] border-b-2 border-[#745B17] dark:border-[#C5A55A] pb-1 text-sm font-medium tracking-wide" href="#">About</a>
+<a class="text-[#171717] dark:text-[#E2E2E2] font-medium hover:text-[#745B17] dark:hover:text-[#C5A55A] transition-colors text-sm tracking-wide" href="#">Products</a>
+<a class="text-[#171717] dark:text-[#E2E2E2] font-medium hover:text-[#745B17] dark:hover:text-[#C5A55A] transition-colors text-sm tracking-wide" href="#">Sustainability</a>
+</div>
+<div class="flex items-center gap-6">
+<button class="bg-primary hover:bg-primary-container text-on-primary px-6 py-2 text-xs font-bold uppercase tracking-widest transition-all duration-200 active:scale-95">
+                    Order Now
+                </button>
+</div>
+</div>
+</nav>
+<main class="pt-24">
+<!-- Hero Section: Editorial Header -->
+<section class="relative px-8 md:px-20 py-16 md:py-32 overflow-hidden">
+<div class="max-w-screen-2xl mx-auto grid grid-cols-1 md:grid-cols-12 gap-12 items-end">
+<div class="md:col-span-8">
+<span class="text-primary font-label text-sm font-bold uppercase tracking-[0.3em] mb-6 block">Our Identity</span>
+<h1 class="text-6xl md:text-8xl font-black tracking-tighter leading-[0.9] text-on-surface">
+                        Architectural <br/> <span class="text-primary">Excellence</span> <br/> Defined.
+                    </h1>
+</div>
+<div class="md:col-span-4 pb-4">
+<p class="text-lg md:text-xl text-secondary leading-relaxed font-body">
+                        Forging the future of urban landscapes through the relentless pursuit of structural permanence and aesthetic purity.
+                    </p>
+</div>
+</div>
+</section>
+<!-- The Monolith: Hero Imagery -->
+<section class="px-8 md:px-20 mb-32">
+<div class="max-w-screen-2xl mx-auto relative h-[614px] md:h-[819px] overflow-hidden">
+<div class="absolute inset-0 bg-neutral-900/10 z-10"></div>
+<img alt="Brutalist architecture detail" class="w-full h-full object-cover" data-alt="Monolithic concrete skyscraper reflecting golden hour sunlight" src="https://lh3.googleusercontent.com/aida-public/AB6AXuAPkqummpL265FgJ6xrwvk9vit3YvU9_0zwSP9Ozwq5lxE2EXMjCTX4eRGHgAKoFVztWuygblsPRE_S1uTUzL8N6onuGQz--jdP_8eVxY7FYY2JTFcK6n16H-ffEGbM5uI4sOGASsZXEgDU5R1h6eoyAsKclafDC3f_Ij_sdSb_stFXzpbD8r8BfDeNCvoWMZJ7-rXyoUhjkrFnp3zvnOfup1Stsw02nAIj6w2EHVjMmeJsfgCQ-YRhcYxKC0ZFSHDIEjaNXNk7U1-P"/>
+<div class="absolute bottom-0 right-0 bg-surface-container-lowest p-12 max-w-md z-20 shadow-xl hidden md:block">
+<h3 class="text-2xl font-bold mb-4">Built for Generations</h3>
+<p class="text-secondary text-sm leading-loose">
+                        We don't just supply material; we provide the backbone of legacy. Resident Cement is engineered to outlast the century, maintaining its integrity against the elements.
+                    </p>
+</div>
+</div>
+</section>
+<!-- Heritage Section: Tonal Transition -->
+<section class="bg-surface-container-low py-32 px-8 md:px-20">
+<div class="max-w-screen-2xl mx-auto grid grid-cols-1 md:grid-cols-2 gap-24 items-center">
+<div class="relative">
+<div class="aspect-[4/5] bg-surface-container-highest overflow-hidden">
+<img alt="Historic construction" class="w-full h-full object-cover grayscale opacity-80" data-alt="Vintage black and white photo of monumental stone foundations" src="https://lh3.googleusercontent.com/aida-public/AB6AXuAQiSIXgMfWLvA78utyXPvXCtQxOdJ-4jbt9cI30I4SOyg03GcsdYwevSO_6fS4geMIPTsCKJz80DLRqSlgDduxA3Q8F9M_HYoHv8kDdxTFF504UMal9eOGN4UavlBNXWcU8SoxhogRQGCO3qWr-j0dzZ7UR7lbe57kx6KMjwz2Auu5m6rOU6rg1gelCLjI0kXG7V1zbx5ESb6BdlYg8aXt4qGLDt_H0GzwZiHmfBiGNk92RsB5I4qI5xza2U8AJrA4Wp_9Bk64uZyb"/>
+</div>
+<div class="absolute -bottom-8 -right-8 w-48 h-48 bg-primary p-6 flex flex-col justify-end">
+<span class="text-4xl font-black text-on-primary leading-none">1924</span>
+<span class="text-xs uppercase font-bold text-on-primary tracking-widest mt-2">Founding Year</span>
+</div>
+</div>
+<div>
+<h2 class="text-4xl md:text-5xl font-bold tracking-tight mb-8">Our Heritage</h2>
+<p class="text-secondary mb-8 leading-relaxed text-lg">
+                        Founded a century ago in the rugged stone quarries of the heartland, Resident Cement began with a simple philosophy: if you build it once, build it to stay.
+                    </p>
+<div class="space-y-6">
+<div class="flex gap-4 items-start">
+<span class="material-symbols-outlined text-primary mt-1" data-icon="diamond">diamond</span>
+<div>
+<h4 class="font-bold text-on-surface">Purity of Material</h4>
+<p class="text-sm text-secondary">Sourced from exclusive veins of limestone, processed with artisanal precision.</p>
+</div>
+</div>
+<div class="flex gap-4 items-start">
+<span class="material-symbols-outlined text-primary mt-1" data-icon="architecture">architecture</span>
+<div>
+<h4 class="font-bold text-on-surface">Architectural Trust</h4>
+<p class="text-sm text-secondary">The preferred choice for the world's most demanding structural engineers.</p>
+</div>
+</div>
+</div>
+</div>
+</div>
+</section>
+<!-- Mission: Asymmetrical Layout -->
+<section class="py-32 px-8 md:px-20 overflow-hidden">
+<div class="max-w-screen-2xl mx-auto">
+<div class="flex flex-col md:flex-row justify-between items-start mb-20">
+<h2 class="text-4xl md:text-6xl font-black tracking-tighter mb-8 md:mb-0">The Mission</h2>
+<div class="max-w-lg md:text-right">
+<p class="text-xl font-body text-secondary italic">
+                            "To elevate the human experience by providing the foundation for spaces that inspire, protect, and endure."
+                        </p>
+</div>
+</div>
+<div class="grid grid-cols-1 md:grid-cols-3 gap-8">
+<!-- Mission Card 1 -->
+<div class="bg-surface-container p-10 flex flex-col justify-between aspect-square hover:bg-surface-container-lowest transition-all group duration-300">
+<span class="text-6xl font-serif text-outline-variant group-hover:text-primary transition-colors">01</span>
+<div>
+<h3 class="text-2xl font-bold mb-4">Innovation</h3>
+<p class="text-sm text-secondary">Pushing the boundaries of molecular structural integrity through R&amp;D.</p>
+</div>
+</div>
+<!-- Mission Card 2 (Monolith Style) -->
+<div class="bg-primary text-on-primary p-10 flex flex-col justify-between aspect-square">
+<span class="text-6xl font-serif opacity-30">02</span>
+<div>
+<h3 class="text-2xl font-bold mb-4">Integrity</h3>
+<p class="text-sm opacity-80">Honesty in our source materials and transparency in our logistics.</p>
+</div>
+</div>
+<!-- Mission Card 3 -->
+<div class="bg-surface-container p-10 flex flex-col justify-between aspect-square hover:bg-surface-container-lowest transition-all group duration-300">
+<span class="text-6xl font-serif text-outline-variant group-hover:text-primary transition-colors">03</span>
+<div>
+<h3 class="text-2xl font-bold mb-4">Longevity</h3>
+<p class="text-sm text-secondary">Reducing global waste by ensuring structures never need replacement.</p>
+</div>
+</div>
+</div>
+</div>
+</section>
+<!-- Leadership: Editorial Grid -->
+<section class="py-32 px-8 md:px-20 bg-on-background text-surface">
+<div class="max-w-screen-2xl mx-auto">
+<div class="mb-20 text-center max-w-3xl mx-auto">
+<span class="text-primary-container font-label text-sm font-bold uppercase tracking-[0.3em] mb-6 block">The Curators</span>
+<h2 class="text-5xl md:text-6xl font-black tracking-tighter mb-6">Leadership</h2>
+<p class="text-surface-variant/70 text-lg">Guided by visionaries from the fields of industrial design, structural engineering, and sustainable urbanism.</p>
+</div>
+<div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-x-8 gap-y-16">
+<!-- Leader 1 -->
+<div class="group">
+<div class="aspect-[3/4] overflow-hidden mb-6 bg-surface-container-high">
+<img alt="CEO Portrait" class="w-full h-full object-cover grayscale group-hover:grayscale-0 transition-all duration-500" data-alt="Professional portrait of male executive in minimalist office" src="https://lh3.googleusercontent.com/aida-public/AB6AXuAGq86JOLCLTTtU2d3GFV1dVPuEptk5fCq9MKius-pWEjLAinTmDyIvYATh1hYLp-MtB8U0SOEQckgX445uCQrLtFEGu0ptQPCMjnSIabBaes226XZ9JEfPJj4hccWLYmmYS8eiTddIKXI7NyvBk8BWPmByyQFjXtwyB_wj22736K2YB94Cm0-ZcrzqfalQvHLmn8iWEddWcml4uCECm_KSasoILFRWp2qUs-RuGnv7oNLvBD3O9NaN1sC9X2EX7amLAApN_VcsTNCJ"/>
+</div>
+<h4 class="text-xl font-bold">Arthur Sterling</h4>
+<p class="text-primary-container text-xs font-bold uppercase tracking-widest mt-1">Chief Executive Officer</p>
+</div>
+<!-- Leader 2 -->
+<div class="group">
+<div class="aspect-[3/4] overflow-hidden mb-6 bg-surface-container-high">
+<img alt="Design Director" class="w-full h-full object-cover grayscale group-hover:grayscale-0 transition-all duration-500" data-alt="Professional portrait of female architect overlooking blueprints" src="https://lh3.googleusercontent.com/aida-public/AB6AXuAz4-yi7g-h_nwvbbSkATXxAuEkTDYIe12ky0BmyFmM175R4hiyC76lkPX0uSjpzJwut1to1KU9hNaAXry4qh2wqsQsFDErOoCBlxwSCD9aFbzoexPTVC0noCeiyprn78Gnl8F93iCYd7NHgQsxr3q_D_Obh9B9OmSM89S5QuwGgZY7PS-wwUVdR50NwyLFUyn1IKYw-kFHAAD2RYLOxXCuCNKgmSPGxp7TDdFTsNpZiUFFyP-JJp4dYrgnFVku0GyHTSvfri9JqRqW"/>
+</div>
+<h4 class="text-xl font-bold">Elena Vance</h4>
+<p class="text-primary-container text-xs font-bold uppercase tracking-widest mt-1">Director of Design</p>
+</div>
+<!-- Leader 3 -->
+<div class="group">
+<div class="aspect-[3/4] overflow-hidden mb-6 bg-surface-container-high">
+<img alt="Chief Engineer" class="w-full h-full object-cover grayscale group-hover:grayscale-0 transition-all duration-500" data-alt="Professional portrait of male structural engineer at construction site" src="https://lh3.googleusercontent.com/aida-public/AB6AXuBUtVuWgtzN4J0LAGl_X6M2f4e84r1xbIfDRzEHXFXem3vcgKueGLGGu5BA4lERaibnjOCTbZdIJU_N9PMnHdRLhRpujEgrxoB9k-MDuFsXcS2LMywtszZUQ-Eu7fgcmqrjSAh5LFdX8PaW_APaNB9PAi7aLMYlGEhmquSoBT7vbgye0MOOvaWjpAhA1hpeN6i6YAiNEeoisTRVcXYm6GOGXinFBuB5D8WlEF43Hb5uuHdjSexBQJORv47t0I2hTcRaa-ekYwOi4oMt"/>
+</div>
+<h4 class="text-xl font-bold">Marcus Thorne</h4>
+<p class="text-primary-container text-xs font-bold uppercase tracking-widest mt-1">Chief Engineer</p>
+</div>
+<!-- Leader 4 -->
+<div class="group">
+<div class="aspect-[3/4] overflow-hidden mb-6 bg-surface-container-high">
+<img alt="Sustainability Officer" class="w-full h-full object-cover grayscale group-hover:grayscale-0 transition-all duration-500" data-alt="Professional portrait of female sustainability expert in sunlit studio" src="https://lh3.googleusercontent.com/aida-public/AB6AXuAk0Kjhd40pe6BgOd0rfTOZZ0oix-d06h2LoVctkjgSjzg0jsBurEcslRAd9kjNqtQNU-ZCMr5ATquuiPwLS7FjZ6glS9RV78aWY8Nt2s3ATxRN0SI6vQFY5jZ3HSd0IQ8zfkFZN1_C0lWeRZ0-XiLVaCu_ueXq5xfUjhsao0U8gO7hMTG6HPtebhIHlBf7M3NwfwYneFRY1STqhQhWqf5thFUmTgOla4jqhGvBhmwsFsRuBbUEEXoVOrx0ZmR807DopfR9wtq78c_o"/>
+</div>
+<h4 class="text-xl font-bold">Sarah Chen</h4>
+<p class="text-primary-container text-xs font-bold uppercase tracking-widest mt-1">Head of Sustainability</p>
+</div>
+</div>
+</div>
+</section>
+<!-- CTA Section -->
+<section class="py-32 px-8 md:px-20 text-center relative overflow-hidden bg-surface-bright">
+<div class="max-w-screen-md mx-auto relative z-10">
+<h2 class="text-4xl md:text-5xl font-black tracking-tighter mb-8 text-on-surface">Ready to Build Your Legacy?</h2>
+<p class="text-secondary mb-12 text-lg">Partner with us for your next architectural masterwork. From conceptual drafts to final pours.</p>
+<div class="flex flex-col sm:flex-row gap-4 justify-center">
+<button class="bg-primary text-on-primary px-10 py-4 font-bold uppercase tracking-widest hover:bg-primary/90 transition-colors">Start Project</button>
+<button class="border border-outline px-10 py-4 font-bold uppercase tracking-widest hover:bg-on-surface hover:text-surface transition-all">Download Catalog</button>
+</div>
+</div>
+<!-- Decorative Element -->
+<div class="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[120%] h-full opacity-5 pointer-events-none">
+<span class="text-[40rem] font-black text-on-surface select-none">RC</span>
+</div>
+</section>
+</main>
+<!-- Footer Section -->
+<footer class="bg-[#E2E2E2] dark:bg-[#1A1C1C] w-full border-t-0">
+<div class="grid grid-cols-1 md:grid-cols-4 gap-12 px-12 py-20 max-w-screen-2xl mx-auto">
+<div class="md:col-span-1">
+<span class="font-serif text-2xl font-black text-[#171717] dark:text-[#F9F9F8]">Resident Cement</span>
+<p class="mt-6 font-sans text-sm tracking-wide text-[#171717]/70 dark:text-[#F9F9F8]/70 leading-relaxed">
+                    Setting the standard for architectural concrete since 1924. Built for permanence, designed for the future.
+                </p>
+</div>
+<div class="space-y-4">
+<h5 class="text-[#745B17] dark:text-[#C5A55A] font-bold text-sm tracking-widest uppercase">Information</h5>
+<ul class="space-y-2">
+<li><a class="font-sans text-sm tracking-wide text-[#171717] dark:text-[#F9F9F8] opacity-70 hover:opacity-100 underline-offset-4 hover:underline transition-all" href="#">Sitemap</a></li>
+<li><a class="font-sans text-sm tracking-wide text-[#171717] dark:text-[#F9F9F8] opacity-70 hover:opacity-100 underline-offset-4 hover:underline transition-all" href="#">Contact Us</a></li>
+<li><a class="font-sans text-sm tracking-wide text-[#171717] dark:text-[#F9F9F8] opacity-70 hover:opacity-100 underline-offset-4 hover:underline transition-all" href="#">Privacy Policy</a></li>
+</ul>
+</div>
+<div class="space-y-4">
+<h5 class="text-[#745B17] dark:text-[#C5A55A] font-bold text-sm tracking-widest uppercase">Explore</h5>
+<ul class="space-y-2">
+<li><a class="font-sans text-sm tracking-wide text-[#171717] dark:text-[#F9F9F8] opacity-70 hover:opacity-100 underline-offset-4 hover:underline transition-all" href="#">Products</a></li>
+<li><a class="font-sans text-sm tracking-wide text-[#171717] dark:text-[#F9F9F8] opacity-70 hover:opacity-100 underline-offset-4 hover:underline transition-all" href="#">Sustainability</a></li>
+<li><a class="font-sans text-sm tracking-wide text-[#171717] dark:text-[#F9F9F8] opacity-70 hover:opacity-100 underline-offset-4 hover:underline transition-all" href="#">Terms of Service</a></li>
+</ul>
+</div>
+<div class="space-y-4">
+<h5 class="text-[#745B17] dark:text-[#C5A55A] font-bold text-sm tracking-widest uppercase">Social</h5>
+<ul class="space-y-2 flex gap-4">
+<li><a class="font-sans text-sm tracking-wide text-[#171717] dark:text-[#F9F9F8] opacity-70 hover:opacity-100 hover:text-primary transition-all" href="#">LinkedIn</a></li>
+<li><a class="font-sans text-sm tracking-wide text-[#171717] dark:text-[#F9F9F8] opacity-70 hover:opacity-100 hover:text-primary transition-all" href="#">Instagram</a></li>
+</ul>
+</div>
+</div>
+<div class="px-12 py-8 border-t border-outline-variant/10 max-w-screen-2xl mx-auto flex flex-col md:flex-row justify-between items-center gap-4">
+<p class="font-sans text-xs tracking-wide text-[#171717]/50 dark:text-[#F9F9F8]/50 uppercase">© 2024 Resident Cement. Built for Permanence.</p>
+<div class="flex gap-8 items-center">
+<span class="text-[10px] uppercase font-bold tracking-[0.4em] opacity-40">Architectural Grade</span>
+<span class="text-[10px] uppercase font-bold tracking-[0.4em] opacity-40">ISO 9001</span>
+</div>
+</div>
+</footer>
+</body></html>

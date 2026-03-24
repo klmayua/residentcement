@@ -1,278 +1,248 @@
 import Image from "next/image";
 import Link from "next/link";
-import {
-  ArrowRight,
-  Building2,
-  Factory,
-  HardHat,
-  Settings,
-  Quote,
-} from "lucide-react";
+import { Search, ArrowRight, Verified, Leaf, Truck, ChevronRight } from "lucide-react";
 
 export default function Home() {
   return (
-    <main className="min-h-screen">
-      {/* News Ticker */}
-      <div className="bg-primary text-white py-2 overflow-hidden whitespace-nowrap border-b border-white/10">
-        <div className="animate-marquee inline-block">
-          <span className="text-[10px] font-bold uppercase tracking-[0.3em] mr-12">
-            <span className="text-secondary mr-2">●</span> Q3 Production Up 14%
-          </span>
-          <span className="text-[10px] font-bold uppercase tracking-[0.3em] mr-12">
-            <span className="text-secondary mr-2">●</span> New Sustainability Framework Launched
-          </span>
-          <span className="text-[10px] font-bold uppercase tracking-[0.3em] mr-12">
-            <span className="text-secondary mr-2">●</span> Obajana Plant Upgrade Complete
-          </span>
-          <span className="text-[10px] font-bold uppercase tracking-[0.3em] mr-12">
-            <span className="text-secondary mr-2">●</span> NSE: RESCEMENT +2.4%
-          </span>
-          <span className="text-[10px] font-bold uppercase tracking-[0.3em] mr-12">
-            <span className="text-secondary mr-2">●</span> Architectural Integrity Since 1984
-          </span>
-          {/* Duplicate for seamless loop */}
-          <span className="text-[10px] font-bold uppercase tracking-[0.3em] mr-12">
-            <span className="text-secondary mr-2">●</span> Q3 Production Up 14%
-          </span>
-          <span className="text-[10px] font-bold uppercase tracking-[0.3em] mr-12">
-            <span className="text-secondary mr-2">●</span> New Sustainability Framework Launched
-          </span>
-          <span className="text-[10px] font-bold uppercase tracking-[0.3em] mr-12">
-            <span className="text-secondary mr-2">●</span> Obajana Plant Upgrade Complete
-          </span>
-          <span className="text-[10px] font-bold uppercase tracking-[0.3em] mr-12">
-            <span className="text-secondary mr-2">●</span> NSE: RESCEMENT +2.4%
-          </span>
-          <span className="text-[10px] font-bold uppercase tracking-[0.3em] mr-12">
-            <span className="text-secondary mr-2">●</span> Architectural Integrity Since 1984
-          </span>
+    <div className="min-h-screen bg-[#f9f9f8]">
+      {/* Glass Navigation */}
+      <nav className="fixed top-0 w-full z-50 bg-[#f9f9f8]/70 backdrop-blur-md border-b border-[#e2e2e2]/50">
+        <div className="max-w-7xl mx-auto px-8 h-20 flex justify-between items-center">
+          {/* Logo */}
+          <div className="flex items-center gap-3">
+            <div className="w-8 h-8 bg-[#745b17] rounded"></div>
+            <span className="text-xl font-headline font-bold text-[#1a1c1c] tracking-tight">Resident Cement</span>
+          </div>
+
+          {/* Nav Links */}
+          <div className="hidden md:flex items-center space-x-12">
+            <Link href="/" className="text-[#745b17] border-b-2 border-[#745b17] pb-1 text-sm font-medium tracking-wide">
+              Home
+            </Link>
+            <Link href="/about" className="text-[#1a1c1c] hover:text-[#745b17] transition-colors text-sm font-medium tracking-wide">
+              About
+            </Link>
+            <Link href="/products" className="text-[#1a1c1c] hover:text-[#745b17] transition-colors text-sm font-medium tracking-wide">
+              Products
+            </Link>
+            <Link href="/investors" className="text-[#1a1c1c] hover:text-[#745b17] transition-colors text-sm font-medium tracking-wide">
+              Investors
+            </Link>
+          </div>
+
+          {/* Search + CTA */}
+          <div className="flex items-center gap-6">
+            <div className="hidden lg:flex items-center bg-[#eeeeed] px-4 py-2 rounded">
+              <Search className="w-4 h-4 text-[#7e7667] mr-2" />
+              <input
+                type="text"
+                placeholder="Search infrastructure..."
+                className="bg-transparent border-none focus:outline-none text-sm w-40 text-[#1a1c1c] placeholder:text-[#7e7667]"
+              />
+            </div>
+            <button className="bg-[#745b17] text-white px-6 py-2.5 text-sm font-bold uppercase tracking-wider rounded hover:opacity-90 transition-opacity">
+              Order Now
+            </button>
+          </div>
         </div>
-      </div>
+      </nav>
 
       {/* Hero Section */}
-      <section className="relative min-h-[921px] flex items-center overflow-hidden bg-primary">
+      <header className="relative h-screen w-full overflow-hidden">
         {/* Background Image */}
-        <div className="absolute inset-0 z-0 opacity-60">
+        <div className="absolute inset-0">
           <Image
-            src="https://images.unsplash.com/photo-1565514020176-db92b788ad87?q=80&w=2070&auto=format&fit=crop"
-            alt="Massive industrial cement manufacturing plant at twilight"
+            src="https://images.unsplash.com/photo-1486406146926-c627a92ad1ab?q=80&w=2070&auto=format&fit=crop"
+            alt="Modern architectural monolith"
             fill
-            className="object-cover grayscale contrast-125"
+            className="object-cover"
             priority
           />
+          <div className="absolute inset-0" style={{ background: 'linear-gradient(to right, rgba(26, 28, 28, 0.8), rgba(26, 28, 28, 0.2))' }} />
         </div>
-        {/* Gradient Overlay */}
-        <div className="absolute inset-0 z-10 hero-gradient" />
 
-        {/* Content */}
-        <div className="relative z-20 container-full px-6 sm:px-8 lg:px-12 xl:px-16 grid grid-cols-1 lg:grid-cols-12 gap-12 items-end pb-24 pt-32">
-          <div className="lg:col-span-7">
-            <h1 className="text-white text-display-lg mb-8">
-              Building <br /> Nigeria&apos;s <br /> <span className="text-secondary">Industrial Future</span>
-            </h1>
-            <p className="text-white/70 max-w-xl font-body text-lg leading-relaxed mb-10">
-              A commitment to structural permanence and economic resilience. We are curating the foundations of a continent, one monolithic achievement at a time.
-            </p>
-            <div className="flex flex-wrap gap-4">
-              <Link href="/operations" className="btn-secondary inline-flex items-center gap-2">
-                Explore Operations
-              </Link>
-              <Link href="/report" className="btn-outline inline-flex items-center gap-2">
-                Download Report
-              </Link>
-            </div>
+        {/* Hero Content */}
+        <div className="relative z-10 h-full flex flex-col justify-center px-8 md:px-24 max-w-7xl mx-auto">
+          <span className="text-[#c5a55a] font-bold tracking-[0.3em] uppercase mb-6 block text-sm">Industrial Excellence</span>
+          <h1 className="font-headline text-6xl md:text-8xl text-white font-extrabold leading-tight tracking-tighter mb-8 max-w-4xl">
+            Built for Generations
+          </h1>
+          <p className="text-[#f9f9f8] text-lg md:text-xl max-w-xl font-light leading-relaxed mb-12 opacity-90">
+            Architectural grade foundations engineered for permanence. We provide the structural soul for tomorrow&apos;s landmarks.
+          </p>
+          <div className="flex flex-col sm:flex-row gap-6">
+            <button
+              className="px-10 py-5 text-sm font-bold uppercase tracking-[0.2em] rounded transition-all hover:opacity-90 text-white"
+              style={{ background: 'linear-gradient(45deg, #745B17, #C5A55A)' }}
+            >
+              Request Quote
+            </button>
+            <button className="border border-white/30 backdrop-blur-md text-white px-10 py-5 text-sm font-bold uppercase tracking-[0.2em] rounded hover:bg-white/10 transition-all">
+              Explore Materials
+            </button>
+          </div>
+        </div>
+
+        {/* Scroll Indicator */}
+        <div className="absolute bottom-10 left-1/2 -translate-x-1/2 text-white/50 flex flex-col items-center">
+          <span className="text-[10px] uppercase tracking-[0.4em] mb-4">Discovery</span>
+          <div className="w-[1px] h-12 bg-gradient-to-b from-white/50 to-transparent" />
+        </div>
+      </header>
+
+      {/* Features Bento Grid */}
+      <section className="py-32 px-8 max-w-7xl mx-auto">
+        <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
+          {/* Quality */}
+          <div className="p-10 bg-[#f4f4f3] rounded border-l-2 border-[#c5a55a]/30 hover:bg-white transition-all group">
+            <Verified className="text-[#745b17] text-4xl mb-8" strokeWidth={1.5} />
+            <h3 className="font-headline text-2xl font-bold mb-4 text-[#1a1c1c]">Product Quality</h3>
+            <p className="text-[#4d4639] leading-relaxed">Nano-engineered aggregates ensuring compressive strength that exceeds global industrial standards by 40%.</p>
+            <div className="mt-8 h-[1px] w-0 group-hover:w-full bg-[#745b17] transition-all duration-500" />
           </div>
 
-          {/* Stats Panel */}
-          <div className="lg:col-span-5 bg-white p-10 space-y-8">
-            <div>
-              <span className="label-micro block mb-2">Capital Injection</span>
-              <div className="text-4xl md:text-5xl font-black font-headline text-primary">$1.5B Investment</div>
-              <div className="w-full bg-surface-container h-1 mt-4">
-                <div className="bg-secondary h-full w-[85%]" />
+          {/* Sustainability */}
+          <div className="p-10 bg-[#f4f4f3] rounded border-l-2 border-[#c5a55a]/30 hover:bg-white transition-all group">
+            <Leaf className="text-[#745b17] text-4xl mb-8" strokeWidth={1.5} />
+            <h3 className="font-headline text-2xl font-bold mb-4 text-[#1a1c1c]">Sustainability</h3>
+            <p className="text-[#4d4639] leading-relaxed">Carbon-neutral manufacturing processes and recycled raw materials for the next century of green building.</p>
+            <div className="mt-8 h-[1px] w-0 group-hover:w-full bg-[#745b17] transition-all duration-500" />
+          </div>
+
+          {/* Logistics */}
+          <div className="p-10 bg-[#f4f4f3] rounded border-l-2 border-[#c5a55a]/30 hover:bg-white transition-all group">
+            <Truck className="text-[#745b17] text-4xl mb-8" strokeWidth={1.5} />
+            <h3 className="font-headline text-2xl font-bold mb-4 text-[#1a1c1c]">B2B Logistics</h3>
+            <p className="text-[#4d4639] leading-relaxed">Real-time supply chain tracking and automated fleet management for seamless site delivery integration.</p>
+            <div className="mt-8 h-[1px] w-0 group-hover:w-full bg-[#745b17] transition-all duration-500" />
+          </div>
+        </div>
+      </section>
+
+      {/* Our Materials Section */}
+      <section className="bg-[#eeeeed] py-32 px-8">
+        <div className="max-w-7xl mx-auto">
+          <div className="flex flex-col md:flex-row md:items-end justify-between mb-20 gap-8">
+            <div className="max-w-2xl">
+              <h2 className="font-headline text-5xl font-extrabold text-[#1a1c1c] mb-6 tracking-tight">Our Materials</h2>
+              <p className="text-[#4d4639] text-lg">The foundational components of modern infrastructure, refined for specific architectural needs.</p>
+            </div>
+            <button className="text-[#745b17] font-bold uppercase tracking-widest text-sm flex items-center gap-2 group">
+              View Catalog
+              <ChevronRight className="group-hover:translate-x-2 transition-transform" />
+            </button>
+          </div>
+
+          <div className="grid grid-cols-1 md:grid-cols-4 gap-6">
+            {/* Product Card 1 */}
+            <div className="bg-white p-4 rounded group cursor-pointer shadow-sm hover:shadow-xl transition-all">
+              <div className="aspect-square bg-[#eeeeed] rounded mb-6 overflow-hidden">
+                <Image
+                  src="https://images.unsplash.com/photo-1590736969955-71cc94901144?q=80&w=1000&auto=format&fit=crop"
+                  alt="Premium cement bag"
+                  width={400}
+                  height={400}
+                  className="w-full h-full object-cover group-hover:scale-110 transition-transform duration-700"
+                />
               </div>
+              <span className="text-[10px] text-[#7e7667] font-bold uppercase tracking-widest">Type GU</span>
+              <h4 className="font-headline text-xl font-bold mt-1 text-[#1a1c1c]">Elite Portland</h4>
+              <p className="text-[#745b17] font-bold mt-4">$24.50 <span className="text-[#4d4639] font-normal text-xs">/ unit</span></p>
             </div>
-            <div>
-              <span className="label-micro block mb-2">Annual Output</span>
-              <div className="text-4xl md:text-5xl font-black font-headline text-primary">10M Tonnes</div>
-              <p className="text-xs text-on-surface/50 mt-2">Combined Capacity Across Regional Hubs</p>
+
+            {/* Product Card 2 */}
+            <div className="bg-white p-4 rounded group cursor-pointer shadow-sm hover:shadow-xl transition-all">
+              <div className="aspect-square bg-[#eeeeed] rounded mb-6 overflow-hidden">
+                <Image
+                  src="https://images.unsplash.com/photo-1565514020176-db92b788ad87?q=80&w=1000&auto=format&fit=crop"
+                  alt="Concrete blocks"
+                  width={400}
+                  height={400}
+                  className="w-full h-full object-cover group-hover:scale-110 transition-transform duration-700"
+                />
+              </div>
+              <span className="text-[10px] text-[#7e7667] font-bold uppercase tracking-widest">Pre-Cast</span>
+              <h4 className="font-headline text-xl font-bold mt-1 text-[#1a1c1c]">Monolith Blocks</h4>
+              <p className="text-[#745b17] font-bold mt-4">$112.00 <span className="text-[#4d4639] font-normal text-xs">/ block</span></p>
             </div>
-            <div className="pt-4 border-t border-outline-variant/15">
-              <Link href="/strategy" className="text-secondary font-bold uppercase text-xs tracking-widest inline-flex items-center gap-2 hover:gap-4 transition-all duration-300">
-                View Strategic Plan <ArrowRight className="w-4 h-4" />
-              </Link>
+
+            {/* Product Card 3 */}
+            <div className="bg-white p-4 rounded group cursor-pointer shadow-sm hover:shadow-xl transition-all">
+              <div className="aspect-square bg-[#eeeeed] rounded mb-6 overflow-hidden">
+                <Image
+                  src="https://images.unsplash.com/photo-1534260164206-187827c9d914?q=80&w=1000&auto=format&fit=crop"
+                  alt="Aggregate mix"
+                  width={400}
+                  height={400}
+                  className="w-full h-full object-cover group-hover:scale-110 transition-transform duration-700"
+                />
+              </div>
+              <span className="text-[10px] text-[#7e7667] font-bold uppercase tracking-widest">Aggregate</span>
+              <h4 className="font-headline text-xl font-bold mt-1 text-[#1a1c1c]">Titanium Grit</h4>
+              <p className="text-[#745b17] font-bold mt-4">$85.00 <span className="text-[#4d4639] font-normal text-xs">/ ton</span></p>
+            </div>
+
+            {/* Product Card 4 */}
+            <div className="bg-white p-4 rounded group cursor-pointer shadow-sm hover:shadow-xl transition-all">
+              <div className="aspect-square bg-[#eeeeed] rounded mb-6 overflow-hidden">
+                <Image
+                  src="https://images.unsplash.com/photo-1541888946425-d81bb1924f7a?q=80&w=1000&auto=format&fit=crop"
+                  alt="Specialty concrete mix"
+                  width={400}
+                  height={400}
+                  className="w-full h-full object-cover group-hover:scale-110 transition-transform duration-700"
+                />
+              </div>
+              <span className="text-[10px] text-[#7e7667] font-bold uppercase tracking-widest">Custom</span>
+              <h4 className="font-headline text-xl font-bold mt-1 text-[#1a1c1c]">Hydro-Seal Mix</h4>
+              <p className="text-[#745b17] font-bold mt-4">Quote Only</p>
             </div>
           </div>
         </div>
       </section>
 
-      {/* Stakeholder Quick Links - Slab Layout */}
-      <section className="bg-surface-container-low section-padding">
-        <div className="container-wide">
-          <div className="mb-16">
-            <span className="label-section">Direct Portals</span>
-            <h2 className="text-display-md mt-4 text-primary">Stakeholder Resources</h2>
-          </div>
-          <div className="grid grid-cols-1 md:grid-cols-3 gap-1">
-            {/* Card 1 */}
-            <div className="bg-surface-container-highest p-12 group hover:bg-primary transition-all duration-500 cursor-pointer">
-              <Building2 className="w-10 h-10 text-secondary mb-8 group-hover:text-white transition-colors duration-500" strokeWidth={1.5} />
-              <h3 className="text-2xl font-bold mb-4 group-hover:text-white transition-colors duration-500">Institutional Investors</h3>
-              <p className="text-on-surface/60 group-hover:text-white/70 mb-8 font-body transition-colors duration-500">
-                Access quarterly earnings, ESG disclosures, and governance documentation.
-              </p>
-              <div className="h-[2px] w-12 bg-secondary group-hover:w-full transition-all duration-500" />
-            </div>
-            {/* Card 2 */}
-            <div className="bg-surface-container-highest p-12 group hover:bg-primary transition-all duration-500 cursor-pointer">
-              <Factory className="w-10 h-10 text-secondary mb-8 group-hover:text-white transition-colors duration-500" strokeWidth={1.5} />
-              <h3 className="text-2xl font-bold mb-4 group-hover:text-white transition-colors duration-500">Distributors & Retail</h3>
-              <p className="text-on-surface/60 group-hover:text-white/70 mb-8 font-body transition-colors duration-500">
-                Manage bulk orders, track logistics, and access technical product data sheets.
-              </p>
-              <div className="h-[2px] w-12 bg-secondary group-hover:w-full transition-all duration-500" />
-            </div>
-            {/* Card 3 */}
-            <div className="bg-surface-container-highest p-12 group hover:bg-primary transition-all duration-500 cursor-pointer">
-              <HardHat className="w-10 h-10 text-secondary mb-8 group-hover:text-white transition-colors duration-500" strokeWidth={1.5} />
-              <h3 className="text-2xl font-bold mb-4 group-hover:text-white transition-colors duration-500">Engineering Partners</h3>
-              <p className="text-on-surface/60 group-hover:text-white/70 mb-8 font-body transition-colors duration-500">
-                Structural specifications and material safety certifications for large-scale projects.
-              </p>
-              <div className="h-[2px] w-12 bg-secondary group-hover:w-full transition-all duration-500" />
+      {/* Latest Projects */}
+      <section className="py-32 px-8 max-w-7xl mx-auto">
+        <h2 className="font-headline text-5xl font-extrabold text-[#1a1c1c] mb-16 tracking-tight text-center">Latest Projects</h2>
+        <div className="grid grid-cols-1 md:grid-cols-12 gap-4 h-[800px]">
+          {/* Large Featured Image */}
+          <div className="md:col-span-8 relative group overflow-hidden rounded shadow-lg">
+            <Image
+              src="https://images.unsplash.com/photo-1545558014-8692077e9b5c?q=80&w=2070&auto=format&fit=crop"
+              alt="Bridge construction"
+              fill
+              className="object-cover transition-transform duration-1000 group-hover:scale-105"
+            />
+            <div className="absolute inset-0 bg-gradient-to-t from-black/80 via-transparent to-transparent opacity-0 group-hover:opacity-100 transition-opacity p-12 flex flex-col justify-end">
+              <span className="text-[#ffdf99] uppercase tracking-widest text-xs mb-4">Infrastructure</span>
+              <h3 className="text-white font-headline text-3xl font-bold">The Meridian Viaduct</h3>
+              <p className="text-white/70 max-w-md mt-4">120,000 cubic meters of Type V High-Sulfate resistance cement utilized for long-term maritime durability.</p>
             </div>
           </div>
-        </div>
-      </section>
 
-      {/* Live Project Timeline - Bento Style */}
-      <section className="section-padding bg-surface">
-        <div className="container-wide">
-          <div className="grid grid-cols-1 lg:grid-cols-12 gap-8">
-            {/* Left Column - Text */}
-            <div className="lg:col-span-4 flex flex-col justify-center">
-              <span className="label-section mb-6 block">Project Momentum</span>
-              <h2 className="text-display-md text-primary mb-8">Timeline of Architectural Progress</h2>
-              <p className="text-on-surface/70 font-body mb-8">
-                Tracking our physical expansion and industrial milestones as they materialize across the landscape.
-              </p>
-              <Link href="/projects" className="btn-primary self-start">
-                Full Project Map
-              </Link>
-            </div>
-
-            {/* Right Column - Bento Grid */}
-            <div className="lg:col-span-8 grid grid-cols-1 md:grid-cols-2 gap-4">
-              {/* Card 1 - Kogi Expansion */}
-              <div className="bg-surface-container h-[300px] p-8 flex flex-col justify-between relative overflow-hidden group">
-                <div className="relative z-10">
-                  <span className="bg-secondary text-white text-[10px] px-3 py-1.5 font-bold uppercase tracking-wider">Phase 04 : Live</span>
-                  <h4 className="text-2xl font-bold mt-4 font-headline">Kogi Expansion</h4>
-                </div>
-                <div className="relative z-10">
-                  <p className="text-sm text-on-surface/60">Installation of next-gen vertical roller mills</p>
-                  <span className="text-xs font-bold text-primary mt-2 block">Completion: Q4 2024</span>
-                </div>
-                <div className="absolute right-[-20px] bottom-[-20px] opacity-5 group-hover:opacity-10 transition-opacity duration-500">
-                  <Settings className="w-32 h-32" strokeWidth={1} />
-                </div>
-              </div>
-
-              {/* Card 2 - Solar Integration */}
-              <div className="bg-primary text-white h-[300px] p-8 flex flex-col justify-between relative overflow-hidden">
-                <div className="relative z-10">
-                  <span className="bg-white/20 text-white text-[10px] px-3 py-1.5 font-bold uppercase tracking-wider">Success</span>
-                  <h4 className="text-2xl font-bold mt-4 font-headline">Solar Integration</h4>
-                </div>
-                <p className="text-white/60 text-sm relative z-10">
-                  Now powering 30% of administrative operations through onsite renewables.
-                </p>
-                <div className="absolute top-0 right-0 w-1/2 h-full opacity-20">
-                  <Image
-                    src="https://images.unsplash.com/photo-1509391366360-2e959784a276?q=80&w=1000&auto=format&fit=crop"
-                    alt="Solar panels"
-                    fill
-                    className="object-cover"
-                  />
-                </div>
-              </div>
-
-              {/* Card 3 - Full Width Stats */}
-              <div className="md:col-span-2 bg-surface-container-low p-8 flex flex-col md:flex-row gap-8 items-center border-l-4 border-secondary">
-                <div className="flex-shrink-0 text-center px-6">
-                  <div className="text-5xl md:text-6xl font-black text-secondary">24/7</div>
-                  <div className="label-micro mt-1">Operation Status</div>
-                </div>
-                <div className="flex-grow">
-                  <h4 className="font-bold text-xl mb-1">Industrial Uptime Excellence</h4>
-                  <p className="text-sm text-on-surface/60">
-                    Maintaining rigorous safety standards across all 12 manufacturing nodes simultaneously.
-                  </p>
-                </div>
-                <Link href="/safety" className="btn-tertiary whitespace-nowrap">
-                  Safety Metrics
-                </Link>
-              </div>
-            </div>
-          </div>
-        </div>
-      </section>
-
-      {/* News and Narrative Section */}
-      <section className="bg-surface-container-highest section-padding">
-        <div className="container-full px-6 sm:px-8 lg:px-12 xl:px-16">
-          <div className="grid grid-cols-1 lg:grid-cols-2 gap-12 lg:gap-20">
-            {/* News Column */}
-            <div className="space-y-12">
-              <div className="border-b border-outline-variant/30 pb-12">
-                <span className="label-micro block mb-4">12 Oct 2024 / Industry</span>
-                <h3 className="text-3xl font-bold font-headline mb-6 hover:text-secondary cursor-pointer transition-colors">
-                  Strengthening the Supply Chain: New Terminal at Apapa Port
-                </h3>
-                <p className="text-on-surface/60 line-clamp-2">
-                  The logistical expansion marks a pivotal turn in our ability to serve the coastal regions with unprecedented speed and efficiency...
-                </p>
-              </div>
-              <div className="border-b border-outline-variant/30 pb-12">
-                <span className="label-micro block mb-4">04 Oct 2024 / ESG</span>
-                <h3 className="text-3xl font-bold font-headline mb-6 hover:text-secondary cursor-pointer transition-colors">
-                  Decarbonization Roadmap: The Path to Net Zero Cement
-                </h3>
-                <p className="text-on-surface/60 line-clamp-2">
-                  Our engineers have successfully piloted a low-clinker formulation that reduces carbon intensity by 22% while maintaining PSI strength ratings...
-                </p>
-              </div>
-              <div>
-                <span className="label-micro block mb-4">28 Sep 2024 / Operations</span>
-                <h3 className="text-3xl font-bold font-headline mb-6 hover:text-secondary cursor-pointer transition-colors">
-                  Bauchi Plant Reaches 95% Operational Capacity
-                </h3>
-                <p className="text-on-surface/60 line-clamp-2">
-                  The flagship facility has exceeded production targets for the third consecutive quarter, solidifying its position as a regional hub...
-                </p>
+          {/* Right Column */}
+          <div className="md:col-span-4 grid grid-rows-2 gap-4">
+            <div className="relative group overflow-hidden rounded shadow-lg">
+              <Image
+                src="https://images.unsplash.com/photo-1486406146926-c627a92ad1ab?q=80&w=2070&auto=format&fit=crop"
+                alt="High rise foundation"
+                fill
+                className="object-cover transition-transform duration-1000 group-hover:scale-105"
+              />
+              <div className="absolute inset-0 bg-black/40 opacity-0 group-hover:opacity-100 transition-opacity p-8 flex flex-col justify-end">
+                <h3 className="text-white font-headline text-xl font-bold">Apex Plaza</h3>
               </div>
             </div>
 
-            {/* Manifesto Card */}
-            <div className="bg-primary text-white p-12 lg:p-16 flex flex-col justify-between min-h-[600px]">
-              <div>
-                <h3 className="text-5xl md:text-6xl font-black font-headline mb-8 leading-none">
-                  The <br />Architectural <br />Manifesto
-                </h3>
-                <p className="text-white/60 text-lg font-body leading-relaxed">
-                  &quot;Cement is the invisible skeleton of the modern world. At Resident Cement, we treat this responsibility as a curation of permanence. Every tonne produced is a promise of stability for the next generation of builders.&quot;
-                </p>
-              </div>
-              <div className="pt-12 mt-auto">
-                <div className="flex items-center gap-4">
-                  <div className="w-12 h-12 bg-secondary flex items-center justify-center">
-                    <Quote className="w-5 h-5 text-white" />
-                  </div>
-                  <div>
-                    <p className="font-bold uppercase text-xs tracking-widest">Office of the CEO</p>
-                    <p className="label-micro text-white/50">Strategic Leadership Division</p>
-                  </div>
-                </div>
+            <div className="relative group overflow-hidden rounded shadow-lg">
+              <Image
+                src="https://images.unsplash.com/photo-1518005020951-eccb494ad742?q=80&w=1000&auto=format&fit=crop"
+                alt="Modern museum"
+                fill
+                className="object-cover transition-transform duration-1000 group-hover:scale-105"
+              />
+              <div className="absolute inset-0 bg-black/40 opacity-0 group-hover:opacity-100 transition-opacity p-8 flex flex-col justify-end">
+                <h3 className="text-white font-headline text-xl font-bold">Museum of Form</h3>
               </div>
             </div>
           </div>
@@ -280,22 +250,39 @@ export default function Home() {
       </section>
 
       {/* CTA Section */}
-      <section className="bg-primary py-24 px-6 sm:px-8 lg:px-12">
-        <div className="container-narrow text-center">
-          <h2 className="text-display-md text-white mb-6">Join the Industrial Future</h2>
-          <p className="text-white/60 mb-10 max-w-xl mx-auto">
-            Whether you&apos;re an investor, distributor, or engineering partner, discover how Resident Cement is building Nigeria&apos;s infrastructure for generations to come.
-          </p>
-          <div className="flex flex-wrap justify-center gap-4">
-            <Link href="/contact" className="btn-secondary">
-              Get in Touch
-            </Link>
-            <Link href="/investors" className="btn-outline">
-              Investor Relations
-            </Link>
+      <section className="mb-32 px-8">
+        <div
+          className="max-w-7xl mx-auto p-20 rounded flex flex-col md:flex-row items-center justify-between shadow-2xl relative overflow-hidden"
+          style={{ background: 'linear-gradient(45deg, #745B17, #C5A55A)' }}
+        >
+          <div className="absolute -right-20 -top-20 w-80 h-80 bg-white/10 rounded-full blur-3xl" />
+          <div className="relative z-10 max-w-xl text-center md:text-left mb-12 md:mb-0">
+            <h2 className="font-headline text-4xl md:text-5xl font-extrabold text-white mb-6">Ready to break ground?</h2>
+            <p className="text-white/80 text-lg leading-relaxed">Join the network of elite builders choosing Resident Cement for structural permanence. Our logistical team is ready to scale with your project.</p>
+          </div>
+          <div className="relative z-10 flex flex-col gap-4">
+            <button className="bg-white text-[#745b17] px-12 py-6 rounded text-sm font-extrabold uppercase tracking-[0.2em] shadow-lg hover:scale-105 transition-transform">
+              Request Quote
+            </button>
+            <p className="text-white/60 text-[10px] text-center uppercase tracking-widest">Average response time: 2 hours</p>
           </div>
         </div>
       </section>
-    </main>
+
+      {/* Footer */}
+      <footer className="bg-[#f4f4f3] flex flex-col md:flex-row justify-between items-center px-12 py-12">
+        <div className="flex flex-col items-center md:items-start gap-4 mb-8 md:mb-0">
+          <div className="font-headline font-bold text-lg tracking-tight text-[#1a1c1c]">Resident Cement</div>
+          <p className="text-xs uppercase tracking-widest text-[#7e7667]">&copy; 2024 Resident Cement. All rights reserved.</p>
+        </div>
+        <div className="flex flex-wrap justify-center gap-10">
+          <Link href="/about" className="text-xs uppercase tracking-widest text-[#7e7667] hover:text-[#745b17] transition-colors">About</Link>
+          <Link href="/products" className="text-xs uppercase tracking-widest text-[#7e7667] hover:text-[#745b17] transition-colors">Products</Link>
+          <Link href="/contact" className="text-xs uppercase tracking-widest text-[#7e7667] hover:text-[#745b17] transition-colors">Contact</Link>
+          <Link href="/privacy" className="text-xs uppercase tracking-widest text-[#7e7667] hover:text-[#745b17] transition-colors">Privacy</Link>
+          <Link href="/terms" className="text-xs uppercase tracking-widest text-[#7e7667] hover:text-[#745b17] transition-colors">Terms</Link>
+        </div>
+      </footer>
+    </div>
   );
 }

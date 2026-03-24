@@ -1,0 +1,557 @@
+/* Golden Monolith Design System CSS
+ * This file provides the shared design tokens across all apps
+ * Version: 1.0.0
+ */
+
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+/* ========================================
+   COLOR SYSTEM - Golden Monolith
+   ======================================== */
+
+:root {
+  /* Base Colors */
+  --gold-primary: #745b17;
+  --gold-container: #c5a55a;
+  --gold-fixed: #ffdf99;
+  --gold-fixed-dim: #e5c374;
+  --gold-light: #e8c265;
+
+  /* Light Theme - Sand/Stone */
+  --light-background: #f9f9f8;
+  --light-surface: #f9f9f8;
+  --light-surface-bright: #f9f9f8;
+  --light-surface-dim: #dadad9;
+  --light-surface-variant: #e2e2e2;
+  --light-surface-container-lowest: #ffffff;
+  --light-surface-container-low: #f4f4f3;
+  --light-surface-container: #eeeeed;
+  --light-surface-container-high: #e8e8e7;
+  --light-surface-container-highest: #e2e2e2;
+  --light-foreground: #1a1c1c;
+  --light-on-surface: #1a1c1c;
+  --light-on-surface-variant: #4d4639;
+  --light-outline: #7e7667;
+  --light-outline-variant: #d0c5b4;
+
+  /* Dark Theme - Obsidian */
+  --dark-background: #161311;
+  --dark-surface: #161311;
+  --dark-surface-bright: #1a1c1c;
+  --dark-surface-dim: #1c1917;
+  --dark-surface-variant: #292524;
+  --dark-surface-container-lowest: #0c0a09;
+  --dark-surface-container-low: #1c1917;
+  --dark-surface-container: #221f1d;
+  --dark-surface-container-high: #292524;
+  --dark-surface-container-highest: #383432;
+  --dark-foreground: #e9e1dd;
+  --dark-on-surface: #e9e1dd;
+  --dark-on-surface-variant: #c1c6ce;
+  --dark-outline: #7e7667;
+  --dark-outline-variant: #4d4540;
+
+  /* Semantic Colors */
+  --error: #ba1a1a;
+  --error-dark: #ffb4ab;
+  --success: #22c55e;
+  --warning: #f59e0b;
+
+  /* Border Radius - 4px Architectural */
+  --radius-sm: 0.125rem;
+  --radius-md: 0.25rem;
+  --radius-lg: 0.5rem;
+  --radius-xl: 0.75rem;
+
+  /* Spacing Scale */
+  --space-1: 0.25rem;
+  --space-2: 0.5rem;
+  --space-3: 0.75rem;
+  --space-4: 1rem;
+  --space-5: 1.25rem;
+  --space-6: 1.5rem;
+  --space-8: 2rem;
+  --space-10: 2.5rem;
+  --space-12: 3rem;
+  --space-16: 4rem;
+  --space-20: 5rem;
+  --space-24: 6rem;
+  --space-32: 8rem;
+}
+
+/* ========================================
+   BASE STYLES
+   ======================================== */
+
+@layer base {
+  * {
+    @apply border-[color:var(--outline)]/20;
+  }
+
+  html {
+    scroll-behavior: smooth;
+  }
+
+  body {
+    @apply antialiased;
+    font-family: 'Plus Jakarta Sans', system-ui, -apple-system, sans-serif;
+    font-feature-settings: "rlig" 1, "calt" 1;
+  }
+
+  /* Typography Hierarchy */
+  h1, h2, h3, h4, h5, h6 {
+    font-family: 'Noto Serif', Georgia, 'Times New Roman', serif;
+    @apply font-bold tracking-tight;
+    letter-spacing: -0.02em;
+  }
+
+  h1 {
+    @apply text-4xl md:text-5xl lg:text-6xl xl:text-7xl;
+    line-height: 0.95;
+  }
+
+  h2 {
+    @apply text-3xl md:text-4xl lg:text-5xl;
+    line-height: 1;
+  }
+
+  h3 {
+    @apply text-2xl md:text-3xl;
+    line-height: 1.1;
+  }
+
+  h4 {
+    @apply text-xl md:text-2xl;
+    line-height: 1.2;
+  }
+
+  p {
+    line-height: 1.6;
+  }
+}
+
+/* ========================================
+   COMPONENT CLASSES
+   ======================================== */
+
+@layer components {
+  /* ---------- Buttons ---------- */
+
+  /* Primary Gold Button */
+  .btn-gold {
+    @apply relative overflow-hidden inline-flex items-center justify-center px-8 py-4 text-sm font-bold uppercase tracking-[0.15em] rounded transition-all duration-300;
+    background: linear-gradient(135deg, #745b17 0%, #c5a55a 100%);
+    color: #ffffff;
+    box-shadow: 0 4px 15px rgba(116, 91, 23, 0.3);
+  }
+
+  .btn-gold:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 8px 25px rgba(116, 91, 23, 0.4);
+  }
+
+  .btn-gold:active {
+    transform: translateY(0) scale(0.98);
+  }
+
+  /* Dark Variant (for dark backgrounds) */
+  .btn-gold-dark {
+    @apply relative overflow-hidden inline-flex items-center justify-center px-8 py-4 text-sm font-bold uppercase tracking-[0.15em] rounded transition-all duration-300;
+    background: linear-gradient(135deg, #745b17 0%, #e5c374 100%);
+    color: #161311;
+    box-shadow: 0 4px 15px rgba(229, 195, 116, 0.3);
+  }
+
+  .btn-gold-dark:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 8px 25px rgba(229, 195, 116, 0.4);
+  }
+
+  /* Ghost Button */
+  .btn-ghost {
+    @apply inline-flex items-center justify-center px-8 py-4 text-sm font-bold uppercase tracking-[0.15em] rounded border border-[#7e7667]/30 bg-transparent text-[#745b17] transition-all duration-300;
+  }
+
+  .btn-ghost:hover {
+    @apply bg-[#eeeeed];
+  }
+
+  .dark .btn-ghost {
+    @apply border-[#4d4540]/50 text-[#e5c374];
+  }
+
+  .dark .btn-ghost:hover {
+    @apply bg-[#292524];
+  }
+
+  /* Outline Button (for hero sections) */
+  .btn-outline {
+    @apply inline-flex items-center justify-center px-8 py-4 text-sm font-bold uppercase tracking-[0.15em] rounded border-2 border-white/30 bg-transparent text-white backdrop-blur-sm transition-all duration-300;
+  }
+
+  .btn-outline:hover {
+    @apply bg-white/10 border-white/50;
+  }
+
+  /* ---------- Glassmorphism ---------- */
+
+  /* Light Navigation */
+  .glass-nav {
+    background: rgba(249, 249, 248, 0.75);
+    backdrop-filter: blur(20px) saturate(180%);
+    -webkit-backdrop-filter: blur(20px) saturate(180%);
+    border-bottom: 1px solid rgba(126, 118, 103, 0.1);
+  }
+
+  /* Dark Navigation */
+  .glass-nav-dark {
+    background: rgba(22, 19, 17, 0.75);
+    backdrop-filter: blur(20px) saturate(180%);
+    -webkit-backdrop-filter: blur(20px) saturate(180%);
+    border-bottom: 1px solid rgba(126, 118, 103, 0.1);
+  }
+
+  /* Glass Card */
+  .glass-card {
+    background: rgba(255, 255, 255, 0.05);
+    backdrop-filter: blur(16px) saturate(180%);
+    -webkit-backdrop-filter: blur(16px) saturate(180%);
+    border: 1px solid rgba(255, 255, 255, 0.1);
+  }
+
+  /* ---------- Cards ---------- */
+
+  /* Light Card */
+  .card {
+    @apply bg-[#f4f4f3] rounded border-l-2 border-[#c5a55a]/30 transition-all duration-300;
+  }
+
+  .card:hover {
+    @apply bg-white shadow-lg;
+  }
+
+  /* Dark Card */
+  .card-dark {
+    @apply bg-[#1a1c1c] rounded border border-[#292524] transition-all duration-300;
+  }
+
+  .card-dark:hover {
+    @apply bg-[#221f1d];
+    box-shadow: 0 10px 40px rgba(0, 0, 0, 0.3);
+  }
+
+  /* Tonal Card */
+  .card-tonal {
+    @apply bg-[#eeeeed] rounded transition-all duration-300;
+  }
+
+  .card-tonal:hover {
+    @apply bg-white;
+  }
+
+  .dark .card-tonal {
+    @apply bg-[#221f1d];
+  }
+
+  .dark .card-tonal:hover {
+    @apply bg-[#292524];
+  }
+
+  /* ---------- Layout ---------- */
+
+  /* Section Padding */
+  .section-xl {
+    @apply py-24 md:py-32 lg:py-40 px-6 sm:px-8 lg:px-12 xl:px-16;
+  }
+
+  .section-lg {
+    @apply py-20 md:py-28 lg:py-32 px-6 sm:px-8 lg:px-12;
+  }
+
+  .section-md {
+    @apply py-16 md:py-20 lg:py-24 px-6 sm:px-8 lg:px-12;
+  }
+
+  .section-sm {
+    @apply py-12 md:py-16 px-6 sm:px-8;
+  }
+
+  /* Container Widths */
+  .container-narrow {
+    @apply max-w-3xl mx-auto;
+  }
+
+  .container-default {
+    @apply max-w-6xl mx-auto;
+  }
+
+  .container-wide {
+    @apply max-w-7xl mx-auto;
+  }
+
+  .container-full {
+    @apply max-w-[1920px] mx-auto;
+  }
+
+  /* ---------- Gradients ---------- */
+
+  /* Hero Gradient - Left to Right Fade */
+  .hero-gradient {
+    background: linear-gradient(to right, rgba(26, 28, 28, 0.85) 0%, rgba(26, 28, 28, 0.4) 50%, transparent 100%);
+  }
+
+  /* Dark Hero Gradient */
+  .hero-gradient-dark {
+    background: linear-gradient(to right, rgba(0, 0, 0, 0.9) 0%, rgba(0, 0, 0, 0.5) 60%, transparent 100%);
+  }
+
+  /* Gold Gradient Background */
+  .bg-gold-gradient {
+    background: linear-gradient(135deg, #745b17 0%, #c5a55a 100%);
+  }
+
+  /* ---------- Labels & Badges ---------- */
+
+  /* Micro Label */
+  .label-micro {
+    @apply text-[10px] font-bold uppercase tracking-[0.25em] text-[#7e7667];
+  }
+
+  /* Section Label */
+  .label-section {
+    @apply text-xs font-bold uppercase tracking-[0.2em] text-[#745b17];
+  }
+
+  .dark .label-section {
+    @apply text-[#e5c374];
+  }
+
+  /* Status Badges */
+  .badge {
+    @apply inline-flex items-center px-2.5 py-1 text-[10px] font-bold uppercase tracking-wider rounded;
+  }
+
+  .badge-yellow {
+    @apply bg-yellow-900/30 text-yellow-500 border border-yellow-900/50;
+  }
+
+  .badge-green {
+    @apply bg-green-900/30 text-green-500 border border-green-900/50;
+  }
+
+  .badge-red {
+    @apply bg-red-900/30 text-red-400 border border-red-900/50;
+  }
+
+  .badge-neutral {
+    @apply bg-stone-800/50 text-stone-400 border border-stone-700/50;
+  }
+
+  /* ---------- Form Elements ---------- */
+
+  /* Input Field */
+  .input-field {
+    @apply w-full bg-transparent border-0 border-b-2 border-[#7e7667]/30 px-0 py-3 text-foreground focus:outline-none focus:border-[#745b17] transition-all placeholder:text-[#7e7667]/50;
+  }
+
+  .dark .input-field {
+    @apply border-[#4d4540]/50 focus:border-[#e5c374];
+  }
+
+  /* ---------- Tables ---------- */
+
+  /* Dark Table */
+  .table-dark {
+    @apply w-full text-left;
+  }
+
+  .table-dark th {
+    @apply text-[10px] uppercase tracking-widest text-[#7e7667] font-medium pb-4 border-b border-[#292524];
+  }
+
+  .table-dark td {
+    @apply py-4 border-b border-[#292524]/50;
+  }
+
+  .table-dark tr:hover td {
+    @apply bg-[#221f1d]/50;
+  }
+}
+
+/* ========================================
+   UTILITY CLASSES
+   ======================================== */
+
+@layer utilities {
+  /* Typography */
+  .text-display {
+    font-family: 'Noto Serif', Georgia, serif;
+    @apply font-black tracking-tighter;
+    letter-spacing: -0.03em;
+    line-height: 0.9;
+  }
+
+  .text-display-xl {
+    @apply text-display text-6xl md:text-7xl lg:text-8xl xl:text-9xl;
+  }
+
+  .text-display-lg {
+    @apply text-display text-5xl md:text-6xl lg:text-7xl;
+  }
+
+  .text-display-md {
+    @apply text-display text-4xl md:text-5xl lg:text-6xl;
+  }
+
+  .text-display-sm {
+    @apply text-display text-3xl md:text-4xl lg:text-5xl;
+  }
+
+  /* Gradient Text */
+  .text-gradient-gold {
+    @apply bg-clip-text text-transparent;
+    background-image: linear-gradient(135deg, #e5c374 0%, #c5a55a 100%);
+  }
+
+  /* Font Families */
+  .font-headline {
+    font-family: 'Noto Serif', Georgia, serif;
+  }
+
+  .font-body {
+    font-family: 'Plus Jakarta Sans', system-ui, sans-serif;
+  }
+
+  /* Glow Effects */
+  .glow-gold {
+    box-shadow: 0 0 60px rgba(229, 195, 116, 0.2);
+  }
+
+  .glow-gold-sm {
+    box-shadow: 0 0 30px rgba(229, 195, 116, 0.15);
+  }
+
+  /* Animations */
+  .animate-fade-in {
+    animation: fadeIn 0.5s ease-out forwards;
+  }
+
+  .animate-slide-up {
+    animation: slideUp 0.6s ease-out forwards;
+  }
+
+  .animate-slide-down {
+    animation: slideDown 0.6s ease-out forwards;
+  }
+
+  /* Hover Transitions */
+  .hover-lift {
+    @apply transition-transform duration-300;
+  }
+
+  .hover-lift:hover {
+    transform: translateY(-4px);
+  }
+
+  /* Selection */
+  ::selection {
+    background: rgba(229, 195, 116, 0.3);
+    color: inherit;
+  }
+}
+
+/* ========================================
+   SCROLLBAR
+   ======================================== */
+
+::-webkit-scrollbar {
+  width: 8px;
+  height: 8px;
+}
+
+::-webkit-scrollbar-track {
+  background: var(--light-surface-container);
+}
+
+.dark ::-webkit-scrollbar-track {
+  background: var(--dark-surface-container);
+}
+
+::-webkit-scrollbar-thumb {
+  background: var(--light-outline);
+  border-radius: 4px;
+}
+
+.dark ::-webkit-scrollbar-thumb {
+  background: var(--dark-outline);
+}
+
+::-webkit-scrollbar-thumb:hover {
+  background: var(--light-outline-variant);
+}
+
+.dark ::-webkit-scrollbar-thumb:hover {
+  background: var(--dark-outline-variant);
+}
+
+/* ========================================
+   KEYFRAME ANIMATIONS
+   ======================================== */
+
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+  }
+  to {
+    opacity: 1;
+  }
+}
+
+@keyframes slideUp {
+  from {
+    transform: translateY(20px);
+    opacity: 0;
+  }
+  to {
+    transform: translateY(0);
+    opacity: 1;
+  }
+}
+
+@keyframes slideDown {
+  from {
+    transform: translateY(-20px);
+    opacity: 0;
+  }
+  to {
+    transform: translateY(0);
+    opacity: 1;
+  }
+}
+
+@keyframes scaleIn {
+  from {
+    transform: scale(0.95);
+    opacity: 0;
+  }
+  to {
+    transform: scale(1);
+    opacity: 1;
+  }
+}
+
+@keyframes shimmer {
+  0% {
+    background-position: -200% 0;
+  }
+  100% {
+    background-position: 200% 0;
+  }
+}
+
+/* Smooth scroll offset for fixed header */
+html {
+  scroll-padding-top: 6rem;
+}

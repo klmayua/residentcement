@@ -1,0 +1,374 @@
+<!DOCTYPE html>
+
+<html class="light" lang="en"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>Media Centre | RESIDENT CEMENT</title>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<link href="https://fonts.googleapis.com/css2?family=Newsreader:ital,opsz,wght@0,6..72,200..800;1,6..72,200..800&amp;family=Work+Sans:wght@100..900&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<script id="tailwind-config">
+        tailwind.config = {
+          darkMode: "class",
+          theme: {
+            extend: {
+              colors: {
+                "surface-container-highest": "#e2e2e2",
+                "error": "#ba1a1a",
+                "primary-fixed-dim": "#c8c6c5",
+                "surface-container-lowest": "#ffffff",
+                "error-container": "#ffdad6",
+                "on-secondary-container": "#78571e",
+                "primary-fixed": "#e5e2e1",
+                "tertiary-container": "#1b1c1c",
+                "on-surface-variant": "#444748",
+                "surface-container-low": "#f3f3f3",
+                "on-error-container": "#93000a",
+                "surface-container-high": "#e8e8e8",
+                "on-primary-fixed-variant": "#474746",
+                "surface-container": "#eeeeee",
+                "on-primary-fixed": "#1c1b1b",
+                "surface": "#f9f9f9",
+                "on-primary-container": "#858383",
+                "on-tertiary-fixed": "#1b1c1c",
+                "secondary-container": "#fdd08b",
+                "inverse-primary": "#c8c6c5",
+                "surface-bright": "#f9f9f9",
+                "secondary": "#79591f",
+                "on-secondary": "#ffffff",
+                "on-tertiary-container": "#848483",
+                "on-surface": "#1a1c1c",
+                "secondary-fixed": "#ffdead",
+                "outline-variant": "#c4c7c7",
+                "tertiary-fixed": "#e4e2e2",
+                "primary-container": "#1c1b1b",
+                "background": "#f9f9f9",
+                "inverse-surface": "#2f3131",
+                "tertiary": "#000000",
+                "on-background": "#1a1c1c",
+                "primary": "#000000",
+                "outline": "#747878",
+                "surface-tint": "#5f5e5e",
+                "on-tertiary": "#ffffff",
+                "on-secondary-fixed-variant": "#5f4107",
+                "secondary-fixed-dim": "#ebc07c",
+                "inverse-on-surface": "#f1f1f1",
+                "on-tertiary-fixed-variant": "#474747",
+                "on-secondary-fixed": "#281900",
+                "tertiary-fixed-dim": "#c8c6c6",
+                "on-error": "#ffffff",
+                "surface-dim": "#dadada",
+                "on-primary": "#ffffff",
+                "surface-variant": "#e2e2e2"
+              },
+              fontFamily: {
+                "headline": ["Newsreader", "serif"],
+                "body": ["Work Sans", "sans-serif"],
+                "label": ["Work Sans", "sans-serif"]
+              },
+              borderRadius: {"DEFAULT": "0px", "lg": "0px", "xl": "0px", "full": "9999px"},
+            },
+          },
+        }
+    </script>
+<style>
+        .material-symbols-outlined {
+            font-variation-settings: 'FILL' 0, 'wght' 400, 'GRAD' 0, 'opsz' 24;
+            display: inline-block;
+            line-height: 1;
+            text-transform: none;
+            letter-spacing: normal;
+            word-wrap: normal;
+            white-space: nowrap;
+            direction: ltr;
+        }
+        body { font-family: 'Work Sans', sans-serif; }
+        h1, h2, h3, .newsreader { font-family: 'Newsreader', serif; }
+    </style>
+</head>
+<body class="bg-surface text-on-surface antialiased">
+<!-- TopNavBar Execution -->
+<nav class="bg-white dark:bg-black text-black dark:text-white docked full-width top-0 z-50 flex justify-between items-center w-full px-12 py-6 max-w-none sticky">
+<div class="text-2xl font-black tracking-tighter text-black dark:text-white uppercase">MONOLITH FOUNDATION</div>
+<div class="hidden md:flex items-center space-x-8">
+<a class="text-black/60 dark:text-white/60 font-medium uppercase tracking-widest text-xs hover:text-secondary transition-colors duration-300" href="#">Operations</a>
+<a class="text-black/60 dark:text-white/60 font-medium uppercase tracking-widest text-xs hover:text-secondary transition-colors duration-300" href="#">Sustainability</a>
+<a class="text-black/60 dark:text-white/60 font-medium uppercase tracking-widest text-xs hover:text-secondary transition-colors duration-300" href="#">Investors</a>
+<a class="text-black/60 dark:text-white/60 font-medium uppercase tracking-widest text-xs hover:text-secondary transition-colors duration-300" href="#">Products</a>
+<a class="text-primary dark:text-secondary border-b-2 border-secondary pb-1 font-bold uppercase tracking-widest text-xs" href="#">Media</a>
+<a class="text-black/60 dark:text-white/60 font-medium uppercase tracking-widest text-xs hover:text-secondary transition-colors duration-300" href="#">Careers</a>
+</div>
+<div class="flex items-center space-x-6">
+<span class="material-symbols-outlined cursor-pointer hover:text-secondary transition-colors">language</span>
+<span class="material-symbols-outlined cursor-pointer hover:text-secondary transition-colors">search</span>
+</div>
+</nav>
+<!-- SideNavBar Execution (Hidden on Mobile, Desktop Fixed) -->
+<aside class="bg-stone-100 dark:bg-zinc-900 text-black dark:text-white fixed left-0 top-0 h-full hidden lg:flex flex-col w-64 border-r-0 z-40 pt-24">
+<div class="px-6 mb-10">
+<h2 class="text-xl font-bold text-black dark:text-white newsreader">PRESS CENTRE</h2>
+<p class="text-[10px] tracking-[0.2em] uppercase font-medium text-black/50 dark:text-white/50">Industrial Media Hub</p>
+</div>
+<nav class="flex-1">
+<a class="bg-black text-white dark:bg-white dark:text-black flex items-center px-6 py-4 space-x-3 group" href="#">
+<span class="material-symbols-outlined text-sm">newspaper</span>
+<span class="text-xs uppercase tracking-widest font-bold">Latest News</span>
+</a>
+<a class="text-black/70 dark:text-white/70 flex items-center px-6 py-4 space-x-3 hover:bg-secondary/10 dark:hover:bg-secondary/20 transition-all" href="#">
+<span class="material-symbols-outlined text-sm">archive</span>
+<span class="text-xs uppercase tracking-widest">Press Archive</span>
+</a>
+<a class="text-black/70 dark:text-white/70 flex items-center px-6 py-4 space-x-3 hover:bg-secondary/10 dark:hover:bg-secondary/20 transition-all" href="#">
+<span class="material-symbols-outlined text-sm">folder_zip</span>
+<span class="text-xs uppercase tracking-widest">Media Kit</span>
+</a>
+<a class="text-black/70 dark:text-white/70 flex items-center px-6 py-4 space-x-3 hover:bg-secondary/10 dark:hover:bg-secondary/20 transition-all" href="#">
+<span class="material-symbols-outlined text-sm">photo_camera</span>
+<span class="text-xs uppercase tracking-widest">Executive Gallery</span>
+</a>
+<a class="text-black/70 dark:text-white/70 flex items-center px-6 py-4 space-x-3 hover:bg-secondary/10 dark:hover:bg-secondary/20 transition-all" href="#">
+<span class="material-symbols-outlined text-sm">videocam</span>
+<span class="text-xs uppercase tracking-widest">B-Roll</span>
+</a>
+<a class="text-black/70 dark:text-white/70 flex items-center px-6 py-4 space-x-3 hover:bg-secondary/10 dark:hover:bg-secondary/20 transition-all" href="#">
+<span class="material-symbols-outlined text-sm">branding_watermark</span>
+<span class="text-xs uppercase tracking-widest">Brand Assets</span>
+</a>
+</nav>
+<div class="p-6">
+<button class="w-full bg-secondary text-white py-4 text-[10px] font-bold tracking-[0.2em] hover:bg-opacity-90 transition-all uppercase">
+                DOWNLOAD MEDIA KIT
+            </button>
+</div>
+</aside>
+<main class="lg:ml-64 bg-surface">
+<!-- Hero Section -->
+<section class="relative w-full min-h-[819px] flex flex-col justify-end p-12 bg-primary overflow-hidden">
+<div class="absolute inset-0 opacity-40">
+<img class="w-full h-full object-cover grayscale" data-alt="dramatic wide angle shot of a massive industrial cement plant construction site at dusk with steel cranes and concrete structures" src="https://lh3.googleusercontent.com/aida-public/AB6AXuALtXFB3pV6QYZ2nE61ioQLYD-dHXAdi7ZnS6c75BTBKPWIujLAILIxSZYG_5uvrYszn2D62ErN-ey-KRx9pvswL4XENZ5t6G_9g2ygas1qkOxz2uYGxfTPXrwxjIAlGoiDpA05qJtEJi4SbbUEch-FX6jzZOuYkJ5KafFjn3m5XQ03jT7vwMWFfQkLqtYQ2TpoGdkxgiKUFKiSDwMri_3WvYja-T4WylvLE70ZaOnzVOEJn9vgweYm9WScVbn5Vzh8KOmweedPXuqU"/>
+</div>
+<div class="absolute inset-0 bg-gradient-to-t from-black via-black/40 to-transparent"></div>
+<div class="relative z-10 max-w-5xl">
+<span class="text-secondary font-bold tracking-[0.3em] uppercase text-xs mb-6 block">The Record of Progress</span>
+<h1 class="text-white text-6xl md:text-8xl leading-none font-extrabold mb-12 newsreader italic">
+                    Media Hub: Chronicling the $1.5B Industrial Frontier
+                </h1>
+<div class="flex flex-col md:flex-row items-end gap-12 mt-12">
+<div class="bg-white/10 backdrop-blur-md p-8 border-l-4 border-secondary flex-1">
+<p class="text-secondary text-xs font-bold uppercase tracking-widest mb-4">Featured Story</p>
+<h2 class="text-white text-3xl font-bold mb-4 newsreader">Gwana Site Groundbreaking: A New Era for Northern Nigeria's Infrastructure.</h2>
+<a class="text-white text-[10px] font-bold uppercase tracking-[0.2em] inline-flex items-center gap-2 hover:text-secondary transition-all" href="#">
+                            READ FULL RELEASE <span class="material-symbols-outlined text-sm">arrow_forward</span>
+</a>
+</div>
+<div class="hidden md:block w-48 h-1 bg-secondary/30 mb-4"></div>
+</div>
+</div>
+</section>
+<!-- Press Release Archive -->
+<section class="py-24 px-12 bg-white">
+<div class="flex flex-col md:flex-row justify-between items-baseline mb-20 gap-8">
+<div>
+<h2 class="text-5xl font-black text-primary newsreader uppercase leading-none">Official Archives</h2>
+<p class="text-primary/60 text-sm mt-4 font-body max-w-md italic">A chronological ledger of tectonic shifts in West African industry.</p>
+</div>
+<div class="w-full md:w-96 relative">
+<input class="w-full bg-surface-container-high border-none border-b-2 border-primary py-4 px-6 text-xs tracking-widest focus:ring-0 focus:border-secondary transition-all placeholder:text-primary/30" placeholder="SEARCH ANNOUNCEMENTS" type="text"/>
+<span class="material-symbols-outlined absolute right-4 top-1/2 -translate-y-1/2 text-primary/40">search</span>
+</div>
+</div>
+<div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-px bg-surface-container-highest border border-surface-container-highest">
+<!-- Card 1 -->
+<div class="bg-white p-10 hover:bg-surface-container-low transition-colors group cursor-pointer flex flex-col justify-between h-[400px]">
+<div>
+<p class="text-[10px] font-bold text-secondary uppercase tracking-[0.2em] mb-6">Jan 12, 2024</p>
+<h3 class="text-2xl font-bold text-primary newsreader leading-tight mb-4 group-hover:text-secondary transition-colors">Sinoma Partnership Solidified for Line II Expansion</h3>
+<p class="text-sm text-primary/60 leading-relaxed font-body">Formalizing a strategic alliance to implement world-class manufacturing standards at the Gwana complex.</p>
+</div>
+<div class="pt-6 border-t border-surface-container">
+<span class="text-[10px] font-bold tracking-[0.1em] text-primary/40 uppercase">Category: Operations</span>
+</div>
+</div>
+<!-- Card 2 -->
+<div class="bg-white p-10 hover:bg-surface-container-low transition-colors group cursor-pointer flex flex-col justify-between h-[400px]">
+<div>
+<p class="text-[10px] font-bold text-secondary uppercase tracking-[0.2em] mb-6">Dec 04, 2023</p>
+<h3 class="text-2xl font-bold text-primary newsreader leading-tight mb-4 group-hover:text-secondary transition-colors">Bauchi State Govt 10% Stake Details Released</h3>
+<p class="text-sm text-primary/60 leading-relaxed font-body">A landmark public-private partnership structure aimed at long-term regional wealth creation and local empowerment.</p>
+</div>
+<div class="pt-6 border-t border-surface-container">
+<span class="text-[10px] font-bold tracking-[0.1em] text-primary/40 uppercase">Category: Governance</span>
+</div>
+</div>
+<!-- Card 3 -->
+<div class="bg-white p-10 hover:bg-surface-container-low transition-colors group cursor-pointer flex flex-col justify-between h-[400px]">
+<div>
+<p class="text-[10px] font-bold text-secondary uppercase tracking-[0.2em] mb-6">Nov 22, 2023</p>
+<h3 class="text-2xl font-bold text-primary newsreader leading-tight mb-4 group-hover:text-secondary transition-colors">100MW Captive Power Plant Approval Secured</h3>
+<p class="text-sm text-primary/60 leading-relaxed font-body">Ensuring energy sovereignty for the Resident Cement industrial ecosystem through sustainable energy solutions.</p>
+</div>
+<div class="pt-6 border-t border-surface-container">
+<span class="text-[10px] font-bold tracking-[0.1em] text-primary/40 uppercase">Category: Infrastructure</span>
+</div>
+</div>
+</div>
+<div class="mt-20 flex justify-center">
+<button class="px-12 py-5 bg-primary text-white text-[10px] font-bold tracking-[0.3em] uppercase hover:bg-secondary transition-all">
+                    VIEW COMPLETE PRESS ARCHIVE
+                </button>
+</div>
+</section>
+<!-- Media Resources (The Brand Kit) -->
+<section class="py-24 px-12 bg-surface-container-low">
+<div class="max-w-7xl mx-auto">
+<div class="mb-20">
+<h2 class="text-4xl font-black text-primary newsreader uppercase">Brand Assets &amp; Resources</h2>
+<div class="w-24 h-1 bg-secondary mt-6"></div>
+</div>
+<div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8">
+<!-- Resource 1 -->
+<div class="bg-white p-8 flex flex-col justify-between group shadow-sm">
+<div>
+<span class="material-symbols-outlined text-4xl text-secondary mb-6">branding_watermark</span>
+<h4 class="text-lg font-bold newsreader mb-2">High-Resolution Logos</h4>
+<p class="text-xs text-primary/50 font-body mb-8">Vector and raster formats for digital and print media.</p>
+</div>
+<button class="text-[10px] font-bold tracking-[0.2em] text-primary flex items-center gap-2 hover:text-secondary transition-all">
+                            DOWNLOAD BUNDLE <span class="material-symbols-outlined text-sm">download</span>
+</button>
+</div>
+<!-- Resource 2 -->
+<div class="bg-white p-8 flex flex-col justify-between group shadow-sm">
+<div>
+<span class="material-symbols-outlined text-4xl text-secondary mb-6">account_circle</span>
+<h4 class="text-lg font-bold newsreader mb-2">Executive Portraits</h4>
+<p class="text-xs text-primary/50 font-body mb-8">Dr. Abbas Junaid Waziri &amp; Gov. Bala Mohammed.</p>
+</div>
+<button class="text-[10px] font-bold tracking-[0.2em] text-primary flex items-center gap-2 hover:text-secondary transition-all">
+                            ACCESS GALLERY <span class="material-symbols-outlined text-sm">open_in_new</span>
+</button>
+</div>
+<!-- Resource 3 -->
+<div class="bg-white p-8 flex flex-col justify-between group shadow-sm">
+<div>
+<span class="material-symbols-outlined text-4xl text-secondary mb-6">videocam</span>
+<h4 class="text-lg font-bold newsreader mb-2">Construction B-Roll</h4>
+<p class="text-xs text-primary/50 font-body mb-8">4K drone footage and ground-level site operations.</p>
+</div>
+<button class="text-[10px] font-bold tracking-[0.2em] text-primary flex items-center gap-2 hover:text-secondary transition-all">
+                            REQUEST FOOTAGE <span class="material-symbols-outlined text-sm">mail</span>
+</button>
+</div>
+<!-- Resource 4 -->
+<div class="bg-white p-8 flex flex-col justify-between group shadow-sm">
+<div>
+<span class="material-symbols-outlined text-4xl text-secondary mb-6">description</span>
+<h4 class="text-lg font-bold newsreader mb-2">2024 Fact Sheet</h4>
+<p class="text-xs text-primary/50 font-body mb-8">Key metrics, site data, and economic impact statistics.</p>
+</div>
+<button class="text-[10px] font-bold tracking-[0.2em] text-primary flex items-center gap-2 hover:text-secondary transition-all">
+                            DOWNLOAD PDF <span class="material-symbols-outlined text-sm">download</span>
+</button>
+</div>
+</div>
+</div>
+</section>
+<!-- Resident in Action Gallery -->
+<section class="py-24 bg-primary overflow-hidden">
+<div class="px-12 mb-16 flex justify-between items-end">
+<div class="max-w-xl">
+<h2 class="text-5xl font-black text-white newsreader uppercase">Resident in Action</h2>
+<p class="text-white/50 text-sm mt-4 font-body">The architectural manifestation of our $1.5B vision, captured in high-fidelity industrial photography.</p>
+</div>
+<div class="hidden md:block">
+<span class="text-secondary text-xs font-bold tracking-[0.4em] uppercase">Visual Record — 2024</span>
+</div>
+</div>
+<div class="grid grid-cols-12 grid-rows-2 gap-4 h-[800px] px-4 md:px-0">
+<div class="col-span-12 md:col-span-6 row-span-2 relative group overflow-hidden">
+<img class="w-full h-full object-cover grayscale brightness-75 group-hover:grayscale-0 group-hover:scale-105 transition-all duration-700" data-alt="dramatic aerial drone shot of a massive circular cement kiln foundation being poured in the middle of a dusty northern nigerian landscape" src="https://lh3.googleusercontent.com/aida-public/AB6AXuAzMO3qX-SzOUHrAlZtgejoe8HVT8RHMwHZB8akePH-OWHqNP8qleOZJNJm9mBddp4NpDsabM6v_7RDe-sBJE7X9pS2NUlU-F1d3fqBHhpR2ESLVzJ7xgesVIUnD_8Psw7FdGtP1P9FuP3Wiy2iP567FcIKYD94x8TX5Zulafxejd9IcNt7RgEefhLXiSJth15LAuDIPPxwiKa3vlEeT8t5foz0ghGTKrLDTvj7InIGByMirF5a-q-SXinyynCcEaeIdd3qImkr7w74"/>
+<div class="absolute bottom-8 left-8">
+<span class="bg-secondary text-white text-[10px] px-3 py-1 font-bold uppercase tracking-widest">Main Kiln Site</span>
+</div>
+</div>
+<div class="col-span-12 md:col-span-3 row-span-1 relative group overflow-hidden">
+<img class="w-full h-full object-cover grayscale brightness-75 group-hover:grayscale-0 group-hover:scale-105 transition-all duration-700" data-alt="industrial heavy machinery excavating rocky ground with orange sunset light catching the dust in the air" src="https://lh3.googleusercontent.com/aida-public/AB6AXuC0r7Z9vcdYLLvrfN_AgfPUDrTyTRpQ0OuWwh1pr39eIWHPRMcERMQHbP9oWo6DVsuoswaznh1J--crpc_VlVfJ3dznmNmmF_a_IX3vDMWFh83IykT5cBO-AqgVN6X-EEtkEGED1X57GLtcMJVMJE0xS1PTysthnfG2E3vj9F_urDmZPGns_gyNvOcKou20Uqqe-8_Ftz2yBWGxQRR6YgODOCf-5prSL-ZLyhzJrzS3IL2z8Ku9NObmmRaOWSlmsbOgwuBedYaYr1HC"/>
+</div>
+<div class="col-span-12 md:col-span-3 row-span-1 relative group overflow-hidden">
+<img class="w-full h-full object-cover grayscale brightness-75 group-hover:grayscale-0 group-hover:scale-105 transition-all duration-700" data-alt="close up of an engineer wearing a hard hat pointing at a technical blueprint on a tablet at a construction site" src="https://lh3.googleusercontent.com/aida-public/AB6AXuD6I4wE8eOUu89yqXfu_0OsLSdKWyCuPm8r6b8tcMBt5SGsAtUyLUzUvcdQCnmiET3-KsIofy4rUAiaRjlLxSfQ88dxWRqLbIq8cmzDrgTQOOGopHp4GHCLb4uyeKFJQnmsrF4k-FZ7R4KafKZBg3DmUZ6Hpe7emsZB7lJ5bX-qSJ0X5B3c5YlwOmoE_cMlg2Ms6mzTuBGE1o_a1Sr8sQs8pX9KhSg7bc4iUySOGXkvX-ijDRtVme7RqzKww6xfGwcv3wyNoBpqY7pb"/>
+</div>
+<div class="col-span-12 md:col-span-6 row-span-1 relative group overflow-hidden">
+<img class="w-full h-full object-cover grayscale brightness-75 group-hover:grayscale-0 group-hover:scale-105 transition-all duration-700" data-alt="wide panoramic shot of the northern nigerian horizon with industrial structure outlines silhouetted against a golden sky" src="https://lh3.googleusercontent.com/aida-public/AB6AXuCvf1yqyfFsiYEAvLnTw_An9ZKU3ki2IqEd98vaOF5VvZybu9Gsr-i-YJuillKZxWZIHsgXv9ogpHxrsJqhRGQf4XQa3lBpBHcQZoQPhzPxU89JWgYZw_YRyP0xvFDZam2id4aKERXGlMVdTAvCGCjFhWFdVl2Zh8MfClcxEvCQlUHRJFGJCSO5t9u4RR9ZHD7z1sqlTd04dr5iK2q3g0EXPibeC5MOG2MUlHAItjVn1nlK1boei0LgGOm4hoiGIFHgG500kwEzwW1Y"/>
+<div class="absolute inset-0 flex items-center justify-center opacity-0 group-hover:opacity-100 transition-opacity">
+<span class="material-symbols-outlined text-white text-6xl">play_circle</span>
+</div>
+</div>
+</div>
+</section>
+<!-- Corporate Social (Minimal Feed) -->
+<section class="py-24 px-12 bg-white">
+<div class="max-w-4xl mx-auto">
+<div class="text-center mb-16">
+<h2 class="text-xs font-bold tracking-[0.5em] text-secondary uppercase mb-4">Official Transmission</h2>
+<h3 class="text-3xl font-bold newsreader italic text-primary">Resident Social Stream</h3>
+</div>
+<div class="space-y-12">
+<div class="border-b border-surface-container pb-8 flex gap-8 items-start">
+<span class="text-secondary font-bold text-xs uppercase tracking-widest pt-1">X / 2h</span>
+<div class="flex-1">
+<p class="text-primary text-lg font-medium leading-relaxed font-body">Milestone achieved: The first phase of the Gwana main plant foundation is now 100% complete. Engineering excellence remains our cornerstone. #BuildingPermanence #ResidentCement</p>
+</div>
+</div>
+<div class="border-b border-surface-container pb-8 flex gap-8 items-start">
+<span class="text-secondary font-bold text-xs uppercase tracking-widest pt-1">LI / 1d</span>
+<div class="flex-1">
+<p class="text-primary text-lg font-medium leading-relaxed font-body">Honored to host the Bauchi State delegation at our project office today. Transparency and regional integration are at the heart of our mission to revolutionize Nigerian cement production.</p>
+</div>
+</div>
+<div class="pb-8 flex gap-8 items-start">
+<span class="text-secondary font-bold text-xs uppercase tracking-widest pt-1">X / 3d</span>
+<div class="flex-1">
+<p class="text-primary text-lg font-medium leading-relaxed font-body">Sustainable energy is not an option; it's a requirement. Our 100MW captive power plant will feature state-of-the-art emission control technology. #CleanIndustry</p>
+</div>
+</div>
+</div>
+<div class="mt-12 text-center">
+<a class="inline-block text-[10px] font-bold tracking-[0.2em] text-primary/40 uppercase hover:text-secondary transition-all" href="#">Follow the official channel for real-time updates</a>
+</div>
+</div>
+</section>
+<!-- Footer Execution -->
+<footer class="w-full py-20 px-12 mt-20 bg-black dark:bg-zinc-950 text-white 0px-radius">
+<div class="flex flex-col md:flex-row justify-between items-start mb-20">
+<div class="text-4xl font-black text-white mb-8 newsreader tracking-tighter uppercase">MONOLITH FOUNDATION</div>
+<div class="grid grid-cols-2 md:grid-cols-4 gap-12">
+<div class="flex flex-col space-y-4">
+<span class="text-xs font-bold tracking-[0.2em] text-secondary uppercase mb-2">Navigation</span>
+<a class="text-white/50 hover:text-white text-xs uppercase tracking-widest transition-all underline decoration-secondary" href="#">Media</a>
+<a class="text-white/50 hover:text-white text-xs uppercase tracking-widest transition-all" href="#">Investors</a>
+<a class="text-white/50 hover:text-white text-xs uppercase tracking-widest transition-all" href="#">Operations</a>
+</div>
+<div class="flex flex-col space-y-4">
+<span class="text-xs font-bold tracking-[0.2em] text-secondary uppercase mb-2">Legal</span>
+<a class="text-white/50 hover:text-white text-xs uppercase tracking-widest transition-all" href="#">Privacy Policy</a>
+<a class="text-white/50 hover:text-white text-xs uppercase tracking-widest transition-all" href="#">Terms of Service</a>
+<a class="text-white/50 hover:text-white text-xs uppercase tracking-widest transition-all" href="#">SEC Filings</a>
+</div>
+<div class="flex flex-col space-y-4">
+<span class="text-xs font-bold tracking-[0.2em] text-secondary uppercase mb-2">Contact</span>
+<a class="text-white/50 hover:text-white text-xs uppercase tracking-widest transition-all" href="#">Contact Relations</a>
+<a class="text-white/50 hover:text-white text-xs uppercase tracking-widest transition-all" href="#">Press Inquiries</a>
+</div>
+</div>
+</div>
+<div class="flex flex-col md:flex-row justify-between items-center pt-12 border-t border-white/10 text-white/40">
+<p class="text-[10px] font-bold tracking-[0.3em] uppercase mb-4 md:mb-0">© 2024 MONOLITH FOUNDATION. BUILT FOR PERMANENCE.</p>
+<div class="flex space-x-8">
+<span class="material-symbols-outlined text-sm cursor-pointer hover:text-secondary">share</span>
+<span class="material-symbols-outlined text-sm cursor-pointer hover:text-secondary">mail</span>
+</div>
+</div>
+</footer>
+</main>
+</body></html>

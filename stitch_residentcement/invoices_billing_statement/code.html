@@ -1,0 +1,389 @@
+<!DOCTYPE html>
+
+<html class="dark" lang="en"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>Invoices &amp; Payments | ResidentCement</title>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<link href="https://fonts.googleapis.com/css2?family=Noto+Serif:ital,wght@0,400;0,700;1,400&amp;family=Inter:wght@400;500;600;700&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<script id="tailwind-config">
+      tailwind.config = {
+        darkMode: "class",
+        theme: {
+          extend: {
+            colors: {
+              "secondary-fixed-dim": "#e8c265",
+              "surface-container-high": "#2d2927",
+              "surface-tint": "#e5c374",
+              "surface-container-low": "#1e1b19",
+              "primary": "#e5c374",
+              "on-secondary-fixed-variant": "#594400",
+              "on-surface": "#e9e1dd",
+              "on-background": "#e9e1dd",
+              "error-container": "#93000a",
+              "on-tertiary-fixed-variant": "#454747",
+              "surface-variant": "#383432",
+              "surface-bright": "#3c3836",
+              "surface-container-lowest": "#100e0c",
+              "surface-container": "#221f1d",
+              "on-tertiary": "#2f3131",
+              "primary-fixed-dim": "#e5c374",
+              "on-tertiary-fixed": "#1a1c1c",
+              "surface": "#161311",
+              "on-error-container": "#ffdad6",
+              "inverse-on-surface": "#33302d",
+              "secondary-container": "#765a00",
+              "tertiary": "#c6c6c6",
+              "error": "#ffb4ab",
+              "tertiary-container": "#181a1a",
+              "surface-dim": "#161311",
+              "primary-container": "#231800",
+              "secondary": "#e8c265",
+              "outline-variant": "#4d4540",
+              "on-secondary-container": "#fbd475",
+              "on-primary-fixed": "#251a00",
+              "surface-container-highest": "#383432",
+              "on-secondary": "#3e2e00",
+              "tertiary-fixed-dim": "#c6c6c6",
+              "on-primary": "#3f2e00",
+              "on-tertiary-container": "#818382",
+              "primary-fixed": "#ffdf99",
+              "inverse-surface": "#e9e1dd",
+              "inverse-primary": "#745b17",
+              "on-primary-container": "#9c7f38",
+              "tertiary-fixed": "#e2e2e2",
+              "outline": "#998f89",
+              "on-secondary-fixed": "#251a00",
+              "background": "#161311",
+              "on-surface-variant": "#d0c4be",
+              "on-primary-fixed-variant": "#5a4300",
+              "secondary-fixed": "#ffdf96",
+              "on-error": "#690005"
+            },
+            fontFamily: {
+              "headline": ["Noto Serif"],
+              "body": ["Inter"],
+              "label": ["Inter"]
+            },
+            borderRadius: {"DEFAULT": "0.125rem", "lg": "0.25rem", "xl": "0.5rem", "full": "0.75rem"},
+          },
+        },
+      }
+    </script>
+<style>
+      .material-symbols-outlined {
+        font-variation-settings: 'FILL' 0, 'wght' 400, 'GRAD' 0, 'opsz' 24;
+      }
+      body {
+        background-color: #161311;
+        color: #e9e1dd;
+        font-family: 'Inter', sans-serif;
+      }
+      .serif-display {
+        font-family: 'Noto Serif', serif;
+      }
+      /* Custom scrollbar for premium feel */
+      ::-webkit-scrollbar { width: 6px; }
+      ::-webkit-scrollbar-track { background: #161311; }
+      ::-webkit-scrollbar-thumb { background: #383432; border-radius: 10px; }
+    </style>
+</head>
+<body class="flex min-h-screen bg-surface overflow-x-hidden">
+<!-- Side Navigation Shell -->
+<aside class="fixed left-0 top-0 h-screen flex flex-col py-8 gap-y-2 bg-[#161311] w-64 z-40">
+<div class="px-8 mb-12">
+<h1 class="text-[#e9e1dd] font-serif italic text-xl tracking-tight">ResidentCement</h1>
+<p class="font-sans text-[10px] font-bold tracking-wider text-on-surface-variant uppercase mt-1">Distributor Portal</p>
+</div>
+<nav class="flex flex-col gap-y-2">
+<a class="text-[#e9e1dd] hover:bg-[#221f1d] mx-4 px-4 py-3 rounded-sm transition-all font-sans text-sm font-bold tracking-wider flex items-center gap-4" href="#">
+<span class="material-symbols-outlined">dashboard</span> Dashboard
+            </a>
+<a class="text-[#e9e1dd] hover:bg-[#221f1d] mx-4 px-4 py-3 rounded-sm transition-all font-sans text-sm font-bold tracking-wider flex items-center gap-4" href="#">
+<span class="material-symbols-outlined">inventory_2</span> Products
+            </a>
+<a class="text-[#e9e1dd] hover:bg-[#221f1d] mx-4 px-4 py-3 rounded-sm transition-all font-sans text-sm font-bold tracking-wider flex items-center gap-4" href="#">
+<span class="material-symbols-outlined">shopping_cart</span> Orders
+            </a>
+<a class="text-[#161311] bg-gradient-to-r from-[#e5c374] to-[#9c7f38] rounded-sm mx-4 px-4 py-3 font-sans text-sm font-bold tracking-wider flex items-center gap-4" href="#">
+<span class="material-symbols-outlined">receipt_long</span> Invoices
+            </a>
+<a class="text-[#e9e1dd] hover:bg-[#221f1d] mx-4 px-4 py-3 rounded-sm transition-all font-sans text-sm font-bold tracking-wider flex items-center gap-4" href="#">
+<span class="material-symbols-outlined">person</span> Account
+            </a>
+</nav>
+<div class="mt-auto px-8">
+<div class="p-4 bg-surface-container rounded-lg">
+<p class="text-[10px] uppercase tracking-widest text-on-surface-variant mb-2">Premium Tier</p>
+<div class="flex items-center gap-3">
+<div class="h-8 w-8 rounded-full bg-surface-container-highest border border-outline-variant/20 overflow-hidden">
+<img class="h-full w-full object-cover" data-alt="User professional portrait for distributor portal" src="https://lh3.googleusercontent.com/aida-public/AB6AXuDdDJBzI0oASsL5pkSmj2F-vEd3QyfbM229cPRuor_h8nYfQeH47NXca6zm2o811nIrHhxqj3eApN-7F3bks6Yo85zDJ24Vs9lj9XQ2UG4AFtrIdNULRdf_m-XjAS-0G14F3ds8ftuASg7lp_I9Br_pG0AK2eUd-SwudSgIqMJKjfGQhUqu6yomrsfoqX29w-dz8EK3DWp5LsOOQjSsSR2TJBAXJZPa4H-0Vm5eKuSd_ebRn97Z-8V3u-D28fpd_5SSqEs91tYpCeUL"/>
+</div>
+<div class="flex flex-col">
+<span class="text-xs font-bold text-on-surface">Alex Mercer</span>
+<span class="text-[10px] text-on-surface-variant">Global Logistics</span>
+</div>
+</div>
+</div>
+</div>
+</aside>
+<!-- Main Canvas -->
+<main class="flex-1 ml-64 flex flex-col min-h-screen">
+<!-- Top App Bar Shell -->
+<header class="flex justify-between items-center px-12 py-6 w-full max-w-none bg-[#161311] sticky top-0 z-30">
+<div class="flex items-center gap-8">
+<span class="font-serif text-lg tracking-tight text-[#e5c374]">Invoices &amp; Payments</span>
+<div class="relative">
+<span class="absolute left-3 top-1/2 -translate-y-1/2 material-symbols-outlined text-outline text-sm">search</span>
+<input class="bg-surface-container border-none text-sm py-2 pl-10 pr-4 w-64 rounded-sm focus:ring-1 focus:ring-primary placeholder:text-outline/50" placeholder="Search invoices..." type="text"/>
+</div>
+</div>
+<div class="flex items-center gap-6">
+<button class="material-symbols-outlined text-on-surface-variant hover:text-primary transition-colors">notifications</button>
+<button class="material-symbols-outlined text-on-surface-variant hover:text-primary transition-colors">settings</button>
+<button class="bg-gradient-to-r from-primary to-on-primary-container text-on-primary-fixed px-6 py-2.5 rounded-lg text-xs font-bold uppercase tracking-widest shadow-lg shadow-primary/10 active:scale-[0.98] transition-transform">
+                    Pay Selected Invoices
+                </button>
+</div>
+</header>
+<!-- Content Area -->
+<div class="px-12 py-10 flex flex-col gap-16 flex-1">
+<!-- Summary Bento Grid -->
+<section class="grid grid-cols-12 gap-8">
+<!-- Primary Metric -->
+<div class="col-span-12 lg:col-span-5 bg-surface-container-low p-10 rounded-xl relative overflow-hidden group">
+<div class="absolute top-0 right-0 p-8 opacity-10 group-hover:opacity-20 transition-opacity">
+<span class="material-symbols-outlined text-8xl">account_balance_wallet</span>
+</div>
+<p class="font-label text-xs uppercase tracking-[0.2em] text-on-surface-variant mb-6 flex items-center gap-2">
+<span class="w-2 h-2 rounded-full bg-primary"></span>
+                        Total Outstanding
+                    </p>
+<div class="flex items-baseline gap-2">
+<span class="serif-display text-5xl font-bold text-on-surface">$142,850</span>
+<span class="text-on-surface-variant font-medium">.00</span>
+</div>
+<div class="mt-8 flex gap-4">
+<button class="text-xs font-bold uppercase tracking-widest text-primary border-b border-primary/30 pb-1 hover:border-primary transition-all">View Statement</button>
+<button class="text-xs font-bold uppercase tracking-widest text-on-surface-variant hover:text-on-surface transition-all">Schedule Auto-Pay</button>
+</div>
+</div>
+<!-- Secondary Metric -->
+<div class="col-span-12 lg:col-span-4 bg-surface-container p-10 rounded-xl border border-outline-variant/10">
+<p class="font-label text-xs uppercase tracking-[0.2em] text-on-surface-variant mb-6">Next Payment Due</p>
+<div class="flex flex-col gap-1">
+<span class="serif-display text-4xl font-bold text-on-surface">Oct 24, 2024</span>
+<span class="text-sm text-error flex items-center gap-2 mt-2">
+<span class="material-symbols-outlined text-sm">schedule</span>
+                            Due in 4 days
+                        </span>
+</div>
+<div class="mt-8">
+<div class="h-[2px] w-full bg-surface-container-highest">
+<div class="h-full bg-primary w-2/3"></div>
+</div>
+<p class="text-[10px] text-on-surface-variant uppercase mt-3 tracking-widest">Credit Limit: 65% Used</p>
+</div>
+</div>
+<!-- Small Action Cards -->
+<div class="col-span-12 lg:col-span-3 grid grid-rows-2 gap-4">
+<div class="bg-surface-container-highest p-6 rounded-lg flex items-center justify-between hover:bg-surface-bright transition-colors cursor-pointer border border-outline-variant/5">
+<div>
+<p class="text-[10px] uppercase tracking-widest text-on-surface-variant mb-1">Last Payment</p>
+<p class="font-bold text-on-surface">$24,400</p>
+</div>
+<span class="material-symbols-outlined text-primary">check_circle</span>
+</div>
+<div class="bg-surface-container-highest p-6 rounded-lg flex items-center justify-between hover:bg-surface-bright transition-colors cursor-pointer border border-outline-variant/5">
+<div>
+<p class="text-[10px] uppercase tracking-widest text-on-surface-variant mb-1">Billing Support</p>
+<p class="font-bold text-on-surface">Direct Line</p>
+</div>
+<span class="material-symbols-outlined text-primary">support_agent</span>
+</div>
+</div>
+</section>
+<!-- Main Ledger Table Section -->
+<section class="flex flex-col gap-8">
+<div class="flex justify-between items-end">
+<div>
+<h2 class="serif-display text-3xl text-on-surface">Invoice History</h2>
+<p class="text-on-surface-variant text-sm mt-2">Detailed ledger of all industrial architectural supply transactions.</p>
+</div>
+<div class="flex gap-4">
+<button class="flex items-center gap-2 px-4 py-2 bg-surface-container border border-outline-variant/20 rounded-sm text-xs font-bold uppercase tracking-wider hover:bg-surface-container-high transition-all">
+<span class="material-symbols-outlined text-sm">filter_list</span> Filter
+                        </button>
+<button class="flex items-center gap-2 px-4 py-2 bg-surface-container border border-outline-variant/20 rounded-sm text-xs font-bold uppercase tracking-wider hover:bg-surface-container-high transition-all">
+<span class="material-symbols-outlined text-sm">file_download</span> Export CSV
+                        </button>
+</div>
+</div>
+<!-- Custom Ledger Table -->
+<div class="overflow-x-auto">
+<table class="w-full text-left border-collapse">
+<thead>
+<tr class="bg-surface-container-low border-b border-outline-variant/10">
+<th class="px-6 py-5">
+<input class="rounded-sm bg-surface-container-highest border-outline-variant text-primary focus:ring-primary/50" type="checkbox"/>
+</th>
+<th class="px-6 py-5 font-label text-[10px] uppercase tracking-[0.2em] text-on-surface-variant">Invoice ID</th>
+<th class="px-6 py-5 font-label text-[10px] uppercase tracking-[0.2em] text-on-surface-variant">Issue Date</th>
+<th class="px-6 py-5 font-label text-[10px] uppercase tracking-[0.2em] text-on-surface-variant">Amount</th>
+<th class="px-6 py-5 font-label text-[10px] uppercase tracking-[0.2em] text-on-surface-variant">Status</th>
+<th class="px-6 py-5 font-label text-[10px] uppercase tracking-[0.2em] text-on-surface-variant text-right">Actions</th>
+</tr>
+</thead>
+<tbody class="divide-y divide-outline-variant/5">
+<!-- Row 1: Overdue -->
+<tr class="hover:bg-surface-container-low transition-colors group">
+<td class="px-6 py-8">
+<input class="rounded-sm bg-surface-container-highest border-outline-variant text-primary focus:ring-primary/50" type="checkbox"/>
+</td>
+<td class="px-6 py-8">
+<span class="font-bold text-on-surface">#INV-88219</span>
+<p class="text-[10px] text-on-surface-variant mt-1 uppercase tracking-tighter">Project: Obsidian Towers</p>
+</td>
+<td class="px-6 py-8 text-on-surface-variant text-sm">Oct 12, 2024</td>
+<td class="px-6 py-8 font-serif text-lg text-on-surface">$42,300.00</td>
+<td class="px-6 py-8">
+<div class="flex items-center gap-2">
+<span class="w-2 h-2 rounded-full bg-error"></span>
+<span class="font-label text-[10px] uppercase tracking-widest font-bold text-error">Overdue</span>
+</div>
+</td>
+<td class="px-6 py-8 text-right">
+<div class="flex justify-end gap-3">
+<button class="p-2 rounded hover:bg-surface-container-highest transition-colors" title="Download PDF">
+<span class="material-symbols-outlined text-on-surface-variant text-xl">picture_as_pdf</span>
+</button>
+<button class="p-2 rounded hover:bg-surface-container-highest transition-colors" title="View Details">
+<span class="material-symbols-outlined text-on-surface-variant text-xl">visibility</span>
+</button>
+</div>
+</td>
+</tr>
+<!-- Row 2: Unpaid -->
+<tr class="hover:bg-surface-container-low transition-colors group">
+<td class="px-6 py-8">
+<input class="rounded-sm bg-surface-container-highest border-outline-variant text-primary focus:ring-primary/50" type="checkbox"/>
+</td>
+<td class="px-6 py-8">
+<span class="font-bold text-on-surface">#INV-88224</span>
+<p class="text-[10px] text-on-surface-variant mt-1 uppercase tracking-tighter">Project: Marble Plaza</p>
+</td>
+<td class="px-6 py-8 text-on-surface-variant text-sm">Oct 18, 2024</td>
+<td class="px-6 py-8 font-serif text-lg text-on-surface">$12,150.00</td>
+<td class="px-6 py-8">
+<div class="flex items-center gap-2">
+<span class="w-2 h-2 rounded-full bg-secondary"></span>
+<span class="font-label text-[10px] uppercase tracking-widest font-bold text-secondary">Unpaid</span>
+</div>
+</td>
+<td class="px-6 py-8 text-right">
+<div class="flex justify-end gap-3">
+<button class="p-2 rounded hover:bg-surface-container-highest transition-colors" title="Download PDF">
+<span class="material-symbols-outlined text-on-surface-variant text-xl">picture_as_pdf</span>
+</button>
+<button class="p-2 rounded hover:bg-surface-container-highest transition-colors" title="View Details">
+<span class="material-symbols-outlined text-on-surface-variant text-xl">visibility</span>
+</button>
+</div>
+</td>
+</tr>
+<!-- Row 3: Paid -->
+<tr class="hover:bg-surface-container-low transition-colors group opacity-60 grayscale-[0.5]">
+<td class="px-6 py-8">
+<input class="rounded-sm bg-surface-container-highest border-outline-variant text-primary/20 opacity-30" disabled="" type="checkbox"/>
+</td>
+<td class="px-6 py-8">
+<span class="font-bold text-on-surface">#INV-88190</span>
+<p class="text-[10px] text-on-surface-variant mt-1 uppercase tracking-tighter">Project: Industrial Loft</p>
+</td>
+<td class="px-6 py-8 text-on-surface-variant text-sm">Sep 30, 2024</td>
+<td class="px-6 py-8 font-serif text-lg text-on-surface">$24,400.00</td>
+<td class="px-6 py-8">
+<div class="flex items-center gap-2">
+<span class="w-2 h-2 rounded-full bg-on-tertiary-container"></span>
+<span class="font-label text-[10px] uppercase tracking-widest font-bold text-on-tertiary-container">Paid</span>
+</div>
+</td>
+<td class="px-6 py-8 text-right">
+<div class="flex justify-end gap-3">
+<button class="p-2 rounded hover:bg-surface-container-highest transition-colors" title="Download PDF">
+<span class="material-symbols-outlined text-on-surface-variant text-xl">picture_as_pdf</span>
+</button>
+<button class="p-2 rounded hover:bg-surface-container-highest transition-colors" title="View Details">
+<span class="material-symbols-outlined text-on-surface-variant text-xl">visibility</span>
+</button>
+</div>
+</td>
+</tr>
+<!-- Row 4: Unpaid -->
+<tr class="hover:bg-surface-container-low transition-colors group">
+<td class="px-6 py-8">
+<input class="rounded-sm bg-surface-container-highest border-outline-variant text-primary focus:ring-primary/50" type="checkbox"/>
+</td>
+<td class="px-6 py-8">
+<span class="font-bold text-on-surface">#INV-88231</span>
+<p class="text-[10px] text-on-surface-variant mt-1 uppercase tracking-tighter">Project: Warehouse C</p>
+</td>
+<td class="px-6 py-8 text-on-surface-variant text-sm">Oct 20, 2024</td>
+<td class="px-6 py-8 font-serif text-lg text-on-surface">$88,400.00</td>
+<td class="px-6 py-8">
+<div class="flex items-center gap-2">
+<span class="w-2 h-2 rounded-full bg-secondary"></span>
+<span class="font-label text-[10px] uppercase tracking-widest font-bold text-secondary">Unpaid</span>
+</div>
+</td>
+<td class="px-6 py-8 text-right">
+<div class="flex justify-end gap-3">
+<button class="p-2 rounded hover:bg-surface-container-highest transition-colors" title="Download PDF">
+<span class="material-symbols-outlined text-on-surface-variant text-xl">picture_as_pdf</span>
+</button>
+<button class="p-2 rounded hover:bg-surface-container-highest transition-colors" title="View Details">
+<span class="material-symbols-outlined text-on-surface-variant text-xl">visibility</span>
+</button>
+</div>
+</td>
+</tr>
+</tbody>
+</table>
+</div>
+<!-- Pagination -->
+<div class="flex justify-between items-center px-6 py-8 bg-surface-container-low rounded-b-xl border-t border-outline-variant/10">
+<span class="text-[10px] uppercase tracking-widest text-on-surface-variant">Showing 4 of 124 Invoices</span>
+<div class="flex gap-2">
+<button class="w-10 h-10 flex items-center justify-center rounded-sm border border-outline-variant/20 hover:bg-surface-container-high text-on-surface-variant transition-colors">
+<span class="material-symbols-outlined">chevron_left</span>
+</button>
+<button class="w-10 h-10 flex items-center justify-center rounded-sm bg-primary text-on-primary-fixed font-bold text-xs">1</button>
+<button class="w-10 h-10 flex items-center justify-center rounded-sm border border-outline-variant/20 hover:bg-surface-container-high text-on-surface-variant transition-colors">2</button>
+<button class="w-10 h-10 flex items-center justify-center rounded-sm border border-outline-variant/20 hover:bg-surface-container-high text-on-surface-variant transition-colors">3</button>
+<button class="w-10 h-10 flex items-center justify-center rounded-sm border border-outline-variant/20 hover:bg-surface-container-high text-on-surface-variant transition-colors">
+<span class="material-symbols-outlined">chevron_right</span>
+</button>
+</div>
+</div>
+</section>
+</div>
+<!-- Footer Shell -->
+<footer class="flex justify-between items-center px-12 py-8 w-full mt-auto bg-[#161311]">
+<p class="font-sans text-[10px] uppercase tracking-[0.2em] text-[#e9e1dd]/40">© 2024 ResidentCement Industrial. All Rights Reserved.</p>
+<div class="flex gap-8">
+<a class="font-sans text-[10px] uppercase tracking-[0.2em] text-[#e9e1dd]/40 hover:text-[#e5c374] transition-colors underline-offset-4 hover:underline" href="#">Terms of Service</a>
+<a class="font-sans text-[10px] uppercase tracking-[0.2em] text-[#e9e1dd]/40 hover:text-[#e5c374] transition-colors underline-offset-4 hover:underline" href="#">Privacy Policy</a>
+<a class="font-sans text-[10px] uppercase tracking-[0.2em] text-[#e9e1dd]/40 hover:text-[#e5c374] transition-colors underline-offset-4 hover:underline" href="#">Support</a>
+</div>
+</footer>
+</main>
+<!-- Floating Action State (Contextual FAB for Invoices) -->
+<div class="fixed bottom-12 right-12 z-50">
+<button class="flex items-center gap-3 bg-gradient-to-r from-primary to-on-primary-container text-on-primary-fixed p-5 rounded-lg shadow-2xl hover:scale-105 active:scale-95 transition-all">
+<span class="material-symbols-outlined">payments</span>
+<span class="text-xs font-bold uppercase tracking-widest">Quick Pay All</span>
+</button>
+</div>
+</body></html>

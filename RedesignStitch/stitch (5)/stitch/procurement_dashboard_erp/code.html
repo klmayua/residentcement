@@ -1,0 +1,384 @@
+<!DOCTYPE html>
+
+<html class="light" lang="en"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>CEMENT MONOLITH | Industrial Procurement Command</title>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<link href="https://fonts.googleapis.com/css2?family=Newsreader:ital,opsz,wght@0,6..72,200..800;1,6..72,200..800&amp;family=Work+Sans:wght@100..900&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<script id="tailwind-config">
+      tailwind.config = {
+        darkMode: "class",
+        theme: {
+          extend: {
+            colors: {
+              "on-surface-variant": "#444748",
+              "surface-dim": "#dadada",
+              "on-secondary-fixed-variant": "#5f4107",
+              "on-secondary-fixed": "#281900",
+              "secondary": "#79591f",
+              "on-primary-fixed-variant": "#474746",
+              "surface": "#f9f9f9",
+              "primary-fixed": "#e5e2e1",
+              "surface-tint": "#5f5e5e",
+              "tertiary": "#000000",
+              "surface-container-high": "#e8e8e8",
+              "background": "#f9f9f9",
+              "surface-variant": "#e2e2e2",
+              "on-primary-fixed": "#1c1b1b",
+              "surface-bright": "#f9f9f9",
+              "on-background": "#1a1c1c",
+              "inverse-on-surface": "#f1f1f1",
+              "on-tertiary": "#ffffff",
+              "outline": "#747878",
+              "on-tertiary-container": "#848483",
+              "inverse-primary": "#c8c6c5",
+              "outline-variant": "#c4c7c7",
+              "on-surface": "#1a1c1c",
+              "tertiary-container": "#1b1c1c",
+              "primary-fixed-dim": "#c8c6c5",
+              "secondary-container": "#fdd08b",
+              "secondary-fixed": "#ffdead",
+              "on-error": "#ffffff",
+              "inverse-surface": "#2f3131",
+              "on-tertiary-fixed": "#1b1c1c",
+              "tertiary-fixed-dim": "#c8c6c6",
+              "on-secondary": "#ffffff",
+              "surface-container": "#eeeeee",
+              "primary-container": "#1c1b1b",
+              "primary": "#000000",
+              "error": "#ba1a1a",
+              "on-error-container": "#93000a",
+              "on-secondary-container": "#78571e",
+              "on-primary": "#ffffff",
+              "surface-container-highest": "#e2e2e2",
+              "surface-container-low": "#f3f3f3",
+              "surface-container-lowest": "#ffffff"
+            },
+            fontFamily: {
+              "headline": ["Newsreader"],
+              "body": ["Work Sans"],
+              "label": ["Work Sans"]
+            },
+            borderRadius: {"DEFAULT": "0px", "lg": "0px", "xl": "0px", "full": "9999px"},
+          },
+        },
+      }
+    </script>
+<style>
+        body { font-family: 'Work Sans', sans-serif; }
+        .serif-text { font-family: 'Newsreader', serif; }
+        .material-symbols-outlined {
+            font-variation-settings: 'FILL' 0, 'wght' 400, 'GRAD' 0, 'opsz' 24;
+        }
+    </style>
+</head>
+<body class="bg-surface text-on-surface">
+<!-- Top Navigation Bar -->
+<nav class="bg-stone-950 flex justify-between items-center w-full px-12 h-24 docked full-width top-0 z-50">
+<div class="flex items-center gap-8">
+<span class="text-3xl font-black uppercase text-stone-100 tracking-tighter serif-text">CEMENT MONOLITH</span>
+<div class="hidden md:flex gap-6 text-[10px] uppercase tracking-widest font-bold">
+<a class="text-stone-400 hover:bg-stone-800 transition-colors duration-300 px-3 py-2" href="#">Operations</a>
+<a class="text-yellow-600 dark:text-[#79591f] font-bold px-3 py-2" href="#">Procurement</a>
+<a class="text-stone-400 hover:bg-stone-800 transition-colors duration-300 px-3 py-2" href="#">Logistics</a>
+</div>
+</div>
+<div class="flex items-center gap-6">
+<div class="relative hidden lg:block">
+<input class="bg-stone-900 text-stone-100 border-0 text-[10px] tracking-widest px-4 py-2 w-64 focus:ring-1 focus:ring-secondary" placeholder="SEARCH SYSTEM..." type="text"/>
+</div>
+<div class="flex gap-4 text-stone-100">
+<span class="material-symbols-outlined cursor-pointer hover:text-secondary">notifications</span>
+<span class="material-symbols-outlined cursor-pointer hover:text-secondary">settings</span>
+<span class="material-symbols-outlined cursor-pointer hover:text-secondary">account_circle</span>
+</div>
+</div>
+</nav>
+<!-- Side Navigation Bar -->
+<aside class="fixed left-0 top-0 h-full flex flex-col py-10 bg-stone-100 w-72 pt-32 hidden lg:flex">
+<div class="px-8 mb-12">
+<div class="flex items-center gap-4 mb-4">
+<div class="w-12 h-12 bg-black flex items-center justify-center text-white">
+<span class="material-symbols-outlined">admin_panel_settings</span>
+</div>
+<div>
+<h3 class="text-[10px] font-bold uppercase tracking-widest text-black">System Admin</h3>
+<p class="text-[8px] uppercase tracking-tighter text-stone-500">Global Operations</p>
+</div>
+</div>
+<button class="w-full bg-secondary text-white py-3 text-[10px] font-bold uppercase tracking-widest hover:opacity-90 transition-opacity">
+                Generate Report
+            </button>
+</div>
+<nav class="flex-1 flex flex-col">
+<div class="space-y-1">
+<a class="flex items-center gap-4 px-8 py-4 text-stone-600 hover:bg-stone-300 transition-all duration-200 text-[10px] font-semibold uppercase tracking-widest" href="#">
+<span class="material-symbols-outlined text-sm">factory</span> Production
+                </a>
+<a class="flex items-center gap-4 px-8 py-4 text-stone-600 hover:bg-stone-300 transition-all duration-200 text-[10px] font-semibold uppercase tracking-widest" href="#">
+<span class="material-symbols-outlined text-sm">local_shipping</span> Logistics
+                </a>
+<a class="flex items-center gap-4 px-8 py-4 text-stone-600 hover:bg-stone-300 transition-all duration-200 text-[10px] font-semibold uppercase tracking-widest" href="#">
+<span class="material-symbols-outlined text-sm">inventory_2</span> Inventory
+                </a>
+<a class="flex items-center gap-4 px-8 py-4 text-stone-600 hover:bg-stone-300 transition-all duration-200 text-[10px] font-semibold uppercase tracking-widest" href="#">
+<span class="material-symbols-outlined text-sm">payments</span> Finance
+                </a>
+<a class="flex items-center gap-4 px-8 py-4 text-stone-600 hover:bg-stone-300 transition-all duration-200 text-[10px] font-semibold uppercase tracking-widest" href="#">
+<span class="material-symbols-outlined text-sm">verified</span> Quality
+                </a>
+<a class="flex items-center gap-4 px-8 py-4 text-stone-600 hover:bg-stone-300 transition-all duration-200 text-[10px] font-semibold uppercase tracking-widest" href="#">
+<span class="material-symbols-outlined text-sm">trending_up</span> Sales
+                </a>
+<a class="flex items-center gap-4 px-8 py-4 text-stone-600 hover:bg-stone-300 transition-all duration-200 text-[10px] font-semibold uppercase tracking-widest" href="#">
+<span class="material-symbols-outlined text-sm">build</span> Maintenance
+                </a>
+<a class="flex items-center gap-4 px-8 py-4 text-stone-600 hover:bg-stone-300 transition-all duration-200 text-[10px] font-semibold uppercase tracking-widest" href="#">
+<span class="material-symbols-outlined text-sm">groups</span> HR
+                </a>
+<a class="flex items-center gap-4 px-8 py-4 bg-black text-white font-bold border-0 text-[10px] uppercase tracking-widest" href="#">
+<span class="material-symbols-outlined text-sm">shopping_cart</span> Procurement
+                </a>
+</div>
+</nav>
+<div class="px-8 pt-8 border-t-0 bg-stone-200 space-y-4 pb-8">
+<a class="flex items-center gap-4 text-stone-600 text-[10px] font-bold uppercase tracking-widest" href="#">
+<span class="material-symbols-outlined text-sm">help_outline</span> Support
+            </a>
+<a class="flex items-center gap-4 text-stone-600 text-[10px] font-bold uppercase tracking-widest" href="#">
+<span class="material-symbols-outlined text-sm">history</span> Logs
+            </a>
+</div>
+</aside>
+<!-- Main Content Canvas -->
+<main class="lg:ml-72 pt-24 min-h-screen">
+<!-- Hero Section -->
+<section class="relative h-[450px] bg-black flex flex-col justify-end p-12 overflow-hidden">
+<div class="absolute inset-0 opacity-40">
+<img class="w-full h-full object-cover grayscale" data-alt="dramatic wide shot of a massive industrial cement factory at night with glowing orange lights and dark structural silhouettes" src="https://lh3.googleusercontent.com/aida-public/AB6AXuBmMUUIut8kf4PeJ4VSegbFHcGbUVJ2ugOehF5wGgfiDHzxlX57gR9R9lE2Q9rgMx1Z31a1dQFFK5jFjnwSNvIkol4L7di_I42M5pR4ILsrS636PoJ_IRUlFt3e0LJf7fuhWyVBbAY3etHLQxYGh0BPRguntfQ6rylsqHKYLeBmJjHL5FKr4hlAaufqkjEoqMcsD2YtzMbvbiYcphMeoEpD_ozQBtAWFc5XbKQ6EQZ_5_Wc8AKNjKKlDjfMXRYJxOZBdE6IBu29xAq4"/>
+<div class="absolute inset-0 bg-gradient-to-t from-black via-transparent to-transparent"></div>
+</div>
+<div class="relative z-10 max-w-4xl">
+<p class="text-secondary uppercase tracking-[0.3em] text-[10px] font-bold mb-4">Institutional Scale Operations</p>
+<h1 class="serif-text text-7xl lg:text-8xl text-white font-light leading-none tracking-tighter mb-8">Industrial Procurement Command</h1>
+<div class="flex flex-wrap gap-12 border-l-2 border-secondary pl-8 py-2">
+<div>
+<p class="text-stone-500 text-[10px] uppercase tracking-widest mb-1">Total CAPEX Spend</p>
+<p class="text-white text-3xl font-bold tracking-tight">$1.24B</p>
+</div>
+<div>
+<p class="text-stone-500 text-[10px] uppercase tracking-widest mb-1">Open POs</p>
+<p class="text-white text-3xl font-bold tracking-tight">142</p>
+</div>
+<div>
+<p class="text-stone-500 text-[10px] uppercase tracking-widest mb-1">Vendor Compliance</p>
+<p class="text-white text-3xl font-bold tracking-tight">98%</p>
+</div>
+</div>
+</div>
+</section>
+<div class="p-12 space-y-24">
+<!-- Bento Grid: Material & Assets -->
+<div class="grid grid-cols-1 md:grid-cols-3 gap-8">
+<!-- Bulk Material Procurement -->
+<div class="md:col-span-2 bg-white p-10 flex flex-col justify-between min-h-[500px]">
+<div>
+<div class="flex justify-between items-end mb-12">
+<h2 class="serif-text text-5xl font-light text-black">Bulk Material Procurement</h2>
+<span class="material-symbols-outlined text-secondary text-4xl">inventory</span>
+</div>
+<div class="space-y-12">
+<div class="flex items-center justify-between border-b-0 border-stone-200 pb-2">
+<div class="w-1/4">
+<p class="text-[10px] uppercase tracking-widest text-stone-400">Resource</p>
+<p class="text-xl font-bold text-black serif-text">Gypsum</p>
+</div>
+<div class="w-1/4">
+<p class="text-[10px] uppercase tracking-widest text-stone-400">Volume</p>
+<p class="text-sm font-semibold uppercase">12,500 MT</p>
+</div>
+<div class="w-1/4">
+<p class="text-[10px] uppercase tracking-widest text-stone-400">Transit</p>
+<div class="h-1.5 w-full bg-stone-100 mt-2">
+<div class="h-full bg-black w-[75%]"></div>
+</div>
+</div>
+<div class="w-1/4 text-right">
+<p class="text-[10px] uppercase tracking-widest text-stone-400">ETA</p>
+<p class="text-sm font-bold text-secondary">48 HOURS</p>
+</div>
+</div>
+<div class="flex items-center justify-between border-b-0 border-stone-200 pb-2">
+<div class="w-1/4">
+<p class="text-[10px] uppercase tracking-widest text-stone-400">Resource</p>
+<p class="text-xl font-bold text-black serif-text">Coal</p>
+</div>
+<div class="w-1/4">
+<p class="text-[10px] uppercase tracking-widest text-stone-400">Volume</p>
+<p class="text-sm font-semibold uppercase">45,000 MT</p>
+</div>
+<div class="w-1/4">
+<p class="text-[10px] uppercase tracking-widest text-stone-400">Transit</p>
+<div class="h-1.5 w-full bg-stone-100 mt-2">
+<div class="h-full bg-secondary w-[92%]"></div>
+</div>
+</div>
+<div class="w-1/4 text-right">
+<p class="text-[10px] uppercase tracking-widest text-stone-400">ETA</p>
+<p class="text-sm font-bold text-black">IN HARBOR</p>
+</div>
+</div>
+<div class="flex items-center justify-between border-b-0 border-stone-200 pb-2">
+<div class="w-1/4">
+<p class="text-[10px] uppercase tracking-widest text-stone-400">Resource</p>
+<p class="text-xl font-bold text-black serif-text">Limestone</p>
+</div>
+<div class="w-1/4">
+<p class="text-[10px] uppercase tracking-widest text-stone-400">Volume</p>
+<p class="text-sm font-semibold uppercase">120,000 MT</p>
+</div>
+<div class="w-1/4">
+<p class="text-[10px] uppercase tracking-widest text-stone-400">Transit</p>
+<div class="h-1.5 w-full bg-stone-100 mt-2">
+<div class="h-full bg-stone-300 w-[20%]"></div>
+</div>
+</div>
+<div class="w-1/4 text-right">
+<p class="text-[10px] uppercase tracking-widest text-stone-400">ETA</p>
+<p class="text-sm font-bold text-stone-400">5 DAYS</p>
+</div>
+</div>
+</div>
+</div>
+<div class="mt-8">
+<button class="text-[10px] uppercase tracking-[0.2em] font-bold text-secondary border-b-2 border-secondary pb-1 hover:text-black hover:border-black transition-colors">Audit Full Material Flow</button>
+</div>
+</div>
+<!-- Asset Acquisition Pipeline -->
+<div class="bg-black text-white p-10 flex flex-col justify-between min-h-[500px]">
+<div>
+<h2 class="serif-text text-4xl font-light mb-8">Asset Pipeline</h2>
+<div class="space-y-10">
+<div class="bg-stone-900 p-6">
+<p class="text-secondary text-[10px] uppercase tracking-widest mb-2">Heavy Machinery</p>
+<h4 class="text-lg font-bold mb-1">Rotary Kiln Tier 4</h4>
+<p class="text-stone-500 text-[10px] uppercase tracking-tighter">Status: Final Custom Inspection</p>
+</div>
+<div class="bg-stone-900 p-6">
+<p class="text-secondary text-[10px] uppercase tracking-widest mb-2">Logistics Fleet</p>
+<h4 class="text-lg font-bold mb-1">50x MAN TGS 8x4</h4>
+<p class="text-stone-500 text-[10px] uppercase tracking-tighter">Status: Factory Release (Germany)</p>
+</div>
+<div class="bg-stone-900 p-6 opacity-50">
+<p class="text-stone-600 text-[10px] uppercase tracking-widest mb-2">Strategic Infrastructure</p>
+<h4 class="text-lg font-bold mb-1">Vertical Roller Mill</h4>
+<p class="text-stone-500 text-[10px] uppercase tracking-tighter">Status: Bidding Phase</p>
+</div>
+</div>
+</div>
+<div class="mt-8">
+<button class="w-full py-4 border border-stone-800 text-[10px] uppercase tracking-widest font-bold hover:bg-stone-800 transition-colors">Expand Asset Portfolio</button>
+</div>
+</div>
+</div>
+<!-- Strategic Partner Ledger -->
+<section class="bg-stone-100 p-16">
+<div class="flex flex-col md:flex-row justify-between items-start md:items-end mb-16 gap-8">
+<div class="max-w-xl">
+<h2 class="serif-text text-6xl font-light text-black mb-4">Strategic Partner Ledger</h2>
+<p class="text-stone-500 text-sm uppercase tracking-widest leading-relaxed">Securing the supply chain through high-level institutional alliances and sovereign state agreements.</p>
+</div>
+<div class="flex gap-4">
+<div class="w-12 h-12 bg-white flex items-center justify-center border border-stone-200 text-black">
+<span class="material-symbols-outlined">filter_list</span>
+</div>
+<div class="w-12 h-12 bg-white flex items-center justify-center border border-stone-200 text-black">
+<span class="material-symbols-outlined">download</span>
+</div>
+</div>
+</div>
+<div class="grid grid-cols-1 md:grid-cols-3 gap-12">
+<!-- Partner Card 1 -->
+<div class="group cursor-pointer">
+<div class="h-[300px] mb-6 overflow-hidden bg-stone-300 relative">
+<img class="w-full h-full object-cover grayscale transition-transform duration-700 group-hover:scale-110" data-alt="monochrome professional architectural photography of a modern glass and steel industrial office building" src="https://lh3.googleusercontent.com/aida-public/AB6AXuCS22AmTTHPDdoKAKa3lZ8aCrp559FAI57xC49MJOYCo3iTz90cNjGHODSBLZh61uLgXbzQQbb8Ukul-dFIrbzttdZK6KTHBTZKr9gn4J_LP6GCBtogaz6bwamEbMLeXQ3t7pDeXs_zl-Jbz5zVQc1acY0xgnvWvseqww1weoIcqwXoq7NFeHxnrk9rM8P6xH7gdO0HF03UCW1IYdltgHLlv6zq6iCXiGzV71nFTIw067Tp4y1OhePT7EJ4iq9vZmogyWbLxWCmTaoe"/>
+<div class="absolute top-6 left-6 bg-black text-white px-3 py-1 text-[8px] uppercase tracking-[0.2em] font-bold">Primary Contractor</div>
+</div>
+<h3 class="serif-text text-3xl font-light mb-2">Sinoma Nigeria</h3>
+<p class="text-stone-500 text-[10px] uppercase tracking-widest font-bold mb-4">Engineering &amp; EPC Services</p>
+<div class="flex justify-between items-center border-t border-stone-200 pt-4">
+<span class="text-xl font-bold tracking-tight text-black">$420M</span>
+<span class="text-[9px] uppercase tracking-widest font-bold bg-green-100 text-green-800 px-2 py-1">Active Mandate</span>
+</div>
+</div>
+<!-- Partner Card 2 -->
+<div class="group cursor-pointer">
+<div class="h-[300px] mb-6 overflow-hidden bg-stone-300 relative">
+<img class="w-full h-full object-cover grayscale transition-transform duration-700 group-hover:scale-110" data-alt="abstract architectural shot of clean geometric concrete lines against a bright sky, minimalist brutalism" src="https://lh3.googleusercontent.com/aida-public/AB6AXuCagoRecO0-p1J-I_ox2jpj1RbGKVrdNgUkppdrDLU-b_wvSfyPTRhCgrjPGQPjR4dA_ZdvJ-nEVCIomvhP_Pwu5hpGPJCYYrKQWi3Kq0P622ZRG3ESjVHo9AOW5JfO7fpExRU0XLv17153BygFlYQlY5MthfjY7gUIEG-gMImM4CykGUOgzUR8Y2B9knCnFTb7rHq40nkRArI-y9-KcVrVjcvVOuPVVUFN9lsCQLXQuzIFuElv9RA8OxQet-NLifdqsl6WVxZhPo7y"/>
+<div class="absolute top-6 left-6 bg-secondary text-white px-3 py-1 text-[8px] uppercase tracking-[0.2em] font-bold">Sovereign Entity</div>
+</div>
+<h3 class="serif-text text-3xl font-light mb-2">Bauchi State Govt</h3>
+<p class="text-stone-500 text-[10px] uppercase tracking-widest font-bold mb-4">Mineral Rights &amp; Land Lease</p>
+<div class="flex justify-between items-center border-t border-stone-200 pt-4">
+<span class="text-xl font-bold tracking-tight text-black">$18.5M / ANNUM</span>
+<span class="text-[9px] uppercase tracking-widest font-bold bg-stone-900 text-white px-2 py-1">State Level</span>
+</div>
+</div>
+<!-- Partner Card 3 -->
+<div class="group cursor-pointer">
+<div class="h-[300px] mb-6 overflow-hidden bg-stone-300 relative">
+<img class="w-full h-full object-cover grayscale transition-transform duration-700 group-hover:scale-110" data-alt="close up of sophisticated metallic industrial machinery with complex gears and precision engineering" src="https://lh3.googleusercontent.com/aida-public/AB6AXuBMShBr41By4ytobOJ4u1rtrBor8z_4lit1CcYVPQ9EVZmVDrtt8Ij_GtMZMVRXu_YjezrGBMe1RQYaUQI9OoVUDewM6G9B-uBwkZ5HQDEyyp2MGI4yhsxgzK3UFQAv30AShfQQK70ZBDY2C7QVr5fMJ1xvaY13XBgBBRWhhaFf5cB_nQzc7dyM9l-r5b1HeVMRH_b525B_E4MhdQARCu0UIoroLzKD2mQz6-Ufp9-B9GHqlrV_s1NTKaKa4gz2GnQu5lgAvuIds0ke"/>
+<div class="absolute top-6 left-6 bg-black text-white px-3 py-1 text-[8px] uppercase tracking-[0.2em] font-bold">Tech Provider</div>
+</div>
+<h3 class="serif-text text-3xl font-light mb-2">FLSmidth</h3>
+<p class="text-stone-500 text-[10px] uppercase tracking-widest font-bold mb-4">Plant Technology &amp; Automation</p>
+<div class="flex justify-between items-center border-t border-stone-200 pt-4">
+<span class="text-xl font-bold tracking-tight text-black">$215M</span>
+<span class="text-[9px] uppercase tracking-widest font-bold bg-green-100 text-green-800 px-2 py-1">Implementation</span>
+</div>
+</div>
+</div>
+</section>
+</div>
+<!-- Footer Structural Block -->
+<footer class="bg-black text-white p-24 mt-24">
+<div class="grid grid-cols-1 md:grid-cols-4 gap-16">
+<div class="md:col-span-2">
+<span class="text-4xl font-black uppercase text-white tracking-tighter serif-text">CEMENT MONOLITH</span>
+<p class="mt-8 text-stone-500 max-w-sm text-sm font-light leading-relaxed">
+                        A sovereign industrial powerhouse dedicated to the structural integrity of national development. Architecting the future of cement through precision, scale, and monolithic resolve.
+                    </p>
+</div>
+<div>
+<h5 class="text-[10px] uppercase tracking-widest font-bold text-secondary mb-8">Navigation</h5>
+<ul class="space-y-4 text-xs font-medium uppercase tracking-widest text-stone-400">
+<li><a class="hover:text-white transition-colors" href="#">Strategic Ops</a></li>
+<li><a class="hover:text-white transition-colors" href="#">Vendor Portal</a></li>
+<li><a class="hover:text-white transition-colors" href="#">Compliance Hub</a></li>
+<li><a class="hover:text-white transition-colors" href="#">Fleet tracking</a></li>
+</ul>
+</div>
+<div>
+<h5 class="text-[10px] uppercase tracking-widest font-bold text-secondary mb-8">Intelligence</h5>
+<ul class="space-y-4 text-xs font-medium uppercase tracking-widest text-stone-400">
+<li><a class="hover:text-white transition-colors" href="#">Market Analysis</a></li>
+<li><a class="hover:text-white transition-colors" href="#">CAPEX Forecasting</a></li>
+<li><a class="hover:text-white transition-colors" href="#">Partner Directory</a></li>
+<li><a class="hover:text-white transition-colors" href="#">System Logs</a></li>
+</ul>
+</div>
+</div>
+<div class="mt-24 pt-12 border-t border-stone-900 flex flex-col md:flex-row justify-between items-center gap-8">
+<p class="text-[10px] uppercase tracking-[0.3em] text-stone-600">© 2024 Resident Cement Monolith. All Rights Reserved.</p>
+<div class="flex gap-12 text-[10px] uppercase tracking-widest font-bold text-stone-600">
+<a class="hover:text-secondary" href="#">Security Protocol</a>
+<a class="hover:text-secondary" href="#">Terms of Scale</a>
+<a class="hover:text-secondary" href="#">Privacy Ledger</a>
+</div>
+</div>
+</footer>
+</main>
+</body></html>
