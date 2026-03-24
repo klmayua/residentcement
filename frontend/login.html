@@ -3,188 +3,369 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Resident Cement - Login</title>
+    <title>Resident Cement | Sign In</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Newsreader:ital,opsz,wght@0,6..72,200..800;1,6..72,200..800&family=Work+Sans:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&display=swap" rel="stylesheet">
     <style>
         * { margin: 0; padding: 0; box-sizing: border-box; }
+
+        :root {
+            --primary: #000000;
+            --primary-container: #1c1b1b;
+            --secondary: #79591f;
+            --secondary-container: #fdd08b;
+            --surface: #f9f9f9;
+            --surface-container: #eeeeee;
+            --surface-container-low: #f3f3f3;
+            --surface-container-high: #e8e8e8;
+            --surface-container-highest: #e2e2e2;
+            --on-primary: #ffffff;
+            --on-surface: #1a1c1c;
+            --on-surface-variant: #444748;
+            --outline-variant: #c4c7c7;
+        }
+
         body {
-            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, sans-serif;
-            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            font-family: 'Work Sans', sans-serif;
+            background-color: var(--surface);
             min-height: 100vh;
             display: flex;
             align-items: center;
             justify-content: center;
             padding: 20px;
         }
+
         .login-container {
-            background: white;
-            border-radius: 16px;
-            box-shadow: 0 20px 60px rgba(0,0,0,0.3);
-            padding: 40px;
+            background: var(--surface-container-highest);
             width: 100%;
-            max-width: 400px;
+            max-width: 420px;
+            padding: 0;
+            overflow: hidden;
         }
-        .logo {
+
+        .login-header {
+            background: var(--primary);
+            padding: 48px 40px;
             text-align: center;
-            margin-bottom: 30px;
         }
-        .logo h1 {
-            color: #1a1a2e;
+
+        .logo-text {
+            font-family: 'Newsreader', serif;
             font-size: 28px;
             font-weight: 700;
-            margin-top: 10px;
+            color: var(--on-primary);
+            letter-spacing: -0.02em;
+            text-transform: uppercase;
         }
-        .logo-icon {
-            width: 60px;
-            height: 60px;
-            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
-            border-radius: 12px;
-            display: inline-flex;
-            align-items: center;
-            justify-content: center;
-            color: white;
+
+        .logo-subtitle {
+            font-family: 'Work Sans', sans-serif;
+            font-size: 10px;
+            font-weight: 600;
+            color: var(--secondary);
+            letter-spacing: 0.3em;
+            text-transform: uppercase;
+            margin-top: 8px;
+        }
+
+        .login-body {
+            padding: 40px;
+        }
+
+        .form-title {
+            font-family: 'Newsreader', serif;
             font-size: 24px;
-            font-weight: bold;
+            font-weight: 600;
+            color: var(--primary);
+            margin-bottom: 8px;
         }
-        .subtitle {
-            color: #666;
-            text-align: center;
-            margin-bottom: 30px;
+
+        .form-subtitle {
+            font-size: 14px;
+            color: var(--on-surface-variant);
+            margin-bottom: 32px;
         }
+
         .form-group {
-            margin-bottom: 20px;
+            margin-bottom: 24px;
         }
+
         label {
             display: block;
+            font-size: 10px;
+            font-weight: 600;
+            text-transform: uppercase;
+            letter-spacing: 0.1em;
+            color: var(--on-surface-variant);
             margin-bottom: 8px;
-            color: #333;
-            font-weight: 500;
         }
+
         input {
             width: 100%;
-            padding: 14px 16px;
-            border: 2px solid #e1e1e1;
-            border-radius: 8px;
-            font-size: 16px;
-            transition: border-color 0.3s;
+            padding: 16px;
+            border: none;
+            border-bottom: 2px solid var(--outline-variant);
+            background: var(--surface-container-low);
+            font-family: 'Work Sans', sans-serif;
+            font-size: 15px;
+            color: var(--on-surface);
+            transition: border-color 0.2s ease;
         }
+
         input:focus {
             outline: none;
-            border-color: #667eea;
+            border-bottom-color: var(--secondary);
         }
+
+        input::placeholder {
+            color: var(--on-surface-variant);
+            opacity: 0.6;
+        }
+
         .btn {
             width: 100%;
-            padding: 14px;
-            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
-            color: white;
+            padding: 16px 24px;
+            background: var(--primary);
+            color: var(--on-primary);
             border: none;
-            border-radius: 8px;
-            font-size: 16px;
-            font-weight: 600;
+            font-family: 'Work Sans', sans-serif;
+            font-size: 12px;
+            font-weight: 700;
+            text-transform: uppercase;
+            letter-spacing: 0.15em;
             cursor: pointer;
-            transition: transform 0.2s, box-shadow 0.2s;
+            transition: all 0.2s ease;
         }
+
         .btn:hover {
-            transform: translateY(-2px);
-            box-shadow: 0 10px 30px rgba(102, 126, 234, 0.4);
+            background: var(--secondary);
         }
+
         .btn:disabled {
-            opacity: 0.7;
+            opacity: 0.5;
             cursor: not-allowed;
-            transform: none;
         }
-        .alert {
-            padding: 12px 16px;
-            border-radius: 8px;
-            margin-bottom: 20px;
-            display: none;
-        }
-        .alert-error {
-            background: #fee;
-            color: #c00;
-            border: 1px solid #fcc;
-        }
-        .alert-success {
-            background: #efe;
-            color: #060;
-            border: 1px solid #cfc;
-        }
+
         .links {
-            margin-top: 20px;
+            margin-top: 24px;
             text-align: center;
         }
+
         .links a {
-            color: #667eea;
+            font-size: 12px;
+            color: var(--secondary);
             text-decoration: none;
+            font-weight: 500;
+            text-transform: uppercase;
+            letter-spacing: 0.05em;
+            border-bottom: 1px solid transparent;
+            transition: border-color 0.2s ease;
         }
+
         .links a:hover {
-            text-decoration: underline;
+            border-bottom-color: var(--secondary);
         }
-        .system-status {
-            margin-top: 30px;
-            padding: 15px;
-            background: #f8f9fa;
-            border-radius: 8px;
+
+        .alert {
+            padding: 16px;
+            margin-bottom: 24px;
+            display: none;
             font-size: 14px;
         }
+
+        .alert-error {
+            background: #ffdad6;
+            color: #ba1a1a;
+            border-left: 4px solid #ba1a1a;
+        }
+
+        .alert-success {
+            background: #e8f5e9;
+            color: #1b5e20;
+            border-left: 4px solid #1b5e20;
+        }
+
+        .portal-options {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 1px;
+            background: var(--outline-variant);
+            margin: 32px -40px -40px -40px;
+        }
+
+        .portal-option {
+            background: var(--surface-container-high);
+            padding: 20px;
+            text-align: center;
+            cursor: pointer;
+            transition: background 0.2s ease;
+        }
+
+        .portal-option:hover {
+            background: var(--surface-container);
+        }
+
+        .portal-option span {
+            font-size: 10px;
+            font-weight: 600;
+            text-transform: uppercase;
+            letter-spacing: 0.1em;
+            color: var(--on-surface-variant);
+        }
+
+        .portal-option.active {
+            background: var(--primary);
+        }
+
+        .portal-option.active span {
+            color: var(--on-primary);
+        }
+
+        .system-status {
+            margin-top: 32px;
+            padding-top: 24px;
+            border-top: 1px solid var(--outline-variant);
+        }
+
+        .status-header {
+            font-size: 10px;
+            font-weight: 700;
+            text-transform: uppercase;
+            letter-spacing: 0.15em;
+            color: var(--on-surface-variant);
+            margin-bottom: 12px;
+        }
+
         .status-item {
             display: flex;
             justify-content: space-between;
-            padding: 5px 0;
+            align-items: center;
+            padding: 8px 0;
+            font-size: 13px;
         }
-        .status-ok { color: #060; }
-        .status-error { color: #c00; }
+
+        .status-label {
+            color: var(--on-surface-variant);
+        }
+
+        .status-value {
+            display: flex;
+            align-items: center;
+            gap: 6px;
+            font-weight: 500;
+        }
+
+        .status-dot {
+            width: 8px;
+            height: 8px;
+            background: currentColor;
+        }
+
+        .status-ok { color: #2e7d32; }
+        .status-error { color: #c62828; }
+        .status-warning { color: var(--secondary); }
+
+        @media (max-width: 480px) {
+            .login-header {
+                padding: 32px 24px;
+            }
+            .login-body {
+                padding: 32px 24px;
+            }
+            .portal-options {
+                margin: 24px -24px -32px -24px;
+            }
+        }
     </style>
 </head>
 <body>
     <div class="login-container">
-        <div class="logo">
-            <div class="logo-icon">RC</div>
-            <h1>Resident Cement</h1>
+        <div class="login-header">
+            <div class="logo-text">RESIDENT CEMENT</div>
+            <div class="logo-subtitle">Industrial Portal</div>
         </div>
-        <p class="subtitle">Sign in to your distributor account</p>
-        
-        <div id="alert" class="alert"></div>
-        
-        <form id="loginForm">
-            <div class="form-group">
-                <label for="email">Email Address</label>
-                <input type="email" id="email" name="email" placeholder="name@company.com" required>
+
+        <div class="login-body">
+            <h1 class="form-title">Sign In</h1>
+            <p class="form-subtitle">Access your stakeholder account</p>
+
+            <div id="alert" class="alert"></div>
+
+            <form id="loginForm">
+                <div class="form-group">
+                    <label for="email">Email Address</label>
+                    <input type="email" id="email" name="email" placeholder="name@company.com" required>
+                </div>
+
+                <div class="form-group">
+                    <label for="password">Password</label>
+                    <input type="password" id="password" name="password" placeholder="Enter your password" required>
+                </div>
+
+                <button type="submit" class="btn" id="submitBtn">Sign In</button>
+            </form>
+
+            <div class="links">
+                <a href="/forgot-password">Forgot password?</a>
             </div>
-            <div class="form-group">
-                <label for="password">Password</label>
-                <input type="password" id="password" name="password" placeholder="Enter your password" required>
+
+            <div class="portal-options">
+                <div class="portal-option active" data-portal="distributor">
+                    <span>Distributor</span>
+                </div>
+                <div class="portal-option" data-portal="employee">
+                    <span>Employee</span>
+                </div>
             </div>
-            <button type="submit" class="btn" id="submitBtn">Sign In</button>
-        </form>
-        
-        <div class="links">
-            <a href="/forgot-password">Forgot password?</a>
-        </div>
-        
-        <div class="system-status">
-            <strong>System Status:</strong>
-            <div class="status-item">
-                <span>API Gateway</span>
-                <span id="gateway-status" class="status-ok">● Online</span>
-            </div>
-            <div class="status-item">
-                <span>Database</span>
-                <span id="db-status" class="status-ok">● Connected</span>
+
+            <div class="system-status">
+                <div class="status-header">System Status</div>
+                <div class="status-item">
+                    <span class="status-label">API Gateway</span>
+                    <span id="gateway-status" class="status-value status-ok">
+                        <span class="status-dot"></span>
+                        Online
+                    </span>
+                </div>
+                <div class="status-item">
+                    <span class="status-label">Database</span>
+                    <span id="db-status" class="status-value status-ok">
+                        <span class="status-dot"></span>
+                        Connected
+                    </span>
+                </div>
             </div>
         </div>
     </div>
 
     <script>
+        // Portal toggle
+        document.querySelectorAll('.portal-option').forEach(option => {
+            option.addEventListener('click', function() {
+                document.querySelectorAll('.portal-option').forEach(o => o.classList.remove('active'));
+                this.classList.add('active');
+            });
+        });
+
         // Check API health on load
         async function checkHealth() {
             try {
                 const response = await fetch('http://localhost:8080/health');
                 const data = await response.json();
-                document.getElementById('gateway-status').textContent = data.status === 'healthy' ? '● Online' : '● ' + data.status;
-                document.getElementById('gateway-status').className = data.status === 'healthy' ? 'status-ok' : 'status-error';
+                const statusEl = document.getElementById('gateway-status');
+                if (data.status === 'healthy') {
+                    statusEl.className = 'status-value status-ok';
+                    statusEl.innerHTML = '<span class="status-dot"></span>Online';
+                } else {
+                    statusEl.className = 'status-value status-warning';
+                    statusEl.innerHTML = '<span class="status-dot"></span>Degraded';
+                }
             } catch (e) {
-                document.getElementById('gateway-status').textContent = '● Offline';
-                document.getElementById('gateway-status').className = 'status-error';
+                const statusEl = document.getElementById('gateway-status');
+                statusEl.className = 'status-value status-error';
+                statusEl.innerHTML = '<span class="status-dot"></span>Offline';
             }
         }
         checkHealth();
@@ -196,22 +377,22 @@
             const alert = document.getElementById('alert');
             const email = document.getElementById('email').value;
             const password = document.getElementById('password').value;
-            
+
             btn.disabled = true;
             btn.textContent = 'Signing in...';
-            
+
             try {
                 // Demo login - in production this would call the API
                 await new Promise(resolve => setTimeout(resolve, 1000));
-                
+
                 // Store auth token (demo)
                 localStorage.setItem('auth_token', 'demo_token_' + Date.now());
                 localStorage.setItem('user_email', email);
-                
+
                 alert.className = 'alert alert-success';
                 alert.textContent = 'Login successful! Redirecting...';
                 alert.style.display = 'block';
-                
+
                 setTimeout(() => {
                     window.location.href = '/dashboard';
                 }, 1000);

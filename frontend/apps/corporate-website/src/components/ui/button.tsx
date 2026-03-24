@@ -5,20 +5,19 @@ import { cva, type VariantProps } from "class-variance-authority"
 import { cn } from "@/lib/utils"
 
 const buttonVariants = cva(
-  "inline-flex items-center justify-center whitespace-nowrap rounded text-sm font-medium ring-offset-background transition-all duration-200 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 disabled:pointer-events-none disabled:opacity-50",
+  // 0px border radius - Monolithic Curator rule
+  "inline-flex items-center justify-center whitespace-nowrap text-sm font-medium transition-all duration-300 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-secondary/50 disabled:pointer-events-none disabled:opacity-50",
   {
     variants: {
       variant: {
-        default: "bg-primary text-on-primary hover:opacity-90 active:scale-95",
-        gold: "text-on-primary hover:opacity-90 active:scale-95 shadow-glow",
+        default: "bg-primary text-white hover:brightness-110 active:scale-[0.98]",
+        secondary: "bg-secondary text-white hover:brightness-110 active:scale-[0.98]",
         destructive:
-          "bg-error text-on-error hover:bg-error/90",
+          "bg-error text-white hover:bg-error/90",
         outline:
-          "border border-outline-variant/30 bg-transparent hover:bg-surface-container-high text-foreground",
-        secondary:
-          "bg-secondary-container text-on-secondary-container hover:bg-secondary-container/80",
+          "border-2 border-white bg-transparent text-white hover:bg-white hover:text-primary",
         ghost: "hover:bg-surface-container-high text-foreground",
-        link: "text-primary underline-offset-4 hover:underline",
+        link: "text-secondary underline-offset-4 hover:underline",
       },
       size: {
         default: "h-10 px-6 py-2",
@@ -44,16 +43,10 @@ const Button = React.forwardRef<HTMLButtonElement, ButtonProps>(
   ({ className, variant, size, asChild = false, ...props }, ref) => {
     const Comp = asChild ? Slot : "button"
 
-    // Apply gold gradient for gold variant
-    const style = variant === 'gold' ? {
-      background: 'linear-gradient(45deg, #745B17, #C5A55A)',
-    } : undefined
-
     return (
       <Comp
-        className={cn(buttonVariants({ variant: variant === 'gold' ? 'default' : variant, size, className }))}
+        className={cn(buttonVariants({ variant, size, className }))}
         ref={ref}
-        style={style}
         {...props}
       />
     )

@@ -1,6 +1,5 @@
 import Link from "next/link";
-import { Diamond, Users, Award, Globe, Architecture, Verified, ArrowRight } from "lucide-react";
-import { Button } from "@/components/ui/button";
+import { Diamond, Users, Award, Globe, Building2, Verified, ArrowRight } from "lucide-react";
 
 const values = [
   {
@@ -37,7 +36,7 @@ export default function AboutPage() {
   return (
     <div className="min-h-screen">
       {/* Hero Section: Editorial Header */}
-      <section className="relative px-4 sm:px-6 lg:px-8 xl:px-24 py-24 md:py-32 overflow-hidden pt-32">
+      <section className="relative px-6 sm:px-8 lg:px-12 xl:px-16 py-24 md:py-32 overflow-hidden pt-32">
         <div className="container-wide mx-auto grid grid-cols-1 lg:grid-cols-12 gap-12 items-end">
           <div className="lg:col-span-8">
             <span className="text-primary font-label text-sm font-bold uppercase tracking-[0.3em] mb-6 block">
@@ -45,7 +44,7 @@ export default function AboutPage() {
             </span>
             <h1 className="text-5xl md:text-7xl lg:text-8xl font-headline font-black tracking-tighter leading-[0.9] text-foreground">
               Architectural <br />
-              <span className="text-primary">Excellence</span> <br />
+              <span className="text-secondary">Excellence</span> <br />
               Defined.
             </h1>
           </div>
@@ -58,16 +57,16 @@ export default function AboutPage() {
       </section>
 
       {/* The Monolith: Hero Imagery */}
-      <section className="px-4 sm:px-6 lg:px-8 xl:px-24 mb-24">
-        <div className="container-wide mx-auto relative h-[400px] md:h-[600px] overflow-hidden rounded-lg">
+      <section className="px-6 sm:px-8 lg:px-12 xl:px-16 mb-24">
+        <div className="container-wide mx-auto relative h-[400px] md:h-[600px] overflow-hidden">
           <div className="absolute inset-0 bg-foreground/10 z-10" />
-          <div className="w-full h-full bg-gradient-to-br from-cement-300 to-cement-500 flex items-center justify-center">
-            <Architecture className="h-40 w-40 text-cement-700" />
+          <div className="w-full h-full bg-gradient-to-br from-stone-300 to-stone-500 flex items-center justify-center">
+            <Building2 className="h-40 w-40 text-stone-700" />
           </div>
-          <div className="absolute bottom-0 right-0 bg-surface-container-lowest p-8 md:p-12 max-w-md z-20 shadow-xl hidden md:block">
+          <div className="absolute bottom-0 right-0 bg-surface-container-lowest p-8 md:p-12 max-w-md z-20 shadow-2xl hidden md:block">
             <h3 className="font-headline text-2xl font-bold mb-4">Built for Generations</h3>
             <p className="text-on-surface-variant text-sm leading-loose">
-              We don't just supply material; we provide the backbone of legacy. Resident Cement is engineered to outlast the century.
+              We don&apos;t just supply material; we provide the backbone of legacy. Resident Cement is engineered to outlast the century.
             </p>
           </div>
         </div>
@@ -75,19 +74,19 @@ export default function AboutPage() {
 
       {/* Heritage Section: Tonal Transition */}
       <section className="bg-surface-container-low py-24 md:py-32">
-        <div className="container-wide mx-auto px-4 sm:px-6 lg:px-8">
+        <div className="container-wide mx-auto px-6 sm:px-8 lg:px-12">
           <div className="grid grid-cols-1 lg:grid-cols-2 gap-16 items-center">
             <div className="relative">
-              <div className="aspect-[4/5] bg-surface-container-highest rounded-lg overflow-hidden">
-                <div className="w-full h-full bg-gradient-to-br from-cement-400 to-cement-600 flex items-center justify-center">
-                  <Verified className="h-32 w-32 text-cement-800" />
+              <div className="aspect-[4/5] bg-surface-container-highest overflow-hidden">
+                <div className="w-full h-full bg-gradient-to-br from-stone-400 to-stone-600 flex items-center justify-center">
+                  <Verified className="h-32 w-32 text-stone-800" />
                 </div>
               </div>
               <div className="absolute -bottom-6 -right-6 w-48 h-48 bg-primary p-6 flex flex-col justify-end">
-                <span className="text-4xl font-headline font-black text-on-primary leading-none">
+                <span className="text-4xl font-headline font-black text-white leading-none">
                   2025
                 </span>
-                <span className="text-xs uppercase font-bold text-on-primary tracking-widest mt-2">
+                <span className="text-xs uppercase font-bold text-white tracking-widest mt-2">
                   Production Start
                 </span>
               </div>
@@ -99,7 +98,7 @@ export default function AboutPage() {
                 Our Mission & Vision
               </h2>
               <p className="text-on-surface-variant mb-8 leading-relaxed text-lg">
-                To produce high-quality, affordable cement while contributing to Nigeria's economic development through job creation, sustainable industrial growth, and infrastructure advancement.
+                To produce high-quality, affordable cement while contributing to Nigeria&apos;s economic development through job creation, sustainable industrial growth, and infrastructure advancement.
               </p>
 
               <div className="space-y-6 mb-10">
@@ -113,11 +112,11 @@ export default function AboutPage() {
                   </div>
                 </div>
                 <div className="flex gap-4 items-start">
-                  <Architecture className="h-6 w-6 text-primary shrink-0 mt-1" />
+                  <Building2 className="h-6 w-6 text-primary shrink-0 mt-1" />
                   <div>
                     <h4 className="font-bold text-foreground">Architectural Trust</h4>
                     <p className="text-sm text-on-surface-variant">
-                      The preferred choice for the world's most demanding structural engineers.
+                      The preferred choice for the world&apos;s most demanding structural engineers.
                     </p>
                   </div>
                 </div>
@@ -153,15 +152,15 @@ export default function AboutPage() {
             </h2>
             <div className="max-w-lg md:text-right">
               <p className="text-xl font-body text-on-surface-variant italic">
-                "To elevate the human experience by providing the foundation for spaces that inspire, protect, and endure."
+                &ldquo;To elevate the human experience by providing the foundation for spaces that inspire, protect, and endure.&rdquo;
               </p>
             </div>
           </div>
 
           <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
             {/* Mission Card 1 */}
-            <div className="bg-surface-container p-10 flex flex-col justify-between aspect-square hover:bg-surface-container-lowest transition-all group duration-300 rounded-lg">
-              <span className="text-6xl font-headline text-outline-variant group-hover:text-primary transition-colors">
+            <div className="bg-surface-container p-10 flex flex-col justify-between aspect-square hover:bg-surface-container-lowest transition-all group duration-300">
+              <span className="text-6xl font-headline text-stone-300 group-hover:text-primary transition-colors">
                 01
               </span>
               <div>
@@ -174,21 +173,21 @@ export default function AboutPage() {
 
             {/* Mission Card 2 (Monolith Style) */}
             <div
-              className="p-10 flex flex-col justify-between aspect-square rounded-lg"
-              style={{ background: "linear-gradient(45deg, #745B17, #C5A55A)" }}
+              className="p-10 flex flex-col justify-between aspect-square"
+              style={{ background: "linear-gradient(45deg, #79591f, #ebc07c)" }}
             >
-              <span className="text-6xl font-headline text-on-primary/30">02</span>
+              <span className="text-6xl font-headline text-white/30">02</span>
               <div>
-                <h3 className="text-2xl font-bold mb-4 text-on-primary">Integrity</h3>
-                <p className="text-sm text-on-primary/80">
+                <h3 className="text-2xl font-bold mb-4 text-white">Integrity</h3>
+                <p className="text-sm text-white/80">
                   Honesty in our source materials and transparency in our logistics.
                 </p>
               </div>
             </div>
 
             {/* Mission Card 3 */}
-            <div className="bg-surface-container p-10 flex flex-col justify-between aspect-square hover:bg-surface-container-lowest transition-all group duration-300 rounded-lg">
-              <span className="text-6xl font-headline text-outline-variant group-hover:text-primary transition-colors">
+            <div className="bg-surface-container p-10 flex flex-col justify-between aspect-square hover:bg-surface-container-lowest transition-all group duration-300">
+              <span className="text-6xl font-headline text-stone-300 group-hover:text-primary transition-colors">
                 03
               </span>
               <div>
@@ -204,7 +203,7 @@ export default function AboutPage() {
 
       {/* Values Section */}
       <section className="bg-surface-container py-24 md:py-32">
-        <div className="container-wide mx-auto px-4 sm:px-6 lg:px-8">
+        <div className="container-wide mx-auto px-6 sm:px-8 lg:px-12">
           <div className="text-center max-w-3xl mx-auto mb-16">
             <span className="text-label text-primary mb-4 block">Our Values</span>
             <h2 className="font-headline text-4xl md:text-5xl font-black tracking-tighter mb-6">
@@ -216,10 +215,10 @@ export default function AboutPage() {
             {values.map((value) => (
               <div
                 key={value.title}
-                className="bg-surface-container-lowest p-8 rounded-lg hover:shadow-soft transition-all group"
+                className="bg-surface-container-lowest p-8 hover:shadow-soft transition-all group"
               >
-                <div className="w-12 h-12 rounded-lg bg-primary/10 flex items-center justify-center mb-6 group-hover:bg-primary group-hover:text-on-primary transition-colors">
-                  <value.icon className="h-6 w-6 text-primary group-hover:text-on-primary" />
+                <div className="w-12 h-12 bg-primary/10 flex items-center justify-center mb-6 group-hover:bg-primary group-hover:text-white transition-colors">
+                  <value.icon className="h-6 w-6 text-primary group-hover:text-white" />
                 </div>
                 <h3 className="font-headline text-xl font-bold text-foreground mb-2">{value.title}</h3>
                 <p className="text-on-surface-variant text-sm leading-relaxed">{value.description}</p>
@@ -243,7 +242,7 @@ export default function AboutPage() {
             {milestones.map((milestone, idx) => (
               <div key={milestone.year} className="flex gap-6 mb-10 last:mb-0 group">
                 <div className="flex flex-col items-center">
-                  <div className="w-14 h-14 rounded-full bg-primary/10 text-primary flex items-center justify-center font-bold border-2 border-primary/20 group-hover:bg-primary group-hover:text-on-primary transition-colors">
+                  <div className="w-14 h-14 bg-primary/10 text-primary flex items-center justify-center font-bold border-2 border-primary/20 group-hover:bg-primary group-hover:text-white transition-colors">
                     {milestone.year.slice(-2)}
                   </div>
                   {idx < milestones.length - 1 && (
@@ -271,15 +270,11 @@ export default function AboutPage() {
             Partner with us for your next architectural masterwork. From conceptual drafts to final pours.
           </p>
           <div className="flex flex-col sm:flex-row gap-4 justify-center">
-            <Link href="/contact/">
-              <Button size="lg" className="btn-gold px-10 py-6">
-                Start Project
-              </Button>
+            <Link href="/contact/" className="btn-secondary px-10 py-5">
+              Start Project
             </Link>
-            <Link href="/products/">
-              <Button size="lg" variant="outline" className="px-10 py-6">
-                Download Catalog
-              </Button>
+            <Link href="/products/" className="btn-primary px-10 py-5 bg-white text-primary hover:bg-stone-100">
+              Download Catalog
             </Link>
           </div>
         </div>

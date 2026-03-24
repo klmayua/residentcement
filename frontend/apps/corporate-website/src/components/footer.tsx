@@ -1,168 +1,132 @@
 import Link from "next/link";
-import { Building2, Mail, Phone, MapPin } from "lucide-react";
+import { Globe, Share2, Mail } from "lucide-react";
 
 const footerLinks = {
-  products: [
-    { label: "Premium Cement", href: "/products/" },
-    { label: "Standard Cement", href: "/products/" },
-    { label: "High Strength", href: "/products/" },
-    { label: "Eco-Friendly", href: "/sustainability/" },
+  corporate: [
+    { label: "Governance", href: "/governance" },
+    { label: "Ethics", href: "/ethics" },
+    { label: "Supply Chain", href: "/supply-chain" },
+    { label: "Privacy", href: "/privacy" },
   ],
-  company: [
-    { label: "About Us", href: "/about/" },
-    { label: "Our Team", href: "/about/" },
-    { label: "Sustainability", href: "/sustainability/" },
-    { label: "Careers", href: "/careers/" },
-  ],
-  support: [
-    { label: "Contact Us", href: "/contact/" },
-    { label: "Distributor Portal", href: "https://portal.residentcement.com" },
-    { label: "Privacy Policy", href: "/privacy/" },
-    { label: "Terms of Service", href: "/terms/" },
+  operations: [
+    { label: "Safety", href: "/safety" },
+    { label: "Contact", href: "/contact" },
+    { label: "Technical Specs", href: "/technical-specs" },
+    { label: "Logistics", href: "/logistics" },
   ],
 };
 
-const socialLinks = [
-  { label: "LinkedIn", href: "#" },
-  { label: "Instagram", href: "#" },
-  { label: "Twitter", href: "#" },
-];
-
 export function Footer() {
   return (
-    <footer className="bg-surface-container-high border-t border-outline-variant/10">
-      <div className="container-wide mx-auto px-4 sm:px-6 lg:px-8 py-16">
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-12 gap-12 lg:gap-8">
-          {/* Company Info */}
-          <div className="lg:col-span-4 space-y-6">
-            <Link href="/" className="flex items-center gap-3 group">
-              <Building2 className="h-8 w-8 text-primary transition-transform group-hover:scale-110" />
-              <span className="text-xl font-headline font-bold text-foreground tracking-tight">
-                Resident
-                <span className="text-primary">Cement</span>
-              </span>
-            </Link>
-
-            <p className="text-on-surface-variant text-sm leading-relaxed max-w-sm">
-              Resident Cement Company Limited — Building Nigeria&apos;s future with our
-              world-class cement plant in Bauchi State. 10 million tonnes
-              annual capacity.
-            </p>
-
-            <div className="space-y-3 pt-2">
-              <div className="flex items-start gap-3">
-                <MapPin className="h-5 w-5 text-primary shrink-0 mt-0.5" />
-                <span className="text-on-surface-variant text-sm">
-                  Gwana District, Alkaleri LGA,
-                  <br />
-                  Bauchi State, Nigeria
-                </span>
-              </div>
-              <div className="flex items-center gap-3">
-                <Phone className="h-5 w-5 text-primary shrink-0" />
-                <a href="tel:+2341234567890" className="text-on-surface-variant hover:text-primary transition-colors text-sm">
-                  +234 123 456 7890
-                </a>
-              </div>
-              <div className="flex items-center gap-3">
-                <Mail className="h-5 w-5 text-primary shrink-0" />
-                <a href="mailto:info@residentcement.com" className="text-on-surface-variant hover:text-primary transition-colors text-sm">
-                  info@residentcement.com
-                </a>
-              </div>
-            </div>
+    <footer className="bg-surface-container-low w-full">
+      <div className="grid grid-cols-1 md:grid-cols-4 gap-12 px-6 sm:px-8 lg:px-12 xl:px-16 py-20 container-full mx-auto">
+        {/* Brand Column */}
+        <div className="md:col-span-1">
+          <div className="text-xl font-black text-primary uppercase tracking-tighter mb-6">
+            RESIDENT CEMENT
           </div>
-
-          {/* Products */}
-          <div className="lg:col-span-2">
-            <h3 className="font-headline font-bold text-foreground mb-6 text-sm uppercase tracking-widest">
-              Products
-            </h3>
-            <ul className="space-y-4">
-              {footerLinks.products.map((link) => (
-                <li key={link.label}>
-                  <Link
-                    href={link.href}
-                    className="text-on-surface-variant hover:text-primary transition-colors text-sm"
-                  >
-                    {link.label}
-                  </Link>
-                </li>
-              ))}
-            </ul>
-          </div>
-
-          {/* Company */}
-          <div className="lg:col-span-2">
-            <h3 className="font-headline font-bold text-foreground mb-6 text-sm uppercase tracking-widest">
-              Company
-            </h3>
-            <ul className="space-y-4">
-              {footerLinks.company.map((link) => (
-                <li key={link.label}>
-                  <Link
-                    href={link.href}
-                    className="text-on-surface-variant hover:text-primary transition-colors text-sm"
-                  >
-                    {link.label}
-                  </Link>
-                </li>
-              ))}
-            </ul>
-          </div>
-
-          {/* Support */}
-          <div className="lg:col-span-2">
-            <h3 className="font-headline font-bold text-foreground mb-6 text-sm uppercase tracking-widest">
-              Support
-            </h3>
-            <ul className="space-y-4">
-              {footerLinks.support.map((link) => (
-                <li key={link.label}>
-                  <Link
-                    href={link.href}
-                    className="text-on-surface-variant hover:text-primary transition-colors text-sm"
-                  >
-                    {link.label}
-                  </Link>
-                </li>
-              ))}
-            </ul>
-          </div>
-
-          {/* Social */}
-          <div className="lg:col-span-2">
-            <h3 className="font-headline font-bold text-foreground mb-6 text-sm uppercase tracking-widest">
-              Social
-            </h3>
-            <ul className="space-y-4">
-              {socialLinks.map((link) => (
-                <li key={link.label}>
-                  <a
-                    href={link.href}
-                    className="text-on-surface-variant hover:text-primary transition-colors text-sm"
-                  >
-                    {link.label}
-                  </a>
-                </li>
-              ))}
-            </ul>
+          <p className="text-on-surface/50 text-sm leading-relaxed mb-8">
+            Architectural integrity and industrial scale for the West African landscape. A legacy built on the strength of raw materials.
+          </p>
+          <div className="flex gap-4">
+            <a
+              href="#"
+              className="text-on-surface/50 hover:text-secondary transition-colors"
+              aria-label="Website"
+            >
+              <Globe className="w-5 h-5" />
+            </a>
+            <a
+              href="#"
+              className="text-on-surface/50 hover:text-secondary transition-colors"
+              aria-label="Share"
+            >
+              <Share2 className="w-5 h-5" />
+            </a>
+            <a
+              href="mailto:info@residentcement.com"
+              className="text-on-surface/50 hover:text-secondary transition-colors"
+              aria-label="Email"
+            >
+              <Mail className="w-5 h-5" />
+            </a>
           </div>
         </div>
 
-        {/* Bottom bar */}
-        <div className="mt-16 pt-8 border-t border-outline-variant/20 flex flex-col md:flex-row justify-between items-center gap-4">
-          <p className="text-on-surface-variant/60 text-xs uppercase tracking-widest">
-            © {new Date().getFullYear()} Resident Cement Company Limited. Built for Permanence.
-          </p>
-          <div className="flex gap-8">
-            <span className="text-[10px] uppercase font-bold tracking-[0.3em] text-on-surface-variant/40">
-              Architectural Grade
-            </span>
-            <span className="text-[10px] uppercase font-bold tracking-[0.3em] text-on-surface-variant/40">
-              ISO 9001
-            </span>
+        {/* Corporate Links */}
+        <div className="md:col-span-1">
+          <h5 className="text-xs font-bold uppercase tracking-widest mb-8 text-primary">
+            Corporate
+          </h5>
+          <ul className="space-y-4">
+            {footerLinks.corporate.map((link) => (
+              <li key={link.label}>
+                <Link
+                  href={link.href}
+                  className="text-on-surface/50 text-xs tracking-tight hover:text-primary transition-all"
+                >
+                  {link.label}
+                </Link>
+              </li>
+            ))}
+          </ul>
+        </div>
+
+        {/* Operations Links */}
+        <div className="md:col-span-1">
+          <h5 className="text-xs font-bold uppercase tracking-widest mb-8 text-primary">
+            Operations
+          </h5>
+          <ul className="space-y-4">
+            {footerLinks.operations.map((link) => (
+              <li key={link.label}>
+                <Link
+                  href={link.href}
+                  className="text-on-surface/50 text-xs tracking-tight hover:text-primary transition-all"
+                >
+                  {link.label}
+                </Link>
+              </li>
+            ))}
+          </ul>
+        </div>
+
+        {/* Headquarters */}
+        <div className="md:col-span-1">
+          <h5 className="text-xs font-bold uppercase tracking-widest mb-8 text-primary">
+            Headquarters
+          </h5>
+          <div className="text-on-surface/50 text-xs leading-loose">
+            Monolith Plaza, Suite 400
+            <br />
+            Industrial District, Lagos
+            <br />
+            Nigeria
+            <br />
+            <br />
+            <span className="text-primary font-bold">+234 (0) 1 555 0192</span>
           </div>
+        </div>
+      </div>
+
+      {/* Bottom Bar */}
+      <div className="bg-surface-container px-6 sm:px-8 lg:px-12 xl:px-16 py-6 flex flex-col md:flex-row justify-between items-center gap-4">
+        <span className="text-[10px] uppercase font-bold tracking-widest text-on-surface/40">
+          © 2024 RESIDENT CEMENT. ARCHITECTURAL INTEGRITY.
+        </span>
+        <div className="flex gap-8">
+          <Link
+            href="/terms"
+            className="text-[10px] uppercase font-bold tracking-widest text-on-surface/40 hover:text-secondary transition-colors"
+          >
+            Terms of Use
+          </Link>
+          <Link
+            href="/cookies"
+            className="text-[10px] uppercase font-bold tracking-widest text-on-surface/40 hover:text-secondary transition-colors"
+          >
+            Cookie Policy
+          </Link>
         </div>
       </div>
     </footer>
