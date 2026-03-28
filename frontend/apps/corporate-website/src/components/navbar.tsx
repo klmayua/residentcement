@@ -1,153 +1,140 @@
 "use client";
 
-import { useState, useEffect } from "react";
+import Image from "next/image";
 import Link from "next/link";
-import { Menu, X, Search } from "lucide-react";
-import { cn } from "@/lib/utils";
-
-const navLinks = [
-  { href: "/operations", label: "Operations" },
-  { href: "/sustainability", label: "Sustainability" },
-  { href: "/investors", label: "Investors" },
-  { href: "/products", label: "Products" },
-  { href: "/media", label: "Media" },
-  { href: "/careers", label: "Careers" },
-];
+import { useState, useEffect } from "react";
 
 export function Navbar() {
-  const [isMenuOpen, setIsMenuOpen] = useState(false);
   const [isScrolled, setIsScrolled] = useState(false);
-  const [activeLink, setActiveLink] = useState("/");
+  const [isMenuOpen, setIsMenuOpen] = useState(false);
 
   useEffect(() => {
-    const handleScroll = () => {
-      setIsScrolled(window.scrollY > 50);
-    };
+    const handleScroll = () => setIsScrolled(window.scrollY > 50);
     window.addEventListener("scroll", handleScroll);
     return () => window.removeEventListener("scroll", handleScroll);
   }, []);
 
+  const navLinks = [
+    { href: "/about/", label: "About" },
+    { href: "/products/", label: "Products" },
+    { href: "/b2b/", label: "B2B Operations" },
+    { href: "/team/", label: "Corporate" },
+    { href: "/media/", label: "Contact" },
+  ];
+
   return (
-    <header
-      className={cn(
-        "fixed top-0 left-0 right-0 z-50 transition-all duration-300",
-        isScrolled
-          ? "glass-nav border-b border-outline-variant/10"
-          : "bg-transparent"
-      )}
-    >
-      <div className="container-full mx-auto px-6 sm:px-8 lg:px-12">
-        <div className="flex h-20 items-center justify-between">
-          {/* Logo */}
-          <Link href="/" className="flex items-center gap-3 group">
-            <span className={cn(
-              "text-xl font-black uppercase tracking-tighter transition-colors",
-              isScrolled ? "text-primary" : "text-white"
-            )}>
-              RESIDENT CEMENT
-            </span>
-          </Link>
-
-          {/* Desktop Navigation */}
-          <nav className="hidden lg:flex items-center gap-8">
-            {navLinks.map((link) => (
-              <Link
-                key={link.href}
-                href={link.href}
-                onClick={() => setActiveLink(link.href)}
-                className={cn(
-                  "text-xs font-semibold uppercase tracking-widest transition-colors duration-300",
-                  isScrolled
-                    ? activeLink === link.href
-                      ? "text-primary"
-                      : "text-on-surface/60 hover:text-secondary"
-                    : activeLink === link.href
-                    ? "text-secondary"
-                    : "text-white/70 hover:text-white"
-                )}
-              >
-                {link.label}
-              </Link>
-            ))}
-          </nav>
-
-          {/* Right Side Actions */}
-          <div className="flex items-center gap-6">
-            <button
-              className={cn(
-                "transition-colors duration-300",
-                isScrolled ? "text-primary" : "text-white"
-              )}
-              aria-label="Search"
-            >
-              <Search className="h-5 w-5" />
-            </button>
-            <Link
-              href="/investors"
-              className={cn(
-                "hidden sm:inline-flex px-6 py-3 text-xs font-bold uppercase tracking-widest transition-all duration-300",
-                isScrolled
-                  ? "bg-primary text-white hover:brightness-110"
-                  : "bg-white text-primary hover:bg-white/90"
-              )}
-            >
-              Investor Portal
+    <>
+      <header
+        className={`fixed top-0 left-0 right-0 z-50 transition-all duration-500 ${
+          isScrolled ? "glass-nav" : "bg-transparent"
+        }`}
+      >
+        <div className="max-w-[1400px] mx-auto px-6 lg:px-10">
+          <div className="flex h-16 items-center justify-between">
+            <Link href="/" className="flex items-center">
+              <div
+                className="h-11 w-44 transition-all duration-500"
+                style={{
+                  background: '#e5c374',
+                  WebkitMaskImage: "url('/images/real/logo-main.png')",
+                  maskImage: "url('/images/real/logo-main.png')",
+                  WebkitMaskSize: "contain",
+                  maskSize: "contain",
+                  WebkitMaskRepeat: "no-repeat",
+                  maskRepeat: "no-repeat",
+                  WebkitMaskPosition: "left center",
+                  maskPosition: "left center",
+                }}
+                role="img"
+                aria-label="Resident Cement Bachi Ltd"
+              />
             </Link>
 
-            {/* Mobile Menu Button */}
-            <button
-              className={cn(
-                "lg:hidden p-2 transition-colors",
-                isScrolled
-                  ? "text-primary hover:text-secondary"
-                  : "text-white hover:text-white/80"
-              )}
-              onClick={() => setIsMenuOpen(!isMenuOpen)}
-              aria-label="Toggle menu"
-            >
-              {isMenuOpen ? <X className="h-6 w-6" /> : <Menu className="h-6 w-6" />}
-            </button>
+            <nav className="hidden lg:flex items-center gap-6">
+              {navLinks.map((link) => (
+                <Link
+                  key={link.href}
+                  href={link.href}
+                  className="text-[11px] font-semibold uppercase tracking-[0.2em] text-white/70 hover:text-secondary transition-colors"
+                >
+                  {link.label}
+                </Link>
+              ))}
+            </nav>
+
+            <div className="flex items-center gap-3">
+              <a
+                href="https://rcdportal.nyamabo.com"
+                target="_blank"
+                rel="noopener noreferrer"
+                className="hidden sm:inline-flex px-5 py-2 text-[11px] font-bold uppercase tracking-[0.15em] bg-secondary text-white hover:bg-secondary/90 transition-all"
+              >
+                Dealer Portal
+              </a>
+
+              <button
+                className="lg:hidden p-2 text-white hover:text-white/80"
+                onClick={() => setIsMenuOpen(!isMenuOpen)}
+                aria-label="Toggle menu"
+              >
+                {isMenuOpen ? (
+                  <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round"><path d="M18 6 6 18M6 6l12 12"/></svg>
+                ) : (
+                  <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round"><path d="M3 12h18M3 6h18M3 18h18"/></svg>
+                )}
+              </button>
+            </div>
           </div>
         </div>
+      </header>
 
-        {/* Mobile Navigation */}
+      {/* Mobile Menu */}
+      {isMenuOpen && (
         <div
-          className={cn(
-            "lg:hidden overflow-hidden transition-all duration-300 ease-in-out bg-surface",
-            isMenuOpen ? "max-h-[500px] opacity-100" : "max-h-0 opacity-0"
-          )}
+          className="fixed inset-0 z-40 bg-black/60 backdrop-blur-sm lg:hidden"
+          onClick={() => setIsMenuOpen(false)}
         >
-          <nav className="flex flex-col gap-1 py-4 border-t border-outline-variant/10">
-            {navLinks.map((link) => (
-              <Link
-                key={link.href}
-                href={link.href}
-                onClick={() => {
-                  setActiveLink(link.href);
-                  setIsMenuOpen(false);
-                }}
-                className={cn(
-                  "text-sm font-medium transition-colors py-3 px-4",
-                  activeLink === link.href
-                    ? "text-primary bg-surface-container"
-                    : "text-on-surface-variant hover:text-foreground hover:bg-surface-container-low"
-                )}
-              >
-                {link.label}
-              </Link>
-            ))}
-            <div className="pt-4 px-4">
-              <Link
-                href="/investors"
-                className="btn-primary block text-center"
+          <div
+            className="absolute right-0 top-0 h-full w-80 bg-stone-950 border-l border-white/5"
+            onClick={(e) => e.stopPropagation()}
+          >
+            <div className="flex items-center justify-between p-6 border-b border-white/5">
+              <span className="text-sm font-bold text-white uppercase tracking-widest">
+                Menu
+              </span>
+              <button
                 onClick={() => setIsMenuOpen(false)}
+                className="p-2 text-white/60"
               >
-                Investor Portal
-              </Link>
+                <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round"><path d="M18 6 6 18M6 6l12 12"/></svg>
+              </button>
             </div>
-          </nav>
+            <nav className="flex flex-col p-6 gap-1">
+              {navLinks.map((link) => (
+                <Link
+                  key={link.href}
+                  href={link.href}
+                  onClick={() => setIsMenuOpen(false)}
+                  className="text-sm font-medium py-3 px-4 text-white/60 hover:text-secondary hover:bg-white/5 transition-colors"
+                >
+                  {link.label}
+                </Link>
+              ))}
+              <div className="pt-6 mt-4 border-t border-white/5">
+                <a
+                  href="https://rcdportal.nyamabo.com"
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="block text-center px-6 py-3 text-[11px] font-bold uppercase tracking-[0.15em] bg-secondary text-white"
+                  onClick={() => setIsMenuOpen(false)}
+                >
+                  Dealer Portal
+                </a>
+              </div>
+            </nav>
+          </div>
         </div>
-      </div>
-    </header>
+      )}
+    </>
   );
 }

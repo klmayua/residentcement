@@ -4,31 +4,38 @@ import "./globals.css";
 import { Navbar } from "@/components/navbar";
 import { Footer } from "@/components/footer";
 
-// Newsreader - The Curator (serif for headlines)
 const newsreader = Newsreader({
   subsets: ["latin"],
   variable: "--font-newsreader",
-  display: "swap",
-  weight: ["200", "300", "400", "500", "600", "700", "800"],
+  display: "block",
+  weight: ["400", "500", "600", "700", "800"],
   style: ["normal", "italic"],
+  preload: true,
+  fallback: ["Georgia", "Times New Roman", "serif"],
+  adjustFontFallback: false,
 });
 
-// Work Sans - Industrial foundation (sans-serif for body)
 const workSans = Work_Sans({
   subsets: ["latin"],
   variable: "--font-work-sans",
-  display: "swap",
-  weight: ["100", "200", "300", "400", "500", "600", "700", "800", "900"],
+  display: "block",
+  weight: ["300", "400", "500", "600", "700"],
+  preload: true,
+  fallback: ["system-ui", "sans-serif"],
+  adjustFontFallback: false,
 });
 
 export const metadata: Metadata = {
-  title: "RESIDENT CEMENT | Building Nigeria's Industrial Future",
-  description: "Nigeria's emerging cement manufacturing giant. Building a $500M world-class cement plant in Bauchi State with 10 million tonnes annual capacity.",
-  keywords: "cement, Nigeria, construction, building materials, cement manufacturing, Bauchi, Resident Cement",
-  authors: [{ name: "Resident Cement Company Limited" }],
+  title: "Resident Cement Bachi Ltd | Built for Generations",
+  description:
+    "A leading producer of high-quality cement in Nigeria. State-of-the-art greenfield plant in Gwana, Bauchi State with 10 million metric tonnes annual capacity.",
+  keywords:
+    "cement, Nigeria, construction, building materials, cement manufacturing, Bauchi, Resident Cement, Gwana, Alkaleri, limestone cement",
+  authors: [{ name: "Resident Cement Bachi Ltd" }],
   openGraph: {
-    title: "RESIDENT CEMENT | Building Nigeria's Industrial Future",
-    description: "Nigeria's emerging cement manufacturing giant with world-class production facility",
+    title: "Resident Cement Bachi Ltd | Built for Generations",
+    description:
+      "A leading producer of high-quality cement in Nigeria with a world-class greenfield plant in Bauchi State.",
     type: "website",
     locale: "en_NG",
   },
@@ -41,7 +48,23 @@ export default function RootLayout({
 }>) {
   return (
     <html lang="en" className={`${newsreader.variable} ${workSans.variable}`}>
-      <body className="antialiased selection:bg-secondary selection:text-white">
+      <head>
+        {/* Preconnect to Google Fonts for Material Symbols */}
+        <link rel="preconnect" href="https://fonts.googleapis.com" />
+        <link rel="preconnect" href="https://fonts.gstatic.com" crossOrigin="anonymous" />
+        {/* Material Symbols — loaded async so it never blocks render */}
+        <link
+          rel="stylesheet"
+          href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@24,400,0,0&display=block"
+          media="print"
+          // @ts-expect-error onload is valid HTML but not in React types for link
+          onLoad="this.media='all'"
+        />
+        <noscript>
+          <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@24,400,0,0" />
+        </noscript>
+      </head>
+      <body className="antialiased selection:bg-primary-container selection:text-on-primary-container">
         <Navbar />
         {children}
         <Footer />

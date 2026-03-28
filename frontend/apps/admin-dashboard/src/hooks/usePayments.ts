@@ -169,10 +169,10 @@ export function usePaymentStats() {
         data: {
           total: payments.length,
           totalAmount: payments.reduce((sum: number, p: Payment) => sum + p.amount, 0),
-          byStatus: Object.entries(byStatus).map(([status, stats]) => ({
+          byStatus: Object.entries(byStatus).map(([status, stats]: [string, any]) => ({
             status,
-            count: stats.count,
-            amount: stats.amount,
+            count: (stats as any).count,
+            amount: (stats as any).amount,
           })),
         },
       };

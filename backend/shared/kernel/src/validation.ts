@@ -678,6 +678,9 @@ export const financialDocumentSchema = z.object({
   currency: currencyCodeSchema.default('NGN'),
   status: z.enum(['DRAFT', 'PENDING', 'APPROVED', 'POSTED', 'CANCELLED']),
 });
+
+// Validation Schemas
+export const validationSchemas = {
   // Auth
   login: loginSchema,
   register: registerSchema,

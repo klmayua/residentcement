@@ -1,156 +1,183 @@
 'use client';
 
 import { useState } from 'react';
-import Link from 'next/link';
-import { Search, ShoppingCart, Package, LayoutDashboard, BarChart3, Receipt, Settings, Plus, Minus, Filter, ChevronDown } from 'lucide-react';
+import { useQuery } from '@tanstack/react-query';
+import { productsApi } from '@/lib/api';
+import { SidebarLayout } from '@/components/dashboard/sidebar-layout';
+import { ShoppingCart, Search } from 'lucide-react';
+import { useCartStore } from '@/store/cart';
 
-const products = [
-  { id: '1', name: 'Elite Portland', sku: 'TYPE-GU-001', type: 'Type GU', grade: '42.5R', category: 'Premium', price: 2450, unit: 'bag', inStock: true },
-  { id: '2', name: 'Monolith Blocks', sku: 'PRECAST-002', type: 'Pre-Cast', grade: 'N/A', category: 'Standard', price: 11200, unit: 'block', inStock: true },
-  { id: '3', name: 'Titanium Grit', sku: 'AGG-003', type: 'Aggregate', grade: 'N/A', category: 'Bulk', price: 8500, unit: 'ton', inStock: true },
-  { id: '4', name: 'Hydro-Seal Mix', sku: 'CUSTOM-004', type: 'Custom', grade: '52.5R', category: 'Specialty', price: 0, unit: 'quote', inStock: true },
-  { id: '5', name: 'Resident 32.5R', sku: 'STD-005', type: 'Standard', grade: '32.5R', category: 'Standard', price: 1850, unit: 'bag', inStock: true },
-  { id: '6', name: 'Eco-Blend Cement', sku: 'ECO-006', type: 'Eco-Friendly', grade: '42.5N', category: 'Premium', price: 3200, unit: 'bag', inStock: false },
+const MOCK_PRODUCTS = [
+  {
+    id: '1',
+    name: 'Type-1 Portland Cement',
+    grade: 'CEM I 42.5R',
+    description: 'Our flagship general-purpose cement. Suitable for all structural, civil, and commercial applications. Meets EN 197-1 international standards.',
+    pricePerTonne: 45000,
+    minOrder: 10,
+    availability: 'IN_STOCK',
+    stock: 4200,
+  },
+  {
+    id: '2',
+    name: 'Hydraulic Lime',
+    grade: 'NHL 3.5',
+    description: 'Natural hydraulic lime for restoration, conservation, and high-performance masonry work. Breathable and durable.',
+    pricePerTonne: 62000,
+    minOrder: 5,
+    availability: 'IN_STOCK',
+    stock: 850,
+  },
+  {
+    id: '3',
+    name: 'Rapid-Set Cement',
+    grade: 'CEM I 52.5R',
+    description: 'High early-strength cement for fast-track construction, precast elements, and cold-weather applications.',
+    pricePerTonne: 58000,
+    minOrder: 20,
+    availability: 'IN_STOCK',
+    stock: 1600,
+  },
+  {
+    id: '4',
+    name: 'Sulphate-Resistant Cement',
+    grade: 'CEM I SR-OPC',
+    description: 'Specially formulated for foundation work, basement structures, and environments exposed to ground sulphates.',
+    pricePerTonne: 52000,
+    minOrder: 15,
+    availability: 'LOW_STOCK',
+    stock: 120,
+  },
+  {
+    id: '5',
+    name: 'White Portland Cement',
+    grade: 'CEM I 52.5 N (White)',
+    description: 'Premium white cement for architectural finishes, decorative concrete, terrazzo, and tile grout.',
+    pricePerTonne: 75000,
+    minOrder: 5,
+    availability: 'OUT_OF_STOCK',
+    stock: 0,
+  },
 ];
 
-const sidebarLinks = [
-  { href: '/dashboard', label: 'Dashboard', icon: LayoutDashboard },
-  { href: '/dashboard/orders', label: 'Orders', icon: ShoppingCart },
-  { href: '/dashboard/products', label: 'Products', icon: Package, active: true },
-  { href: '/dashboard/invoices', label: 'Invoices', icon: Receipt },
-  { href: '/dashboard/analytics', label: 'Analytics', icon: BarChart3 },
-  { href: '/dashboard/settings', label: 'Settings', icon: Settings },
-];
+const AVAILABILITY_CONFIG = {
+  IN_STOCK:     { label: 'In Stock',     color: 'text-green-400', dot: 'bg-green-400' },
+  LOW_STOCK:    { label: 'Low Stock',    color: 'text-amber-400', dot: 'bg-amber-400' },
+  OUT_OF_STOCK: { label: 'Out of Stock', color: 'text-[#57534e]', dot: 'bg-[#57534e]' },
+};
 
 export default function ProductsPage() {
-  const [searchQuery, setSearchQuery] = useState('');
-  const [categoryFilter, setCategoryFilter] = useState('all');
-  const [cart, setCart] = useState<Record<string, number>>({});
+  const [search, setSearch] = useState('');
+  const [quantities, setQuantities] = useState<Record<string, number>>({});
+  const addItem = useCartStore((s) => s.addItem);
 
-  const filteredProducts = products.filter((p) => {
-    const matchesSearch = p.name.toLowerCase().includes(searchQuery.toLowerCase()) || p.sku.toLowerCase().includes(searchQuery.toLowerCase());
-    const matchesCategory = categoryFilter === 'all' || p.category === categoryFilter;
-    return matchesSearch && matchesCategory;
+  const { data: products } = useQuery({
+    queryKey: ['products'],
+    queryFn: async () => {
+      const res = await productsApi.list({ limit: 20 });
+      return res.data?.data || MOCK_PRODUCTS;
+    },
   });
 
-  const cartCount = Object.values(cart).reduce((a, b) => a + b, 0);
+  const filtered = (products || MOCK_PRODUCTS).filter((p: any) =>
+    !search || p.name.toLowerCase().includes(search.toLowerCase()) || p.grade?.toLowerCase().includes(search.toLowerCase())
+  );
 
-  const updateCart = (productId: string, delta: number) => {
-    setCart((prev) => {
-      const current = prev[productId] || 0;
-      const updated = Math.max(0, current + delta);
-      if (updated === 0) {
-        const { [productId]: _, ...rest } = prev;
-        return rest;
-      }
-      return { ...prev, [productId]: updated };
-    });
-  };
+  const setQty = (id: string, val: number) =>
+    setQuantities((prev) => ({ ...prev, [id]: Math.max(0, val) }));
 
   return (
-    <div className="min-h-screen bg-[#161311] flex">
-      {/* Sidebar */}
-      <aside className="w-64 bg-[#161311] border-r border-[#292524]/50 flex flex-col h-screen fixed left-0 top-0 z-40">
-        <div className="p-6 mb-2">
-          <h1 className="font-headline text-xl text-[#e9e1dd] italic tracking-tight">ResidentCement</h1>
-          <p className="text-[10px] font-bold uppercase tracking-wider text-[#7e7667] mt-1">Distributor Portal</p>
+    <SidebarLayout title="Products" subtitle="Cement catalogue & pricing">
+      {/* Search */}
+      <div className="flex justify-between items-center mb-8">
+        <div className="relative">
+          <Search className="absolute left-3 top-1/2 -translate-y-1/2 w-4 h-4 text-[#57534e]" />
+          <input
+            type="text"
+            value={search}
+            onChange={(e) => setSearch(e.target.value)}
+            placeholder="Search products..."
+            className="pl-10 pr-4 py-2.5 bg-[#1c1917] border border-[#292524]/40 text-[#e9e1dd] text-sm placeholder:text-[#4d4540] focus:outline-none focus:border-[#e5c374]/40 transition-colors w-72"
+          />
         </div>
-        <nav className="flex-1 px-3 space-y-1">
-          {sidebarLinks.map((link) => (
-            <Link key={link.href} href={link.href} className={`flex items-center gap-3 px-4 py-3 text-sm font-medium rounded transition-colors ${link.active ? 'text-[#e5c374] bg-[#221f1d] border-l-2 border-[#e5c374]' : 'text-[#a8a29e] hover:text-[#e9e1dd] hover:bg-[#1c1917]'}`}>
-              <link.icon className="w-5 h-5" />
-              {link.label}
-            </Link>
-          ))}
-        </nav>
-        <div className="p-4 border-t border-[#292524]/50">
-          <div className="flex items-center gap-3">
-            <div className="w-10 h-10 rounded bg-[#e5c374] flex items-center justify-center text-[#161311] font-bold text-sm">JD</div>
-            <div>
-              <p className="text-sm font-bold text-[#e9e1dd]">John Doe</p>
-              <p className="text-[10px] text-[#7e7667] uppercase tracking-tight">Senior Distributor</p>
-            </div>
-          </div>
-        </div>
-      </aside>
+        <p className="text-[10px] uppercase tracking-widest text-[#57534e]">
+          {filtered.length} product{filtered.length !== 1 ? 's' : ''}
+        </p>
+      </div>
 
-      {/* Main Content */}
-      <main className="flex-1 ml-64 p-8">
-        {/* Header */}
-        <header className="flex justify-between items-end mb-10">
-          <div>
-            <h2 className="font-headline text-4xl font-bold text-[#e9e1dd] mb-2 italic">Products</h2>
-            <p className="text-[#a8a29e] max-w-md text-sm">Browse and order cement products</p>
-          </div>
-          <Link href="/dashboard/cart">
-            <button className="flex items-center gap-2 px-4 py-2 border border-[#4d4540]/30 text-[#a8a29e] rounded hover:border-[#e5c374]/50 transition-colors">
-              <ShoppingCart className="w-5 h-5" />
-              <span className="text-sm font-bold">Cart ({cartCount})</span>
-            </button>
-          </Link>
-        </header>
+      {/* Products Grid */}
+      <div className="grid grid-cols-1 lg:grid-cols-2 gap-px bg-[#292524]/20">
+        {filtered.map((product: any) => {
+          const avail = AVAILABILITY_CONFIG[product.availability as keyof typeof AVAILABILITY_CONFIG] || AVAILABILITY_CONFIG.IN_STOCK;
+          const qty = quantities[product.id] || product.minOrder || 1;
+          const isAvailable = product.availability !== 'OUT_OF_STOCK';
 
-        {/* Filters */}
-        <div className="bg-[#1a1c1c] rounded border border-[#292524]/30 p-6 mb-8">
-          <div className="flex flex-col sm:flex-row gap-4">
-            <div className="flex-1 relative">
-              <Search className="absolute left-0 top-1/2 -translate-y-1/2 w-5 h-5 text-[#7e7667]" />
-              <input type="text" placeholder="Search products..." value={searchQuery} onChange={(e) => setSearchQuery(e.target.value)} className="w-full bg-transparent border-0 border-b border-[#4d4540]/30 pl-10 pr-4 py-3 text-[#e9e1dd] placeholder:text-[#7e7667]/50 focus:outline-none focus:border-b-2 focus:border-[#e5c374] transition-all" />
-            </div>
-            <div className="flex gap-2">
-              {['all', 'Premium', 'Standard', 'Bulk', 'Specialty'].map((cat) => (
-                <button key={cat} onClick={() => setCategoryFilter(cat)} className={`px-4 py-2 text-xs font-bold uppercase tracking-wider rounded border transition-all ${categoryFilter === cat ? 'bg-[#e5c374] text-[#161311] border-[#e5c374]' : 'bg-transparent text-[#a8a29e] border-[#4d4540]/30 hover:border-[#e5c374]/50'}`}>
-                  {cat}
-                </button>
-              ))}
-            </div>
-          </div>
-        </div>
-
-        {/* Products Grid */}
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
-          {filteredProducts.map((product) => (
-            <div key={product.id} className="bg-[#1a1c1c] rounded border border-[#292524]/30 overflow-hidden group hover:border-[#e5c374]/30 transition-all">
-              <div className="aspect-square bg-[#221f1d] flex items-center justify-center relative">
-                <Package className="w-16 h-16 text-[#4d4540]" />
-                <span className="absolute top-4 left-4 text-[10px] uppercase tracking-widest text-[#7e7667]">{product.type}</span>
-                {!product.inStock && <span className="absolute top-4 right-4 px-2 py-1 text-[9px] uppercase font-bold tracking-tighter rounded border bg-red-900/30 text-red-400 border-red-900/50">Out of Stock</span>}
-              </div>
-              <div className="p-6">
-                <h3 className="font-headline text-xl font-bold text-[#e9e1dd] mb-1">{product.name}</h3>
-                <p className="text-sm text-[#7e7667] mb-4">{product.sku}</p>
-                <div className="flex gap-6 mb-4">
-                  <div>
-                    <p className="text-[10px] uppercase tracking-widest text-[#7e7667]">Grade</p>
-                    <p className="text-sm font-bold text-[#e9e1dd]">{product.grade}</p>
+          return (
+            <div key={product.id} className="bg-[#1c1917] p-7 flex flex-col gap-5">
+              {/* Header */}
+              <div className="flex justify-between items-start">
+                <div>
+                  <div className={`inline-flex items-center gap-1.5 text-[9px] font-bold uppercase tracking-widest mb-2 ${avail.color}`}>
+                    <span className={`w-1.5 h-1.5 rounded-full ${avail.dot}`} />
+                    {avail.label} {product.stock ? `· ${product.stock.toLocaleString()} T` : ''}
                   </div>
-                  <div>
-                    <p className="text-[10px] uppercase tracking-widest text-[#7e7667]">Category</p>
-                    <p className="text-sm font-bold text-[#e9e1dd]">{product.category}</p>
-                  </div>
+                  <h3 className="font-headline text-lg font-semibold text-[#e9e1dd]">{product.name}</h3>
+                  <p className="text-[10px] uppercase tracking-widest text-[#e5c374] mt-1">{product.grade}</p>
                 </div>
-                <div className="flex items-center justify-between">
-                  <div>
-                    <p className="text-[10px] uppercase tracking-widest text-[#7e7667]">Price / {product.unit}</p>
-                    <p className="text-xl font-bold text-[#e5c374]">{product.price > 0 ? `₦${product.price.toLocaleString()}` : 'Quote'}</p>
+                <div className="text-right">
+                  <p className="text-2xl font-headline font-bold text-[#e5c374]">
+                    ₦{product.pricePerTonne?.toLocaleString()}
+                  </p>
+                  <p className="text-[10px] uppercase tracking-widest text-[#57534e]">per tonne</p>
+                </div>
+              </div>
+
+              <p className="text-sm text-[#7e7667] leading-relaxed">{product.description}</p>
+
+              {/* Order controls */}
+              <div className="flex items-center gap-3 pt-2 border-t border-[#292524]/30">
+                <div>
+                  <p className="text-[10px] uppercase tracking-widest text-[#57534e] mb-2">Quantity (T)</p>
+                  <div className="flex items-center gap-2">
+                    <button onClick={() => setQty(product.id, qty - (product.minOrder || 1))}
+                      className="w-8 h-8 border border-[#292524] text-[#a8a29e] hover:border-[#57534e] hover:text-[#e9e1dd] transition-colors flex items-center justify-center">
+                      −
+                    </button>
+                    <input
+                      type="number"
+                      value={qty}
+                      onChange={(e) => setQty(product.id, parseInt(e.target.value) || 0)}
+                      min={product.minOrder || 1}
+                      className="w-20 text-center py-1.5 bg-[#221f1d] border border-[#292524]/40 text-[#e9e1dd] text-sm focus:outline-none focus:border-[#e5c374]/40"
+                    />
+                    <button onClick={() => setQty(product.id, qty + (product.minOrder || 1))}
+                      className="w-8 h-8 border border-[#292524] text-[#a8a29e] hover:border-[#57534e] hover:text-[#e9e1dd] transition-colors flex items-center justify-center">
+                      +
+                    </button>
                   </div>
-                  {product.inStock && (
-                    cart[product.id] ? (
-                      <div className="flex items-center gap-2">
-                        <button onClick={() => updateCart(product.id, -1)} className="w-8 h-8 border border-[#4d4540]/30 rounded flex items-center justify-center text-[#e5c374] hover:border-[#e5c374] transition-colors"><Minus className="w-4 h-4" /></button>
-                        <span className="w-8 text-center text-sm font-bold text-[#e9e1dd]">{cart[product.id]}</span>
-                        <button onClick={() => updateCart(product.id, 1)} className="w-8 h-8 border border-[#4d4540]/30 rounded flex items-center justify-center text-[#e5c374] hover:border-[#e5c374] transition-colors"><Plus className="w-4 h-4" /></button>
-                      </div>
-                    ) : (
-                      <button onClick={() => updateCart(product.id, 1)} className="px-4 py-2 text-xs font-bold uppercase tracking-wider rounded text-[#161311] hover:opacity-90 transition-opacity" style={{ background: 'linear-gradient(45deg, #745B17, #e5c374)' }}>Add</button>
-                    )
+                  {product.minOrder && (
+                    <p className="text-[9px] text-[#4d4540] mt-1">Min: {product.minOrder} T</p>
                   )}
                 </div>
+                <div className="flex-1 flex flex-col items-end gap-2">
+                  <p className="text-sm font-bold text-[#e9e1dd]">
+                    ₦{(qty * (product.pricePerTonne || 0)).toLocaleString()}
+                  </p>
+                  <button
+                    disabled={!isAvailable}
+                    onClick={() => isAvailable && addItem({ id: `cart-${product.id}`, productId: product.id, name: product.name, sku: product.grade || product.id, price: product.pricePerTonne, quantity: qty, unit: 'tonne' })}
+                    className="flex items-center gap-2 px-5 py-2.5 text-[10px] font-bold uppercase tracking-widest text-[#161311] hover:opacity-90 transition-opacity disabled:opacity-30 disabled:cursor-not-allowed"
+                    style={{ background: 'linear-gradient(45deg, #745B17, #e5c374)' }}
+                  >
+                    <ShoppingCart className="w-3.5 h-3.5" />
+                    {isAvailable ? 'Add to Order' : 'Unavailable'}
+                  </button>
+                </div>
               </div>
             </div>
-          ))}
-        </div>
-      </main>
-    </div>
+          );
+        })}
+      </div>
+    </SidebarLayout>
   );
 }

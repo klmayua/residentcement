@@ -68,6 +68,7 @@ export const productsApi = {
   getAvailability: (id: string) => api.get(`/api/v1/products/${id}/availability`),
   create: (data: any) => api.post('/api/v1/products', data),
   update: (id: string, data: any) => api.patch(`/api/v1/products/${id}`, data),
+  calculate: (data: any) => api.post('/api/v1/products/calculate', data),
 };
 
 export const ordersApi = {

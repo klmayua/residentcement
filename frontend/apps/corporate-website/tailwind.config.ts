@@ -10,49 +10,46 @@ const config: Config = {
   theme: {
     extend: {
       colors: {
-        /* Golden Monolith - Light Theme (Sand/Stone) */
-        background: "#f9f9f8",
+        // Stitch Design System - Monolithic Curator
+        background: "#f9f9f9",
         foreground: "#1a1c1c",
-
-        surface: {
-          DEFAULT: "#f9f9f8",
-          bright: "#f9f9f8",
-          dim: "#dadad9",
-          variant: "#e2e2e2",
-        },
-
+        surface: "#f9f9f9",
+        "surface-bright": "#f9f9f9",
+        "surface-dim": "#dadada",
+        "surface-variant": "#e2e2e2",
+        
         "surface-container": {
           lowest: "#ffffff",
-          low: "#f4f4f3",
-          DEFAULT: "#eeeeed",
-          high: "#e8e8e7",
+          low: "#f3f3f3",
+          DEFAULT: "#eeeeee",
+          high: "#e8e8e8",
           highest: "#e2e2e2",
         },
 
-        /* Primary: Rich Gold */
+        // Primary: Black/Dark - Architectural Authority
         primary: {
-          DEFAULT: "#745b17",
-          container: "#c5a55a",
-          fixed: "#ffdf99",
-          "fixed-dim": "#e5c374",
-          foreground: "#ffffff",
-        },
-
-        /* Secondary: Warm Gray */
-        secondary: {
-          DEFAULT: "#5f5e5e",
-          container: "#e2dfde",
+          DEFAULT: "#000000",
+          container: "#1c1b1b",
           fixed: "#e5e2e1",
           "fixed-dim": "#c8c6c5",
           foreground: "#ffffff",
         },
 
-        /* Tertiary: Slate Blue */
+        // Secondary: Amber/Gold - Premium Accent
+        secondary: {
+          DEFAULT: "#79591f",
+          container: "#fdd08b",
+          fixed: "#ffdead",
+          "fixed-dim": "#ebc07c",
+          foreground: "#ffffff",
+        },
+
+        // Tertiary: Dark Slate
         tertiary: {
-          DEFAULT: "#4e5c8c",
-          container: "#99a7dc",
-          fixed: "#dce1ff",
-          "fixed-dim": "#b6c4fb",
+          DEFAULT: "#000000",
+          container: "#1b1c1c",
+          fixed: "#e4e2e2",
+          "fixed-dim": "#c8c6c6",
           foreground: "#ffffff",
         },
 
@@ -63,76 +60,60 @@ const config: Config = {
         },
 
         outline: {
-          DEFAULT: "#7e7667",
-          variant: "#d0c5b4",
+          DEFAULT: "#747878",
+          variant: "#c4c7c7",
         },
 
-        /* Semantic Tokens */
+        // Semantic Tokens
         "on-primary": "#ffffff",
-        "on-primary-container": "#4f3b00",
-        "on-primary-fixed": "#251a00",
-        "on-primary-fixed-variant": "#5a4300",
+        "on-primary-container": "#858383",
+        "on-primary-fixed": "#1c1b1b",
+        "on-primary-fixed-variant": "#474746",
         "on-secondary": "#ffffff",
-        "on-secondary-container": "#636262",
-        "on-secondary-fixed": "#1c1b1b",
-        "on-secondary-fixed-variant": "#474746",
+        "on-secondary-container": "#78571e",
+        "on-secondary-fixed": "#281900",
+        "on-secondary-fixed-variant": "#5f4107",
         "on-tertiary": "#ffffff",
-        "on-tertiary-container": "#2d3b69",
-        "on-tertiary-fixed": "#071845",
-        "on-tertiary-fixed-variant": "#364573",
+        "on-tertiary-container": "#848483",
+        "on-tertiary-fixed": "#1b1c1c",
+        "on-tertiary-fixed-variant": "#474747",
         "on-surface": "#1a1c1c",
-        "on-surface-variant": "#4d4639",
+        "on-surface-variant": "#444748",
         "on-background": "#1a1c1c",
         "on-error": "#ffffff",
         "on-error-container": "#93000a",
 
-        /* Inverse Colors */
-        "inverse-surface": "#2f3130",
-        "inverse-on-surface": "#f1f1f0",
-        "inverse-primary": "#e5c374",
-        "surface-tint": "#745b17",
+        // Inverse Colors
+        "inverse-surface": "#2f3131",
+        "inverse-on-surface": "#f1f1f1",
+        "inverse-primary": "#c8c6c5",
+        "surface-tint": "#5f5e5e",
 
-        /* Brand Colors */
-        brand: {
-          gold: "#745b17",
-          goldLight: "#c5a55a",
-          goldDark: "#5a4300",
-          sand: "#f9f9f8",
-          stone: "#e2e2e2",
-          charcoal: "#1a1c1c",
-        },
-
-        /* Cement Palette */
-        cement: {
-          50: "#fafaf9",
-          100: "#f5f5f4",
-          200: "#e7e5e4",
-          300: "#d6d3d1",
-          400: "#a8a29e",
-          500: "#78716c",
-          600: "#57534e",
-          700: "#44403c",
-          800: "#292524",
-          900: "#1c1917",
+        // Glassmorphism Colors
+        glass: {
+          light: "rgba(255, 255, 255, 0.1)",
+          medium: "rgba(255, 255, 255, 0.2)",
+          dark: "rgba(0, 0, 0, 0.3)",
+          white: "rgba(255, 255, 255, 0.8)",
         },
       },
 
       fontFamily: {
-        /* Noto Serif for headlines - The Golden Monolith Authority */
-        headline: ["Noto Serif", "Georgia", "Times New Roman", "serif"],
-        /* Plus Jakarta Sans for body - Clean precision */
-        sans: ["Plus Jakarta Sans", "Inter", "system-ui", "sans-serif"],
-        body: ["Plus Jakarta Sans", "Inter", "system-ui", "sans-serif"],
-        label: ["Plus Jakarta Sans", "Inter", "system-ui", "sans-serif"],
+        // Newsreader for headlines - Editorial elegance
+        headline: ["Newsreader", "serif"],
+        // Work Sans for body - Clean modern sans
+        body: ["Work Sans", "sans-serif"],
+        label: ["Work Sans", "sans-serif"],
+        sans: ["Work Sans", "sans-serif"],
       },
 
-      /* 4px Architectural Corners */
+      // Sharp architectural corners
       borderRadius: {
-        DEFAULT: "0.25rem", // 4px
-        sm: "0.125rem",     // 2px
-        md: "0.25rem",      // 4px
-        lg: "0.5rem",       // 8px
-        xl: "0.75rem",      // 12px
+        DEFAULT: "0px",
+        sm: "0px",
+        md: "0px",
+        lg: "0px",
+        xl: "0px",
         full: "9999px",
       },
 
@@ -141,6 +122,9 @@ const config: Config = {
         "slide-up": "slideUp 0.6s ease-out",
         "slide-down": "slideDown 0.6s ease-out",
         "scale-in": "scaleIn 0.3s ease-out",
+        marquee: "marquee 40s linear infinite",
+        "pulse-slow": "pulse 3s cubic-bezier(0.4, 0, 0.6, 1) infinite",
+        "float": "float 6s ease-in-out infinite",
       },
 
       keyframes: {
@@ -160,25 +144,110 @@ const config: Config = {
           "0%": { transform: "scale(0.95)", opacity: "0" },
           "100%": { transform: "scale(1)", opacity: "1" },
         },
+        marquee: {
+          "0%": { transform: "translateX(0)" },
+          "100%": { transform: "translateX(-50%)" },
+        },
+        float: {
+          "0%, 100%": { transform: "translateY(0)" },
+          "50%": { transform: "translateY(-10px)" },
+        },
       },
 
       boxShadow: {
-        /* Ambient Shadows - Premium Feel */
-        soft: "0 2px 15px -3px rgba(0, 0, 0, 0.1), 0 10px 20px -2px rgba(0, 0, 0, 0.08)",
-        card: "0 0 0 1px rgba(0, 0, 0, 0.03), 0 1px 3px 0 rgba(0, 0, 0, 0.1)",
-        elevated: "0 10px 15px -3px rgba(0, 0, 0, 0.15), 0 4px 6px -2px rgba(0, 0, 0, 0.08)",
+        soft: "0 2px 15px -3px rgba(0, 0, 0, 0.1)",
+        card: "0 0 0 1px rgba(0, 0, 0, 0.03)",
+        elevated: "0 10px 15px -3px rgba(0, 0, 0, 0.15)",
         ambient: "0 20px 40px rgba(0, 0, 0, 0.1)",
-        glow: "0 0 40px rgba(229, 195, 116, 0.2)",
+        glow: "0 0 40px rgba(121, 89, 31, 0.2)",
+        // Glassmorphism shadows
+        glass: "0 8px 32px 0 rgba(0, 0, 0, 0.1)",
+        glassHover: "0 8px 32px 0 rgba(0, 0, 0, 0.15)",
       },
 
       spacing: {
         "18": "4.5rem",
         "22": "5.5rem",
         "30": "7.5rem",
+        // Architectural spacing scale
+        "arch-sm": "2rem",
+        "arch-md": "4rem",
+        "arch-lg": "8.5rem",
+        "arch-xl": "12rem",
+      },
+
+      fontSize: {
+        "display": ["4rem", { lineHeight: "0.9", letterSpacing: "-0.02em" }],
+        "display-lg": ["6rem", { lineHeight: "0.9", letterSpacing: "-0.02em" }],
+        "headline-lg": ["2.5rem", { lineHeight: "1.1", letterSpacing: "-0.01em" }],
+        "title-lg": ["1.5rem", { lineHeight: "1.3" }],
+      },
+
+      backdropBlur: {
+        xs: "2px",
+        glass: "12px",
+        glassStrong: "20px",
+      },
+
+      backgroundImage: {
+        "gradient-primary": "linear-gradient(135deg, #000000 0%, #1c1b1b 100%)",
+        "gradient-secondary": "linear-gradient(135deg, #79591f 0%, #ebc07c 100%)",
+        "gradient-glass": "linear-gradient(135deg, rgba(255,255,255,0.1) 0%, rgba(255,255,255,0.05) 100%)",
       },
     },
   },
-  plugins: [require("tailwindcss-animate")],
+  plugins: [
+    require("tailwindcss-animate"),
+    function({ addUtilities, theme }: any) {
+      const newUtilities = {
+        // Glassmorphism utilities
+        ".glass": {
+          background: "rgba(255, 255, 255, 0.1)",
+          backdropFilter: "blur(12px)",
+          WebkitBackdropFilter: "blur(12px)",
+          border: "1px solid rgba(255, 255, 255, 0.2)",
+        },
+        ".glass-dark": {
+          background: "rgba(0, 0, 0, 0.3)",
+          backdropFilter: "blur(12px)",
+          WebkitBackdropFilter: "blur(12px)",
+          border: "1px solid rgba(255, 255, 255, 0.1)",
+        },
+        ".glass-strong": {
+          background: "rgba(255, 255, 255, 0.8)",
+          backdropFilter: "blur(20px)",
+          WebkitBackdropFilter: "blur(20px)",
+          border: "1px solid rgba(255, 255, 255, 0.3)",
+        },
+        ".glass-card": {
+          background: "rgba(255, 255, 255, 0.1)",
+          backdropFilter: "blur(12px)",
+          WebkitBackdropFilter: "blur(12px)",
+          border: "1px solid rgba(255, 255, 255, 0.2)",
+          boxShadow: "0 8px 32px 0 rgba(0, 0, 0, 0.1)",
+        },
+        // Text utilities
+        ".text-gradient": {
+          background: "linear-gradient(135deg, #79591f 0%, #ebc07c 100%)",
+          WebkitBackgroundClip: "text",
+          WebkitTextFillColor: "transparent",
+          backgroundClip: "text",
+        },
+        // Architectural layouts
+        ".layout-monolith": {
+          display: "grid",
+          gridTemplateColumns: "1fr",
+          gap: theme("spacing.8"),
+        },
+        ".layout-bento": {
+          display: "grid",
+          gridTemplateColumns: "repeat(auto-fit, minmax(300px, 1fr))",
+          gap: theme("spacing.4"),
+        },
+      };
+      addUtilities(newUtilities);
+    },
+  ],
 };
 
 export default config;

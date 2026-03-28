@@ -58,6 +58,29 @@ services:
     networks:
       - resident-cement-network
 
+  # === CORPORATE WEBSITE ===
+  corporate-website:
+    build:
+      context: .
+      dockerfile: frontend/apps/corporate-website/Dockerfile
+    container_name: residentcement-website
+    ports:
+      - "18081:80"
+    environment:
+      NODE_ENV: production
+    depends_on:
+      gateway:
+        condition: service_healthy
+    restart: unless-stopped
+    healthcheck:
+      test: ["CMD", "wget", "-q", "--spider", "http://localhost/"]
+      interval: 30s
+      timeout: 5s
+      retries: 3
+      start_period: 10s
+    networks:
+      - resident-cement-network
+
   # === INFRASTRUCTURE ===
   postgres:
     image: postgres:16-alpine

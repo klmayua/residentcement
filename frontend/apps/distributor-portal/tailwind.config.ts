@@ -7,6 +7,25 @@ const config: Config = {
     "./src/components/**/*.{js,ts,jsx,tsx,mdx}",
     "./src/app/**/*.{js,ts,jsx,tsx,mdx}",
   ],
+  safelist: [
+    'bg-[#161311]',
+    'bg-[#1a1c1c]',
+    'bg-[#1c1917]',
+    'bg-[#221f1d]',
+    'bg-[#292524]',
+    'bg-[#383432]',
+    'bg-[#0c0a09]',
+    'bg-[#e5c374]',
+    'text-[#161311]',
+    'text-[#e9e1dd]',
+    'text-[#a8a29e]',
+    'text-[#7e7667]',
+    'text-[#57534e]',
+    'border-[#292524]',
+    'border-[#e5c374]',
+    'hover:bg-[#1c1917]',
+    'hover:text-[#e9e1dd]',
+  ],
   theme: {
     extend: {
       colors: {

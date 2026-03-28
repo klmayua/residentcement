@@ -1,7 +1,7 @@
 import type { Metadata } from 'next';
 import { Inter, Noto_Serif, Plus_Jakarta_Sans } from 'next/font/google';
 import './globals.css';
-import { Providers } from '@/components/providers';
+import { Providers } from '@/app/providers';
 
 const inter = Inter({
   subsets: ['latin'],
@@ -27,9 +27,9 @@ export const metadata: Metadata = {
   title: 'Resident Cement | Distributor Portal',
   description: 'Nigeria\'s trusted cement distribution and management platform - Premium Access',
   keywords: ['cement', 'distribution', 'enterprise', 'Nigeria', 'Resident Cement', 'building materials', 'Bauchi', 'manufacturing'],
-  authors: [{ name: 'Resident Cement Limited' }],
-  creator: 'Resident Cement Limited',
-  publisher: 'Resident Cement Limited',
+  authors: [{ name: 'Resident Cement Bachi Ltd' }],
+  creator: 'Resident Cement Bachi Ltd',
+  publisher: 'Resident Cement Bachi Ltd',
   robots: {
     index: false,
     follow: false,

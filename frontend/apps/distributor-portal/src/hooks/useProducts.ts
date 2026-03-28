@@ -1,5 +1,5 @@
 import { useQuery, useMutation, useQueryClient } from "@tanstack/react-query";
-import { productApi } from "@/lib/api";
+import { productsApi } from "@/lib/api";
 
 export interface Product {
   id: string;
@@ -38,8 +38,8 @@ export function useProducts(params?: {
   return useQuery({
     queryKey: ["products", params],
     queryFn: async () => {
-      const response = await productApi.list(params);
-      return response as { data: Product[]; pagination: { page: number; limit: number; total: number; totalPages: number } };
+      const response = await productsApi.list(params);
+      return response.data as { data: Product[]; pagination: { page: number; limit: number; total: number; totalPages: number } };
     },
   });
 }
@@ -48,8 +48,8 @@ export function useProduct(id: string) {
   return useQuery({
     queryKey: ["product", id],
     queryFn: async () => {
-      const response = await productApi.get(id);
-      return response as Product;
+      const response = await productsApi.get(id);
+      return response.data as Product;
     },
     enabled: !!id,
   });
@@ -59,8 +59,8 @@ export function useProductAvailability(id: string) {
   return useQuery({
     queryKey: ["product-availability", id],
     queryFn: async () => {
-      const response = await productApi.getAvailability(id);
-      return response as ProductAvailability;
+      const response = await productsApi.getAvailability(id);
+      return response.data as ProductAvailability;
     },
     enabled: !!id,
     refetchInterval: 30000,

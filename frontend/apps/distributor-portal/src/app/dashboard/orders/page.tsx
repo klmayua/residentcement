@@ -2,167 +2,155 @@
 
 import { useState } from 'react';
 import Link from 'next/link';
-import { Search, Plus, MoreVertical, Clock, CheckCircle, Truck, XCircle, Filter, Package, LayoutDashboard, ShoppingCart, BarChart3, Receipt, Settings, LocalShipping } from 'lucide-react';
+import { useQuery } from '@tanstack/react-query';
+import { ordersApi } from '@/lib/api';
+import { SidebarLayout } from '@/components/dashboard/sidebar-layout';
+import { Plus, Search, Filter, Package, Truck, CheckCircle, Clock, XCircle } from 'lucide-react';
 
-const orders = [
-  { id: 'ORD-001', date: '2026-03-05', customer: 'Doe Cement Distributors', items: '100 bags Resident 42.5R', total: 450000, status: 'delivered', paymentStatus: 'paid' },
-  { id: 'ORD-002', date: '2026-03-04', customer: 'BuildRight Construction', items: '50 bags Resident 32.5R', total: 210000, status: 'in_transit', paymentStatus: 'paid' },
-  { id: 'ORD-003', date: '2026-03-03', customer: 'ABC Supplies Ltd', items: '200 bags Resident 42.5R', total: 900000, status: 'pending', paymentStatus: 'pending' },
-  { id: 'ORD-004', date: '2026-03-02', customer: 'Metro Builders', items: '75 bags Pozzolana 32.5N', total: 307500, status: 'delivered', paymentStatus: 'paid' },
-  { id: 'ORD-005', date: '2026-03-01', customer: 'Gold Coast Motors', items: '150 bags Resident 52.5R', total: 780000, status: 'cancelled', paymentStatus: 'refunded' },
-];
-
-const sidebarLinks = [
-  { href: '/dashboard', label: 'Dashboard', icon: LayoutDashboard },
-  { href: '/dashboard/orders', label: 'Orders', icon: ShoppingCart, active: true },
-  { href: '/dashboard/products', label: 'Products', icon: Package },
-  { href: '/dashboard/invoices', label: 'Invoices', icon: Receipt },
-  { href: '/dashboard/analytics', label: 'Analytics', icon: BarChart3 },
-  { href: '/dashboard/settings', label: 'Settings', icon: Settings },
-];
-
-const StatusBadge = ({ status }: { status: string }) => {
-  const styles = {
-    pending: 'bg-yellow-900/30 text-yellow-500 border-yellow-900/50',
-    in_transit: 'bg-blue-900/30 text-blue-400 border-blue-900/50',
-    delivered: 'bg-green-900/30 text-green-500 border-green-900/50',
-    cancelled: 'bg-red-900/30 text-red-400 border-red-900/50',
-  };
-  const labels = { pending: 'Pending', in_transit: 'In Transit', delivered: 'Delivered', cancelled: 'Cancelled' };
-  return (
-    <span className={`px-3 py-1 text-[10px] font-bold uppercase tracking-wider rounded border ${styles[status as keyof typeof styles]}`}>
-      {labels[status as keyof typeof labels]}
-    </span>
-  );
+const STATUS_CONFIG: Record<string, { label: string; color: string; icon: React.ElementType }> = {
+  PENDING:    { label: 'Pending',    color: 'text-[#a8a29e] bg-[#292524]',           icon: Clock },
+  CONFIRMED:  { label: 'Confirmed',  color: 'text-blue-400 bg-blue-950/30',           icon: CheckCircle },
+  IN_TRANSIT: { label: 'In Transit', color: 'text-amber-400 bg-amber-950/30',         icon: Truck },
+  DELIVERED:  { label: 'Delivered',  color: 'text-green-400 bg-green-950/30',         icon: CheckCircle },
+  CANCELLED:  { label: 'Cancelled',  color: 'text-red-400 bg-red-950/30',             icon: XCircle },
 };
 
-const PaymentBadge = ({ status }: { status: string }) => {
-  const styles = {
-    paid: 'bg-green-900/30 text-green-500 border-green-900/50',
-    pending: 'bg-yellow-900/30 text-yellow-500 border-yellow-900/50',
-    refunded: 'bg-stone-800/50 text-stone-400 border-stone-700/50',
-  };
-  return (
-    <span className={`px-3 py-1 text-[10px] font-bold uppercase tracking-wider rounded border ${styles[status as keyof typeof styles]}`}>
-      {status}
-    </span>
-  );
-};
+const MOCK_ORDERS = [
+  { id: '1', orderNumber: '#RC-9021', customer: { name: 'Skyline Construction Ltd' }, items: [{ product: { name: 'Type-1 Portland Cement' }, quantity: 200 }], status: 'IN_TRANSIT', total: 142500, createdAt: '2025-03-24' },
+  { id: '2', orderNumber: '#RC-8994', customer: { name: 'Metro Developers' }, items: [{ product: { name: 'Hydraulic Lime' }, quantity: 80 }], status: 'DELIVERED', total: 89400, createdAt: '2025-03-20' },
+  { id: '3', orderNumber: '#RC-8980', customer: { name: 'Harbor Front Ltd' }, items: [{ product: { name: 'Type-1 Portland Cement' }, quantity: 60 }], status: 'PENDING', total: 56200, createdAt: '2025-03-18' },
+  { id: '4', orderNumber: '#RC-8961', customer: { name: 'Apex Constructions' }, items: [{ product: { name: 'Rapid-Set Cement' }, quantity: 150 }], status: 'CONFIRMED', total: 210000, createdAt: '2025-03-15' },
+  { id: '5', orderNumber: '#RC-8940', customer: { name: 'Greenfield Estates' }, items: [{ product: { name: 'Type-1 Portland Cement' }, quantity: 40 }], status: 'CANCELLED', total: 34000, createdAt: '2025-03-10' },
+];
 
 export default function OrdersPage() {
-  const [searchQuery, setSearchQuery] = useState('');
-  const [statusFilter, setStatusFilter] = useState('all');
+  const [search, setSearch] = useState('');
+  const [statusFilter, setStatusFilter] = useState('ALL');
 
-  const filteredOrders = orders.filter((order) => {
-    const matchesSearch = order.id.toLowerCase().includes(searchQuery.toLowerCase()) || order.customer.toLowerCase().includes(searchQuery.toLowerCase());
-    const matchesStatus = statusFilter === 'all' || order.status === statusFilter;
+  const { data: orders } = useQuery({
+    queryKey: ['orders'],
+    queryFn: async () => {
+      const res = await ordersApi.list({ limit: 50 });
+      return res.data?.data || MOCK_ORDERS;
+    },
+  });
+
+  const filtered = (orders || MOCK_ORDERS).filter((o: any) => {
+    const matchesSearch = !search || o.orderNumber.toLowerCase().includes(search.toLowerCase()) ||
+      o.customer?.name?.toLowerCase().includes(search.toLowerCase());
+    const matchesStatus = statusFilter === 'ALL' || o.status === statusFilter;
     return matchesSearch && matchesStatus;
   });
 
-  const formatCurrency = (amount: number) => `₦${amount.toLocaleString()}`;
-
   return (
-    <div className="min-h-screen bg-[#161311] flex">
-      {/* Sidebar */}
-      <aside className="w-64 bg-[#161311] border-r border-[#292524]/50 flex flex-col h-screen fixed left-0 top-0 z-40">
-        <div className="p-6 mb-2">
-          <h1 className="font-headline text-xl text-[#e9e1dd] italic tracking-tight">ResidentCement</h1>
-          <p className="text-[10px] font-bold uppercase tracking-wider text-[#7e7667] mt-1">Distributor Portal</p>
+    <SidebarLayout title="Orders" subtitle="Manage your distribution orders">
+      {/* Header actions */}
+      <div className="flex flex-col sm:flex-row gap-4 justify-between mb-8">
+        <div className="relative">
+          <Search className="absolute left-3 top-1/2 -translate-y-1/2 w-4 h-4 text-[#57534e]" />
+          <input
+            type="text"
+            value={search}
+            onChange={(e) => setSearch(e.target.value)}
+            placeholder="Search orders..."
+            className="pl-10 pr-4 py-2.5 bg-[#1c1917] border border-[#292524]/40 text-[#e9e1dd] text-sm placeholder:text-[#4d4540] focus:outline-none focus:border-[#e5c374]/40 transition-colors w-64"
+          />
         </div>
-        <nav className="flex-1 px-3 space-y-1">
-          {sidebarLinks.map((link) => (
-            <Link key={link.href} href={link.href} className={`flex items-center gap-3 px-4 py-3 text-sm font-medium rounded transition-colors ${link.active ? 'text-[#e5c374] bg-[#221f1d] border-l-2 border-[#e5c374]' : 'text-[#a8a29e] hover:text-[#e9e1dd] hover:bg-[#1c1917]'}`}>
-              <link.icon className="w-5 h-5" />
-              {link.label}
-            </Link>
-          ))}
-        </nav>
-        <div className="p-4 border-t border-[#292524]/50">
-          <div className="flex items-center gap-3">
-            <div className="w-10 h-10 rounded bg-[#e5c374] flex items-center justify-center text-[#161311] font-bold text-sm">JD</div>
-            <div>
-              <p className="text-sm font-bold text-[#e9e1dd]">John Doe</p>
-              <p className="text-[10px] text-[#7e7667] uppercase tracking-tight">Senior Distributor</p>
-            </div>
-          </div>
-        </div>
-      </aside>
-
-      {/* Main Content */}
-      <main className="flex-1 ml-64 p-8">
-        {/* Header */}
-        <header className="flex justify-between items-end mb-10">
-          <div>
-            <h2 className="font-headline text-4xl font-bold text-[#e9e1dd] mb-2 italic">Orders</h2>
-            <p className="text-[#a8a29e] max-w-md text-sm">Manage and track your cement distribution orders</p>
-          </div>
-          <Link href="/dashboard/orders/new">
-            <button className="px-6 py-3 text-sm font-bold text-[#161311] rounded transition-all hover:opacity-90" style={{ background: 'linear-gradient(45deg, #745B17, #e5c374)', boxShadow: '0 4px 15px rgba(229, 195, 116, 0.3)' }}>
-              <Plus className="w-4 h-4 inline mr-2" /> New Order
-            </button>
+        <div className="flex gap-3">
+          <select
+            value={statusFilter}
+            onChange={(e) => setStatusFilter(e.target.value)}
+            className="px-4 py-2.5 bg-[#1c1917] border border-[#292524]/40 text-[#a8a29e] text-[10px] font-bold uppercase tracking-widest focus:outline-none focus:border-[#e5c374]/40 transition-colors"
+          >
+            <option value="ALL">All Statuses</option>
+            {Object.entries(STATUS_CONFIG).map(([k, v]) => (
+              <option key={k} value={k}>{v.label}</option>
+            ))}
+          </select>
+          <Link
+            href="/dashboard/orders/new"
+            className="flex items-center gap-2 px-5 py-2.5 text-[10px] font-bold uppercase tracking-widest text-[#161311] hover:opacity-90 transition-opacity"
+            style={{ background: 'linear-gradient(45deg, #745B17, #e5c374)' }}
+          >
+            <Plus className="w-4 h-4" /> New Order
           </Link>
-        </header>
-
-        {/* Filters */}
-        <div className="bg-[#1a1c1c] rounded border border-[#292524]/30 p-6 mb-6">
-          <div className="flex flex-col sm:flex-row gap-4">
-            <div className="flex-1 relative">
-              <Search className="absolute left-0 top-1/2 -translate-y-1/2 w-5 h-5 text-[#7e7667]" />
-              <input type="text" placeholder="Search orders..." value={searchQuery} onChange={(e) => setSearchQuery(e.target.value)} className="w-full bg-transparent border-0 border-b border-[#4d4540]/30 pl-10 pr-4 py-3 text-[#e9e1dd] placeholder:text-[#7e7667]/50 focus:outline-none focus:border-b-2 focus:border-[#e5c374] transition-all" />
-            </div>
-            <div className="flex gap-2">
-              {['all', 'pending', 'in_transit', 'delivered'].map((filter) => (
-                <button key={filter} onClick={() => setStatusFilter(filter)} className={`px-4 py-2 text-xs font-bold uppercase tracking-wider rounded border transition-all ${statusFilter === filter ? 'bg-[#e5c374] text-[#161311] border-[#e5c374]' : 'bg-transparent text-[#a8a29e] border-[#4d4540]/30 hover:border-[#e5c374]/50'}`}>
-                  {filter === 'all' ? 'All' : filter.replace('_', ' ')}
-                </button>
-              ))}
-            </div>
-          </div>
         </div>
+      </div>
 
-        {/* Orders Table */}
-        <div className="bg-[#1a1c1c] rounded border border-[#292524]/30 shadow-2xl overflow-hidden">
-          <div className="overflow-x-auto">
-            <table className="w-full text-left">
-              <thead>
-                <tr className="border-b border-[#292524]">
-                  <th className="pb-4 pt-6 px-6 text-[10px] uppercase tracking-widest text-[#7e7667] font-medium">Order ID</th>
-                  <th className="pb-4 pt-6 px-6 text-[10px] uppercase tracking-widest text-[#7e7667] font-medium">Date</th>
-                  <th className="pb-4 pt-6 px-6 text-[10px] uppercase tracking-widest text-[#7e7667] font-medium">Customer</th>
-                  <th className="pb-4 pt-6 px-6 text-[10px] uppercase tracking-widest text-[#7e7667] font-medium">Items</th>
-                  <th className="pb-4 pt-6 px-6 text-[10px] uppercase tracking-widest text-[#7e7667] font-medium">Total</th>
-                  <th className="pb-4 pt-6 px-6 text-[10px] uppercase tracking-widest text-[#7e7667] font-medium">Status</th>
-                  <th className="pb-4 pt-6 px-6 text-[10px] uppercase tracking-widest text-[#7e7667] font-medium">Payment</th>
-                  <th className="pb-4 pt-6 px-6 text-[10px] uppercase tracking-widest text-[#7e7667] font-medium text-right">Actions</th>
+      {/* Summary stats */}
+      <div className="grid grid-cols-2 lg:grid-cols-4 gap-px bg-[#292524]/20 mb-8">
+        {(['PENDING', 'IN_TRANSIT', 'DELIVERED', 'CANCELLED'] as const).map((status) => {
+          const cfg = STATUS_CONFIG[status];
+          const count = (orders || MOCK_ORDERS).filter((o: any) => o.status === status).length;
+          return (
+            <button
+              key={status}
+              onClick={() => setStatusFilter(statusFilter === status ? 'ALL' : status)}
+              className={`bg-[#1c1917] p-6 text-left transition-colors hover:bg-[#221f1d] ${statusFilter === status ? 'ring-1 ring-inset ring-[#e5c374]/20' : ''}`}
+            >
+              <p className="text-[10px] uppercase tracking-widest text-[#57534e] mb-2">{cfg.label}</p>
+              <p className="text-3xl font-headline font-bold text-[#e9e1dd]">{count}</p>
+            </button>
+          );
+        })}
+      </div>
+
+      {/* Orders Table */}
+      <div className="bg-[#1c1917] border border-[#292524]/30">
+        <table className="w-full">
+          <thead>
+            <tr className="border-b border-[#292524]/30">
+              <th className="px-6 py-4 text-left text-[10px] uppercase tracking-widest text-[#57534e] font-medium">Order</th>
+              <th className="px-6 py-4 text-left text-[10px] uppercase tracking-widest text-[#57534e] font-medium">Customer / Product</th>
+              <th className="px-6 py-4 text-left text-[10px] uppercase tracking-widest text-[#57534e] font-medium">Date</th>
+              <th className="px-6 py-4 text-left text-[10px] uppercase tracking-widest text-[#57534e] font-medium">Amount</th>
+              <th className="px-6 py-4 text-left text-[10px] uppercase tracking-widest text-[#57534e] font-medium">Status</th>
+              <th className="px-6 py-4 text-right text-[10px] uppercase tracking-widest text-[#57534e] font-medium">Action</th>
+            </tr>
+          </thead>
+          <tbody>
+            {filtered.map((order: any) => {
+              const cfg = STATUS_CONFIG[order.status] || STATUS_CONFIG.PENDING;
+              const StatusIcon = cfg.icon;
+              return (
+                <tr key={order.id} className="border-b border-[#292524]/20 hover:bg-[#221f1d]/40 transition-colors">
+                  <td className="px-6 py-5 text-sm font-bold text-[#e9e1dd]">{order.orderNumber}</td>
+                  <td className="px-6 py-5">
+                    <div className="text-sm text-[#e9e1dd]">{order.customer?.name}</div>
+                    <div className="text-[10px] text-[#57534e] mt-0.5">
+                      {order.items?.[0]?.product?.name} {order.items?.[0]?.quantity ? `· ${order.items[0].quantity} tonnes` : ''}
+                    </div>
+                  </td>
+                  <td className="px-6 py-5 text-sm text-[#a8a29e]">{order.createdAt?.slice(0, 10) ?? '—'}</td>
+                  <td className="px-6 py-5 text-sm font-bold text-[#e5c374]">₦{order.total?.toLocaleString()}</td>
+                  <td className="px-6 py-5">
+                    <span className={`inline-flex items-center gap-1.5 px-2.5 py-1 text-[9px] font-bold uppercase tracking-widest ${cfg.color}`}>
+                      <StatusIcon className="w-3 h-3" />
+                      {cfg.label}
+                    </span>
+                  </td>
+                  <td className="px-6 py-5 text-right">
+                    <Link
+                      href={`/dashboard/orders/${order.id}`}
+                      className="text-[10px] font-bold uppercase tracking-widest text-[#e5c374] hover:underline"
+                    >
+                      View
+                    </Link>
+                  </td>
                 </tr>
-              </thead>
-              <tbody className="divide-y divide-[#292524]/50">
-                {filteredOrders.map((order) => (
-                  <tr key={order.id} className="group hover:bg-[#221f1d]/50 transition-colors">
-                    <td className="py-6 px-6 text-sm font-bold text-[#e9e1dd]">{order.id}</td>
-                    <td className="py-6 px-6 text-sm text-[#a8a29e]">{order.date}</td>
-                    <td className="py-6 px-6 text-sm text-[#e9e1dd]">{order.customer}</td>
-                    <td className="py-6 px-6 text-sm text-[#a8a29e]">{order.items}</td>
-                    <td className="py-6 px-6 text-sm font-bold text-[#e5c374]">{formatCurrency(order.total)}</td>
-                    <td className="py-6 px-6"><StatusBadge status={order.status} /></td>
-                    <td className="py-6 px-6"><PaymentBadge status={order.paymentStatus} /></td>
-                    <td className="py-6 px-6 text-right">
-                      <button className="text-[#7e7667] hover:text-[#e5c374] transition-colors"><MoreVertical className="w-5 h-5" /></button>
-                    </td>
-                  </tr>
-                ))}
-              </tbody>
-            </table>
-          </div>
-          <div className="p-6 border-t border-[#292524]/50 flex justify-between items-center">
-            <span className="text-xs text-[#7e7667]">Showing {filteredOrders.length} orders</span>
-            <div className="flex gap-2">
-              <button className="px-4 py-2 text-xs font-bold uppercase tracking-wider rounded border border-[#4d4540]/30 text-[#a8a29e] hover:border-[#e5c374]/50 transition-colors">Previous</button>
-              <button className="px-4 py-2 text-xs font-bold uppercase tracking-wider rounded border border-[#4d4540]/30 text-[#a8a29e] hover:border-[#e5c374]/50 transition-colors">Next</button>
-            </div>
-          </div>
-        </div>
-      </main>
-    </div>
+              );
+            })}
+            {filtered.length === 0 && (
+              <tr>
+                <td colSpan={6} className="px-6 py-16 text-center">
+                  <Package className="w-10 h-10 text-[#292524] mx-auto mb-4" />
+                  <p className="text-[#57534e] text-sm">No orders found</p>
+                </td>
+              </tr>
+            )}
+          </tbody>
+        </table>
+      </div>
+    </SidebarLayout>
   );
 }

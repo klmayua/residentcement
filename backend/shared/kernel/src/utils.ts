@@ -498,7 +498,7 @@ export function calculateVATInclusive(grossAmount: number): VATBreakdown {
 }
 
 // Withholding Tax Rates (Nigeria)
-export const WHT_RATES = {
+export const WHT_RATES_UTILS = {
   DIVIDEND: 0.10,
   INTEREST: 0.10,
   ROYALTY: 0.10,
@@ -509,7 +509,7 @@ export const WHT_RATES = {
   AGENCY: 0.10,
 } as const;
 
-export type WHTType = keyof typeof WHT_RATES;
+export type WHTTypeUtils = keyof typeof WHT_RATES_UTILS;
 
 /**
  * Calculate Withholding Tax
@@ -517,8 +517,8 @@ export type WHTType = keyof typeof WHT_RATES;
  * @param whtType - Type of payment
  * @returns Withholding tax amount
  */
-export function calculateWHT(amount: number, whtType: WHTType): number {
-  const rate = WHT_RATES[whtType];
+export function calculateWHT(amount: number, whtType: WHTTypeUtils): number {
+  const rate = WHT_RATES_UTILS[whtType];
   if (!rate) {
     throw new Error(`Unknown WHT type: ${whtType}`);
   }
@@ -533,7 +533,7 @@ export function calculateWHT(amount: number, whtType: WHTType): number {
  */
 export function calculateNetPayment(
   grossAmount: number,
-  whtType: WHTType
+  whtType: WHTTypeUtils
 ): { grossAmount: number; whtAmount: number; netAmount: number } {
   const whtAmount = calculateWHT(grossAmount, whtType);
   const netAmount = roundTo(grossAmount - whtAmount);
@@ -551,7 +551,7 @@ export interface CITCalculation {
   turnoverThreshold: { min: number; max: number | null };
 }
 
-export const CIT_RATES: CITCalculation[] = [
+export const CIT_RATES_UTILS: CITCalculation[] = [
   {
     category: 'SMALL',
     rate: 0,
@@ -569,7 +569,7 @@ export const CIT_RATES: CITCalculation[] = [
   },
 ];
 
-export const MINIMUM_TAX_RATE = 0.005; // 0.5% of gross profit
+export const MINIMUM_TAX_RATE_UTILS = 0.005; // 0.5% of gross profit
 export const EDUCATION_TAX_RATE = 0.02; // 2% of assessable profit
 
 /**
@@ -578,13 +578,13 @@ export const EDUCATION_TAX_RATE = 0.02; // 2% of assessable profit
  * @returns CITCalculation for the company
  */
 export function determineCITCategory(turnover: number): CITCalculation {
-  for (const rate of CIT_RATES) {
+  for (const rate of CIT_RATES_UTILS) {
     const { min, max } = rate.turnoverThreshold;
     if (turnover >= min && (max === null || turnover < max)) {
       return rate;
     }
   }
-  return CIT_RATES[CIT_RATES.length - 1];
+  return CIT_RATES_UTILS[CIT_RATES_UTILS.length - 1];
 }
 
 /**
@@ -611,7 +611,7 @@ export function calculateCIT(
   const capitalAllowance = 0; // Calculated separately based on asset schedule
   const totalProfit = Math.max(0, assessableProfit - capitalAllowance);
   const taxPayable = roundTo(totalProfit * category.rate);
-  const minimumTax = roundTo(assessableProfit * MINIMUM_TAX_RATE);
+  const minimumTax = roundTo(assessableProfit * MINIMUM_TAX_RATE_UTILS);
   const educationTax = roundTo(assessableProfit * EDUCATION_TAX_RATE);
   const netTaxLiability = roundTo(Math.max(taxPayable, minimumTax) + educationTax);
 

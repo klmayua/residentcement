@@ -11,14 +11,16 @@ COPY package*.json ./
 COPY tsconfig.json ./
 
 # Install dependencies
-RUN npm ci
+RUN npm install --legacy-peer-deps
 
 # Copy source code
 COPY src ./src
-COPY prisma ./prisma
 
-# Generate Prisma client
-RUN npx prisma generate
+# Copy prisma if it exists
+COPY prisma ./prisma || true
+
+# Generate Prisma client if prisma exists
+RUN if [ -d "prisma" ]; then npx prisma generate; else echo "No prisma directory"; fi
 
 # Build TypeScript
 RUN npm run build
@@ -39,12 +41,12 @@ RUN addgroup -g 1001 -S nodejs && \
 COPY package*.json ./
 
 # Install production dependencies only
-RUN npm ci --only=production && npm cache clean --force
+RUN npm install --legacy-peer-deps --omit=dev && npm cache clean --force
 
 # Copy built assets from builder
 COPY --from=builder --chown=nodejs:nodejs /app/dist ./dist
-COPY --from=builder --chown=nodejs:nodejs /app/node_modules/.prisma ./node_modules/.prisma
-COPY --from=builder --chown=nodejs:nodejs /app/prisma ./prisma
+COPY --from=builder --chown=nodejs:nodejs /app/node_modules/.prisma ./node_modules/.prisma || true
+COPY --from=builder --chown=nodejs:nodejs /app/prisma ./prisma || true
 
 # Switch to non-root user
 USER nodejs

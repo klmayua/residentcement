@@ -37,6 +37,10 @@ model User {
   auditLogs        AuditLog[]
   createdCustomers Customer[] @relation("CustomerCreator")
   updatedCustomers Customer[] @relation("CustomerUpdater")
+  postedJournalEntries JournalEntry[] @relation("JournalEntryPoster")
+  createdJournalEntries JournalEntry[] @relation("JournalEntryCreator")
+  closedAccountingPeriods AccountingPeriod[] @relation("AccountingPeriodCloser")
+  closedFiscalYears FiscalYear[] @relation("FiscalYearCloser")
 
   @@index([email])
   @@index([role, status])
@@ -112,6 +116,7 @@ model Customer {
   quotes          Quote[]
   payments        Payment[]
   addresses       CustomerAddress[]
+  taxTransactions TaxTransaction[]
   createdBy       User?         @relation("CustomerCreator", fields: [createdById], references: [id])
   updatedBy       User?         @relation("CustomerUpdater", fields: [updatedById], references: [id])
   
@@ -732,6 +737,9 @@ model Account {
 
   // Relations
   journalLines    JournalEntryLine[]
+  fixedAssets     FixedAsset[]  @relation("AssetAccount")
+  depreciationFixedAssets FixedAsset[] @relation("DepreciationAccount")
+  bankAccounts    BankAccount[]
 
   @@index([type, subtype])
   @@index([isActive])
@@ -781,13 +789,15 @@ model JournalEntry {
   status          JournalEntryStatus @default(DRAFT)
   postedAt        DateTime?
   postedById      String?
-  postedBy        User?             @relation(fields: [postedById], references: [id])
+  postedBy        User?             @relation("JournalEntryPoster", fields: [postedById], references: [id])
 
   createdById     String
   createdBy       User              @relation("JournalEntryCreator", fields: [createdById], references: [id])
 
   // Relations
   lines           JournalEntryLine[]
+  taxTransactions TaxTransaction[]
+  depreciationEntries FixedAssetDepreciation[]
 
   createdAt       DateTime          @default(now())
   updatedAt       DateTime          @updatedAt
@@ -849,7 +859,7 @@ model AccountingPeriod {
   isClosed        Boolean       @default(false)
   closedAt        DateTime?
   closedById      String?
-  closedBy        User?         @relation(fields: [closedById], references: [id])
+  closedBy        User?         @relation("AccountingPeriodCloser", fields: [closedById], references: [id])
 
   // Period totals
   totalRevenue    Decimal       @default(0) @db.Decimal(15, 2)
@@ -879,7 +889,7 @@ model FiscalYear {
   isClosed        Boolean           @default(false)
   closedAt        DateTime?
   closedById      String?
-  closedBy        User?             @relation(fields: [closedById], references: [id])
+  closedBy        User?             @relation("FiscalYearCloser", fields: [closedById], references: [id])
 
   // Relations
   periods         AccountingPeriod[]

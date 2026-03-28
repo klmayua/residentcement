@@ -1,132 +1,151 @@
 import Link from "next/link";
-import { Globe, Share2, Mail } from "lucide-react";
-
-const footerLinks = {
-  corporate: [
-    { label: "Governance", href: "/governance" },
-    { label: "Ethics", href: "/ethics" },
-    { label: "Supply Chain", href: "/supply-chain" },
-    { label: "Privacy", href: "/privacy" },
-  ],
-  operations: [
-    { label: "Safety", href: "/safety" },
-    { label: "Contact", href: "/contact" },
-    { label: "Technical Specs", href: "/technical-specs" },
-    { label: "Logistics", href: "/logistics" },
-  ],
-};
 
 export function Footer() {
   return (
-    <footer className="bg-surface-container-low w-full">
-      <div className="grid grid-cols-1 md:grid-cols-4 gap-12 px-6 sm:px-8 lg:px-12 xl:px-16 py-20 container-full mx-auto">
-        {/* Brand Column */}
-        <div className="md:col-span-1">
-          <div className="text-xl font-black text-primary uppercase tracking-tighter mb-6">
-            RESIDENT CEMENT
-          </div>
-          <p className="text-on-surface/50 text-sm leading-relaxed mb-8">
-            Architectural integrity and industrial scale for the West African landscape. A legacy built on the strength of raw materials.
+    <footer className="bg-stone-950 text-white w-full">
+      <div className="max-w-[1400px] mx-auto grid grid-cols-1 md:grid-cols-4 gap-10 px-6 lg:px-10 pt-16 pb-12">
+        <div>
+          <div
+            className="h-12 w-48 mb-5"
+            style={{
+              background: '#e5c374',
+              WebkitMaskImage: "url('/images/real/logo-main.png')",
+              maskImage: "url('/images/real/logo-main.png')",
+              WebkitMaskSize: "contain",
+              maskSize: "contain",
+              WebkitMaskRepeat: "no-repeat",
+              maskRepeat: "no-repeat",
+              WebkitMaskPosition: "left center",
+              maskPosition: "left center",
+            }}
+            role="img"
+            aria-label="Resident Cement"
+          />
+          <p className="text-stone-500 text-[13px] leading-relaxed mb-5">
+            A leading producer of high-quality cement registered under the
+            Corporate Affairs Commission of Nigeria.
           </p>
-          <div className="flex gap-4">
-            <a
-              href="#"
-              className="text-on-surface/50 hover:text-secondary transition-colors"
-              aria-label="Website"
-            >
-              <Globe className="w-5 h-5" />
-            </a>
-            <a
-              href="#"
-              className="text-on-surface/50 hover:text-secondary transition-colors"
-              aria-label="Share"
-            >
-              <Share2 className="w-5 h-5" />
-            </a>
+          <div className="flex gap-3">
             <a
               href="mailto:info@residentcement.com"
-              className="text-on-surface/50 hover:text-secondary transition-colors"
+              className="w-8 h-8 flex items-center justify-center bg-white/5 hover:bg-secondary/20 text-stone-500 hover:text-secondary transition-all"
               aria-label="Email"
             >
-              <Mail className="w-5 h-5" />
+              <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round"><rect x="2" y="4" width="20" height="16" rx="2"/><path d="m2 7 10 7 10-7"/></svg>
+            </a>
+            <a
+              href="tel:+2347030003294"
+              className="w-8 h-8 flex items-center justify-center bg-white/5 hover:bg-secondary/20 text-stone-500 hover:text-secondary transition-all"
+              aria-label="Phone"
+            >
+              <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round"><path d="M22 16.92v3a2 2 0 01-2.18 2 19.79 19.79 0 01-8.63-3.07A19.5 19.5 0 013.07 9.81 19.79 19.79 0 01.15 1.21 2 2 0 012.11.01h3a2 2 0 012 1.72c.127.96.361 1.903.7 2.81a2 2 0 01-.45 2.11L6.09 7.91a16 16 0 006 6l1.27-1.27a2 2 0 012.11-.45c.907.339 1.85.573 2.81.7A2 2 0 0122 16.92z"/></svg>
             </a>
           </div>
         </div>
 
-        {/* Corporate Links */}
-        <div className="md:col-span-1">
-          <h5 className="text-xs font-bold uppercase tracking-widest mb-8 text-primary">
-            Corporate
+        <div>
+          <h5 className="text-[11px] font-bold uppercase tracking-[0.2em] mb-5 text-stone-400">
+            Company
           </h5>
-          <ul className="space-y-4">
-            {footerLinks.corporate.map((link) => (
-              <li key={link.label}>
+          <ul className="space-y-2.5">
+            {[
+              ["/about/", "About Us"],
+              ["/team/", "Leadership"],
+              ["/b2b/", "B2B Operations"],
+              ["/media/", "Contact"],
+            ].map(([href, label]) => (
+              <li key={href}>
                 <Link
-                  href={link.href}
-                  className="text-on-surface/50 text-xs tracking-tight hover:text-primary transition-all"
+                  href={href}
+                  className="text-stone-500 text-[13px] hover:text-white transition-colors"
                 >
-                  {link.label}
+                  {label}
                 </Link>
               </li>
             ))}
           </ul>
         </div>
 
-        {/* Operations Links */}
-        <div className="md:col-span-1">
-          <h5 className="text-xs font-bold uppercase tracking-widest mb-8 text-primary">
-            Operations
+        <div>
+          <h5 className="text-[11px] font-bold uppercase tracking-[0.2em] mb-5 text-stone-400">
+            Products &amp; Services
           </h5>
-          <ul className="space-y-4">
-            {footerLinks.operations.map((link) => (
-              <li key={link.label}>
-                <Link
-                  href={link.href}
-                  className="text-on-surface/50 text-xs tracking-tight hover:text-primary transition-all"
-                >
-                  {link.label}
-                </Link>
+          <ul className="space-y-2.5">
+            {[
+              ["/products/", "Our Products"],
+              ["https://rcdportal.nyamabo.com", "Dealer Portal"],
+              ["/media/", "Request a Quote"],
+            ].map(([href, label]) => (
+              <li key={label}>
+                {href.startsWith("http") ? (
+                  <a
+                    href={href}
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    className="text-stone-500 text-[13px] hover:text-white transition-colors"
+                  >
+                    {label}
+                  </a>
+                ) : (
+                  <Link
+                    href={href}
+                    className="text-stone-500 text-[13px] hover:text-white transition-colors"
+                  >
+                    {label}
+                  </Link>
+                )}
               </li>
             ))}
           </ul>
         </div>
 
-        {/* Headquarters */}
-        <div className="md:col-span-1">
-          <h5 className="text-xs font-bold uppercase tracking-widest mb-8 text-primary">
-            Headquarters
+        <div>
+          <h5 className="text-[11px] font-bold uppercase tracking-[0.2em] mb-5 text-stone-400">
+            Head Office
           </h5>
-          <div className="text-on-surface/50 text-xs leading-loose">
-            Monolith Plaza, Suite 400
+          <address className="text-stone-500 text-[13px] leading-relaxed not-italic mb-4">
+            No. 38 Mike Akhigbe Way
             <br />
-            Industrial District, Lagos
-            <br />
-            Nigeria
-            <br />
-            <br />
-            <span className="text-primary font-bold">+234 (0) 1 555 0192</span>
+            Jabi, Abuja, Nigeria
+          </address>
+          <a
+            href="tel:+2347030003294"
+            className="text-secondary font-semibold text-sm hover:text-secondary-container transition-colors"
+          >
+            +234 703 000 3294
+          </a>
+          <div className="mt-4 pt-4 border-t border-white/5">
+            <span className="text-[10px] text-stone-600 uppercase tracking-[0.15em] block mb-1">
+              Plant Location
+            </span>
+            <span className="text-stone-500 text-[13px]">
+              Gwana District, Alkaleri LGA
+              <br />
+              Bauchi State
+            </span>
           </div>
         </div>
       </div>
 
-      {/* Bottom Bar */}
-      <div className="bg-surface-container px-6 sm:px-8 lg:px-12 xl:px-16 py-6 flex flex-col md:flex-row justify-between items-center gap-4">
-        <span className="text-[10px] uppercase font-bold tracking-widest text-on-surface/40">
-          © 2024 RESIDENT CEMENT. ARCHITECTURAL INTEGRITY.
-        </span>
-        <div className="flex gap-8">
-          <Link
-            href="/terms"
-            className="text-[10px] uppercase font-bold tracking-widest text-on-surface/40 hover:text-secondary transition-colors"
-          >
-            Terms of Use
-          </Link>
-          <Link
-            href="/cookies"
-            className="text-[10px] uppercase font-bold tracking-widest text-on-surface/40 hover:text-secondary transition-colors"
-          >
-            Cookie Policy
-          </Link>
+      <div className="border-t border-white/5 px-6 lg:px-10 py-4">
+        <div className="max-w-[1400px] mx-auto flex flex-col md:flex-row justify-between items-center gap-2">
+          <span className="text-[10px] text-stone-600 uppercase tracking-[0.15em]">
+            &copy; {new Date().getFullYear()} Resident Cement Bachi Ltd
+          </span>
+          <div className="flex gap-6">
+            <Link
+              href="/privacy/"
+              className="text-[10px] text-stone-600 uppercase tracking-[0.15em] hover:text-stone-400 transition-colors"
+            >
+              Privacy
+            </Link>
+            <Link
+              href="/terms/"
+              className="text-[10px] text-stone-600 uppercase tracking-[0.15em] hover:text-stone-400 transition-colors"
+            >
+              Terms
+            </Link>
+          </div>
         </div>
       </div>
     </footer>

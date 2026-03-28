@@ -4,7 +4,7 @@ RUN apk add --no-cache libc6-compat
 FROM base AS deps
 WORKDIR /app/frontend/apps/distributor-portal
 COPY frontend/apps/distributor-portal/package*.json ./
-RUN npm ci
+RUN npm install --legacy-peer-deps
 
 FROM base AS builder
 WORKDIR /app/frontend/apps/distributor-portal

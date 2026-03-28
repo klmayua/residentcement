@@ -1,5 +1,5 @@
 import { useQuery, useMutation, useQueryClient } from "@tanstack/react-query";
-import { orderApi } from "@/lib/api";
+import { ordersApi } from "@/lib/api";
 
 export interface OrderItem {
   productId: string;
@@ -32,8 +32,8 @@ export function useOrders(params?: {
   return useQuery({
     queryKey: ["orders", params],
     queryFn: async () => {
-      const response = await orderApi.list(params);
-      return response as { data: Order[]; pagination: { page: number; limit: number; total: number; totalPages: number } };
+      const response = await ordersApi.list(params);
+      return response.data as { data: Order[]; pagination: { page: number; limit: number; total: number; totalPages: number } };
     },
   });
 }
@@ -42,8 +42,8 @@ export function useOrder(id: string) {
   return useQuery({
     queryKey: ["order", id],
     queryFn: async () => {
-      const response = await orderApi.get(id);
-      return response as Order;
+      const response = await ordersApi.get(id);
+      return response.data as Order;
     },
     enabled: !!id,
   });
@@ -60,8 +60,8 @@ export function useCreateOrder() {
       paymentMethod: "bank_transfer" | "card" | "ussd";
       notes?: string;
     }) => {
-      const response = await orderApi.create(data);
-      return response as Order;
+      const response = await ordersApi.create(data);
+      return response.data as Order;
     },
     onSuccess: () => {
       queryClient.invalidateQueries({ queryKey: ["orders"] });
@@ -73,9 +73,9 @@ export function useCancelOrder() {
   const queryClient = useQueryClient();
 
   return useMutation({
-    mutationFn: async (id: string) => {
-      const response = await orderApi.cancel(id);
-      return response as Order;
+    mutationFn: async ({ id, reason }: { id: string; reason: string }) => {
+      const response = await ordersApi.cancel(id, reason);
+      return response.data as Order;
     },
     onSuccess: () => {
       queryClient.invalidateQueries({ queryKey: ["orders"] });

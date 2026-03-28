@@ -1,5 +1,6 @@
 import type { Metadata } from "next";
 import "./globals.css";
+import { Providers } from "./providers";
 
 export const metadata: Metadata = {
   title: "Resident Cement | Admin Dashboard",
@@ -15,7 +16,9 @@ export default function RootLayout({
   return (
     <html lang="en" suppressHydrationWarning>
       <body className="antialiased bg-[#161311] text-[#e9e1dd]">
-        {children}
+        <Providers>
+          {children}
+        </Providers>
       </body>
     </html>
   );

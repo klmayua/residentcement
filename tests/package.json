@@ -14,10 +14,14 @@
     "setup": "npx playwright install chromium firefox webkit"
   },
   "devDependencies": {
-    "@playwright/test": "^1.41.0",
+    "@playwright/test": "^1.58.2",
     "@types/node": "^20.11.0"
   },
   "engines": {
     "node": ">=20.0.0"
-  }
+  },
+  "main": "index.js",
+  "keywords": [],
+  "author": "",
+  "license": "ISC"
 }
