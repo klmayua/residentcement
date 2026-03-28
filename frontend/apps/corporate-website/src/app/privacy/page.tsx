@@ -21,7 +21,7 @@ export default function PrivacyPage() {
       <section className="py-20 px-6 lg:px-10">
         <div className="max-w-[800px] mx-auto space-y-10">
           {[
-            { title: "1. Introduction", content: "Resident Cement Bachi Ltd (\u201cwe,\u201d \u201cour,\u201d or \u201cus\u201d) respects your privacy and is committed to protecting your personal data. This privacy policy explains how we collect, use, and safeguard your information when you use our website and services." },
+            { title: "1. Introduction", content: "Resident Ciment Bauchi Ltd (\u201cwe,\u201d \u201cour,\u201d or \u201cus\u201d) respects your privacy and is committed to protecting your personal data. This privacy policy explains how we collect, use, and safeguard your information when you use our website and services." },
             { title: "2. Information We Collect", content: "We collect personal information (name, contact details, business information, communication preferences) and usage information (IP address, browser type, pages visited, device information) to provide and improve our services." },
             { title: "3. How We Use Your Information", list: ["Provide and maintain our services", "Respond to your inquiries and requests", "Send updates and marketing communications (with your consent)", "Improve our website and services", "Comply with legal obligations", "Protect our rights and prevent fraud"] },
             { title: "4. Information Sharing", content: "We do not sell, trade, or rent your personal information to third parties. We may share information with service providers who assist in our operations, legal authorities when required by law, and business partners with your explicit consent." },
@@ -69,3 +69,4 @@ export default function PrivacyPage() {
     </main>
   );
 }
+

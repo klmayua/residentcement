@@ -45,7 +45,7 @@ function SidebarLayoutContent({ children, title, subtitle }: {
       <aside className={`w-64 bg-[#161311] border-r border-[#292524]/50 flex flex-col h-screen fixed left-0 top-0 z-40 transition-transform duration-300 ${sidebarOpen ? 'translate-x-0' : '-translate-x-full lg:translate-x-0'}`}>
         <div className="px-5 h-16 flex items-center justify-between border-b border-[#292524]/30 gap-3">
           <div className="flex items-center gap-3 min-w-0">
-            <div className="h-9 w-36 flex-shrink-0" style={{ background: '#e5c374', WebkitMaskImage: "url('/images/logo.png')", maskImage: "url('/images/logo.png')", WebkitMaskSize: "contain", maskSize: "contain", WebkitMaskRepeat: "no-repeat", maskRepeat: "no-repeat", WebkitMaskPosition: "left center", maskPosition: "left center" }} role="img" aria-label="Resident Cement" />
+            <div className="h-9 w-36 flex-shrink-0" style={{ background: '#e5c374', WebkitMaskImage: "url('/images/logo.png')", maskImage: "url('/images/logo.png')", WebkitMaskSize: "contain", maskSize: "contain", WebkitMaskRepeat: "no-repeat", maskRepeat: "no-repeat", WebkitMaskPosition: "left center", maskPosition: "left center" }} role="img" aria-label="Resident Ciment" />
             <span className="text-[9px] font-bold uppercase tracking-[0.15em] text-[#4d4540] border-l border-[#292524] pl-3 whitespace-nowrap">Dealer Portal</span>
           </div>
           <button
@@ -139,3 +139,4 @@ export function SidebarLayout({ children, title, subtitle }: {
     </ProtectedRoute>
   );
 }
+

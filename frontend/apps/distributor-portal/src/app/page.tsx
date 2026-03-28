@@ -10,7 +10,7 @@ const benefits = [
   {
     icon: 'M12 1v22M17 5H9.5a3.5 3.5 0 000 7h5a3.5 3.5 0 010 7H6',
     label: 'Competitive Margins',
-    description: 'Tiered pricing that rewards volume — your margins scale with your growth.',
+    description: 'Tiered pricing that rewards volume; your margins scale with your growth.',
   },
   {
     icon: 'M1 3h15v13H1z M16 8l4 0 3 3 0 5-7 0-7-8zM5.5 21a2.5 2.5 0 100-5 2.5 2.5 0 000 5zM18.5 21a2.5 2.5 0 100-5 2.5 2.5 0 000 5z',
@@ -28,10 +28,10 @@ export default function LandingPage() {
   return (
     <div className="min-h-screen bg-[#161311] text-[#e9e1dd]">
 
-      {/* ── Navigation ── */}
+      {/*  Navigation  */}
       <nav className="fixed top-0 left-0 right-0 z-50 bg-[#161311]/80 backdrop-blur-xl border-b border-[#292524]/40 h-14 flex items-center">
         <div className="max-w-6xl mx-auto px-6 w-full flex items-center justify-between">
-          <div className="h-10 w-40" style={{ background: '#e5c374', WebkitMaskImage: "url('/images/logo.png')", maskImage: "url('/images/logo.png')", WebkitMaskSize: "contain", maskSize: "contain", WebkitMaskRepeat: "no-repeat", maskRepeat: "no-repeat", WebkitMaskPosition: "left center", maskPosition: "left center" }} role="img" aria-label="Resident Cement" />
+          <div className="h-10 w-40" style={{ background: '#e5c374', WebkitMaskImage: "url('/images/logo.png')", maskImage: "url('/images/logo.png')", WebkitMaskSize: "contain", maskSize: "contain", WebkitMaskRepeat: "no-repeat", maskRepeat: "no-repeat", WebkitMaskPosition: "left center", maskPosition: "left center" }} role="img" aria-label="Resident Ciment" />
           <div className="flex items-center gap-5">
             <Link href="/apply" className="text-[10px] font-bold uppercase tracking-widest text-[#7e7667] hover:text-[#e9e1dd] transition-colors">
               Apply
@@ -47,12 +47,12 @@ export default function LandingPage() {
         </div>
       </nav>
 
-      {/* ── Hero ── */}
+      {/*  Hero  */}
       <section className="relative min-h-[380px] h-[65vh] flex items-end">
         {/* Background photograph */}
         <Image
           src="/images/hero-bg.webp"
-          alt="Resident Cement Plant"
+          alt="Resident Ciment Plant"
           fill
           className="object-cover"
           priority
@@ -68,7 +68,7 @@ export default function LandingPage() {
           </h1>
           <p className="text-[#a8a29e] text-base max-w-lg mb-8 leading-relaxed">
             Join an exclusive network of authorised distributors. Factory-direct supply,
-            competitive margins, and a dedicated digital portal — all in one partnership.
+            competitive margins, and a dedicated digital portal - all in one partnership.
           </p>
           <div className="flex flex-wrap gap-3">
             <Link
@@ -89,7 +89,7 @@ export default function LandingPage() {
         </div>
       </section>
 
-      {/* ── Stats Bar ── */}
+      {/*  Stats Bar  */}
       <div className="border-t border-b border-[#292524]/40 bg-[#1c1917]">
         <div className="max-w-6xl mx-auto px-6">
           <div className="grid grid-cols-2 md:grid-cols-4 divide-x divide-y md:divide-y-0 divide-[#292524]/40">
@@ -108,7 +108,7 @@ export default function LandingPage() {
         </div>
       </div>
 
-      {/* ── Benefits ── */}
+      {/*  Benefits  */}
       <section className="py-10 md:py-12 px-6">
         <div className="max-w-6xl mx-auto">
           <div className="flex items-end justify-between mb-7">
@@ -117,7 +117,7 @@ export default function LandingPage() {
               <h2 className="font-headline text-3xl font-bold tracking-tight">Built for Serious Distributors</h2>
             </div>
             <Link href="/apply" className="text-[10px] font-bold uppercase tracking-widest text-[#e5c374] border-b border-[#e5c374]/30 pb-0.5 hover:border-[#e5c374] transition-all hidden md:inline whitespace-nowrap">
-              Start Application →
+              Start Application ->
             </Link>
           </div>
 
@@ -136,7 +136,7 @@ export default function LandingPage() {
         </div>
       </section>
 
-      {/* ── Split — photo + process ── */}
+      {/*  Split  photo + process  */}
       <section className="py-10 md:py-12 px-6 bg-[#1c1917]/50">
         <div className="max-w-6xl mx-auto grid grid-cols-1 lg:grid-cols-2 gap-0 overflow-hidden">
           {/* Photo */}
@@ -163,7 +163,7 @@ export default function LandingPage() {
             <div className="space-y-8">
               {[
                 { n: '01', title: 'Submit Application', body: 'Complete our business application with company details and distribution capacity.' },
-                { n: '02', title: 'Review & Approval', body: 'Our partnerships team reviews within 3–5 business days and contacts you directly.' },
+                { n: '02', title: 'Review & Approval', body: 'Our partnerships team reviews within 3-5 business days and contacts you directly.' },
                 { n: '03', title: 'Portal Activation', body: 'Receive credentials, pricing schedule, and start placing orders immediately.' },
               ].map((s) => (
                 <div key={s.n} className="flex gap-5">
@@ -186,7 +186,7 @@ export default function LandingPage() {
         </div>
       </section>
 
-      {/* ── CTA ── */}
+      {/*  CTA  */}
       <section className="py-10 px-6">
         <div className="max-w-6xl mx-auto">
           <div
@@ -218,16 +218,16 @@ export default function LandingPage() {
         </div>
       </section>
 
-      {/* ── Footer ── */}
+      {/*  Footer  */}
       <footer className="border-t border-[#292524]/40 py-8 px-6">
         <div className="max-w-6xl mx-auto flex flex-col md:flex-row justify-between items-center gap-5">
-          <div className="h-9 w-36 opacity-40" style={{ background: '#e5c374', WebkitMaskImage: "url('/images/logo.png')", maskImage: "url('/images/logo.png')", WebkitMaskSize: "contain", maskSize: "contain", WebkitMaskRepeat: "no-repeat", maskRepeat: "no-repeat", WebkitMaskPosition: "left center", maskPosition: "left center" }} role="img" aria-label="Resident Cement" />
+          <div className="h-9 w-36 opacity-40" style={{ background: '#e5c374', WebkitMaskImage: "url('/images/logo.png')", maskImage: "url('/images/logo.png')", WebkitMaskSize: "contain", maskSize: "contain", WebkitMaskRepeat: "no-repeat", maskRepeat: "no-repeat", WebkitMaskPosition: "left center", maskPosition: "left center" }} role="img" aria-label="Resident Ciment" />
           <div className="flex gap-6">
             <Link href="/apply" className="text-[10px] uppercase tracking-widest text-[#4d4540] hover:text-[#7e7667] transition-colors">Apply</Link>
             <Link href="/login" className="text-[10px] uppercase tracking-widest text-[#4d4540] hover:text-[#7e7667] transition-colors">Sign In</Link>
             <a href="https://residentcement.nyamabo.com/contact" className="text-[10px] uppercase tracking-widest text-[#4d4540] hover:text-[#7e7667] transition-colors">Contact</a>
           </div>
-          <p className="text-[10px] uppercase tracking-widest text-[#4d4540]">&copy; {new Date().getFullYear()} Resident Cement Bachi Ltd</p>
+          <p className="text-[10px] uppercase tracking-widest text-[#4d4540]">&copy; {new Date().getFullYear()} Resident Ciment Bauchi Ltd</p>
         </div>
       </footer>
     </div>

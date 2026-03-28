@@ -24,12 +24,12 @@ const plusJakarta = Plus_Jakarta_Sans({
 });
 
 export const metadata: Metadata = {
-  title: 'Resident Cement | Distributor Portal',
+  title: 'Resident Ciment Bauchi Ltd | Dealer Portal',
   description: 'Nigeria\'s trusted cement distribution and management platform - Premium Access',
-  keywords: ['cement', 'distribution', 'enterprise', 'Nigeria', 'Resident Cement', 'building materials', 'Bauchi', 'manufacturing'],
-  authors: [{ name: 'Resident Cement Bachi Ltd' }],
-  creator: 'Resident Cement Bachi Ltd',
-  publisher: 'Resident Cement Bachi Ltd',
+  keywords: ['cement', 'distribution', 'enterprise', 'Nigeria', 'Resident Ciment Bauchi Ltd', 'building materials', 'Bauchi', 'manufacturing'],
+  authors: [{ name: 'Resident Ciment Bauchi Ltd' }],
+  creator: 'Resident Ciment Bauchi Ltd',
+  publisher: 'Resident Ciment Bauchi Ltd',
   robots: {
     index: false,
     follow: false,
@@ -39,23 +39,23 @@ export const metadata: Metadata = {
     apple: '/images/logo.png',
   },
   openGraph: {
-    title: 'Resident Cement | Distributor Portal',
+    title: 'Resident Ciment Bauchi Ltd | Dealer Portal',
     description: 'Enterprise cement distribution platform',
     type: 'website',
     locale: 'en_NG',
-    siteName: 'Resident Cement',
+    siteName: 'Resident Ciment Bauchi Ltd',
     images: [
       {
         url: '/images/logo.png',
         width: 400,
         height: 200,
-        alt: 'Resident Cement Logo',
+        alt: 'Resident Ciment Bauchi Ltd Logo',
       },
     ],
   },
   twitter: {
     card: 'summary',
-    title: 'Resident Cement | Distributor Portal',
+    title: 'Resident Ciment Bauchi Ltd | Dealer Portal',
     description: 'Enterprise cement distribution platform',
     images: ['/images/logo.png'],
   },
@@ -76,3 +76,4 @@ export default function RootLayout({
     </html>
   );
 }
+

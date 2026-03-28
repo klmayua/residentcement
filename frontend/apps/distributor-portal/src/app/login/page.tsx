@@ -26,7 +26,7 @@ function LoginForm() {
       setSuccessMessage('Application submitted. Your account credentials will be emailed once approved.');
     }
     if (searchParams.get('applied') === 'true') {
-      setSuccessMessage('Application received. We will contact you within 3–5 business days.');
+      setSuccessMessage('Application received. We will contact you within 3-5 business days.');
     }
   }, [isAuthenticated, router, searchParams]);
 
@@ -67,7 +67,7 @@ function LoginForm() {
       <div className="w-full max-w-[480px] bg-[#221f1d] overflow-hidden border border-[#292524]/40">
         {/* Branding Header */}
         <div className="pt-12 pb-8 px-12 flex flex-col items-center border-b border-[#292524]/30">
-          <div className="h-14 w-56 mb-6" style={{ background: '#e5c374', WebkitMaskImage: "url('/images/logo.png')", maskImage: "url('/images/logo.png')", WebkitMaskSize: "contain", maskSize: "contain", WebkitMaskRepeat: "no-repeat", maskRepeat: "no-repeat", WebkitMaskPosition: "center", maskPosition: "center" }} role="img" aria-label="Resident Cement" />
+          <div className="h-14 w-56 mb-6" style={{ background: '#e5c374', WebkitMaskImage: "url('/images/logo.png')", maskImage: "url('/images/logo.png')", WebkitMaskSize: "contain", maskSize: "contain", WebkitMaskRepeat: "no-repeat", maskRepeat: "no-repeat", WebkitMaskPosition: "center", maskPosition: "center" }} role="img" aria-label="Resident Ciment" />
           <h1 className="font-headline text-xl font-bold tracking-tight text-[#e9e1dd] uppercase mb-1">
             Distributor Portal
           </h1>
@@ -128,7 +128,7 @@ function LoginForm() {
                   type={showPassword ? 'text' : 'password'}
                   value={password}
                   onChange={(e) => setPassword(e.target.value)}
-                  placeholder="••••••••"
+                  placeholder=""
                   className="w-full bg-transparent border-0 border-b border-[#4d4540]/40 pl-8 pr-10 py-3 text-[#e9e1dd] text-sm placeholder:text-[#4d4540] focus:outline-none focus:border-b-2 focus:border-[#e5c374] transition-all"
                   required
                   autoComplete="current-password"
@@ -188,7 +188,7 @@ function LoginForm() {
 
         {/* Footer */}
         <div className="px-12 py-5 border-t border-[#292524]/30 flex justify-between items-center">
-          <p className="text-[10px] text-[#4d4540]">&copy; {new Date().getFullYear()} Resident Cement Bachi Ltd.</p>
+          <p className="text-[10px] text-[#4d4540]">&copy; {new Date().getFullYear()} Resident Ciment Bauchi Ltd.</p>
           <div className="flex gap-4">
             <Link href="/privacy" className="text-[10px] text-[#4d4540] hover:text-[#7e7667] transition-colors">Privacy</Link>
             <Link href="/support" className="text-[10px] text-[#4d4540] hover:text-[#7e7667] transition-colors">Support</Link>
@@ -206,3 +206,6 @@ export default function LoginPage() {
     </Suspense>
   );
 }
+
+
+

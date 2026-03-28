@@ -8,7 +8,7 @@ export default function ProductsPage() {
       <section className="relative min-h-[340px] flex items-end pt-16 overflow-hidden">
         <Image
           src="/images/real/home-concrete-plant.webp"
-          alt="Resident Cement Plant"
+          alt="Resident Ciment Plant"
           fill
           sizes="100vw"
           className="object-cover"
@@ -31,7 +31,7 @@ export default function ProductsPage() {
           <div className="hidden lg:flex justify-end">
             <Image
               src="/images/real/products/cement-bag-nobg.webp"
-              alt="Resident Cement 50kg Bag"
+              alt="Resident Ciment 50kg Bag"
               width={320}
               height={420}
               className="h-[380px] w-auto object-contain drop-shadow-[0_0_40px_rgba(121,89,31,0.3)]"
@@ -237,3 +237,4 @@ export default function ProductsPage() {
     </main>
   );
 }
+

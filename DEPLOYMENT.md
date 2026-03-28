@@ -2,18 +2,18 @@
 
 ## Overview
 
-This guide covers deploying the ResidentCement platform to production using Docker Compose with Traefik reverse proxy.
+This guide covers deploying the ResidentCement platform to production using Docker Compose with Nginx host-based routing.
 
 ## Prerequisites
 
 - Linux server (Ubuntu 22.04 LTS recommended)
 - Docker 24.0+ and Docker Compose 2.20+
 - Domain names configured:
-  - `residentcement.com` (corporate website)
-  - `app.residentcement.com` (distributor portal)
-  - `api.residentcement.com` (API gateway)
-  - `grafana.residentcement.com` (monitoring)
-- SSL certificates (auto-provisioned via Let's Encrypt)
+  - `residentcement.nyamabo.com` (corporate website)
+  - `rcdportal.nyamabo.com` (dealers portal)
+  - `rcb2bportal.nyamabo.com` (partners/B2B portal)
+  - `rcerp.nyamabo.com` (ERP dashboard)
+- SSL certificates provisioned for all four subdomains
 
 ## Quick Start
 
@@ -23,15 +23,17 @@ git clone https://github.com/klmayua/ResidentCement.git
 cd ResidentCement
 
 # 2. Configure environment
-cp infrastructure/docker/.env.example infrastructure/docker/.env
-# Edit .env with production values
+cp .env.example .env
+# Edit .env with production values and secrets
 
 # 3. Deploy
-cd infrastructure/docker
-docker-compose -f docker-compose.prod.yml up -d
+docker compose -f docker-compose.prod.yml up -d --build
 
 # 4. Verify
-curl https://api.residentcement.com/health
+curl -H "Host: residentcement.nyamabo.com" http://<VPS_IP>/health
+curl -H "Host: rcdportal.nyamabo.com" http://<VPS_IP>/health
+curl -H "Host: rcb2bportal.nyamabo.com" http://<VPS_IP>/health
+curl -H "Host: rcerp.nyamabo.com" http://<VPS_IP>/health
 ```
 
 ## Detailed Setup
@@ -78,12 +80,13 @@ PAYSTACK_PUBLIC_KEY=pk_live_...
 GRAFANA_PASSWORD=$(openssl rand -base64 16)
 
 # Domains
-DOMAIN_RESIDENTCEMENT=residentcement.com
-DOMAIN_API=api.residentcement.com
-DOMAIN_APP=app.residentcement.com
+DOMAIN_CORPORATE=residentcement.nyamabo.com
+DOMAIN_DEALERS=rcdportal.nyamabo.com
+DOMAIN_B2B=rcb2bportal.nyamabo.com
+DOMAIN_ERP=rcerp.nyamabo.com
 
 # Email for SSL
-ACME_EMAIL=admin@residentcement.com
+ACME_EMAIL=admin@nyamabo.com
 ```
 
 ### 3. Database Migration
@@ -98,14 +101,21 @@ docker-compose -f docker-compose.prod.yml exec gateway npx prisma db seed
 
 ### 4. SSL Certificates
 
-Traefik automatically provisions SSL certificates via Let's Encrypt. First run may take a few minutes.
+Nginx is the active reverse proxy for this stack. Provision certificates with Certbot (or your CA of choice) for:
+
+- `residentcement.nyamabo.com`
+- `rcdportal.nyamabo.com`
+- `rcb2bportal.nyamabo.com`
+- `rcerp.nyamabo.com`
+
+Mount certificate files into `infrastructure/docker/nginx/` and add HTTPS server blocks.
 
 ### 5. Monitoring Setup
 
 Access monitoring dashboards:
 - Grafana: https://grafana.residentcement.com
 - Prometheus: https://prometheus.residentcement.com
-- Traefik Dashboard: https://monitor.residentcement.com
+- Nginx logs: `docker compose -f docker-compose.prod.yml logs -f nginx`
 
 Default Grafana credentials: admin / (from GRAFANA_PASSWORD env var)
 
@@ -188,11 +198,14 @@ docker-compose -f docker-compose.prod.yml exec postgres pg_isready
 ### SSL Certificate Issues
 
 ```bash
-# Check Traefik logs
-docker-compose -f docker-compose.prod.yml logs traefik
+# Check Nginx logs
+docker-compose -f docker-compose.prod.yml logs nginx
 
 # Verify DNS records
-dig residentcement.com
+dig residentcement.nyamabo.com
+dig rcdportal.nyamabo.com
+dig rcb2bportal.nyamabo.com
+dig rcerp.nyamabo.com
 ```
 
 ## Security Checklist
@@ -202,7 +215,7 @@ dig residentcement.com
 - [ ] Configure fail2ban
 - [ ] Set up log rotation
 - [ ] Enable automated security updates
-- [ ] Review Traefik access logs regularly
+- [ ] Review Nginx access logs regularly
 - [ ] Rotate API keys quarterly
 
 ## Support
@@ -210,4 +223,4 @@ dig residentcement.com
 For deployment issues:
 1. Check logs: `docker-compose logs`
 2. Review monitoring dashboards
-3. Contact: devops@residentcement.com
+3. Contact: devops@residentciment.com

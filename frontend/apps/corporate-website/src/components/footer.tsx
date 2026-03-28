@@ -19,7 +19,7 @@ export function Footer() {
               maskPosition: "left center",
             }}
             role="img"
-            aria-label="Resident Cement"
+            aria-label="Resident Ciment Bauchi Ltd"
           />
           <p className="text-stone-500 text-[13px] leading-relaxed mb-5">
             A leading producer of high-quality cement registered under the
@@ -74,6 +74,8 @@ export function Footer() {
             {[
               ["/products/", "Our Products"],
               ["https://rcdportal.nyamabo.com", "Dealer Portal"],
+              ["https://rcb2bportal.nyamabo.com", "B2B Portal"],
+              ["https://rcerp.nyamabo.com", "ERP Console"],
               ["/media/", "Request a Quote"],
             ].map(([href, label]) => (
               <li key={label}>
@@ -130,7 +132,7 @@ export function Footer() {
       <div className="border-t border-white/5 px-6 lg:px-10 py-4">
         <div className="max-w-[1400px] mx-auto flex flex-col md:flex-row justify-between items-center gap-2">
           <span className="text-[10px] text-stone-600 uppercase tracking-[0.15em]">
-            &copy; {new Date().getFullYear()} Resident Cement Bachi Ltd
+            &copy; {new Date().getFullYear()} Resident Ciment Bauchi Ltd
           </span>
           <div className="flex gap-6">
             <Link
@@ -151,3 +153,4 @@ export function Footer() {
     </footer>
   );
 }
+

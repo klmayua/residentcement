@@ -105,9 +105,10 @@ export default function ForgotPasswordPage() {
         </div>
 
         <div className="py-6 text-center border-t border-[#292524]">
-          <p className="text-xs text-[#57534e]">&copy; 2024 Resident Cement. All rights reserved.</p>
+          <p className="text-xs text-[#57534e]">&copy; 2024 Resident Ciment. All rights reserved.</p>
         </div>
       </div>
     </div>
   );
 }
+

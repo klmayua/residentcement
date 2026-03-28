@@ -70,7 +70,7 @@ export default function B2BPage() {
       <section className="relative min-h-[340px] flex items-end pt-16">
         <Image
           src="/images/real/home-concrete-plant.webp"
-          alt="Resident Cement Bachi Ltd Operations"
+          alt="Resident Ciment Bauchi Ltd Operations"
           fill
           sizes="100vw"
           className="object-cover"
@@ -95,12 +95,12 @@ export default function B2BPage() {
               Contact Sales
             </Link>
             <a
-              href="https://rcdportal.nyamabo.com"
+              href="https://rcb2bportal.nyamabo.com"
               target="_blank"
               rel="noopener noreferrer"
               className="px-7 py-3 border border-white/20 text-white text-[11px] font-bold uppercase tracking-[0.15em] hover:bg-white/10 transition-colors backdrop-blur-sm"
             >
-              Dealer Portal
+              B2B Portal
             </a>
           </div>
         </div>
@@ -255,12 +255,12 @@ export default function B2BPage() {
               Contact Sales
             </Link>
             <a
-              href="https://rcdportal.nyamabo.com"
+              href="https://rcb2bportal.nyamabo.com"
               target="_blank"
               rel="noopener noreferrer"
               className="px-8 py-3.5 border border-white/30 text-white text-[11px] font-bold uppercase tracking-[0.15em] hover:bg-white/10 transition-colors"
             >
-              Dealer Portal
+              B2B Portal
             </a>
           </div>
         </div>
@@ -268,3 +268,4 @@ export default function B2BPage() {
     </main>
   );
 }
+

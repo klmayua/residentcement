@@ -8,7 +8,7 @@ export default function SustainabilityPage() {
       <section className="relative min-h-[360px] flex items-end pt-16">
         <Image
           src="/images/real/about-cement-facility-1.webp"
-          alt="Resident Cement Plant"
+          alt="Resident Ciment Plant"
           fill
           className="object-cover"
           priority
@@ -218,3 +218,4 @@ export default function SustainabilityPage() {
     </main>
   );
 }
+

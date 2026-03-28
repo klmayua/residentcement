@@ -30,7 +30,7 @@ export default function CookiesPage() {
           <div>
             <h2 className="font-serif text-xl font-semibold mb-3">How We Use Cookies</h2>
             <p className="text-stone-400 leading-relaxed text-[15px] mb-4">
-              Resident Cement uses cookies for the following purposes:
+              Resident Ciment uses cookies for the following purposes:
             </p>
             <ul className="text-stone-400 text-[15px] leading-relaxed space-y-2 list-disc list-inside">
               <li><strong className="text-stone-300">Essential cookies:</strong> Required for the operation of our website</li>
@@ -70,3 +70,4 @@ export default function CookiesPage() {
     </main>
   );
 }
+

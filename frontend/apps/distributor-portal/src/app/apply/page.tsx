@@ -18,9 +18,9 @@ const nigerianStates = [
 
 const monthlyVolumes = [
   'Under 100 Tonnes',
-  '100 – 500 Tonnes',
-  '500 – 1,000 Tonnes',
-  '1,000 – 5,000 Tonnes',
+  '100  500 Tonnes',
+  '500  1,000 Tonnes',
+  '1,000  5,000 Tonnes',
   'Over 5,000 Tonnes',
 ];
 
@@ -33,12 +33,12 @@ const businessTypes = [
 ];
 
 interface FormData {
-  // Step 1 — Business Profile
+  // Step 1  Business Profile
   companyName: string;
   rcNumber: string;
   businessType: string;
   yearsInOperation: string;
-  // Step 2 — Contact & Location
+  // Step 2  Contact & Location
   contactFirstName: string;
   contactLastName: string;
   jobTitle: string;
@@ -47,13 +47,13 @@ interface FormData {
   address: string;
   city: string;
   state: string;
-  // Step 3 — Distribution Capacity
+  // Step 3  Distribution Capacity
   coverageStates: string[];
   monthlyVolume: string;
   hasWarehouse: string;
   warehouseCapacity: string;
   hasExistingClients: string;
-  // Step 4 — Account Setup
+  // Step 4  Account Setup
   password: string;
   confirmPassword: string;
   agreed: boolean;
@@ -220,7 +220,7 @@ export default function ApplyPage() {
           </p>
           <p className="text-[#7e7667] text-sm leading-relaxed mb-10">
             Our partnerships team will review your application and reach out to <strong className="text-[#a8a29e]">{form.email}</strong>{' '}
-            within 3–5 business days with next steps.
+            within 3-5 business days with next steps.
           </p>
           <div className="grid grid-cols-3 gap-px bg-[#292524]/30 mb-10">
             <div className="bg-[#1c1917] p-5 text-center">
@@ -236,7 +236,7 @@ export default function ApplyPage() {
             </div>
             <div className="bg-[#1c1917] p-5 text-center">
               <p className="text-[10px] uppercase tracking-widest text-[#57534e] mb-2">Timeline</p>
-              <p className="text-sm font-bold text-[#e9e1dd]">3–5 Days</p>
+              <p className="text-sm font-bold text-[#e9e1dd]">35 Days</p>
             </div>
           </div>
           <Link
@@ -267,15 +267,15 @@ export default function ApplyPage() {
       <div className="max-w-[680px] mx-auto">
         {/* Header */}
         <div className="mb-10">
-          <div className="h-12 w-48 mb-6" style={{ background: '#e5c374', WebkitMaskImage: "url('/images/logo.png')", maskImage: "url('/images/logo.png')", WebkitMaskSize: "contain", maskSize: "contain", WebkitMaskRepeat: "no-repeat", maskRepeat: "no-repeat", WebkitMaskPosition: "left center", maskPosition: "left center" }} role="img" aria-label="Resident Cement" />
+          <div className="h-12 w-48 mb-6" style={{ background: '#e5c374', WebkitMaskImage: "url('/images/logo.png')", maskImage: "url('/images/logo.png')", WebkitMaskSize: "contain", maskSize: "contain", WebkitMaskRepeat: "no-repeat", maskRepeat: "no-repeat", WebkitMaskPosition: "left center", maskPosition: "left center" }} role="img" aria-label="Resident Ciment" />
           <span className="text-[10px] font-bold uppercase tracking-[0.35em] text-[#e5c374] mb-3 block">
             Partnership Application
           </span>
           <h1 className="font-headline text-4xl font-bold tracking-tight text-[#e9e1dd] mb-2">
-            Become an Authorised<br />Resident Cement Dealer
+            Become an Authorised<br />Resident Ciment Dealer
           </h1>
           <p className="text-[#7e7667] text-sm">
-            Complete all four sections below. Applications are reviewed within 3–5 business days.
+            Complete all four sections below. Applications are reviewed within 3-5 business days.
           </p>
         </div>
 
@@ -297,7 +297,7 @@ export default function ApplyPage() {
           </div>
         )}
 
-        {/* ── Step 0: Business Profile ── */}
+        {/*  Step 0: Business Profile  */}
         {step === 0 && (
           <form onSubmit={handleNext} className="space-y-7">
             <FieldInput label="Company / Business Name" value={form.companyName} onChange={(v) => set('companyName', v)}
@@ -308,7 +308,7 @@ export default function ApplyPage() {
               <FieldSelect label="Business Type" value={form.businessType} onChange={(v) => set('businessType', v)}
                 options={businessTypes} placeholder="Select type" required />
               <FieldSelect label="Years in Operation" value={form.yearsInOperation} onChange={(v) => set('yearsInOperation', v)}
-                options={['Less than 1 year', '1–3 years', '3–5 years', '5–10 years', 'Over 10 years']}
+                options={['Less than 1 year', '13 years', '35 years', '510 years', 'Over 10 years']}
                 placeholder="Select range" required />
             </div>
             <button type="submit" className="w-full py-3.5 text-[11px] font-bold uppercase tracking-[0.2em] text-[#161311] flex items-center justify-center gap-2 hover:opacity-90 transition-opacity"
@@ -318,7 +318,7 @@ export default function ApplyPage() {
           </form>
         )}
 
-        {/* ── Step 1: Contact & Location ── */}
+        {/*  Step 1: Contact & Location  */}
         {step === 1 && (
           <form onSubmit={handleNext} className="space-y-7">
             <div className="grid grid-cols-2 gap-6">
@@ -354,7 +354,7 @@ export default function ApplyPage() {
           </form>
         )}
 
-        {/* ── Step 2: Distribution Capacity ── */}
+        {/*  Step 2: Distribution Capacity  */}
         {step === 2 && (
           <form onSubmit={handleNext} className="space-y-8">
             <div>
@@ -382,13 +382,13 @@ export default function ApplyPage() {
               options={monthlyVolumes} placeholder="Select volume range" required />
             <div className="grid grid-cols-2 gap-6">
               <FieldSelect label="Do You Have a Warehouse?" value={form.hasWarehouse} onChange={(v) => set('hasWarehouse', v)}
-                options={['Yes — owned', 'Yes — leased', 'No — seeking facility']} placeholder="Select" required />
+                options={['Yes  owned', 'Yes  leased', 'No  seeking facility']} placeholder="Select" required />
               <FieldInput label="Warehouse Capacity (Tonnes)" value={form.warehouseCapacity}
                 onChange={(v) => set('warehouseCapacity', v)} placeholder="e.g. 500" />
             </div>
             <FieldSelect label="Do You Have an Existing Client Network?" value={form.hasExistingClients}
               onChange={(v) => set('hasExistingClients', v)}
-              options={['Yes — 50+ clients', 'Yes — 10–50 clients', 'Yes — under 10 clients', 'No — building from scratch']}
+              options={['Yes  50+ clients', 'Yes  1050 clients', 'Yes  under 10 clients', 'No  building from scratch']}
               placeholder="Select" required />
             <div className="flex gap-3">
               <button type="button" onClick={() => setStep(1)}
@@ -404,7 +404,7 @@ export default function ApplyPage() {
           </form>
         )}
 
-        {/* ── Step 3: Account Setup ── */}
+        {/*  Step 3: Account Setup  */}
         {step === 3 && (
           <form onSubmit={handleSubmit} className="space-y-7">
             <div className="p-5 bg-[#1c1917] border border-[#292524]/30 mb-2">
@@ -484,7 +484,7 @@ export default function ApplyPage() {
 
         {/* Footer */}
         <div className="mt-10 pt-6 border-t border-[#292524]/30 flex justify-between items-center">
-          <p className="text-[10px] text-[#4d4540]">&copy; {new Date().getFullYear()} Resident Cement Bachi Ltd</p>
+          <p className="text-[10px] text-[#4d4540]">&copy; {new Date().getFullYear()} Resident Ciment Bauchi Ltd</p>
           <div className="flex gap-5">
             <Link href="/login" className="text-[10px] text-[#4d4540] hover:text-[#7e7667] transition-colors uppercase tracking-widest">Sign In</Link>
             <Link href="/privacy" className="text-[10px] text-[#4d4540] hover:text-[#7e7667] transition-colors uppercase tracking-widest">Privacy</Link>
@@ -494,3 +494,6 @@ export default function ApplyPage() {
     </div>
   );
 }
+
+
+

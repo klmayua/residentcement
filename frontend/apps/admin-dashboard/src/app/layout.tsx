@@ -3,9 +3,9 @@ import "./globals.css";
 import { Providers } from "./providers";
 
 export const metadata: Metadata = {
-  title: "Resident Cement | Admin Dashboard",
-  description: "Administrative Dashboard for Resident Cement",
-  keywords: ["admin", "dashboard", "cement", "Nigeria", "Resident Cement", "industrial"],
+  title: "Resident Ciment Bauchi Ltd | ERP Dashboard",
+  description: "ERP and operational dashboard for Resident Ciment Bauchi Ltd",
+  keywords: ["admin", "dashboard", "cement", "Nigeria", "Resident Ciment Bauchi Ltd", "industrial", "erp"],
 };
 
 export default function RootLayout({

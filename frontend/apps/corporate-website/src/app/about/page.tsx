@@ -2,7 +2,7 @@ import Image from "next/image";
 import Link from "next/link";
 
 const milestones = [
-  { year: "2023", title: "Company Founded", description: "Resident Cement Bachi Ltd registered under Corporate Affairs Commission of Nigeria" },
+  { year: "2023", title: "Company Founded", description: "Resident Ciment Bauchi Ltd registered under Corporate Affairs Commission of Nigeria" },
   { year: "2024", title: "Mining Licenses", description: "Secured mining licenses and commenced geological surveys across Nigeria" },
   { year: "2024", title: "Sinoma Partnership", description: "Landmark EPC agreement with Sinoma International Engineering for technology transfer" },
   { year: "2025", title: "Plant Construction", description: "Groundbreaking of greenfield cement plant in Gwana District, Bauchi State" },
@@ -19,11 +19,11 @@ const values = [
 export default function AboutPage() {
   return (
     <main className="bg-stone-950 text-white">
-      {/* ── Hero ── */}
+      {/*  Hero  */}
       <section className="relative min-h-[300px] flex items-end pt-16">
         <Image
           src="/images/real/home-background-hero.webp"
-          alt="Resident Cement Plant at Gwana"
+          alt="Resident Ciment Plant at Gwana"
           fill
           sizes="100vw"
           className="object-cover"
@@ -35,7 +35,7 @@ export default function AboutPage() {
             Our Story
           </span>
           <h1 className="font-serif text-4xl md:text-5xl lg:text-6xl font-bold tracking-tight mb-2">
-            About Resident Cement
+            About Resident Ciment
           </h1>
           <p className="text-stone-400 text-base max-w-xl leading-relaxed">
             Building Nigeria&apos;s industrial future with world-class cement manufacturing.
@@ -43,11 +43,11 @@ export default function AboutPage() {
         </div>
       </section>
 
-      {/* ── Mission, Vision & Stats — split 3-col ── */}
+      {/*  Mission, Vision & Stats  split 3-col  */}
       <section className="py-16 px-6 lg:px-10">
         <div className="max-w-[1400px] mx-auto grid grid-cols-1 lg:grid-cols-12 gap-8 items-stretch">
 
-          {/* Left — Mission */}
+          {/* Left  Mission */}
           <div className="lg:col-span-4 border-t border-secondary/40 pt-6">
             <span className="text-[10px] font-bold uppercase tracking-[0.3em] text-secondary mb-3 block">
               Our Mission
@@ -65,7 +65,7 @@ export default function AboutPage() {
             </p>
           </div>
 
-          {/* Centre — Image */}
+          {/* Centre  Image */}
           <div className="lg:col-span-4 relative min-h-[280px] overflow-hidden">
             <Image
               src="/images/real/about-cement-facility-1.webp"
@@ -93,7 +93,7 @@ export default function AboutPage() {
             </div>
           </div>
 
-          {/* Right — Vision */}
+          {/* Right  Vision */}
           <div className="lg:col-span-4 border-t border-secondary/40 pt-6">
             <span className="text-[10px] font-bold uppercase tracking-[0.3em] text-secondary mb-3 block">
               Our Vision
@@ -114,7 +114,7 @@ export default function AboutPage() {
         </div>
       </section>
 
-      {/* ── Core Values ── */}
+      {/*  Core Values  */}
       <section className="py-16 px-6 lg:px-10 bg-stone-900/40">
         <div className="max-w-[1400px] mx-auto">
           <div className="mb-10 flex flex-col md:flex-row md:items-end justify-between gap-4">
@@ -141,7 +141,7 @@ export default function AboutPage() {
         </div>
       </section>
 
-      {/* ── Milestones ── */}
+      {/*  Milestones  */}
       <section className="py-16 px-6 lg:px-10">
         <div className="max-w-[1400px] mx-auto">
           <div className="mb-10">
@@ -172,10 +172,10 @@ export default function AboutPage() {
         </div>
       </section>
 
-      {/* ── Facility Gallery — split ── */}
+      {/*  Facility Gallery  split  */}
       <section className="py-16 px-6 lg:px-10 bg-stone-900/40">
         <div className="max-w-[1400px] mx-auto grid grid-cols-1 lg:grid-cols-2 gap-0 overflow-hidden">
-          {/* Left — image */}
+          {/* Left  image */}
           <div className="relative h-[360px] lg:h-auto min-h-[320px]">
             <Image
               src="/images/real/about-cement-facility-1.webp"
@@ -191,7 +191,7 @@ export default function AboutPage() {
               <p className="text-stone-400 text-sm">10 million metric tonnes annual capacity</p>
             </div>
           </div>
-          {/* Right — image + text */}
+          {/* Right  image + text */}
           <div className="flex flex-col">
             <div className="relative h-[220px]">
               <Image
@@ -213,8 +213,8 @@ export default function AboutPage() {
                 World-Class Infrastructure
               </span>
               <p className="text-stone-400 text-sm leading-relaxed mb-4">
-                Our greenfield plant in Gwana, Bauchi State is engineered by Sinoma—the global
-                leader in cement plant construction—delivering international standards at scale.
+                Our greenfield plant in Gwana, Bauchi State is engineered by Sinoma, the global
+                leader in cement plant construction, delivering international standards at scale.
               </p>
               <Link
                 href="/team/"
@@ -230,7 +230,7 @@ export default function AboutPage() {
         </div>
       </section>
 
-      {/* ── CTA ── */}
+      {/*  CTA  */}
       <section className="gold-gradient py-14 px-6 lg:px-10">
         <div className="max-w-[1400px] mx-auto flex flex-col md:flex-row items-center justify-between gap-6">
           <div>
@@ -238,7 +238,7 @@ export default function AboutPage() {
               Meet Our Leadership
             </h2>
             <p className="text-white/70 text-sm">
-              Discover the team driving Resident Cement&apos;s vision of industrial excellence.
+              Discover the team driving Resident Ciment&apos;s vision of industrial excellence.
             </p>
           </div>
           <Link
@@ -252,3 +252,5 @@ export default function AboutPage() {
     </main>
   );
 }
+
+

@@ -46,7 +46,7 @@ export function Navbar() {
                   maskPosition: "left center",
                 }}
                 role="img"
-                aria-label="Resident Cement Bachi Ltd"
+                aria-label="Resident Ciment Bauchi Ltd"
               />
             </Link>
 
@@ -138,3 +138,4 @@ export function Navbar() {
     </>
   );
 }
+

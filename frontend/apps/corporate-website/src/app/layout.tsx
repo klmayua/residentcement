@@ -26,14 +26,14 @@ const workSans = Work_Sans({
 });
 
 export const metadata: Metadata = {
-  title: "Resident Cement Bachi Ltd | Built for Generations",
+  title: "Resident Ciment Bauchi Ltd | Built for Generations",
   description:
     "A leading producer of high-quality cement in Nigeria. State-of-the-art greenfield plant in Gwana, Bauchi State with 10 million metric tonnes annual capacity.",
   keywords:
-    "cement, Nigeria, construction, building materials, cement manufacturing, Bauchi, Resident Cement, Gwana, Alkaleri, limestone cement",
-  authors: [{ name: "Resident Cement Bachi Ltd" }],
+    "cement, Nigeria, construction, building materials, cement manufacturing, Bauchi, Resident Ciment, Gwana, Alkaleri, limestone cement",
+  authors: [{ name: "Resident Ciment Bauchi Ltd" }],
   openGraph: {
-    title: "Resident Cement Bachi Ltd | Built for Generations",
+    title: "Resident Ciment Bauchi Ltd | Built for Generations",
     description:
       "A leading producer of high-quality cement in Nigeria with a world-class greenfield plant in Bauchi State.",
     type: "website",
@@ -52,7 +52,7 @@ export default function RootLayout({
         {/* Preconnect to Google Fonts for Material Symbols */}
         <link rel="preconnect" href="https://fonts.googleapis.com" />
         <link rel="preconnect" href="https://fonts.gstatic.com" crossOrigin="anonymous" />
-        {/* Material Symbols — loaded async so it never blocks render */}
+        {/* Material Symbols  loaded async so it never blocks render */}
         <link
           rel="stylesheet"
           href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@24,400,0,0&display=block"
@@ -72,3 +72,5 @@ export default function RootLayout({
     </html>
   );
 }
+
+

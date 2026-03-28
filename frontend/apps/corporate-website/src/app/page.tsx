@@ -4,13 +4,10 @@ import Link from "next/link";
 export default function HomePage() {
   return (
     <main className="min-h-screen bg-stone-950 text-white">
-      {/* ═══════════════════════════════════════════════
-          HERO — Full viewport, black with gold accent
-      ═══════════════════════════════════════════════ */}
-      <section className="relative h-screen w-full overflow-hidden">
+      <section className="relative min-h-[88vh] w-full overflow-hidden">
         <div className="absolute inset-0">
           <Image
-            alt="Resident Cement manufacturing plant"
+            alt="Resident Ciment manufacturing plant"
             src="/images/real/home-background-hero.webp"
             fill
             sizes="100vw"
@@ -21,8 +18,8 @@ export default function HomePage() {
           <div className="absolute inset-0 bg-gradient-to-t from-black/80 via-transparent to-black/30" />
         </div>
 
-        <div className="relative z-10 h-full flex items-end pt-20">
-          <div className="max-w-[1400px] mx-auto w-full px-6 lg:px-10 pb-16 grid grid-cols-1 lg:grid-cols-12 gap-8 items-end">
+        <div className="relative z-10 h-full flex items-end pt-16">
+          <div className="max-w-[1400px] mx-auto w-full px-6 lg:px-10 pb-12 grid grid-cols-1 lg:grid-cols-12 gap-6 items-end">
             <div className="lg:col-span-7">
               <span className="text-secondary text-[11px] font-bold uppercase tracking-[0.4em] mb-6 block">
                 Industrial Excellence
@@ -55,8 +52,6 @@ export default function HomePage() {
                 </Link>
               </div>
             </div>
-
-            {/* Glassmorphism stat card */}
             <div className="lg:col-span-5 glass-stat p-8 space-y-6 hidden lg:block">
               <div>
                 <span className="text-[10px] font-bold uppercase tracking-[0.3em] text-stone-500 block mb-2">
@@ -95,11 +90,7 @@ export default function HomePage() {
           </div>
         </div>
       </section>
-
-      {/* ═══════════════════════════════════════════════
-          STAKEHOLDER PORTALS — Dark cards with gold hover
-      ═══════════════════════════════════════════════ */}
-      <section className="bg-stone-950 py-20 px-6 lg:px-10 border-t border-white/5">
+      <section className="bg-stone-950 py-16 px-6 lg:px-10 border-t border-white/5">
         <div className="max-w-[1400px] mx-auto">
           <div className="mb-12">
             <span className="text-secondary text-[11px] font-bold uppercase tracking-[0.4em]">
@@ -110,8 +101,10 @@ export default function HomePage() {
             </h2>
           </div>
           <div className="grid grid-cols-1 md:grid-cols-3 gap-[1px] bg-white/5">
-            <Link
-              href="/products/"
+            <a
+              href="https://rcdportal.nyamabo.com"
+              target="_blank"
+              rel="noopener noreferrer"
               className="bg-stone-950 p-10 group hover:bg-stone-900 transition-all"
             >
               <span className="material-symbols-outlined text-3xl text-secondary mb-6 group-hover:text-secondary-container transition-colors">
@@ -121,13 +114,13 @@ export default function HomePage() {
                 Distributors &amp; Dealers
               </h3>
               <p className="text-stone-500 text-sm leading-relaxed mb-6">
-                Manage bulk orders, track logistics, and access technical
-                product data sheets.
+                Manage dealer orders, dispatch schedules, payments, and
+                delivery tracking in one secure portal.
               </p>
               <div className="h-[2px] w-10 bg-secondary group-hover:w-full transition-all duration-500" />
-            </Link>
+            </a>
             <a
-              href="https://rcdportal.nyamabo.com"
+              href="https://rcb2bportal.nyamabo.com"
               target="_blank"
               rel="noopener noreferrer"
               className="bg-stone-950 p-10 group hover:bg-stone-900 transition-all"
@@ -139,8 +132,8 @@ export default function HomePage() {
                 B2B Portal
               </h3>
               <p className="text-stone-500 text-sm leading-relaxed mb-6">
-                Access the dealer portal for ordering, invoicing, and
-                distribution management.
+                Place enterprise orders, monitor invoices, and coordinate
+                project supply commitments with real-time inventory visibility.
               </p>
               <div className="h-[2px] w-10 bg-secondary group-hover:w-full transition-all duration-500" />
             </a>
@@ -163,10 +156,6 @@ export default function HomePage() {
           </div>
         </div>
       </section>
-
-      {/* ═══════════════════════════════════════════════
-          ABOUT OVERVIEW — Split layout, dark
-      ═══════════════════════════════════════════════ */}
       <section className="bg-stone-900 py-20 px-6 lg:px-10">
         <div className="max-w-[1400px] mx-auto grid grid-cols-1 lg:grid-cols-2 gap-12 items-center">
           <div>
@@ -179,7 +168,7 @@ export default function HomePage() {
               <span className="italic text-stone-400">Cement Industry</span>
             </h2>
             <p className="text-stone-400 text-[15px] leading-relaxed mb-5">
-              Resident Cement Bachi Ltd is a leading producer of
+              Resident Ciment Bauchi Ltd is a leading producer of
               high-quality cement, registered as a Limited Liability Company
               under the Corporate Affairs Commission of Nigeria with acquired
               mining licenses throughout the Federal Republic.
@@ -233,10 +222,6 @@ export default function HomePage() {
           </div>
         </div>
       </section>
-
-      {/* ═══════════════════════════════════════════════
-          PRODUCTS — Gold accent cards on dark
-      ═══════════════════════════════════════════════ */}
       <section className="bg-stone-950 py-20 px-6 lg:px-10 border-t border-white/5">
         <div className="max-w-[1400px] mx-auto">
           <div className="flex flex-col md:flex-row md:items-end justify-between mb-14 gap-4">
@@ -263,7 +248,7 @@ export default function HomePage() {
             <div className="bg-stone-900 group cursor-pointer hover:bg-stone-800/80 transition-all">
               <div className="aspect-[4/3] overflow-hidden">
                 <Image
-                  alt="Resident Cement 50kg bag"
+                  alt="Resident Ciment 50kg bag"
                   src="/images/real/about-cement-facility-2.webp"
                   width={600}
                   height={450}
@@ -334,15 +319,11 @@ export default function HomePage() {
           </div>
         </div>
       </section>
-
-      {/* ═══════════════════════════════════════════════
-          SINOMA PARTNERSHIP — Feature section
-      ═══════════════════════════════════════════════ */}
       <section className="bg-black py-20 px-6 lg:px-10 border-t border-white/5">
         <div className="max-w-[1400px] mx-auto grid grid-cols-1 lg:grid-cols-2 gap-10 items-center">
           <div className="relative aspect-video overflow-hidden">
             <Image
-              alt="Sinoma and Resident Cement signing ceremony"
+              alt="Sinoma and Resident Ciment signing ceremony"
               src="/images/real/gallery-site-visit-2.webp"
               fill
               sizes="(max-width: 1024px) 100vw, 50vw"
@@ -356,7 +337,7 @@ export default function HomePage() {
             </span>
             <h2 className="text-3xl md:text-4xl font-black leading-tight mb-5">
               Sinoma &times;{" "}
-              <span className="italic text-stone-400">Resident Cement</span>
+              <span className="italic text-stone-400">Resident Ciment</span>
             </h2>
             <p className="text-stone-400 text-[15px] leading-relaxed mb-5">
               A Strategic Cooperation Agreement with Sinoma (CBMI Construction
@@ -387,10 +368,6 @@ export default function HomePage() {
           </div>
         </div>
       </section>
-
-      {/* ═══════════════════════════════════════════════
-          B2B SOLUTIONS — Glass cards on dark
-      ═══════════════════════════════════════════════ */}
       <section className="bg-stone-950 py-20 px-6 lg:px-10 border-t border-white/5">
         <div className="max-w-[1400px] mx-auto">
           <div className="grid grid-cols-1 lg:grid-cols-12 gap-10 items-start">
@@ -404,17 +381,17 @@ export default function HomePage() {
                 <span className="italic text-stone-400">Partner</span>
               </h2>
               <p className="text-stone-500 text-sm leading-relaxed mb-6">
-                Whether you are a distributor, contractor, or construction
-                firm, our Dealer Portal gives you the tools to manage orders,
-                track deliveries, and grow with Resident Cement.
+                Whether you are a distributor, contractor, or procurement team,
+                our B2B ecosystem gives you the tools to manage orders, track
+                deliveries, and coordinate ERP-backed operations.
               </p>
               <a
-                href="https://rcdportal.nyamabo.com"
+                href="https://rcb2bportal.nyamabo.com"
                 target="_blank"
                 rel="noopener noreferrer"
                 className="inline-flex bg-secondary text-white px-8 py-3.5 text-[11px] font-bold uppercase tracking-[0.2em] hover:brightness-110 transition-all"
               >
-                Open Dealer Account
+                Open B2B Portal
               </a>
             </div>
             <div className="lg:col-span-8 grid grid-cols-1 sm:grid-cols-2 gap-3">
@@ -459,10 +436,6 @@ export default function HomePage() {
           </div>
         </div>
       </section>
-
-      {/* ═══════════════════════════════════════════════
-          MISSION / VISION / VALUES — Monolithic cards
-      ═══════════════════════════════════════════════ */}
       <section className="bg-stone-900 py-20 px-6 lg:px-10 border-t border-white/5">
         <div className="max-w-[1400px] mx-auto">
           <div className="mb-12">
@@ -508,19 +481,19 @@ export default function HomePage() {
               <h3 className="text-lg font-bold mb-3">Core Values</h3>
               <ul className="text-stone-500 text-sm leading-relaxed space-y-1.5">
                 <li>
-                  <strong className="text-stone-300">Quality</strong> — Highest
+                  <strong className="text-stone-300">Quality</strong>  Highest
                   standards in every batch
                 </li>
                 <li>
-                  <strong className="text-stone-300">Innovation</strong> —
+                  <strong className="text-stone-300">Innovation</strong> 
                   Cutting-edge technology
                 </li>
                 <li>
-                  <strong className="text-stone-300">Sustainability</strong> —
+                  <strong className="text-stone-300">Sustainability</strong> 
                   Eco-friendly at every stage
                 </li>
                 <li>
-                  <strong className="text-stone-300">Empowerment</strong> —
+                  <strong className="text-stone-300">Empowerment</strong> 
                   Community uplift through jobs
                 </li>
               </ul>
@@ -528,10 +501,6 @@ export default function HomePage() {
           </div>
         </div>
       </section>
-
-      {/* ═══════════════════════════════════════════════
-          CTA BANNER — Gold gradient
-      ═══════════════════════════════════════════════ */}
       <section className="bg-stone-950 py-20 px-6 lg:px-10 border-t border-white/5">
         <div className="max-w-[1400px] mx-auto gold-gradient p-12 md:p-16 flex flex-col md:flex-row items-center justify-between gap-10 relative overflow-hidden">
           <div className="absolute -right-20 -top-20 w-80 h-80 bg-white/10 rounded-full blur-3xl" />
@@ -540,18 +509,26 @@ export default function HomePage() {
               Ready to Build?
             </h2>
             <p className="text-white/70 text-[15px] leading-relaxed">
-              Join the network of dealers and contractors choosing Resident
-              Cement for structural permanence.
+              Join the network of dealers, partners, and operations teams
+              building with Resident Ciment Bauchi Ltd.
             </p>
           </div>
           <div className="relative z-10 flex flex-col sm:flex-row gap-3">
             <a
-              href="https://rcdportal.nyamabo.com"
+              href="https://rcb2bportal.nyamabo.com"
               target="_blank"
               rel="noopener noreferrer"
               className="bg-white text-stone-900 px-8 py-4 text-[11px] font-extrabold uppercase tracking-[0.15em] hover:scale-[1.02] transition-transform text-center"
             >
-              Open Dealer Account
+              Open B2B Portal
+            </a>
+            <a
+              href="https://rcerp.nyamabo.com"
+              target="_blank"
+              rel="noopener noreferrer"
+              className="border border-white/30 text-white px-8 py-4 text-[11px] font-bold uppercase tracking-[0.15em] hover:bg-white/10 transition-all text-center"
+            >
+              Open ERP
             </a>
             <Link
               href="/media/"
@@ -565,3 +542,6 @@ export default function HomePage() {
     </main>
   );
 }
+
+
+

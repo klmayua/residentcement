@@ -44,7 +44,7 @@ export default function TeamPage() {
             Our People
           </h1>
           <p className="text-stone-400 text-lg max-w-xl leading-relaxed">
-            The experienced leaders driving Resident Cement&apos;s mission to deliver world-class building materials across Nigeria.
+            The experienced leaders driving Resident Ciment&apos;s mission to deliver world-class building materials across Nigeria.
           </p>
         </div>
       </section>
@@ -74,10 +74,10 @@ export default function TeamPage() {
               Dr. Abbas A. Waziri
             </h2>
             <blockquote className="text-stone-400 text-lg leading-relaxed mb-8 border-l-2 border-secondary/30 pl-6">
-              &ldquo;Resident Cement was established with a singular vision — to build a world-class cement manufacturing company that serves Nigeria&apos;s growing infrastructure needs while creating lasting value for our communities and stakeholders.&rdquo;
+              &ldquo;Resident Ciment was established with a singular vision  to build a world-class cement manufacturing company that serves Nigeria&apos;s growing infrastructure needs while creating lasting value for our communities and stakeholders.&rdquo;
             </blockquote>
             <p className="text-stone-500 leading-relaxed mb-8">
-              Under Dr. Waziri&apos;s leadership, Resident Cement has secured world-class partnerships, including the landmark EPC agreement with Sinoma International Engineering for the construction of a 10 million metric tonnes per annum greenfield cement plant in Gwana, Bauchi State.
+              Under Dr. Waziri&apos;s leadership, Resident Ciment has secured world-class partnerships, including the landmark EPC agreement with Sinoma International Engineering for the construction of a 10 million metric tonnes per annum greenfield cement plant in Gwana, Bauchi State.
             </p>
             <Link
               href="/about/"
@@ -202,3 +202,4 @@ export default function TeamPage() {
     </main>
   );
 }
+
