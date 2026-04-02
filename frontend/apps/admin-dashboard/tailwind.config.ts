@@ -82,8 +82,9 @@ const config: Config = {
         },
         // Legacy brand mapping
         brand: {
-          primary: "#745b17",
-          secondary: "#5f5e5e",
+          primary: "#1C1917",
+          primaryDark: "#0f0e0d",
+          secondary: "#C5A55A",
           accent: "#c5a55a",
           dark: "#1a1c1c",
           light: "#f4f4f3",

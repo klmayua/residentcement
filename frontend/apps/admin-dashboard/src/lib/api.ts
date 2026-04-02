@@ -195,7 +195,7 @@ export function getStatusColor(status: string): string {
     CANCELLED: 'bg-red-100 text-red-800',
     PAID: 'bg-green-100 text-green-800',
     FAILED: 'bg-red-100 text-red-800',
-    REFUNDED: 'bg-gray-100 text-gray-800',
+    REFUNDED: 'bg-cement-100 text-cement-800',
   };
-  return colors[status] || 'bg-gray-100 text-gray-800';
+  return colors[status] || 'bg-cement-100 text-cement-800';
 }
