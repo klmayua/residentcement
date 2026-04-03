@@ -20,6 +20,10 @@ import {
   Bell,
   ChevronDown,
   Boxes,
+  BarChart3,
+  UserCircle,
+  TrendingUp,
+  Briefcase,
 } from "lucide-react";
 import { cn } from "@/lib/utils";
 import { useAuth } from "@/components/providers/auth-provider";
@@ -27,6 +31,8 @@ import { ProtectedRoute } from "@/components/protected-route";
 
 const navigation = [
   { name: "Dashboard", href: "/dashboard", icon: LayoutDashboard },
+  { name: "Analytics", href: "/analytics", icon: BarChart3 },
+  { name: "Board", href: "/board", icon: Briefcase },
   { name: "Orders", href: "/orders", icon: ShoppingCart },
   { name: "Products", href: "/products", icon: Package },
   { name: "Inventory", href: "/inventory", icon: Boxes },
@@ -35,6 +41,8 @@ const navigation = [
   { name: "Logistics", href: "/logistics", icon: Truck },
   { name: "Payments", href: "/payments", icon: CreditCard },
   { name: "Quality", href: "/quality", icon: ShieldCheck },
+  { name: "ESS Portal", href: "/ess", icon: UserCircle },
+  { name: "Investor Relations", href: "/investor", icon: TrendingUp },
   { name: "Users", href: "/users", icon: Users },
   { name: "Settings", href: "/settings", icon: Settings },
 ];
